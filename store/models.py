@@ -6,7 +6,7 @@ class Product(models.Model):
     """Create Product model in the database"""
     objects = models.Manager()
 
-    product_name = models.CharField(max_length=255, unique=True, verbose_name='Найменування товару')
+    product_name = models.CharField(max_length=255, verbose_name='Найменування товару')
     slug = models.SlugField(max_length=255, unique=True)
     description = models.TextField(blank=True, verbose_name='Опис')
     price = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Ціна')

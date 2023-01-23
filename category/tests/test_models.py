@@ -55,5 +55,3 @@ class CategoryModelTest(TestCase):
         data = Category.objects.get(id=1)
         expected_object_name = f'{data.category_name}'
         self.assertEqual(expected_object_name, str(data))
-
-

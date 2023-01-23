@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Category(models.Model):
-    """Create category model in database"""
+    """Create Category model in the database"""
     objects = models.Manager()
 
     category_name = models.CharField(max_length=100, unique=True, verbose_name='Найменування категорії')

@@ -8,6 +8,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('product_name', 'category__category_name')
     list_per_page = 20
     list_max_show_all = 100
+    list_editable = ('is_available',)
 
 
 admin.site.register(Product, ProductAdmin)

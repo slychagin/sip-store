@@ -24,10 +24,10 @@
           <div id="menu" class="text-left">
             <ul class="offcanvas_main_menu">
               <li class="menu-item-has-children active">
-                <a href="#">Головна</a>
+                <a href="{% url 'home' %}">Головна</a>
                 <ul class="sub-menu">
                   <li class="menu-item-has-children">
-                    <a href="#">Home Organic</a>
+                    <a href="{% url 'home' %}">Головна</a>
                     <ul class="sub-menu">
                       <li><a href="index.html">Organic 01</a></li>
                       <li><a href="index-2.html">Organic 02</a></li>
@@ -65,7 +65,7 @@
                 </ul>
               </li>
               <li class="menu-item-has-children">
-                <a href="#">Shop</a>
+                <a href="{% url 'home' %}">Головна</a>
                 <ul class="sub-menu">
                   <li class="menu-item-has-children">
                     <a href="#">Shop Layouts</a>
@@ -180,7 +180,7 @@
                 <div class="search_container mobail_s_none">
                   <form action="#">
                     <div class="search_box">
-                      <input placeholder="Search product..." type="text" />
+                      <input placeholder="Пошук товару..." type="text" />
                       <button type="submit">
                         <span class="lnr lnr-magnifier"></span>
                       </button>
@@ -316,17 +316,19 @@
             <div class="col-lg-3 col-md-6">
               <div class="categories_menu categories_three">
                 <div class="categories_title">
-                  <h2 class="categori_toggle">All Cattegories</h2>
+                  <h2 class="categori_toggle">Асортимент</h2>
                 </div>
                 <div class="categories_menu_toggle">
                   <ul>
+                    <li><a href="{% url 'store' %}">Вся продукція</a></li>
+
                     <li class="menu_item_children">
                       <a href="#"
                         >Vegetables<i class="fa fa-angle-right"></i
                       ></a>
                       <ul class="categories_mega_menu">
                         <li class="menu_item_children">
-                          <a href="#">Dresses</a>
+<!--                          <a href="#">Dresses</a>-->
                           <ul class="categorie_sub_menu">
                             <li><a href="">Sweater</a></li>
                             <li><a href="">Evening</a></li>
@@ -334,126 +336,13 @@
                             <li><a href="">Sports</a></li>
                           </ul>
                         </li>
-                        <li class="menu_item_children">
-                          <a href="#">Handbags</a>
-                          <ul class="categorie_sub_menu">
-                            <li><a href="">Shoulder</a></li>
-                            <li><a href="">Satchels</a></li>
-                            <li><a href="">kids</a></li>
-                            <li><a href="">coats</a></li>
-                          </ul>
-                        </li>
-                        <li class="menu_item_children">
-                          <a href="#">shoes</a>
-                          <ul class="categorie_sub_menu">
-                            <li><a href="">Ankle Boots</a></li>
-                            <li><a href="">Clog sandals </a></li>
-                            <li><a href="">run</a></li>
-                            <li><a href="">Books</a></li>
-                          </ul>
-                        </li>
-                        <li class="menu_item_children">
-                          <a href="#">Clothing</a>
-                          <ul class="categorie_sub_menu">
-                            <li><a href="">Coats Jackets </a></li>
-                            <li><a href="">Raincoats</a></li>
-                            <li><a href="">Jackets</a></li>
-                            <li><a href="">T-shirts</a></li>
-                          </ul>
-                        </li>
                       </ul>
                     </li>
-                    <li class="menu_item_children">
-                      <a href="#">Fruits <i class="fa fa-angle-right"></i></a>
-                      <ul class="categories_mega_menu column_3">
-                        <li class="menu_item_children">
-                          <a href="#">Chair</a>
-                          <ul class="categorie_sub_menu">
-                            <li><a href="">Dining room</a></li>
-                            <li><a href="">bedroom</a></li>
-                            <li><a href=""> Home & Office</a></li>
-                            <li><a href="">living room</a></li>
-                          </ul>
-                        </li>
-                        <li class="menu_item_children">
-                          <a href="#">Lighting</a>
-                          <ul class="categorie_sub_menu">
-                            <li><a href="">Ceiling Lighting</a></li>
-                            <li><a href="">Wall Lighting</a></li>
-                            <li><a href="">Outdoor Lighting</a></li>
-                            <li><a href="">Smart Lighting</a></li>
-                          </ul>
-                        </li>
-                        <li class="menu_item_children">
-                          <a href="#">Sofa</a>
-                          <ul class="categorie_sub_menu">
-                            <li><a href="">Fabric Sofas</a></li>
-                            <li><a href="">Leather Sofas</a></li>
-                            <li><a href="">Corner Sofas</a></li>
-                            <li><a href="">Sofa Beds</a></li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="menu_item_children">
-                      <a href="#"> Salads<i class="fa fa-angle-right"></i></a>
-                      <ul class="categories_mega_menu column_2">
-                        <li class="menu_item_children">
-                          <a href="#">Brake Tools</a>
-                          <ul class="categorie_sub_menu">
-                            <li><a href="">Driveshafts</a></li>
-                            <li><a href="">Spools</a></li>
-                            <li><a href="">Diesel </a></li>
-                            <li><a href="">Gasoline</a></li>
-                          </ul>
-                        </li>
-                        <li class="menu_item_children">
-                          <a href="#">Emergency Brake</a>
-                          <ul class="categorie_sub_menu">
-                            <li><a href="">Dolls for Girls</a></li>
-                            <li><a href="">Girls' Learning Toys</a></li>
-                            <li>
-                              <a href="">Arts and Crafts for Girls</a>
-                            </li>
-                            <li><a href="">Video Games for Girls</a></li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="menu_item_children">
-                      <a href="#">
-                        Fish & Seafood <i class="fa fa-angle-right"></i
-                      ></a>
-                      <ul class="categories_mega_menu column_2">
-                        <li class="menu_item_children">
-                          <a href="#">Check Trousers</a>
-                          <ul class="categorie_sub_menu">
-                            <li><a href="">Building</a></li>
-                            <li><a href="">Electronics</a></li>
-                            <li><a href="">action figures </a></li>
-                            <li><a href="">specialty & boutique toy</a></li>
-                          </ul>
-                        </li>
-                        <li class="menu_item_children">
-                          <a href="#">Calculators</a>
-                          <ul class="categorie_sub_menu">
-                            <li><a href="">Dolls for Girls</a></li>
-                            <li><a href="">Girls' Learning Toys</a></li>
-                            <li>
-                              <a href="">Arts and Crafts for Girls</a>
-                            </li>
-                            <li><a href="">Video Games for Girls</a></li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
+
+
                     <li><a href="#"> Fresh Meat</a></li>
-                    <li><a href="#"> Butter & Eggs</a></li>
-                    <li><a href="#">Milk</a></li>
-                    <li><a href="#">Oil & Vinegars</a></li>
-                    <li><a href="#"> Bread</a></li>
-                    <li><a href="#"> Jam & Honey</a></li>
-                    <li><a href="#"> Frozen Food</a></li>
+
+
                     <li class="hidden">
                       <a href="shop.html">New Sofas</a>
                     </li>
@@ -476,156 +365,50 @@
                 <nav>
                   <ul>
                     <li>
-                      <a class="active" href="index.html"
-                        >home<i class="fa fa-angle-down"></i
+                      <a class="active" href="{% url 'home' %}"
+                        >Головна<i class=""></i
                       ></a>
-                      <ul class="sub_menu home_sub_menu d-flex">
-                        <li>
-                          <span>Organic</span>
-                          <ul>
-                            <li><a href="index.html">Organic 01</a></li>
-                            <li><a href="index-2.html">Organic 02</a></li>
-                            <li><a href="index-3.html">Organic 03</a></li>
-                            <li><a href="index-4.html">Organic 04</a></li>
-                            <li><a href="index-5.html">Organic 05</a></li>
-                          </ul>
-                        </li>
-                        <li>
-                          <span>Fashion</span>
-                          <ul>
-                            <li><a href="index-8.html">Fashion 01</a></li>
-                            <li><a href="index-9.html">Fashion 02</a></li>
-                            <li>
-                              <a href="#"
-                                >Fashion 03 <span>(Comming Soon)</span></a
-                              >
-                            </li>
-                            <li>
-                              <a href="#"
-                                >Fashion 04 <span>(Comming Soon)</span></a
-                              >
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <span>Cosmetic</span>
-                          <ul>
-                            <li><a href="index-6.html">Cosmetic 01</a></li>
-                            <li><a href="index-7.html">Cosmetic 02</a></li>
-                            <li>
-                              <a href="#"
-                                >Cosmetic 03 <span>(Comming Soon)</span></a
-                              >
-                            </li>
-                            <li>
-                              <a href="#"
-                                >Cosmetic 04 <span>(Comming Soon)</span></a
-                              >
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
                     </li>
+
                     <li class="mega_items">
                       <a href="shop.html"
-                        >shop<i class="fa fa-angle-down"></i
+                        >Виробництво<i class=""></i
                       ></a>
-                      <div class="mega_menu">
-                        <ul class="mega_menu_inner">
-                          <li>
-                            <a href="#">Shop Layouts</a>
-                            <ul>
-                              <li>
-                                <a href="shop-fullwidth.html">Full Width</a>
-                              </li>
-                              <li>
-                                <a href="shop-fullwidth-list.html"
-                                  >Full Width list</a
-                                >
-                              </li>
-                              <li>
-                                <a href="shop-right-sidebar.html"
-                                  >Right Sidebar
-                                </a>
-                              </li>
-                              <li>
-                                <a href="shop-right-sidebar-list.html">
-                                  Right Sidebar list</a
-                                >
-                              </li>
-                              <li>
-                                <a href="shop-list.html">List View</a>
-                              </li>
-                            </ul>
-                          </li>
-                          <li>
-                            <a href="#">other Pages</a>
-                            <ul>
-                              <li><a href="cart.html">cart</a></li>
-                              <li><a href="wishlist.html">Wishlist</a></li>
-                              <li><a href="checkout.html">Checkout</a></li>
-                              <li>
-                                <a href="my-account.html">my account</a>
-                              </li>
-                              <li><a href="404.html">Error 404</a></li>
-                            </ul>
-                          </li>
-                          <li>
-                            <a href="#">Product Types</a>
-                            <ul>
-                              <li>
-                                <a href="product-details.html"
-                                  >product details</a
-                                >
-                              </li>
-                              <li>
-                                <a href="product-sidebar.html"
-                                  >product sidebar</a
-                                >
-                              </li>
-                              <li>
-                                <a href="product-grouped.html"
-                                  >product grouped</a
-                                >
-                              </li>
-                              <li>
-                                <a href="variable-product.html"
-                                  >product variable</a
-                                >
-                              </li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </div>
                     </li>
                     <li>
+
                       <a href="blog.html"
-                        >blog<i class="fa fa-angle-down"></i
+                        >Готова їжа <i class="fa fa-angle-down"></i
                       ></a>
                       <ul class="sub_menu pages">
                         <li>
-                          <a href="blog-details.html">blog details</a>
+                          <a href="blog-details.html">Готова їжа для дома</a>
                         </li>
                         <li>
-                          <a href="blog-fullwidth.html">blog fullwidth</a>
+                          <a href="blog-fullwidth.html">Готова їжа в дорогу</a>
                         </li>
                         <li>
-                          <a href="blog-sidebar.html">blog sidebar</a>
+                          <a href="blog-sidebar.html">Готова їжа для студентів</a>
                         </li>
-                      </ul>
+                        <li>
+                          <a href="blog-sidebar.html">Готова їжа для родинного свята</a>
+                        </li>
+                        </ul>
                     </li>
                     <li>
-                      <a href="#">pages <i class="fa fa-angle-down"></i></a>
+                      <a href="#">СУВІД технологія
+ <i class=""></i></a>
+
+                    </li>
+                    <li><a href="contact.html">Історія</a></li>
+                     <li>
+                      <a href="#">Послуги  <i class="fa fa-angle-down"></i></a>
                       <ul class="sub_menu pages">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="services.html">services</a></li>
-                        <li><a href="faq.html">Frequently Questions</a></li>
-                        <li><a href="contact.html">contact</a></li>
-                        <li><a href="login.html">login</a></li>
-                        <li><a href="404.html">Error 404</a></li>
+                        <li><a href="about.html">Кейтеринг</a></li>
+                        <li><a href="services.html">HoReCa</a></li>
+                        <li><a href="faq.html">Обслуговування заходів</a></li>
                       </ul>
                     </li>
-                    <li><a href="contact.html"> Contact Us</a></li>
                   </ul>
                 </nav>
               </div>

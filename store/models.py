@@ -9,7 +9,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=255, verbose_name='Найменування товару')
     slug = models.SlugField(max_length=255, unique=True)
     description = models.TextField(blank=True, verbose_name='Опис')
-    price = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Ціна')
+    price = models.IntegerField(verbose_name='Ціна')
     product_image = models.ImageField(upload_to='photos/products', verbose_name='Фото товару')
     is_available = models.BooleanField(default=True, verbose_name='Доступний')
     is_active = models.BooleanField(default=True, verbose_name='Активний')

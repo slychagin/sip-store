@@ -12,7 +12,7 @@ class ProductModelTest(TestCase):
         cls.category_data = Category.objects.create(category_name='chicken', slug='chicken')
         cls.product_data = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price='120.00', product_image='good chicken', category_id=1
+            price='120', product_image='good chicken', category_id=1
         )
 
     def test_product_model_entry(self):
@@ -61,8 +61,8 @@ class ProductModelTest(TestCase):
         max_length = data._meta.get_field('slug').max_length
         self.assertEqual(max_length, 255)
 
-    def test_product_price_max_digits(self):
-        """Test product price max digits"""
+    def test_product_price_is_integer(self):
+        """Test product price"""
         data = self.product_data
-        max_digits = data._meta.get_field('price').max_digits
-        self.assertEqual(max_digits, 7)
+        product_price = data._meta.get_field('price')
+        self.assertTrue(type(product_price), int)

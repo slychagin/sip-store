@@ -1496,6 +1496,7 @@ textarea:-ms-input-placeholder {
 /* 2.4 main menu css here */
 .menu_position {
   position: relative;
+  width: 650px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -1513,7 +1514,7 @@ textarea:-ms-input-placeholder {
 }
 .main_menu nav > ul > li {
   position: relative;
-  margin-right: 37px;
+  margin-right: 25px;
 }
 .main_menu nav > ul > li:last-child {
   margin-right: 0;
@@ -2101,9 +2102,9 @@ textarea:-ms-input-placeholder {
 .categorie_banner a img:hover {
   opacity: 0.8;
 }
-
 .call-support {
   text-align: right;
+  width: 270px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .call-support {
@@ -2115,7 +2116,7 @@ textarea:-ms-input-placeholder {
 @media only screen and (max-width: 767px) {
   .call-support {
     display: none;
-    text-align: center;
+    text-align: right;
     margin-bottom: 22px;
   }
 }

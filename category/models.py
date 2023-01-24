@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -16,3 +17,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.category_name
+
+    def get_url(self):
+        """
+        Get category url to use in navbar menu
+        :return: url for particular category
+        """
+        return reverse('products_by_category', args=[self.slug])

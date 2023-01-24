@@ -290,10 +290,10 @@
                   <ul>
                     <li><a href="{% url 'store' %}">Вся продукція</a></li>
 
+                    {% for category in category_links %}
+
                     <li class="menu_item_children">
-                      <a href="#"
-                        >Vegetables<i class="fa fa-angle-right"></i
-                      ></a>
+                      <a href="{{ category.get_url }}">{{ category.category_name }}<i class="fa fa-angle-right"></i></a>
                       <ul class="categories_mega_menu">
                         <li class="menu_item_children">
                           <!--                          <a href="#">Dresses</a>-->
@@ -307,20 +307,22 @@
                       </ul>
                     </li>
 
-                    <li><a href="#"> Fresh Meat</a></li>
+                    {% endfor %}
 
-                    <li class="hidden">
-                      <a href="shop.html">New Sofas</a>
-                    </li>
-                    <li class="hidden">
-                      <a href="shop.html">Sleight Sofas</a>
-                    </li>
-                    <li>
-                      <a href="#" id="more-btn"
-                        ><i class="fa fa-plus" aria-hidden="true"></i> More
-                        Categories</a
-                      >
-                    </li>
+<!--                    <li><a href="#"> Fresh Meat</a></li>-->
+
+<!--                    <li class="hidden">-->
+<!--                      <a href="shop.html">New Sofas</a>-->
+<!--                    </li>-->
+<!--                    <li class="hidden">-->
+<!--                      <a href="shop.html">Sleight Sofas</a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                      <a href="#" id="more-btn"-->
+<!--                        ><i class="fa fa-plus" aria-hidden="true"></i> More-->
+<!--                        Categories</a-->
+<!--                      >-->
+<!--                    </li>-->
                   </ul>
                 </div>
               </div>

@@ -51,7 +51,7 @@
                             </form>
                         </div>
                         <div class="page_amount">
-                            <p>Showing 1–9 of 21 results</p>
+                            <p>Знайдено {{ product_count }} товарів</p>
                         </div>
                     </div>
                      <!--shop toolbar end-->
@@ -64,11 +64,18 @@
                         <div class="col-lg-3 col-md-4 col-sm-6 col-12 ">
                             <div class="single_product">
                                 <div class="product_thumb">
-                                        <a class="primary_img" href="product-details.html"><img src="{{ product.product_image.url }}" alt=""></a>
-                                        <a class="secondary_img" href="product-details.html"><img src="{{ product.product_image.url }}" alt=""></a>
+                                        <a class="primary_img" href="{{ product.get_url }}"><img src="{{ product.product_image.url }}" alt="Зображення {{ product.product_name }}"></a>
+                                        <a class="secondary_img" href="{{ product.get_url }}"><img src="{{ product.product_image.url }}" alt="Зображення {{ product.product_name }}"></a>
                                         <div class="label_product">
+
+                                            {% if product.is_sale %}
                                             <span class="label_sale">Sale</span>
+                                            {% endif %}
+
+                                            {% if product.is_new %}
                                             <span class="label_new">New</span>
+                                            {% endif %}
+
                                         </div>
                                         <div class="action_links">
                                             <ul>
@@ -80,19 +87,28 @@
                                         </div>
                                     </div>
                                 <div class="product_content grid_content">
-                                        <h4 class="product_name"><a href="product-details.html">{{ product.product_name }}</a></h4>
-                                        <p><a href="#">{{ product.category }}</a></p>
+                                        <h4 class="product_name"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h4>
+                                        <p><a href="{{ product.category.get_url }}">{{ product.category }}</a></p>
                                         <div class="price_box">
                                             <span class="current_price">{{ product.price }} ₴</span>
-                                            <span class="old_price">$362.00</span>
+
+                                            {% if product.price_old %}
+                                            <span class="old_price">{{ product.price_old }} ₴</span>
+                                            {% endif %}
+
                                         </div>
                                     </div>
                                 <div class="product_content list_content">
-                                    <h4 class="product_name"><a href="product-details.html">{{ product.product_name }}</a></h4>
-                                    <p><a href="#">Fruits</a></p>
+                                    <h4 class="product_name"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h4>
+                                    <p><a href="{{ product.category.get_url }}">{{ product.category }}</a></p>
                                     <div class="price_box">
-                                        <span class="current_price">$26.00</span>
-                                        <span class="old_price">$362.00</span>
+
+                                        <span class="current_price">{{ product.price }} ₴</span>
+
+                                        {% if product.price_old %}
+                                        <span class="old_price">{{ product.price_old }} ₴</span>
+                                        {% endif %}
+
                                     </div>
                                     <div class="product_desc">
                                         <p>{{ product.description }}</p>
@@ -113,18 +129,6 @@
 
                     </div>
 
-
-                    <div class="shop_toolbar t_bottom">
-                        <div class="pagination">
-                            <ul>
-                                <li class="current">1</li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li class="next"><a href="#">next</a></li>
-                                <li><a href="#">>></a></li>
-                            </ul>
-                        </div>
-                    </div>
                     <!--shop toolbar end-->
                     <!--shop wrapper end-->
                 </div>

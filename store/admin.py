@@ -4,11 +4,11 @@ from store.models import Product
 
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('product_name',)}
-    list_display = ('product_name', 'price', 'category', 'modified_date', 'is_available')
+    list_display = ('product_name', 'price', 'category', 'modified_date', 'is_available', 'is_new', 'is_sale')
     search_fields = ('product_name', 'category__category_name')
     list_per_page = 20
     list_max_show_all = 100
-    list_editable = ('is_available',)
+    list_editable = ('is_available', 'is_new', 'is_sale')
 
 
 admin.site.register(Product, ProductAdmin)

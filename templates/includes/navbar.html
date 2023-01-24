@@ -1,4 +1,5 @@
 {% load static %}
+{% load get_index %}
 
 <!--header area start-->
 
@@ -298,10 +299,14 @@
                         <li class="menu_item_children">
                           <!--                          <a href="#">Dresses</a>-->
                           <ul class="categorie_sub_menu">
-                            <li><a href="">Sweater</a></li>
-                            <li><a href="">Evening</a></li>
-                            <li><a href="">Day</a></li>
-                            <li><a href="">Sports</a></li>
+
+                          {% for product in product_links|get_index:forloop.counter0 %}
+
+                            <li><a href="{{ product.get_url }}">{{ product }}</a></li>
+
+                          {% endfor %}
+
+
                           </ul>
                         </li>
                       </ul>

@@ -1,4 +1,5 @@
 from category.models import Category
+from store.models import Product
 
 
 def menu_links(request):
@@ -7,4 +8,5 @@ def menu_links(request):
     After that we can use this links in templates anywhere in the project.
     """
     category_links = Category.objects.all().order_by('category_name')
-    return dict(category_links=category_links)
+    product_links = [Product.objects.all().filter(category=category) for category in category_links]
+    return dict(category_links=category_links, product_links=product_links)

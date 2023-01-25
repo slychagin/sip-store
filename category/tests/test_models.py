@@ -1,14 +1,14 @@
 from django.test import TestCase
+
 from category.models import Category
 
 
 class CategoryModelTest(TestCase):
     """Testing Category model"""
 
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
         """Create Category object"""
-        cls.category_data = Category.objects.create(category_name='chicken', slug='chicken')
+        self.category_data = Category.objects.create(category_name='chicken', slug='chicken')
 
     def test_category_model_entry(self):
         """Test Category model data insertion/types/field attributes"""
@@ -16,9 +16,9 @@ class CategoryModelTest(TestCase):
         self.assertTrue(isinstance(data, Category))
 
     def test_category_model_name(self):
-        """Tests Category name"""
+        """Test Category name"""
         data = self.category_data
-        self.assertEqual(str(data), 'chicken')
+        self.assertEqual('chicken', str(data))
 
     def test_category_name_label(self):
         """Test Category verbose name"""
@@ -55,3 +55,8 @@ class CategoryModelTest(TestCase):
         data = self.category_data
         expected_object_name = f'{data.category_name}'
         self.assertEqual(expected_object_name, str(data))
+
+    def test_get_url(self):
+        """Test absolute url for category object"""
+        data = self.category_data
+        self.assertEqual(data.get_url(), '/store/chicken/')

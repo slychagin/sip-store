@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from category.models import Category
 from store.models import Product
 
@@ -6,11 +7,10 @@ from store.models import Product
 class ProductModelTest(TestCase):
     """Testing Product model"""
 
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
         """Create Product object"""
-        cls.category_data = Category.objects.create(category_name='chicken', slug='chicken')
-        cls.product_data = Product.objects.create(
+        self.category_data = Category.objects.create(category_name='chicken', slug='chicken')
+        self.product_data = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
             price='120', product_image='good chicken', category_id=1
         )
@@ -66,3 +66,8 @@ class ProductModelTest(TestCase):
         data = self.product_data
         product_price = data._meta.get_field('price')
         self.assertTrue(type(product_price), int)
+
+    def test_get_url(self):
+        """Test absolute url for product object"""
+        data = self.product_data
+        self.assertEqual(data.get_url(), '/store/chicken/fitness-chicken/')

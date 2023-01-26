@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'benefits',
     'category',
     'store',
+    'sales',
 ]
 
 MIDDLEWARE = [

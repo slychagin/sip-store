@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
-from benefits.models import Benefits
+from banners.models import WeekOfferBanner
+from benefits.models import Benefits, Partners
 from sales.models import (
     BestSellers,
     NewProducts,
@@ -18,6 +19,8 @@ def home(request):
     popular_left = MostPopularLeft.objects.all()
     popular_center = MostPopularCenter.objects.all()
     popular_right = MostPopularRight.objects.all()
+    partners = Partners.objects.all()
+    week_offer_banners = WeekOfferBanner.objects.all()
 
     context = {
         'benefits': benefits,
@@ -25,6 +28,8 @@ def home(request):
         'new_products': new_products,
         'popular_left': popular_left,
         'popular_center': popular_center,
-        'popular_right': popular_right
+        'popular_right': popular_right,
+        'partners': partners,
+        'week_offer_banners': week_offer_banners
     }
     return render(request, 'sip/home.html', context)

@@ -5,7 +5,7 @@ from store.models import Product
 
 
 class ProductModelTest(TestCase):
-    """Testing Product model"""
+    """Tests Product model"""
 
     def setUp(self):
         """Create Product object"""

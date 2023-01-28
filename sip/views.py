@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.views.generic.base import TemplateView
 
 from banners.models import WeekOfferBanner
 from benefits.models import Benefits, Partners
@@ -11,25 +11,18 @@ from sales.models import (
 )
 
 
-def home(request):
+class HomePageView(TemplateView):
     """Rendering home page"""
-    benefits = Benefits.objects.all()
-    bestsellers = BestSellers.objects.all()
-    new_products = NewProducts.objects.all()
-    popular_left = MostPopularLeft.objects.all()
-    popular_center = MostPopularCenter.objects.all()
-    popular_right = MostPopularRight.objects.all()
-    partners = Partners.objects.all()
-    week_offer_banners = WeekOfferBanner.objects.all()
+    template_name = 'sip/home.html'
 
-    context = {
-        'benefits': benefits,
-        'bestsellers': bestsellers,
-        'new_products': new_products,
-        'popular_left': popular_left,
-        'popular_center': popular_center,
-        'popular_right': popular_right,
-        'partners': partners,
-        'week_offer_banners': week_offer_banners
-    }
-    return render(request, 'sip/home.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['benefits'] = Benefits.objects.all()
+        context['bestsellers'] = BestSellers.objects.all()
+        context['new_products'] = NewProducts.objects.all()
+        context['popular_left'] = MostPopularLeft.objects.all()
+        context['popular_center'] = MostPopularCenter.objects.all()
+        context['popular_right'] = MostPopularRight.objects.all()
+        context['partners'] = Partners.objects.all()
+        context['week_offer_banners'] = WeekOfferBanner.objects.all()
+        return context

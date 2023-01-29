@@ -1525,7 +1525,7 @@ textarea:-ms-input-placeholder {
 .main_menu nav > ul > li:hover ul.sub_menu {
   visibility: visible;
   max-height: 360px;
-  padding: 24px 20px;
+  padding: 15px 20px;
 }
 .main_menu nav > ul > li:hover .mega_menu {
   visibility: visible;
@@ -1555,7 +1555,7 @@ textarea:-ms-input-placeholder {
 }
 .main_menu nav > ul > li ul.sub_menu {
   position: absolute;
-  min-width: 220px;
+  min-width: 255px;
   padding: 0 20px;
   background: #ffffff;
   box-shadow: 0 3px 11px 0 rgba(0, 0, 0, 0.1);
@@ -1817,9 +1817,9 @@ textarea:-ms-input-placeholder {
 .categories_menu_toggle > ul > li ul.categories_mega_menu {
   position: absolute;
   left: 120%;
-  width: 500px;
+  width: 350px;
   background: #ffffff;
-  padding: 25px 20px 23px;
+  padding: 15px 20px 15px;
   overflow: hidden;
   top: 0;
   -webkit-transition: 0.3s;
@@ -1827,7 +1827,6 @@ textarea:-ms-input-placeholder {
   z-index: 99;
   opacity: 0;
   visibility: hidden;
-  display: flex;
   justify-content: space-between;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -1848,7 +1847,7 @@ textarea:-ms-input-placeholder {
     transition: unset;
     box-shadow: inherit;
     position: inherit;
-    padding: 0 20px 0px 60px;
+    padding: 0 10px 0px 30px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -1872,7 +1871,7 @@ textarea:-ms-input-placeholder {
   left: 0;
 }
 .categories_menu_toggle > ul > li ul.categories_mega_menu > li {
-  padding: 0 15px;
+  padding: 0px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .categories_menu_toggle > ul > li ul.categories_mega_menu > li {
@@ -1888,8 +1887,9 @@ textarea:-ms-input-placeholder {
   line-height: 30px;
   font-size: 14px;
   font-weight: 500;
-  text-transform: uppercase;
+  text-transform: none;
   display: block;
+  padding: 0px 15px 0px 15px;
 }
 .categories_menu_toggle > ul > li ul.categories_mega_menu > li > a:hover {
   color: #40a944;
@@ -5285,7 +5285,7 @@ textarea:-ms-input-placeholder {
   }
 }
 .shipping_icone img {
-  max-width: 40px;
+  max-width: 30px;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .shipping_icone img {

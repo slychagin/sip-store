@@ -28,7 +28,9 @@
     24. modal css here
     25. new home page css here
 -----------------------------------------------------------------------------------*/
-@import url("<link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap">");
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+</style>
+
 * {
   box-sizing: border-box;
 }
@@ -59,9 +61,9 @@ body {
   font-style: normal;
   font-weight: 400;
   visibility: visible;
-  font-family: 'Philosopher', sans-serif;
+  font-family: 'Sofia Sans', sans-serif;
   color: #222222;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
 h1,
@@ -858,7 +860,7 @@ textarea:-ms-input-placeholder {
 }
 
 .social {
-  text-align: leftt;
+  text-align: left;
   margin-top: 45px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -888,7 +890,7 @@ textarea:-ms-input-placeholder {
 }
 
 .header_middle {
-  padding: 30px 0 24px;
+  padding: 30px 0 25px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .header_middle {
@@ -917,10 +919,6 @@ textarea:-ms-input-placeholder {
   }
 }
 
-.orange_line {
-  display: block;
-  width: 700px;
-  border-top: 1px solid #f2812b;
 }
 .dropdown_links {
   position: absolute;
@@ -1043,7 +1041,7 @@ textarea:-ms-input-placeholder {
 }
 
 .search_container {
-  margin-right: 35px;
+  margin-right: 50px;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .search_container {

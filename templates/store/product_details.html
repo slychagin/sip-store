@@ -57,7 +57,8 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product_d_right">
-                       <form action="#">
+                       <form action="{% url 'add_cart' single_product.id %}" method="POST">
+                           {% csrf_token %}
 
                             <h1><a href="#">{{ single_product.product_name }}</a></h1>
 
@@ -84,12 +85,32 @@
                                 <p>{{ single_product.description }}</p>
                             </div>
 
-                            <div class="product_variant quantity">
-                                <label>quantity</label>
-                                <input min="1" max="100" value="1" type="number">
-                                <button class="button" type="submit">add to cart</button>
+                            <div class="col">
+                                <div class="input-group input-spinner">
+                                    <div class="input-group-prepend"><button class="btn btn-light"
+                                           type="button" id="button-minus" onclick="decrement()"> <i class="fa fa-minus"></i></button>
+                                    </div>
+                                    <input min="1" max="100" value="1" type="number" id="qty" name="quantity">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-light" type="button" id="button-plus" onclick="increment()"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                    <div class="product_variant quantity">
+                                        <button type="submit" class="button">В кошик</button>
+                                    </div>
 
+                                </div>
                             </div>
+
+
+
+<!--                            <div class="product_variant quantity">-->
+<!--                                    <label>Кількість</label>-->
+<!--                                    <input min="1" max="100" value="1" type="number" name="quantity">-->
+<!--                                    <button type="submit" class="button">В кошик</button>-->
+<!--                            </div>-->
+
+
+
                             <div class=" product_d_action">
                                <ul>
                                    <li><a href="#" title="Add to wishlist">+ Add to Wishlist</a></li>
@@ -98,8 +119,9 @@
                             <div class="product_meta">
                                 <span>Категорія: <a href="#">{{ single_product.category }}</a></span>
                             </div>
+                       </form>
 
-                        </form>
+
                         <div class="priduct_social">
                             <ul>
                                 <li><a class="facebook" href="#" title="facebook"><i class="fa fa-facebook"></i> Like</a></li>
@@ -605,5 +627,4 @@
         </div>
     </section>
     <!--product area end-->
-
 {% endblock %}

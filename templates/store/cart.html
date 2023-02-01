@@ -1,0 +1,153 @@
+{% extends 'sip/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!--breadcrumbs area start-->
+    <div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                       <h3>Кошик</h3>
+                        <ul>
+                            <li><a href="{% url 'home' %}">Головна</a></li>
+                            <li>Кошик покупця</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs area end-->
+
+{% if not cart_items %}
+
+<div class="error_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="error_form">
+                    <h2>Ваш кошик порожній</h2>
+                    <a href="{% url 'store' %}">Продовжити покупки</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+     <!--shopping cart area start -->
+    <div class="shopping_cart_area mt-70">
+        <div class="container">
+<!--            <form action="#">-->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table_desc">
+                            <div class="cart_page">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="product_remove">Видалити</th>
+                                            <th class="product_thumb">Зображення</th>
+                                            <th class="product_name">Товар</th>
+                                            <th class="product-price">Ціна</th>
+                                            <th class="product_quantity">Кількість</th>
+                                            <th class="product_total">Сума</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for cart_item in cart_items %}
+                                        <tr>
+                                           <td class="product_remove"><a href="{% url 'remove_cart_item' cart_item.product.id %}"><i class="fa fa-trash-o"></i></a></td>
+                                            <td class="product_thumb"><a href="{{ cart_item.product.get_url }}">
+                                                <img src="{{ cart_item.product.product_image.url }}" alt="Зображення товару"></a>
+                                            </td>
+                                            <td class="product_name"><a href="{{ cart_item.product.get_url }}">{{ cart_item.product.product_name }}</a></td>
+                                            <td class="product-price">{{ cart_item.product.price }} ₴</td>
+
+
+
+
+                                            <td class="product_quantity">
+
+                                                <div class="col">
+                                                    <div class="input-group input-spinner">
+                                                        <div class="input-group-prepend">
+                                                            <a href="{% url 'remove_cart' cart_item.product.id %}" class="btn btn-light"
+                                                               type="button" id="button-minus"> <i class="fa fa-minus"></i> </a>
+                                                        </div>
+                                                        <input min="1" max="100" value="{{ cart_item.quantity }}" type="number" disabled>
+                                                        <div class="input-group-append">
+                                                            <form action="{% url 'add_quantity' cart_item.product.id %}" method="POST">
+                                                                {% csrf_token %}
+                                                                <button class="btn btn-light" type="submit" id="button-plus"> <i class="fa fa-plus"></i> </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+
+
+
+
+
+                                            <td class="product_total">{{ cart_item.sub_total }} ₴</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="cart_submit">
+                                <button type="submit">update cart</button>
+                            </div>
+                        </div>
+                     </div>
+                 </div>
+                 <!--coupon code area start-->
+                <div class="coupon_area">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="coupon_code left">
+                                <h3>Coupon</h3>
+                                <div class="coupon_inner">
+                                    <p>Enter your coupon code if you have one.</p>
+                                    <input placeholder="Coupon code" type="text">
+                                    <button type="submit">Apply coupon</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="coupon_code right">
+                                <h3>Cart Totals</h3>
+                                <div class="coupon_inner">
+                                   <div class="cart_subtotal">
+                                       <p>Subtotal</p>
+                                       <p class="cart_amount">£215.00</p>
+                                   </div>
+                                   <div class="cart_subtotal ">
+                                       <p>Shipping</p>
+                                       <p class="cart_amount"><span>Flat Rate:</span> £255.00</p>
+                                   </div>
+                                   <a href="#">Calculate shipping</a>
+
+                                   <div class="cart_subtotal">
+                                       <p>Total</p>
+                                       <p class="cart_amount">£215.00</p>
+                                   </div>
+                                   <div class="checkout_btn">
+                                       <a href="#">Proceed to Checkout</a>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--coupon code area end-->
+<!--            </form>-->
+        </div>
+    </div>
+     <!--shopping cart area end -->
+{% endif %}
+{% endblock %}

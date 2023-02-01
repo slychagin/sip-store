@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-5=%36!!0zjbm!88d*c*ztn$)n-mhvpwdxp6wt$6nj%v!f+$5^w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['my-domain.com', '127.0.0.1']
 
 
 # Application definition
@@ -38,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'benefits',
+    'banners',
+    'carts',
     'category',
     'store',
-    'sales',
-    'banners',
+    'sales'
 ]
 
 MIDDLEWARE = [
@@ -67,7 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'category.context_processor.menu_links',
+                'category.context_processors.menu_links'
             ],
         },
     },

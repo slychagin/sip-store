@@ -19,7 +19,7 @@ class StorePageView(ListView):
         return context
 
 
-class CategoryProductsListView(ListView):
+class ProductsByCategoryListView(ListView):
     """Rendering products by category in store page"""
     template_name = 'store/store.html'
 

@@ -1,4 +1,8 @@
-from django.test import TestCase, Client, RequestFactory
+from django.test import (
+    TestCase,
+    Client,
+    RequestFactory
+)
 from django.urls import reverse
 
 from sip.views import HomePageView
@@ -36,7 +40,9 @@ class HomePageTest(TestCase):
 
     def test_url_allowed_hosts(self):
         """Test allowed hosts"""
-        response = self.c.get('/')
+        response = self.c.get('/', HTTP_HOST='noaddress.com')
+        self.assertEqual(response.status_code, 400)
+        response = self.c.get('/', HTTP_HOST='my-domain.com')
         self.assertEqual(response.status_code, 200)
 
     def test_category_url(self):

@@ -7567,14 +7567,14 @@ textarea:-ms-input-placeholder {
   }
 }
 .table_desc .cart_page table tbody tr td.product_quantity {
-  width: 218px;
+  width: 120px;
 }
 .table_desc .cart_page table tbody tr td.product_quantity label {
   font-weight: 500;
   margin-right: 5px;
 }
 .table_desc .cart_page table tbody tr td.product_quantity input {
-  width: 60px;
+  width: 40px;
   height: 40px;
   padding: 0 5px 0 10px;
   background: none;
@@ -11964,3 +11964,286 @@ textarea:-ms-input-placeholder {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+
+
+/* CUSTOM CSS STYLES */
+
+.input-spinner {
+  width: 125px;
+  flex-wrap: nowrap;
+  display: inline-flex;
+  vertical-align: middle;
+}
+.input-spinner input.form-control {
+  text-align: center;
+  max-width: 46px;
+  font-weight: bold;
+  flex-basis: 46px;
+  border-color: #e4e4e4;
+  flex-grow: 0;
+}
+.input-spinner .btn {
+  width: 42px;
+  text-align: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+.input-group > .form-control,
+.input-group > .form-control-plaintext,
+.input-group > .custom-select,
+.input-group > .custom-file {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  margin-bottom: 0;
+}
+.input-group > .form-control + .form-control,
+.input-group > .form-control + .custom-select,
+.input-group > .form-control + .custom-file,
+.input-group > .form-control-plaintext + .form-control,
+.input-group > .form-control-plaintext + .custom-select,
+.input-group > .form-control-plaintext + .custom-file,
+.input-group > .custom-select + .form-control,
+.input-group > .custom-select + .custom-select,
+.input-group > .custom-select + .custom-file,
+.input-group > .custom-file + .form-control,
+.input-group > .custom-file + .custom-select,
+.input-group > .custom-file + .custom-file {
+  margin-left: -1px;
+}
+.input-group > .form-control:focus,
+.input-group > .custom-select:focus,
+.input-group > .custom-file .custom-file-input:focus ~ .custom-file-label {
+  z-index: 3;
+}
+.input-group > .custom-file .custom-file-input:focus {
+  z-index: 4;
+}
+.input-group > .form-control:not(:last-child),
+.input-group > .custom-select:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-group > .form-control:not(:first-child),
+.input-group > .custom-select:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.input-group > .custom-file {
+  display: flex;
+  align-items: center;
+}
+.input-group > .custom-file:not(:last-child) .custom-file-label, .input-group > .custom-file:not(:last-child) .custom-file-label::after {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-group > .custom-file:not(:first-child) .custom-file-label {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-group-prepend,
+.input-group-append {
+  display: flex;
+}
+.input-group-prepend .btn,
+.input-group-append .btn {
+  position: relative;
+  z-index: 2;
+}
+.input-group-prepend .btn:focus,
+.input-group-append .btn:focus {
+  z-index: 3;
+}
+.input-group-prepend .btn + .btn,
+.input-group-prepend .btn + .input-group-text,
+.input-group-prepend .input-group-text + .input-group-text,
+.input-group-prepend .input-group-text + .btn,
+.input-group-append .btn + .btn,
+.input-group-append .btn + .input-group-text,
+.input-group-append .input-group-text + .input-group-text,
+.input-group-append .input-group-text + .btn {
+  margin-left: -1px;
+}
+
+.input-group-prepend {
+  margin-right: -1px;
+}
+
+.input-group-prepend,
+.input-group-append {
+  display: flex;
+}
+.input-group-prepend .btn,
+.input-group-append .btn {
+  position: relative;
+  z-index: 2;
+}
+.input-group-prepend .btn:focus,
+.input-group-append .btn:focus {
+  z-index: 3;
+}
+.input-group-prepend .btn + .btn,
+.input-group-prepend .btn + .input-group-text,
+.input-group-prepend .input-group-text + .input-group-text,
+.input-group-prepend .input-group-text + .btn,
+.input-group-append .btn + .btn,
+.input-group-append .btn + .input-group-text,
+.input-group-append .input-group-text + .input-group-text,
+.input-group-append .input-group-text + .btn {
+  margin-left: -1px;
+}
+
+.input-group-prepend {
+  margin-right: -1px;
+}
+
+.input-group-append {
+  margin-left: -1px;
+}
+
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.9rem + 2px);
+  padding: 0.45rem 0.85rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.37rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .form-control {
+    transition: none;
+  }
+}
+.form-control::-ms-expand {
+  background-color: transparent;
+  border: 0;
+}
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #a5bdf6;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(49, 103, 235, 0.25);
+}
+.form-control::-webkit-input-placeholder {
+  color: #ced4da;
+  opacity: 1;
+}
+.form-control::-moz-placeholder {
+  color: #ced4da;
+  opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+  color: #ced4da;
+  opacity: 1;
+}
+.form-control::-ms-input-placeholder {
+  color: #ced4da;
+  opacity: 1;
+}
+.form-control::placeholder {
+  color: #ced4da;
+  opacity: 1;
+}
+.form-control:disabled, .form-control[readonly] {
+  background-color: #e4e4e4;
+  opacity: 1;
+}
+
+select.form-control:focus::-ms-value {
+  color: #495057;
+  background-color: #fff;
+}
+
+.form-control-file,
+.form-control-range {
+  display: block;
+  width: 100%;
+}
+
+.col-form-label {
+  padding-top: calc(0.45rem + 1px);
+  padding-bottom: calc(0.45rem + 1px);
+  margin-bottom: 0;
+  font-size: inherit;
+  line-height: 1.5;
+}
+
+.col-form-label-lg {
+  padding-top: calc(0.6rem + 1px);
+  padding-bottom: calc(0.6rem + 1px);
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.col-form-label-sm {
+  padding-top: calc(0.35rem + 1px);
+  padding-bottom: calc(0.35rem + 1px);
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+.form-control-plaintext {
+  display: block;
+  width: 100%;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+  margin-bottom: 0;
+  line-height: 1.5;
+  color: #343a40;
+  background-color: transparent;
+  border: solid transparent;
+  border-width: 1px 0;
+}
+.form-control-plaintext.form-control-sm, .form-control-plaintext.form-control-lg {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.form-control-sm {
+  height: calc(1.2em + 0.7rem + 2px);
+  padding: 0.35rem 0.5rem;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  border-radius: 0.2rem;
+}
+
+.form-control-lg {
+  height: calc(1.5em + 1.2rem + 2px);
+  padding: 0.6rem 1rem;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  border-radius: 0.45rem;
+}
+
+select.form-control[size], select.form-control[multiple] {
+  height: auto;
+}
+
+textarea.form-control {
+  height: auto;
+}
+
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+}

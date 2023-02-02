@@ -86,16 +86,22 @@
             </div>
             <div class="col-lg-10 col-md-6 col-sm-7 col-8">
               <div class="header_right_info">
+
+
+
                 <div class="search_container mobail_s_none">
-                  <form action="#">
+                  <form action="{% url 'search' %}" method="GET">
                     <div class="search_box">
-                      <input placeholder="Пошук продукта..." type="text" />
+                      <input placeholder="Пошук продукта..." type="text" name="keyword">
                       <button type="submit">
                         <span class="lnr lnr-magnifier"></span>
                       </button>
                     </div>
                   </form>
                 </div>
+
+
+
                 <div class="header_account_area">
                   <div class="header_account_list header_wishlist">
                     <a href="wishlist.html"
@@ -106,14 +112,14 @@
                   <div class="header_account_list mini_cart_wrapper">
                     <a href="javascript:void(0)"
                       ><span class="lnr lnr-cart"></span
-                      ><span class="item_count">2</span></a
-                    >
+                      ><span class="item_count">{{ cart_count }}</span>
+                    </a>
                     <!--mini cart-->
                     <div class="mini_cart">
                       <div class="cart_gallery">
                         <div class="cart_close">
                           <div class="cart_text">
-                            <h3>cart</h3>
+                            <h3>Кошик</h3>
                           </div>
                           <div class="mini_cart_close">
                             <a href="javascript:void(0)"
@@ -121,55 +127,40 @@
                             ></a>
                           </div>
                         </div>
+
+                      {% for cart_item in cart_items %}
                         <div class="cart_item">
                           <div class="cart_img">
-                            <a href="#"
+                            <a href="{{ cart_item.product.get_url }}"
                               ><img
-                                src="{% static 'img/s-product/product.jpg' %}"
-                                alt=""
+                                src="{{ cart_item.product.product_image.url }}"
+                                alt="Зображення товару"
                             /></a>
                           </div>
                           <div class="cart_info">
-                            <a href="#">Primis In Faucibus</a>
-                            <p>1 x <span> $65.00 </span></p>
+                            <a href="{{ cart_item.product.get_url }}">
+                              {{ cart_item.product.product_name }}</a>
+                            <p>{{ cart_item.quantity }} x <span> {{ cart_item.product.price }} ₴ </span></p>
                           </div>
                           <div class="cart_remove">
-                            <a href="#"><i class="icon-x"></i></a>
+                            <a href="{% url 'remove_cart_item' cart_item.product.id %}"><i class="icon-x"></i></a>
                           </div>
                         </div>
-                        <div class="cart_item">
-                          <div class="cart_img">
-                            <a href="#"
-                              ><img
-                                src="{% static 'img/s-product/product2.jpg' %}"
-                                alt=""
-                            /></a>
-                          </div>
-                          <div class="cart_info">
-                            <a href="#">Letraset Sheets</a>
-                            <p>1 x <span> $60.00 </span></p>
-                          </div>
-                          <div class="cart_remove">
-                            <a href="#"><i class="icon-x"></i></a>
-                          </div>
-                        </div>
+                      {% endfor %}
+
                       </div>
                       <div class="mini_cart_table">
                         <div class="cart_table_border">
-                          <div class="cart_total">
-                            <span>Sub total:</span>
-                            <span class="price">$125.00</span>
-                          </div>
                           <div class="cart_total mt-10">
-                            <span>total:</span>
-                            <span class="price">$125.00</span>
+                            <span>Сума:</span>
+                            <span class="price">{{ total_sum }} ₴ </span>
                           </div>
                         </div>
                       </div>
                       <div class="mini_cart_footer">
                         <div class="cart_button">
-                          <a href="cart.html"
-                            ><i class="fa fa-shopping-cart"></i> View cart</a
+                          <a href="{% url 'cart' %}"
+                            ><i class="fa fa-shopping-cart"></i> В кошик</a
                           >
                         </div>
                         <div class="cart_button">

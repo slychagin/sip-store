@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
 from category.models import Category
@@ -71,24 +71,30 @@ class ProductDetailView(DetailView):
         return context
 
 
-def search(request):
+class SearchListView(ListView):
     """Find products by keyword"""
     # TODO: Настроить поиск в Postgres с использованием  расширения unaccent
-    # TODO: Также проблема с поиском слов после кавычек в lower case.
-    #  Например "Фітнес" находит если вводить Фітнес, по фітнес не ищет.
+    # TODO: Также проблема с поиском слов после lower case.
+    #  Например Фітнес находит если вводить Фітнес, по фітнес не ищет. Проблема в SQLite.
 
-    products = None
-    product_count = None
-    if 'keyword' in request.GET:
-        keyword = request.GET['keyword']
-        if keyword:
-            products = Product.objects.order_by(
+    template_name = 'store/store.html'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.products = None
+        self.product_count = 0
+
+    def get_queryset(self):
+        if 'keyword' in self.request.GET:
+            keyword = self.request.GET['keyword']
+            self.products = Product.objects.order_by(
                 '-created_date').filter(Q(product_name__icontains=keyword) |
                                         Q(description__icontains=keyword))
-            product_count = products.count()
+            self.product_count = self.products.count()
+        return self.products
 
-    context = {
-        'product_count': product_count,
-        'products': products
-    }
-    return render(request, 'store/store.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = self.products
+        context['product_count'] = self.product_count
+        return context

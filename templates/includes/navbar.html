@@ -110,9 +110,20 @@
                     </a>
                   </div>
                   <div class="header_account_list mini_cart_wrapper">
-                    <a href="javascript:void(0)"
-                      ><span class="lnr lnr-cart"></span
-                      ><span class="item_count">{{ cart_count }}</span>
+                    <a href="javascript:void(0)"><span class="lnr lnr-cart"></span>
+<!--                      <span class="item_count" id="cart_icon_count">0</span>-->
+
+
+                      {% with total_qty=basket|length %}
+                        <span class="item_count" id="cart_icon_count">
+                          {% if total_qty > 0 %}
+                            {{ total_qty }}
+                          {% else %}
+                            0
+                          {% endif %}
+                        </span>
+                      {% endwith %}
+
                     </a>
                     <!--mini cart-->
                     <div class="mini_cart">

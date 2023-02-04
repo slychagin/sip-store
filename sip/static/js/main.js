@@ -851,9 +851,6 @@
         }
     });
 
-    /*---Add item to the cart---*/
-
-
 
 
 

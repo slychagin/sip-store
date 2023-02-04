@@ -99,7 +99,51 @@
     <script src="{% static 'js/main.js' %}"></script>
 
     <!-- plus and minus buttons in product details -->
-    <script src="{% static 'js/quantity.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+
+
+
+    <!--Add product to the cart after press Add button-->
+    <script>
+      $(document).on('click', '#add-button', function (e){
+          e.preventDefault();
+          $.ajax({
+              type: 'POST',
+              url: '{% url "add_cart" %}',
+              data: {
+                  product_id: $('#add-button').val(),
+                  quantity: $('#qty').val(),
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'post'
+              },
+              success: function (json) {
+                document.getElementById('cart_icon_count').innerHTML = json.qty
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
+
+  <!--Delete product from the basket-->
+    <script>
+      $(document).on('click', '.delete-button', function (e){
+          e.preventDefault();
+          var prodid = $(this).data('index');
+          $.ajax({
+              type: 'POST',
+              url: '{% url "cart_delete" %}',
+              data: {
+                  product_id: $(this).data('index'),
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'post'
+              },
+              success: function (json) {
+                $('.product-item[data-index="'+ prodid +'"]').remove();
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
 
   </body>
   </html>

@@ -122,27 +122,65 @@ def add_cart(request):
 #         return response
 
 
-# def add_quantity(request, product_id):
-#     if request.method == 'POST':
-#         product = Product.objects.get(id=product_id)
-#         cart = Cart.objects.get(cart_id=_cart_id(request))
-#         cart_item = CartItem.objects.get(product=product, cart=cart)
-#         cart_item.quantity += 1
-#         cart_item.save()
-#         return redirect('cart')
+def plus_quantity(request):
+    """Increase quantity by one after press plus button"""
+    # TODO: Сделать ограничение по количеству (не более 99)
+    basket = Basket(request)
+    if request.method == 'POST':
+        product_id = int(request.POST.get('product_id'))
+        basket.add_quantity(product=product_id)
+
+        basket_qty = basket.__len__()
+        basket_total = basket.get_total_price()
+        item_quantity = basket.get_item_quantity(product=product_id)
+        item_total_price = basket.get_sub_total(product_id)
+
+        # product = Product.objects.get(id=product_id)
+        # cart = Cart.objects.get(cart_id=_cart_id(request))
+        # cart_item = CartItem.objects.get(product=product, cart=cart)
+        # cart_item.quantity += 1
+        # cart_item.save()
+        response = JsonResponse({
+            'qty': basket_qty,
+            'total': f'{basket_total} ₴',
+            'item_qty': item_quantity,
+            'item_total_price': f'{item_total_price} ₴'
+        })
+        return response
 
 
-# def remove_cart(request, product_id):
-#     """Pressing the minus button decreases the quantity of product by one"""
-#     cart = Cart.objects.get(cart_id=_cart_id(request))
-#     product = get_object_or_404(Product, id=product_id)
-#     cart_item = CartItem.objects.get(product=product, cart=cart)
-#     if cart_item.quantity > 1:
-#         cart_item.quantity -= 1
-#         cart_item.save()
-#     else:
-#         cart_item.delete()
-#     return redirect('cart')
+def minus_quantity(request):
+    """Decrease quantity by one after press minus button"""
+    basket = Basket(request)
+    if request.method == 'POST':
+        product_id = int(request.POST.get('product_id'))
+        basket.subtract_quantity(product=product_id)
+
+        basket_qty = basket.__len__()
+        basket_total = basket.get_total_price()
+        item_quantity = basket.get_item_quantity(product=product_id)
+        item_total_price = basket.get_sub_total(product_id)
+
+        if item_quantity < 1:
+            basket.delete(product=product_id)
+
+        #     cart = Cart.objects.get(cart_id=_cart_id(request))
+        #     product = get_object_or_404(Product, id=product_id)
+        #     cart_item = CartItem.objects.get(product=product, cart=cart)
+        #     if cart_item.quantity > 1:
+        #         cart_item.quantity -= 1
+        #         cart_item.save()
+        #     else:
+        #         cart_item.delete()
+        #     return redirect('cart')
+
+        response = JsonResponse({
+            'qty': basket_qty,
+            'total': f'{basket_total} ₴',
+            'item_qty': item_quantity,
+            'item_total_price': f'{item_total_price} ₴'
+        })
+        return response
 
 
 def cart_delete(request):
@@ -151,9 +189,10 @@ def cart_delete(request):
     if request.POST.get('action') == 'post':
         product_id = int(request.POST.get('product_id'))
         basket.delete(product=product_id)
-        response = JsonResponse({'Success': True})
+        basket_qty = basket.__len__()
+        basket_total = basket.get_total_price()
+        response = JsonResponse({'qty': basket_qty, 'total': basket_total})
         return response
-
 
     # cart = Cart.objects.get(cart_id=_cart_id(request))
     # product = get_object_or_404(Product, id=product_id)

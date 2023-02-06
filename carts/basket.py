@@ -1,6 +1,3 @@
-from django.core.exceptions import ObjectDoesNotExist
-
-from carts.models import Cart, CartItem
 from store.models import Product
 
 
@@ -15,6 +12,7 @@ class Basket:
         self.basket = basket
 
     def add(self, product, entered_quantity):
+        """Add and update data to the session"""
         product_id = str(product.id)
 
         if product_id in self.basket:
@@ -28,6 +26,7 @@ class Basket:
         self.save_session_data()
 
     def __iter__(self):
+        """Iterate all items from basket"""
         product_ids = self.basket.keys()
         products = Product.objects.filter(id__in=product_ids)
         basket = self.basket.copy()
@@ -66,9 +65,6 @@ class Basket:
         """Increase quantity by one after press plus button in the session data"""
         product_id = str(product)
         self.basket[product_id]['qty'] += 1
-
-        # self.basket[product_id]['total_price'] = int(self.basket[product_id]['price']) * int(self.basket[product_id]['qty'])
-
         self.save_session_data()
 
     def subtract_quantity(self, product):
@@ -85,5 +81,5 @@ class Basket:
             self.save_session_data()
 
     def save_session_data(self):
-        """Set session modified to true"""
+        """Save changes in session"""
         self.session.modified = True

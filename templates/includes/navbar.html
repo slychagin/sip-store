@@ -110,9 +110,7 @@
                     </a>
                   </div>
                   <div class="header_account_list mini_cart_wrapper">
-                    <a href="javascript:void(0)"><span class="lnr lnr-cart"></span>
-<!--                      <span class="item_count" id="cart_icon_count">0</span>-->
-
+                    <a href="javascript:void(0)" id="mini-cart"><span class="lnr lnr-cart"></span>
 
                       {% with total_qty=basket|length %}
                         <span class="item_count" id="cart_icon_count">
@@ -125,6 +123,7 @@
                       {% endwith %}
 
                     </a>
+
                     <!--mini cart-->
                     <div class="mini_cart">
                       <div class="cart_gallery">
@@ -139,35 +138,43 @@
                           </div>
                         </div>
 
-                      {% for cart_item in cart_items %}
-                        <div class="cart_item">
+
+                        <div id="mini">
+
+                      {% for item in basket %}
+                        {% with product=item.product %}
+                        <div class="cart_item" data-index="{{ product.id }}">
                           <div class="cart_img">
-                            <a href="{{ cart_item.product.get_url }}"
+                            <a href="{{ product.get_url }}"
                               ><img
-                                src="{{ cart_item.product.product_image.url }}"
+                                src="{{ product.product_image.url }}"
                                 alt="Зображення товару"
                             /></a>
                           </div>
                           <div class="cart_info">
-                            <a href="{{ cart_item.product.get_url }}">
-                              {{ cart_item.product.product_name }}</a>
-                            <p>{{ cart_item.quantity }} x <span> {{ cart_item.product.price }} ₴ </span></p>
+                            <a href="{{ product.get_url }}">{{ product.product_name }}</a>
+                            <p>{{ item.qty }} x <span> {{ product.price }} ₴ </span></p>
                           </div>
                           <div class="cart_remove">
-                            <a href="{% url 'remove_cart_item' cart_item.product.id %}"><i class="icon-x"></i></a>
+                            <a type="button" id="delete-icon" class="delete-icon" data-index="{{ product.id }}"><i class="icon-x"></i></a>
                           </div>
                         </div>
+                        {% endwith %}
                       {% endfor %}
+                          </div>
 
                       </div>
                       <div class="mini_cart_table">
                         <div class="cart_table_border">
                           <div class="cart_total mt-10">
                             <span>Сума:</span>
-                            <span class="price">{{ total_sum }} ₴ </span>
+                            <span class="price" id="mini-cart-total">{{ basket.get_total_price }} ₴ </span>
                           </div>
                         </div>
                       </div>
+
+
+
                       <div class="mini_cart_footer">
                         <div class="cart_button">
                           <a href="{% url 'cart' %}"

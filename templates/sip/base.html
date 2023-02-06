@@ -107,6 +107,8 @@
     <script>
       $(document).on('click', '#add-button', function (e){
           e.preventDefault();
+          var prodid = $('#add-button').val();
+
           $.ajax({
               type: 'POST',
               url: '{% url "add_cart" %}',
@@ -123,6 +125,7 @@
           });
       })
     </script>
+
 
   <!--Delete product from the basket-->
     <script>
@@ -198,6 +201,38 @@
           });
       })
     </script>
+
+  <!--Delete product from the mini cart by press delete icon-->
+    <script>
+      $(document).on('click', '.delete-icon', function (e){
+          e.preventDefault();
+          var prodid = $(this).data('index');
+          $.ajax({
+              type: 'POST',
+              url: '{% url "mini_cart_delete" %}',
+              data: {
+                  product_id: $(this).data('index'),
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'post'
+              },
+              success: function (json) {
+                $('.cart_item[data-index="'+ prodid +'"]').remove();
+                document.getElementById('mini-cart-total').innerHTML = json.mini_cart_total;
+                document.getElementById('cart_icon_count').innerHTML = json.qty;
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
+
+    <!--Refresh mini cart by press cart icon-->
+    <script>
+      $("#mini-cart").click(function () {
+        $("#mini").load(location.href + " #mini");
+        $("#mini-cart-total").load(location.href + " #mini-cart-total");
+       });
+    </script>
+
 
 
   </body>

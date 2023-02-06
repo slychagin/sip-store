@@ -59,4 +59,4 @@ class CategoryModelTest(TestCase):
     def test_get_url(self):
         """Test absolute url for category object"""
         data = self.category_data
-        self.assertEqual(data.get_url(), '/store/chicken/')
+        self.assertEqual(data.get_url(), '/store/category/chicken/')

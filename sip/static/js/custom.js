@@ -4,4 +4,4 @@ function increment() {
    }
 function decrement() {
   document.getElementById('qty').stepDown();
-}
+};

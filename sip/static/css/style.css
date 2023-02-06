@@ -1460,6 +1460,7 @@ textarea:-ms-input-placeholder {
 }
 .cart_total span.price {
   font-weight: 700;
+  display: contents;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .cart_total span {
@@ -7742,6 +7743,7 @@ textarea:-ms-input-placeholder {
 .cart_subtotal p.cart_amount {
   font-size: 18px;
   font-weight: 500;
+  display: contents;
 }
 @media only screen and (max-width: 767px) {
   .cart_subtotal p.cart_amount {

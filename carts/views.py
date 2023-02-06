@@ -19,7 +19,7 @@ def add_cart(request):
     """Add the particular product with entered quantity to the cart by product id"""
     # TODO: Настроить всплывающее сообщение или открытие мини корзины при добавлении товара в корзину либо
     basket = Basket(request)
-    if request.POST.get('action') == 'post':
+    if request.POST.get('action') == 'POST':
         product_id = int(request.POST.get('product_id'))
         entered_quantity = int(request.POST.get('quantity'))
         product = get_object_or_404(Product, id=product_id)
@@ -34,6 +34,7 @@ def add_cart(request):
 def plus_quantity(request):
     """Increase quantity by one after press plus button"""
     # TODO: Сделать ограничение по количеству (не более 99)
+    # TODO: Проблема с отображением знака гривны
     basket = Basket(request)
     if request.method == 'POST':
         product_id = int(request.POST.get('product_id'))
@@ -45,9 +46,9 @@ def plus_quantity(request):
         item_total_price = basket.get_sub_total(product_id)
         response = JsonResponse({
             'qty': basket_qty,
-            'total': f'{basket_total} ₴',
+            'total': basket_total,
             'item_qty': item_quantity,
-            'item_total_price': f'{item_total_price} ₴'
+            'item_total_price': item_total_price
         })
         return response
 
@@ -68,9 +69,9 @@ def minus_quantity(request):
             basket.delete(product=product_id)
         response = JsonResponse({
             'qty': basket_qty,
-            'total': f'{basket_total} ₴',
+            'total': basket_total,
             'item_qty': item_quantity,
-            'item_total_price': f'{item_total_price} ₴'
+            'item_total_price': item_total_price
         })
         return response
 
@@ -78,7 +79,7 @@ def minus_quantity(request):
 def cart_delete(request):
     """Delete product from the cart"""
     basket = Basket(request)
-    if request.POST.get('action') == 'post':
+    if request.POST.get('action') == 'POST':
         product_id = int(request.POST.get('product_id'))
         basket.delete(product=product_id)
         basket_qty = basket.__len__()
@@ -89,14 +90,15 @@ def cart_delete(request):
 
 def mini_cart_delete(request):
     """Delete product from the mini cart popup menu"""
+    # TODO: Проблема с отображением знака гривны
     basket = Basket(request)
-    if request.POST.get('action') == 'post':
+    if request.POST.get('action') == 'POST':
         product_id = int(request.POST.get('product_id'))
         basket.delete(product=product_id)
         basket_qty = basket.__len__()
         mini_cart_total = basket.get_total_price()
         response = JsonResponse({
             'qty': basket_qty,
-            'mini_cart_total': f'{mini_cart_total} ₴'
+            'mini_cart_total': mini_cart_total
         })
         return response

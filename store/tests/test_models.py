@@ -70,4 +70,4 @@ class ProductModelTest(TestCase):
     def test_get_url(self):
         """Test absolute url for product object"""
         data = self.product_data
-        self.assertEqual(data.get_url(), '/store/chicken/fitness-chicken/')
+        self.assertEqual(data.get_url(), '/store/category/chicken/fitness-chicken/')

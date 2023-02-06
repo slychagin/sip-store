@@ -1,3 +1,7 @@
+from importlib import import_module
+
+from django.conf import settings
+from django.http import HttpRequest
 from django.test import (
     TestCase,
     Client,
@@ -57,7 +61,9 @@ class HomePageTest(TestCase):
 
     def test_homepage_html(self):
         """Test homepage html"""
-        request = self.factory.get('/')
+        request = HttpRequest()
+        engine = import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore()
         self.view.setup(request)
         response = self.view.dispatch(request)
         html = response.render().content.decode('utf8')

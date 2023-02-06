@@ -81,7 +81,7 @@ class ProductsByCategoryListViewTest(TestCase):
 
     def test_products_by_category_list_view_url_exists_at_desired_location(self):
         """Tests that products by category view url exists at desired location"""
-        response = self.c.get('/store/chicken/')
+        response = self.c.get('/store/category/chicken/')
         self.assertEqual(response.status_code, 200)
 
     def test_products_by_category_list_view_url_accessible_by_name(self):
@@ -132,7 +132,7 @@ class ProductDetailViewTest(TestCase):
 
     def test_product_detail_view_url_exists_at_desired_location(self):
         """Tests that product detail view url exists at desired location"""
-        response = self.c.get('/store/chicken/fitness-chicken/')
+        response = self.c.get('/store/category/chicken/fitness-chicken/')
         self.assertEqual(response.status_code, 200)
 
     def test_product_details_view_url_accessible_by_name(self):

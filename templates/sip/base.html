@@ -102,7 +102,6 @@
     <script src="{% static 'js/custom.js' %}"></script>
 
 
-
     <!--Add product to the cart after press Add button-->
     <script>
       $(document).on('click', '#add-button', function (e){
@@ -116,7 +115,7 @@
                   product_id: $('#add-button').val(),
                   quantity: $('#qty').val(),
                   csrfmiddlewaretoken: '{{csrf_token}}',
-                  action: 'post'
+                  action: 'POST'
               },
               success: function (json) {
                 document.getElementById('cart_icon_count').innerHTML = json.qty;
@@ -138,7 +137,7 @@
               data: {
                   product_id: $(this).data('index'),
                   csrfmiddlewaretoken: '{{csrf_token}}',
-                  action: 'post'
+                  action: 'POST'
               },
               success: function (json) {
                 $('.product-item[data-index="'+ prodid +'"]').remove();
@@ -148,6 +147,29 @@
               error: function(xhr, errmsg, err) {}
           });
       })
+    </script>
+
+<!--    Delete product from the mini cart by press delete icon-->
+    <script>
+      $(document).on('click', '.delete-icon', function (e){
+        e.preventDefault();
+        var prodid = $(this).data('index');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "mini_cart_delete" %}',
+            data: {
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: '{{csrf_token}}',
+                action: 'POST'
+            },
+            success: function (json) {
+              $('.cart_item[data-index="'+ prodid +'"]').remove();
+              document.getElementById('mini-cart-total').innerHTML = json.mini_cart_total;
+              document.getElementById('cart_icon_count').innerHTML = json.qty;
+            },
+            error: function(xhr, errmsg, err) {}
+        });
+      });
     </script>
 
   <!--Add quantity by press plus button-->
@@ -161,7 +183,7 @@
               data: {
                   product_id: $(this).data('index'),
                   csrfmiddlewaretoken: '{{csrf_token}}',
-                  action: 'post'
+                  action: 'POST'
               },
               success: function (json) {
                 document.getElementById(prodid + 'item-qty').value = json.item_qty;
@@ -186,7 +208,7 @@
               data: {
                   product_id: $(this).data('index'),
                   csrfmiddlewaretoken: '{{csrf_token}}',
-                  action: 'post'
+                  action: 'POST'
               },
               success: function (json) {
                 if (json.item_qty < 1) {
@@ -202,28 +224,6 @@
       })
     </script>
 
-  <!--Delete product from the mini cart by press delete icon-->
-    <script>
-      $(document).on('click', '.delete-icon', function (e){
-          e.preventDefault();
-          var prodid = $(this).data('index');
-          $.ajax({
-              type: 'POST',
-              url: '{% url "mini_cart_delete" %}',
-              data: {
-                  product_id: $(this).data('index'),
-                  csrfmiddlewaretoken: '{{csrf_token}}',
-                  action: 'post'
-              },
-              success: function (json) {
-                $('.cart_item[data-index="'+ prodid +'"]').remove();
-                document.getElementById('mini-cart-total').innerHTML = json.mini_cart_total;
-                document.getElementById('cart_icon_count').innerHTML = json.qty;
-              },
-              error: function(xhr, errmsg, err) {}
-          });
-      })
-    </script>
 
     <!--Refresh mini cart by press cart icon-->
     <script>
@@ -233,6 +233,29 @@
        });
     </script>
 
+
+    <!--Add product to the cart after press action link add to cart-->
+    <script>
+      $(document).on('click', '.quick-add-button', function (e){
+          e.preventDefault();
+          var prodid = $(this).data('index');
+
+          $.ajax({
+              type: 'POST',
+              url: '{% url "add_cart" %}',
+              data: {
+                  product_id: $(this).data('index'),
+                  quantity: 1,
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'POST'
+              },
+              success: function (json) {
+                document.getElementById('cart_icon_count').innerHTML = json.qty;
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
 
 
   </body>

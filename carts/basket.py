@@ -2,7 +2,7 @@ from store.models import Product
 
 
 class Basket:
-    """A base Cart class"""
+    """A base Basket class"""
 
     def __init__(self, request):
         self.session = request.session

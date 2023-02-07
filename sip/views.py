@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 from django.views.generic.base import TemplateView
 
 from banners.models import WeekOfferBanner
@@ -9,6 +11,7 @@ from sales.models import (
     MostPopularCenter,
     MostPopularRight
 )
+from store.models import Product
 
 
 class HomePageView(TemplateView):
@@ -26,3 +29,21 @@ class HomePageView(TemplateView):
         context['partners'] = Partners.objects.all()
         context['week_offer_banners'] = WeekOfferBanner.objects.all()
         return context
+
+
+def get_single_product(request):
+    """Return single product data by id to use in product quick show"""
+    # TODO: Решить вопрос со значком гривны (если нет старой цены, то не должно быть и значка)
+    # TODO: Сделать всплывающее сообщение о том, что товар добавлен в корзину.
+    if request.method == 'POST':
+        product_id = int(request.POST.get('product_id'))
+        product = Product.objects.get(id=product_id)
+
+        response = JsonResponse({
+            'title': product.product_name,
+            'price': product.price,
+            'old_price': product.price_old,
+            'description': product.description,
+            'image': product.product_image.url
+        })
+        return response

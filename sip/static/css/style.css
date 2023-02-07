@@ -10601,7 +10601,6 @@ textarea:-ms-input-placeholder {
 
 .modal_title h2 {
   font-size: 16px;
-  text-transform: uppercase;
   font-weight: 600;
   margin-bottom: 14px;
   line-height: 26px;
@@ -10709,6 +10708,7 @@ textarea:-ms-input-placeholder {
 
 .modal_add_to_cart {
   margin-bottom: 25px;
+  display: flex;
 }
 .modal_add_to_cart form input {
   width: 95px;

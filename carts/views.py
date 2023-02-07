@@ -5,6 +5,7 @@ from carts.basket import Basket
 from store.models import Product
 
 
+# TODO: Переместить скрипты в отдельный файл
 def cart_page(request):
     """Render Cart page"""
     basket = Basket(request)

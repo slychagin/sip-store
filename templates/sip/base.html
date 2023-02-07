@@ -258,5 +258,89 @@
     </script>
 
 
+    <!--Open product popup card after press action link quick show product details-->
+    <script>
+      $(document).on('click', '.quick-show-button', function (e){
+          e.preventDefault();
+          var prodid = $(this).data('index');
+
+          $.ajax({
+              type: 'POST',
+              url: '{% url "get_single_product" %}',
+              data: {
+                  product_id: $(this).data('index'),
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'POST'
+              },
+              success: function (json) {
+                document.getElementById('quick-add-button').value = prodid;
+                document.getElementById('quick_title').innerHTML = json.title;
+                document.getElementById('quick_new_price').innerHTML = json.price;
+                document.getElementById('quick_old_price').innerHTML = json.old_price;
+                document.getElementById('quick_description').innerHTML = json.description;
+                document.getElementById('quick_img').src = json.image;
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
+
+
+  <!--Add product to the cart after press quick add button in product quick show popup-->
+    <script>
+      $(document).on('click', '#quick-add-button', function (e){
+          e.preventDefault();
+          var prodid = $('#quick-add-button').val();
+
+          $.ajax({
+              type: 'POST',
+              url: '{% url "add_cart" %}',
+              data: {
+                  product_id: $('#quick-add-button').val(),
+                  quantity: $('#qty-quick-popup').val(),
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'POST'
+              },
+              success: function (json) {
+                document.getElementById('cart_icon_count').innerHTML = json.qty;
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
+
+
+  <!--Add product to the cart after press quick add button in product quick show popup-->
+    <script>
+      $(document).on('click', '#quick-add-button', function (e){
+          e.preventDefault();
+          var prodid = $('#quick-add-button').val();
+
+          $.ajax({
+              type: 'POST',
+              url: '{% url "add_cart" %}',
+              data: {
+                  product_id: $('#quick-add-button').val(),
+                  quantity: $('#qty-quick-popup').val(),
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'POST'
+              },
+              success: function (json) {
+                document.getElementById('cart_icon_count').innerHTML = json.qty;
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
+
+
+  <!--Set quantity to one after close product quick show popup-->
+    <script>
+       $("#close-quick-button").click(function () {
+        document.getElementById("qty-quick-popup").value = 1;
+       });
+    </script>
+
+
   </body>
   </html>

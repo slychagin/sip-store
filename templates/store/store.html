@@ -1,107 +1,127 @@
-{% extends 'sip/base.html' %}
-{% load static %}
+{% extends 'sip/base.html' %}{% load static %}{% block content %}
 
-{% block content %}
-
-    <!--breadcrumbs area start-->
-    <div class="breadcrumbs_area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breadcrumb_content">
-                        <h3>Shop</h3>
-                        <ul>
-                            <li><a href="{% url 'home' %}">home</a></li>
-                            <li>shop</li>
-                        </ul>
-                    </div>
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <h3>Shop</h3>
+                    <ul>
+                        <li><a href="{% url 'home' %}">home</a></li>
+                        <li>shop</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-    <!--breadcrumbs area end-->
+</div>
+<!--breadcrumbs area end-->
 
-    <!--shop  area start-->
-    <div class="shop_area shop_fullwidth mt-70 mb-70">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <!--shop wrapper start-->
-                    <!--shop toolbar start-->
-                    <div class="shop_toolbar_wrapper">
-                        <div class="shop_toolbar_btn">
-
-                            <button data-role="grid_3" type="button" class="btn-grid-3" data-toggle="tooltip" title="3"></button>
-
-                            <button data-role="grid_4" type="button"  class="active btn-grid-4" data-toggle="tooltip" title="4"></button>
-
-                            <button data-role="grid_list" type="button"  class="btn-list" data-toggle="tooltip" title="List"></button>
-                        </div>
-                        <div class=" niceselect_option">
-                            <form class="select_option" action="#">
-                                <select name="orderby" id="short">
-
-                                    <option selected value="1">Sort by average rating</option>
-                                    <option  value="2">Sort by popularity</option>
-                                    <option value="3">Sort by newness</option>
-                                    <option value="4">Sort by price: low to high</option>
-                                    <option value="5">Sort by price: high to low</option>
-                                    <option value="6">Product Name: Z</option>
-                                </select>
-                            </form>
-                        </div>
-                        <div class="page_amount">
-                            <p>Знайдено {{ product_count }} товарів</p>
-                        </div>
+<!--shop area start-->
+<div class="shop_area shop_fullwidth mt-70 mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!--shop wrapper start-->
+                <!--shop toolbar start-->
+                <div class="shop_toolbar_wrapper">
+                    <div class="shop_toolbar_btn">
+                        <button data-role="grid_3" type="button" class="btn-grid-3" data-toggle="tooltip" title="3"></button>
+                        <button data-role="grid_4" type="button"  class="active btn-grid-4" data-toggle="tooltip" title="4"></button>
+                        <button data-role="grid_list" type="button"  class="btn-list" data-toggle="tooltip" title="List"></button>
                     </div>
-                     <!--shop toolbar end-->
+                    <div class=" niceselect_option">
+                        <form class="select_option" action="#">
+                            <select name="orderby" id="short">
+                                <option selected value="1">Sort by average rating</option>
+                                <option  value="2">Sort by popularity</option>
+                                <option value="3">Sort by newness</option>
+                                <option value="4">Sort by price: low to high</option>
+                                <option value="5">Sort by price: high to low</option>
+                                <option value="6">Product Name: Z</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="page_amount">
+                        <p>Знайдено {{ product_count }} товарів</p>
+                    </div>
+                </div>
+                 <!--shop toolbar end-->
 
 
-                     <div class="row shop_wrapper">
+                 <div class="row shop_wrapper">
 
-                         {% for product in products %}
+                 {% for product in products %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12 ">
+                        <div class="single_product">
+                            <div class="product_thumb">
+                                <a class="primary_img" href="{{ product.get_url }}">
+                                    <img src="{{ product.product_image.url }}"
+                                         alt="Зображення товару">
+                                </a>
+                                <a class="secondary_img" href="{{ product.get_url }}">
+                                    <img src="{{ product.product_image.url }}"
+                                         alt="Зображення товару">
+                                </a>
+                                <div class="label_product">
+                                    {% if product.is_sale %}
+                                    <span class="label_sale">Sale</span>
+                                    {% endif %}
 
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 ">
-                            <div class="single_product">
-                                <div class="product_thumb">
-                                        <a class="primary_img" href="{{ product.get_url }}"><img src="{{ product.product_image.url }}" alt="Зображення {{ product.product_name }}"></a>
-                                        <a class="secondary_img" href="{{ product.get_url }}"><img src="{{ product.product_image.url }}" alt="Зображення {{ product.product_name }}"></a>
-                                        <div class="label_product">
+                                    {% if product.is_new %}
+                                    <span class="label_new">New</span>
+                                    {% endif %}
+                                </div>
+                                <div class="action_links">
+                                    <ul>
+                                        <li class="add_to_cart">
+                                            <a
+                                              type="button"
+                                              class="quick-add-button"
+                                              data-index="{{ product.id }}"
+                                              data-tippy="В кошик"
+                                              data-tippy-placement="top"
+                                              data-tippy-arrow="true"
+                                              data-tippy-inertia="true"
+                                            >
+                                              <span class="lnr lnr-cart"></span>
+                                            </a>
+                                        </li>
+                                        <li class="quick_button">
+                                            <a
+                                              type="button"
+                                              class="quick-show-button"
+                                              data-index="{{ product.id }}"
+                                              data-tippy="Швидкий просмотр"
+                                              data-tippy-placement="top"
+                                              data-tippy-arrow="true"
+                                              data-tippy-inertia="true"
+                                              data-bs-toggle="modal"
+                                              data-bs-target="#modal_box"
+                                            >
+                                                <span class="lnr lnr-magnifier"></span>
+                                            </a>
+                                        </li>
+                                        <li class="wishlist">
+                                            <a
+                                              href="wishlist.html"
+                                              data-tippy="У обране"
+                                              data-tippy-placement="top"
+                                              data-tippy-arrow="true"
+                                              data-tippy-inertia="true"
+                                            >
+                                                <span class="lnr lnr-heart"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
 
-                                            {% if product.is_sale %}
-                                            <span class="label_sale">Sale</span>
-                                            {% endif %}
-
-                                            {% if product.is_new %}
-                                            <span class="label_new">New</span>
-                                            {% endif %}
-
-                                        </div>
-                                        <div class="action_links">
-                                            <ul>
-                                                <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                               <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                                 <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                <div class="product_content grid_content">
-                                        <h4 class="product_name"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h4>
-                                        <p><a href="{{ product.category.get_url }}">{{ product.category }}</a></p>
-                                        <div class="price_box">
-                                            <span class="current_price">{{ product.price }} ₴</span>
-
-                                            {% if product.price_old %}
-                                            <span class="old_price">{{ product.price_old }} ₴</span>
-                                            {% endif %}
-
-                                        </div>
-                                    </div>
-                                <div class="product_content list_content">
+                            <div class="product_content grid_content">
                                     <h4 class="product_name"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h4>
                                     <p><a href="{{ product.category.get_url }}">{{ product.category }}</a></p>
                                     <div class="price_box">
-
                                         <span class="current_price">{{ product.price }} ₴</span>
 
                                         {% if product.price_old %}
@@ -109,30 +129,243 @@
                                         {% endif %}
 
                                     </div>
-                                    <div class="product_desc">
-                                        <p>{{ product.description }}</p>
-                                    </div>
-                                    <div class="action_links list_action_right">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" title="Add to cart">Add to Cart</a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                        </ul>
-                                    </div>
+                                </div>
+                            <div class="product_content list_content">
+                                <h4 class="product_name"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h4>
+                                <p><a href="{{ product.category.get_url }}">{{ product.category }}</a></p>
+                                <div class="price_box">
+
+                                    <span class="current_price">{{ product.price }} ₴</span>
+
+                                    {% if product.price_old %}
+                                    <span class="old_price">{{ product.price_old }} ₴</span>
+                                    {% endif %}
+
+                                </div>
+                                <div class="product_desc">
+                                    <p>{{ product.description }}</p>
+                                </div>
+                                <div class="action_links list_action_right">
+                                    <ul>
+                                        <li class="add_to_cart">
+                                            <a
+                                              type="button"
+                                              class="quick-add-button"
+                                              data-index="{{ product.id }}">В кошик
+                                            </a>
+                                        </li>
+                                        <li class="quick_button">
+                                            <a
+                                              type="button"
+                                              class="quick-show-button"
+                                              data-index="{{ product.id }}"
+                                              data-tippy="Швидкий просмотр"
+                                              data-tippy-placement="top"
+                                              data-tippy-arrow="true"
+                                              data-tippy-inertia="true"
+                                              data-bs-toggle="modal"
+                                              data-bs-target="#modal_box" >
+                                              <span class="lnr lnr-magnifier"></span>
+                                            </a>
+                                        </li>
+                                        <li class="wishlist">
+                                            <a
+                                              href="wishlist.html"
+                                              data-tippy="У обране"
+                                              data-tippy-placement="top"
+                                              data-tippy-arrow="true"
+                                              data-tippy-inertia="true">
+                                              <span class="lnr lnr-heart"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-
-                         {% endfor %}
-
                     </div>
-
-                    <!--shop toolbar end-->
-                    <!--shop wrapper end-->
+                     {% endfor %}
                 </div>
+                <!--shop toolbar end-->
+                <!--shop wrapper end-->
             </div>
         </div>
     </div>
-    <!--shop  area end-->
+</div>
+<!--shop  area end-->
+
+
+<!-- modal area start-->
+    <div
+      class="modal fade"
+      id="modal_box"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <button
+            id="close-quick-button"
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true"><i class="icon-x"></i></span>
+          </button>
+          <div class="modal_body">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                  <div class="modal_tab">
+                    <div class="tab-content product-details-large">
+                      <div
+                        class="tab-pane fade show active"
+                        id="tab1"
+                        role="tabpanel"
+                      >
+                        <div class="modal_tab_img">
+                          <a href="#"
+                            ><img
+                              id="quick_img"
+                              src=""
+                              alt="Зображення товару"
+                          /></a>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="tab2" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a href="#"
+                            ><img
+                              src="{% static 'img/product/productbig2.jpg' %}"
+                              alt="Зображення товару"
+                          /></a>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="tab3" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a href="#"
+                            ><img
+                              src="{% static 'img/product/productbig3.jpg' %}"
+                              alt="Зображення товару"
+                          /></a>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="tab4" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a href="#"
+                            ><img
+                              src="{% static 'img/product/productbig4.jpg' %}"
+                              alt="Зображення товару"
+                          /></a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal_tab_button">
+                      <ul
+                        class="nav product_navactive owl-carousel"
+                        role="tablist"
+                      >
+                        <li>
+                          <a
+                            class="nav-link active"
+                            data-toggle="tab"
+                            href="#tab1"
+                            role="tab"
+                            aria-controls="tab1"
+                            aria-selected="false"
+                            ><img src="{% static 'img/product/product1.jpg' %}" alt="Зображення товару"
+                          /></a>
+                        </li>
+                        <li>
+                          <a
+                            class="nav-link"
+                            data-toggle="tab"
+                            href="#tab2"
+                            role="tab"
+                            aria-controls="tab2"
+                            aria-selected="false"
+                            ><img src="{% static 'img/product/product6.jpg' %}" alt="Зображення товару"
+                          /></a>
+                        </li>
+                        <li>
+                          <a
+                            class="nav-link button_three"
+                            data-toggle="tab"
+                            href="#tab3"
+                            role="tab"
+                            aria-controls="tab3"
+                            aria-selected="false"
+                            ><img src="{% static 'img/product/product2.jpg' %}" alt="Зображення товару"
+                          /></a>
+                        </li>
+                        <li>
+                          <a
+                            class="nav-link"
+                            data-toggle="tab"
+                            href="#tab4"
+                            role="tab"
+                            aria-controls="tab4"
+                            aria-selected="false"
+                            ><img src="{% static 'img/product/product7.jpg' %}" alt="Зображення товару"
+                          /></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12">
+                  <div class="modal_right">
+                    <div class="modal_title mb-10">
+                      <h2 id="quick_title"></h2>
+                    </div>
+                    <div class="modal_price mb-10">
+                      <span class="new_price" id="quick_new_price"></span><span class="new_price"> ₴</span>
+                      <span class="old_price" id="quick_old_price"></span><span class="old_price"> ₴</span>
+                    </div>
+                    <div class="modal_description mb-15">
+                      <p id="quick_description"></p>
+                    </div>
+
+                    <div class="variants_selects">
+                      <div class="modal_add_to_cart">
+                        <button class="quantity_btn_1 bg-c" id="button-minus" type="button" onclick="decrement()">-</button>
+                        <input type="number" min="1" max="100" value="1" readonly class="raz" id="qty-quick-popup">
+                        <button class="quantity_btn_1 bg-c" id="button-plus" type="button" onclick="increment()">+</button>
+                        <form action="#">
+                          <button type="button" id="quick-add-button" value="">В кошик</button>
+                        </form>
+                      </div>
+                    </div>
+
+                    <div class="modal_social">
+                      <h2>Share this product</h2>
+                      <ul>
+                        <li class="facebook">
+                          <a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li class="twitter">
+                          <a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li class="pinterest">
+                          <a href="#"><i class="fa fa-pinterest"></i></a>
+                        </li>
+                        <li class="google-plus">
+                          <a href="#"><i class="fa fa-google-plus"></i></a>
+                        </li>
+                        <li class="linkedin">
+                          <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- modal area end-->
 
 {% endblock %}

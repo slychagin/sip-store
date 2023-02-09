@@ -1,17 +1,22 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 
 from carts.basket import Basket
 from store.models import Product
 
 
 # TODO: Переместить скрипты в отдельный файл
+# TODO: Если файлы находятся в корзине и при этом обновились цены, то сумма не пересчитывается по новым ценам
 def cart_page(request):
     """Render Cart page"""
     basket = Basket(request)
 
+    # Get products in basket without products in wishlist
+    basket_filtered = [item for item in basket if 'wish_id' not in item.keys()]
+    print(basket_filtered)
+
     context = {
-        'basket': basket
+        'basket': basket_filtered
     }
     return render(request, 'store/cart.html', context)
 
@@ -68,6 +73,7 @@ def minus_quantity(request):
 
         if item_quantity < 1:
             basket.delete(product=product_id)
+
         response = JsonResponse({
             'qty': basket_qty,
             'total': basket_total,

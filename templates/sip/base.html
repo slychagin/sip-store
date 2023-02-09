@@ -102,7 +102,10 @@
     <script src="{% static 'js/custom.js' %}"></script>
 
 
-    <!--Add product to the cart after press Add button-->
+
+<!---------------------------CART----------------------->
+
+<!--Add product to the cart after press Add button-->
     <script>
       $(document).on('click', '#add-button', function (e){
           e.preventDefault();
@@ -213,6 +216,8 @@
               success: function (json) {
                 if (json.item_qty < 1) {
                   $('.product-item[data-index="'+ prodid +'"]').remove();
+                  document.getElementById('total').innerHTML = json.total;
+                  $(".shopping_cart_area").load(location.href + " .shopping_cart_area");
                 }
                 document.getElementById(prodid + 'item-qty').value = json.item_qty;
                 document.getElementById(prodid + 'item_total').innerHTML = json.item_total_price;
@@ -310,18 +315,74 @@
     </script>
 
 
-  <!--Add product to the cart after press quick add button in product quick show popup-->
+<!--  &lt;!&ndash;Add product to the cart after press quick add button in product quick show popup&ndash;&gt;-->
+<!--    <script>-->
+<!--      $(document).on('click', '#quick-add-button', function (e){-->
+<!--          e.preventDefault();-->
+<!--          var prodid = $('#quick-add-button').val();-->
+
+<!--          $.ajax({-->
+<!--              type: 'POST',-->
+<!--              url: '{% url "add_cart" %}',-->
+<!--              data: {-->
+<!--                  product_id: $('#quick-add-button').val(),-->
+<!--                  quantity: $('#qty-quick-popup').val(),-->
+<!--                  csrfmiddlewaretoken: '{{csrf_token}}',-->
+<!--                  action: 'POST'-->
+<!--              },-->
+<!--              success: function (json) {-->
+<!--                document.getElementById('cart_icon_count').innerHTML = json.qty;-->
+<!--              },-->
+<!--              error: function(xhr, errmsg, err) {}-->
+<!--          });-->
+<!--      })-->
+<!--    </script>-->
+
+
+  <!--Set quantity to one after close product quick show popup-->
     <script>
-      $(document).on('click', '#quick-add-button', function (e){
+       $("#close-quick-button").click(function () {
+        document.getElementById("qty-quick-popup").value = 1;
+       });
+    </script>
+
+
+
+<!---------------------------WISHLIST----------------------->
+    <!--Add product to the wishlist after press heart button-->
+    <script>
+      $(document).on('click', '.wishlist-button', function (e){
           e.preventDefault();
-          var prodid = $('#quick-add-button').val();
+          var prodid = $(this).data('index');
+
+          $.ajax({
+              type: 'POST',
+              url: '{% url "add_wishlist" %}',
+              data: {
+                  product_id: prodid,
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'POST'
+              },
+              success: function (json) {
+                document.getElementById('wishlist_icon_count').innerHTML = json.qty;
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
+
+<!--Add product to the cart after press Add button in the wishlist-->
+    <script>
+      $(document).on('click', '#wish-add-button', function (e){
+          e.preventDefault();
+          var prodid = $(this).data('index');
 
           $.ajax({
               type: 'POST',
               url: '{% url "add_cart" %}',
               data: {
-                  product_id: $('#quick-add-button').val(),
-                  quantity: $('#qty-quick-popup').val(),
+                  product_id: prodid,
+                  quantity: 1,
                   csrfmiddlewaretoken: '{{csrf_token}}',
                   action: 'POST'
               },
@@ -333,12 +394,48 @@
       })
     </script>
 
-
-  <!--Set quantity to one after close product quick show popup-->
+  <!--Delete product from the wishlist-->
     <script>
-       $("#close-quick-button").click(function () {
-        document.getElementById("qty-quick-popup").value = 1;
-       });
+      $(document).on('click', '#wish-delete-button', function (e){
+          e.preventDefault();
+          var prodid = $(this).data('index');
+          $.ajax({
+              type: 'POST',
+              url: '{% url "wishlist_delete" %}',
+              data: {
+                  product_id: $(this).data('index'),
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'POST'
+              },
+              success: function (json) {
+                $('.product-wishlist-item[data-index="'+ prodid +'"]').remove();
+                document.getElementById('wishlist_icon_count').innerHTML = json.qty;
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
+
+<!--Add product to the wishlist after press button in product details-->
+    <script>
+      $(document).on('click', '#wishlist-add-button', function (e){
+          e.preventDefault();
+          var prodid = $(this).data('index');
+
+          $.ajax({
+              type: 'POST',
+              url: '{% url "add_wishlist" %}',
+              data: {
+                  product_id: prodid,
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'POST'
+              },
+              success: function (json) {
+                document.getElementById('wishlist_icon_count').innerHTML = json.qty;
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
     </script>
 
 

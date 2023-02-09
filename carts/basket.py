@@ -1,6 +1,7 @@
 from store.models import Product
 
 
+# TODO: Надо сделать, чтобы товары не отображались при переключении статуса товара в "недоступный"
 class Basket:
     """A base Basket class"""
 
@@ -22,12 +23,11 @@ class Basket:
                 'price': str(product.price),
                 'qty': int(entered_quantity)
             }
-
         self.save_session_data()
 
     def __iter__(self):
         """Iterate all items from basket"""
-        product_ids = self.basket.keys()
+        product_ids = [num for num in self.basket.keys() if not num.startswith('wish')]
         products = Product.objects.filter(id__in=product_ids)
         basket = self.basket.copy()
 

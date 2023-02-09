@@ -18,7 +18,21 @@
     </div>
     <!--breadcrumbs area end-->
 
+{% if not wishlist %}
+<div class="error_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="error_form">
+                    <h2>У вас немає обраних товарів</h2>
+                    <a href="{% url 'store' %}">Продовжити покупки</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+{% else %}
     <!--wishlist area start -->
     <div class="wishlist_area mt-70">
         <div class="container">
@@ -39,14 +53,26 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                           <td class="product_remove"><a href="#">X</a></td>
-                                            <td class="product_thumb"><a href="#"><img src="{% static 'img/product/productbig1.jpg' %}" alt="Зображення товару"></a></td>
-                                            <td class="product_name"><a href="#">Handbag fringilla</a></td>
-                                            <td class="product-price">£65.00</td>
-                                            <td class="product_quantity">In Stock</td>
-                                            <td class="product_total"><a href="#">Add To Cart</a></td>
+
+                                    {% for item in wishlist %}
+                                    {% with product=item.product %}
+                                        <tr data-index="{{ product.id }}" class="product-wishlist-item">
+                                           <td class="product_remove">
+                                               <a type="button" id="wish-delete-button" data-index="{{ product.id }}">X</a>
+                                           </td>
+                                            <td class="product_thumb"><a href="{{ product.get_url }}">
+                                                <img src="{{ product.product_image.url }}" alt="Зображення товару"></a>
+                                            </td>
+                                            <td class="product_name"><a href="{{ product.get_url }}">{{ product.product_name }}</a></td>
+                                            <td class="product-price">{{ product.price }} ₴</td>
+                                            <td class="product_quantity">У наявності</td>
+                                            <td class="product_total">
+                                                <a type="button" id="wish-add-button" data-index="{{ product.id }}">В кошик</a>
+                                            </td>
                                         </tr>
+                                    {% endwith %}
+                                    {% endfor %}
+
                                     </tbody>
                                 </table>
                             </div>
@@ -74,5 +100,5 @@
         </div>
     </div>
     <!--wishlist area end -->
-
+{% endif %}
 {% endblock %}

@@ -12,7 +12,7 @@ class Wishlist(Basket):
         wishlist_id = f'wish{product.id}'
 
         if wishlist_id in self.basket:
-            pass
+            del self.basket[wishlist_id]
         else:
             self.basket[wishlist_id] = {
                 'wish_id': str(product.id),

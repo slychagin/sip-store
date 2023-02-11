@@ -37,7 +37,7 @@
      <!--shopping cart area start -->
     <div class="shopping_cart_area mt-70">
         <div class="container">
-            <form action="#">
+<!--            <form action="#">-->
                 <div class="row">
                     <div class="col-12">
                         <div class="table_desc">
@@ -87,22 +87,25 @@
                         </div>
                      </div>
                  </div>
+
                  <!--coupon code area start-->
                 <div class="coupon_area">
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
+
                             <div class="coupon_code left">
-                                <h3>Coupon</h3>
+                                <h3>Промокод</h3>
                                 <div class="coupon_inner">
-                                    <p>Enter your coupon code if you have one.</p>
-                                    <input placeholder="Coupon code" type="text">
-                                    <button type="submit">Apply coupon</button>
+                                    <p>Для отримання знижки введіть актуальний промокод.</p>
+                                    <input placeholder="Введіть промокод" type="text" id="coupon-input" value="">
+                                    <button type="button" id="coupon-button">Отримати знижку</button>
                                 </div>
                             </div>
+
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="coupon_code right">
-                                <h3>Cart Totals</h3>
+                                <h3>Усього</h3>
                                 <div class="coupon_inner">
                                    <div class="cart_subtotal">
                                        <p>Сума</p>
@@ -110,17 +113,19 @@
                                        <p class="cart_amount"> ₴</p>
                                    </div>
                                    <div class="cart_subtotal ">
-                                       <p>Shipping</p>
-                                       <p class="cart_amount"><span>Flat Rate:</span> £255.00</p>
+                                       <p>Знижка</p>
+                                       <p class="cart_amount" id="cart-discount">0</p>
+                                       <p class="cart_amount"> ₴</p>
                                    </div>
-                                   <a href="#">Calculate shipping</a>
+                                   <a></a>
 
                                    <div class="cart_subtotal">
-                                       <p>Total</p>
-                                       <p class="cart_amount">£215.00</p>
+                                       <p>Усього зі знижкою</p>
+                                       <p class="cart_amount" id="total-with-discount">{{ basket_all.get_total_price }}</p>
+                                       <p class="cart_amount"> ₴</p>
                                    </div>
                                    <div class="checkout_btn">
-                                       <a href="#">Proceed to Checkout</a>
+                                       <a href="#">Оформити замовлення</a>
                                    </div>
                                 </div>
                             </div>
@@ -128,7 +133,7 @@
                     </div>
                 </div>
                 <!--coupon code area end-->
-            </form>
+<!--            </form>-->
         </div>
     </div>
      <!--shopping cart area end -->

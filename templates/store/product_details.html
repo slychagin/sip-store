@@ -93,20 +93,28 @@
                            </div>
                            </div>
 
-
-                            <div class=" product_d_action">
+                            <div class="product_d_action" id="product_d_action">
                                <ul>
+                                   {% if single_product.id not in wishlist_ids %}
+
                                    <li>
-                                       <a type="button" id="wishlist-add-button" data-index="{{ single_product.id }}"
+                                       <a type="button" class="wishlist-add-button" id="wishlist-add-button" data-index="{{ single_product.id }}"
                                           title="Додати до обраного">+ Додати до обраного
                                        </a>
                                    </li>
+                                   {% else %}
+                                   <li>
+                                       <a type="button" class="wishlist-add-button" id="wishlist-delete" data-index="{{ single_product.id }}"
+                                          title="Додати до обраного"> - Видалити з обраного
+                                       </a>
+                                   </li>
+                                 {% endif %}
                                </ul>
                             </div>
+
                             <div class="product_meta">
                                 <span>Категорія: <a href="{{ single_product.category.get_url }}">{{ single_product.category }}</a></span>
                             </div>
-
 
                         <div class="priduct_social">
                             <ul>

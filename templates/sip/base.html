@@ -439,5 +439,52 @@
     </script>
 
 
+  <!--Delete product from the wishlist when press delete in the product details-->
+    <script>
+      $(document).on('click', '#wishlist-delete', function (e){
+          e.preventDefault();
+          var prodid = $(this).data('index');
+          $.ajax({
+              type: 'POST',
+              url: '{% url "wishlist_delete" %}',
+              data: {
+                  product_id: $(this).data('index'),
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'POST'
+              },
+              success: function (json) {
+                $('.product-wishlist-item[data-index="'+ prodid +'"]').remove();
+                document.getElementById('wishlist_icon_count').innerHTML = json.qty;
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
+
+
+  <!---------------------------COUPON----------------------->
+  <script>
+      $(document).on('click', '#coupon-button', function (e){
+          e.preventDefault();
+
+          $.ajax({
+              type: 'POST',
+              url: '{% url "get_coupon" %}',
+              data: {
+                  coupon: $('#coupon-input').val(),
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  action: 'POST'
+              },
+              success: function (json) {
+                document.getElementById('cart-discount').innerHTML = json.cart_discount;
+                document.getElementById('total-with-discount').innerHTML = json.total;
+              },
+              error: function(xhr, errmsg, err) {}
+          });
+      })
+    </script>
+
+
+
   </body>
   </html>

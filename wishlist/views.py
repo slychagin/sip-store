@@ -11,7 +11,6 @@ def wishlist_page(request):
 
     # Get products in wishlist without products in basket
     wishlist_filtered = [item for item in wishlist if 'wish_id' in item.keys()]
-    print(wishlist_filtered)
 
     context = {
         'wishlist': wishlist_filtered

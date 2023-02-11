@@ -1,7 +1,9 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
 
 from carts.basket import Basket
+from carts.models import Coupon
 from store.models import Product
 
 
@@ -13,7 +15,6 @@ def cart_page(request):
 
     # Get products in basket without products in wishlist
     basket_filtered = [item for item in basket if 'wish_id' not in item.keys()]
-    print(basket_filtered)
 
     context = {
         'basket': basket_filtered
@@ -108,4 +109,33 @@ def mini_cart_delete(request):
             'qty': basket_qty,
             'mini_cart_total': mini_cart_total
         })
+        return response
+
+
+def get_coupon(request):
+    """Check coupon in database and apply discount"""
+    basket = Basket(request)
+    if request.POST.get('action') == 'POST':
+        coupon = request.POST.get('coupon').lower()
+        coupons = Coupon.objects.filter(is_available=True)
+        print(coupons)
+        coupons_list = [item.coupon_kod.lower() for item in coupons]
+        basket_total = basket.get_total_price()
+
+        if coupon in coupons_list:
+            coupon_discount = Coupon.objects.get(coupon_kod__iexact=coupon).discount
+            cart_discount = int(coupon_discount * basket_total / 100)
+            total = basket_total - cart_discount
+
+            response = JsonResponse({
+                'cart_discount': cart_discount,
+                'total': total
+            })
+        else:
+            # TODO: Вывести сообщение об отсутствии такого купона
+            response = JsonResponse({
+                'cart_discount': 0,
+                'total': basket_total
+            })
+
         return response

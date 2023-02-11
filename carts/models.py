@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -23,9 +20,3 @@ class Coupon(models.Model):
 
     def __str__(self):
         return self.coupon_kod
-
-    def set_expired(self):
-        """
-        Set is_available coupon status to false if current date grater than validity
-        """
-        pass

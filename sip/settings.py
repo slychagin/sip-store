@@ -142,7 +142,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# TODO: Настроить очистку сеансов с истекшим сроком действия (clearsessions)
 
 MESSAGE_TAGS = {
     messages.INFO: '',

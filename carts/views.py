@@ -118,7 +118,6 @@ def get_coupon(request):
     if request.POST.get('action') == 'POST':
         coupon = request.POST.get('coupon').lower()
         coupons = Coupon.objects.filter(is_available=True)
-        print(coupons)
         coupons_list = [item.coupon_kod.lower() for item in coupons]
         basket_total = basket.get_total_price()
 

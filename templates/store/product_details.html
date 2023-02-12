@@ -75,7 +75,21 @@
                                 <span class="old_price">{{ single_product.price_old }} ₴</span>
                                 {% endif %}
 
+                                <a
+                            type="button"
+                            class="quick-show-button"
+                            data-tippy="Інформація про товар"
+                            data-tippy-placement="top"
+                            data-tippy-arrow="true"
+                            data-tippy-inertia="true"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal_box"
+                          >
+                            <span class="gg-info"></span
+                          ></a>
+
                             </div>
+
                             <div class="product_desc">
                                 <p>{{ single_product.description }}</p>
                             </div>
@@ -617,4 +631,60 @@
         </div>
     </section>
     <!--product area end-->
+
+    <!-- modal area start-->
+    <div
+      class="modal fade"
+      id="modal_box"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true"><i class="icon-x"></i></span>
+          </button>
+          <div class="modal_body">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12">
+                  <div class="modal_right">
+
+                    <div class="modal_title mb-10">
+                      <h2>Шановні клієнти!</h2>
+                    </div>
+
+                    <div class="modal_description mb-15">
+                      <p>
+                        Зверніть увагу, що фактична вага продукції, яку ви отримуєте після оформлення замовлення,
+                          може відрізнятися від вказаних на сайті середньої ваги на + -15%. Різниця пояснюється нюансами
+                          технології приготування продукту: особливостями нарізки, ступенем обсмажування та деякими іншими факторами.
+                          Після того як ваше замовлення буде сформовано та підготовано до відправки, ми ще раз проведемо
+                          його остаточне зважування. Сума до оплати коригується відповідно до фактичної ваги упакованого продукту!
+                          У разі оплати товару онлайн на сайті, після уточнення ваги, виникла різниця в сумі повертається
+                          на вашу платіжну карту. Якщо оплата здійснюється при доставці, через термінал або готівкою,
+                          сума розраховується згідно фактичної ваги товару.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal area end-->
+
+
+
 {% endblock %}

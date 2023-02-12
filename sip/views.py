@@ -32,7 +32,6 @@ class HomePageView(TemplateView):
 
 def get_single_product(request):
     """Return single product data by id to use in product quick show"""
-    # TODO: Решить вопрос со значком гривны (если нет старой цены, то не должно быть и значка)
     # TODO: Сделать всплывающее сообщение о том, что товар добавлен в корзину.
     if request.method == 'POST':
         product_id = int(request.POST.get('product_id'))

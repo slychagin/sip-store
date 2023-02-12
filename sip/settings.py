@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'benefits',
     'banners',
+    'blog',
     'carts',
     'category',
+    'orders',
     'store',
     'sales',
     'wishlist'

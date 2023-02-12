@@ -12,6 +12,8 @@ urlpatterns = [
     path('quick-show/', views.get_single_product, name='get_single_product'),
     path('store/', include('store.urls')),
     path('cart/', include('carts.urls')),
+    path('order/', include('orders.urls')),
+    path('blog/', include('blog.urls')),
     path('wishlist/', include('wishlist.urls'))
 ]
 

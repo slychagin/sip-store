@@ -154,9 +154,14 @@ $(document).on('click', '.quick-show-button', function (e){
         document.getElementById('quick-add-button').value = prodid;
         document.getElementById('quick_title').innerHTML = json.title;
         document.getElementById('quick_new_price').innerHTML = json.price;
-        document.getElementById('quick_old_price').innerHTML = json.old_price;
         document.getElementById('quick_description').innerHTML = json.description;
         document.getElementById('quick_img').src = json.image;
+
+        if (json.old_price) {
+            document.getElementById('quick_old_price').innerHTML = json.old_price + ' ₴';
+        } else {
+        document.getElementById('quick_old_price').innerHTML = json.old_price;
+        };
       },
       error: function(xhr, errmsg, err) {}
   });

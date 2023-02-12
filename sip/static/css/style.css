@@ -12020,3 +12020,36 @@ textarea:-ms-input-placeholder {
 .bg-c:hover {
   background: #ebebeb;
 }
+
+
+/* Information icon */
+.gg-info {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 20px;
+    height: 20px;
+    border: 2px solid;
+    border-radius: 40px;
+    margin-left: 15px;
+}
+.gg-info::after,
+.gg-info::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    border-radius: 3px;
+    width: 2px;
+    background: currentColor;
+    left: 7px
+}
+.gg-info::after {
+    bottom: 2px;
+    height: 8px
+}
+.gg-info::before {
+    height: 2px;
+    top: 2px
+}

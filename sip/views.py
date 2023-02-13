@@ -32,7 +32,7 @@ class HomePageView(TemplateView):
 
 def get_single_product(request):
     """Return single product data by id to use in product quick show"""
-    # TODO: Сделать всплывающее сообщение о том, что товар добавлен в корзину.
+    # TODO: Сделать всплывающее сообщение о том, что товар добавлен в корзину, в лист желаний и т.д.
     if request.method == 'POST':
         product_id = int(request.POST.get('product_id'))
         product = Product.objects.get(id=product_id)

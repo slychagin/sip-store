@@ -14,3 +14,28 @@ function incrementQuickPopup() {
 function decrementQuickPopup() {
   document.getElementById('qty-quick-popup').stepDown();
 };
+
+
+/*---Fade message---*/
+//setTimeout(function(){
+//    $('#messages-list').fadeOut('slow')
+//}, 3000)
+
+
+/*---Fade out message alerts---*/
+function fade_alerts() {
+    alerts = document.getElementsByClassName("alert msg");
+        var i = alerts.length;
+        for (let elem of alerts) {
+            i--;
+            time = 3250+(1000*i);
+            setTimeout(function() {
+                $(elem).fadeOut("slow");
+            }, time);
+        }
+}
+
+// call fade out after DOMContentLoaded
+window.addEventListener('DOMContentLoaded', (event) => {
+    fade_alerts();
+});

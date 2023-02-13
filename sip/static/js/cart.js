@@ -1,4 +1,4 @@
-/*---Add product to the cart after press Add button---*/
+/*---Add product to the cart after press Add button in product details page---*/
 $(document).on('click', '#add-button', function (e){
   e.preventDefault();
   var prodid = $('#add-button').val();

@@ -94,13 +94,17 @@
                                 <p>{{ single_product.description }}</p>
                             </div>
 
+
+
+
+
                            <div class="quantity_main_btn">
-                               <button class="quantity_btn_1 bg-c" id="button-minus" type="button" onclick="decrementProdDetail()">-</button>
-                               <input type="number" min="1" max="100" value="1" readonly class="raz" id="qty" name="quantity">
-                               <button class="quantity_btn_1 bg-c" id="button-plus" type="button" onclick="incrementProdDetail()">+</button>
-                           <div class="product_variant quantity">
-                                <button class="button" type="button" id="add-button" value="{{ single_product.id }}">В кошик</button>
-                           </div>
+                                   <button class="quantity_btn_1 bg-c" id="button-minus" type="button" onclick="decrementProdDetail()">-</button>
+                                   <input type="number" min="1" max="100" value="1" readonly class="raz" id="qty" name="quantity">
+                                   <button class="quantity_btn_1 bg-c" id="button-plus" type="button" onclick="incrementProdDetail()">+</button>
+                               <div class="product_variant quantity">
+                                    <button class="button" type="button" id="add-button" value="{{ single_product.id }}">В кошик</button>
+                               </div>
                            </div>
 
                             <div class="product_d_action" id="product_d_action">

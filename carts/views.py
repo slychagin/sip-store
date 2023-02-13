@@ -1,5 +1,10 @@
-from django.http import JsonResponse
+import json
+
+from django.contrib import messages
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.urls import reverse
 
 from carts.basket import Basket
@@ -7,7 +12,6 @@ from carts.models import Coupon
 from store.models import Product
 
 
-# TODO: Переместить скрипты в отдельный файл
 # TODO: Если файлы находятся в корзине и при этом обновились цены, то сумма не пересчитывается по новым ценам
 def cart_page(request):
     """Render Cart page"""

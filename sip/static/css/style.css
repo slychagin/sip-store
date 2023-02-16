@@ -8059,13 +8059,13 @@ textarea:-ms-input-placeholder {
 .order-notes textarea {
   border: 1px solid #e5e5e5;
   border-radius: 0;
-  height: 45px;
+  height: 60px;
   max-width: 100%;
   padding: 0 30px 0 20px;
   background: none;
   font-size: 13px;
   resize: none;
-  line-height: 45px;
+  line-height: 25px;
   width: 100%;
   color: #222222;
 }

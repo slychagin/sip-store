@@ -16,11 +16,6 @@ class Order(models.Model):
         (VISA := 'VISA', 'Оплата карткою VISA/MasterCard'),
         (GOOGLE := 'GOOGLE', 'Оплата Google Pay/Apple Pay')
     )
-    COMMUNICATION_METHOD_CHOICES = (
-        (PHONE := 'PHONE', 'Телефон'),
-        (TELEGRAM := 'TELEGRAM', 'Telegram'),
-        (VIBER := 'VIBER', 'Viber')
-    )
 
     object = models.Manager()
 
@@ -33,16 +28,17 @@ class Order(models.Model):
     street = models.CharField(max_length=50, verbose_name='Вулиця')
     house = models.CharField(max_length=10, verbose_name='Будинок')
     room = models.CharField(max_length=10, verbose_name='Квартира')
-    new_post_office = models.CharField(max_length=100, verbose_name='Відділення Нової Пошти')
+
+    new_post_city = models.CharField(max_length=50, verbose_name='Місто Нової Пошти')
+    new_post_office = models.CharField(max_length=255, verbose_name='Відділення Нової Пошти')
 
     delivery_date = models.DateField(default=django.utils.timezone.localdate, verbose_name='Бажана дата доставки')
     delivery_time = models.TimeField(verbose_name='Бажаний час доставки')
 
     delivery_method = models.CharField(max_length=50, choices=DELIVERY_METHOD_CHOICES, default=COURIER, verbose_name='Спосіб доставки')
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOICES, default=CASH, verbose_name='Спосіб оплати')
-    communication_method = models.CharField(max_length=20, choices=COMMUNICATION_METHOD_CHOICES, default=PHONE, verbose_name='Спосіб оплати')
 
-    order_note = models.CharField(max_length=255, blank=True, verbose_name='Примітка до замовлення')
+    order_note = models.TextField(max_length=255, blank=True, verbose_name='Примітка до замовлення')
     order_total = models.IntegerField(verbose_name='Сума замовлення')
     discount = models.IntegerField(verbose_name='Знижка')
     ip = models.CharField(blank=True, max_length=20, verbose_name='IP адреса')

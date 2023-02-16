@@ -1,0 +1,21 @@
+{% extends 'sip/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!--error section area start-->
+    <div class="error_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="error_form">
+                        <h2>ДЯКУЄМО ЗА ЗАКАЗ!</h2>
+                        <a href="{% url 'home' %}">На головну сторінку</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--error section area end-->
+
+{% endblock %}

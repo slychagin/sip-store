@@ -75,9 +75,10 @@ $(document).on('click', '.button-plus', function (e){
           },
           success: function (json) {
             document.getElementById(prodid + 'item-qty').value = json.item_qty;
-            document.getElementById(prodid + 'item_total').innerHTML = json.item_total_price;
+            document.getElementById(prodid + 'item_total').innerHTML = json.item_total_price + ' ₴';
             document.getElementById('cart_icon_count').innerHTML = json.qty;
             document.getElementById('total').innerHTML = json.total;
+            document.getElementById('total-with-discount').innerHTML = json.total;
           },
           error: function(xhr, errmsg, err) {}
       });
@@ -102,9 +103,10 @@ $(document).on('click', '.button-minus', function (e){
               $(".shopping_cart_area").load(location.href + " .shopping_cart_area");
             }
             document.getElementById(prodid + 'item-qty').value = json.item_qty;
-            document.getElementById(prodid + 'item_total').innerHTML = json.item_total_price;
+            document.getElementById(prodid + 'item_total').innerHTML = json.item_total_price +  ' ₴';
             document.getElementById('cart_icon_count').innerHTML = json.qty;
             document.getElementById('total').innerHTML = json.total;
+            document.getElementById('total-with-discount').innerHTML = json.total;
           },
           error: function(xhr, errmsg, err) {}
       });
@@ -212,3 +214,8 @@ $(document).on('click', '#coupon-button', function (e){
       error: function(xhr, errmsg, err) {}
   });
 });
+
+/*---Reload cart page after press refresh button---*/
+function refreshCartPage(){
+    window.location.reload();
+}

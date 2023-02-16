@@ -1,18 +1,12 @@
-import json
-
-from django.contrib import messages
-from django.http import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404, render, redirect
-from django.template import RequestContext
-from django.template.loader import render_to_string
-from django.urls import reverse
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
 
 from carts.basket import Basket
 from carts.models import Coupon
 from store.models import Product
 
 
-# TODO: Если файлы находятся в корзине и при этом обновились цены, то сумма не пересчитывается по новым ценам
+# TODO: Если товары находятся в корзине и при этом обновились цены, то сумма не пересчитывается по новым ценам
 def cart_page(request):
     """Render Cart page"""
     basket = Basket(request)
@@ -129,6 +123,7 @@ def get_coupon(request):
             coupon_discount = Coupon.objects.get(coupon_kod__iexact=coupon).discount
             cart_discount = int(coupon_discount * basket_total / 100)
             total = basket_total - cart_discount
+            basket.set_discount(coupon_discount)
 
             response = JsonResponse({
                 'cart_discount': cart_discount,
@@ -136,6 +131,7 @@ def get_coupon(request):
             })
         else:
             # TODO: Вывести сообщение об отсутствии такого купона
+            basket.set_discount()
             response = JsonResponse({
                 'cart_discount': 0,
                 'total': basket_total

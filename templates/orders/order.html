@@ -1,215 +1,159 @@
 {% extends 'sip/base.html' %}{% load static %}{% block content %}
 
-    <!--breadcrumbs area start-->
-    <div class="breadcrumbs_area">
-      <div class="container">
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
         <div class="row">
-          <div class="col-12">
-            <div class="breadcrumb_content">
-              <h3>Checkout</h3>
-              <ul>
-                <li><a href="{% url 'home' %}">home</a></li>
-                <li>Checkout</li>
-              </ul>
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <h3>Checkout</h3>
+                    <ul>
+                        <li><a href="{% url 'home' %}">home</a></li>
+                        <li>Checkout</li>
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-    <!--breadcrumbs area end-->
+</div>
+<!--breadcrumbs area end-->
 
-    <!--Checkout page section-->
+<!--Checkout page section-->
+<form action="{% url 'order_form' %}" method="POST">
+    {% csrf_token %}
     <div class="Checkout_section mt-70">
-      <div class="container">
-        <div class="checkout_form">
-          <div class="row">
-            <div class="col-lg-6 col-md-6">
-              <form action="#">
-                <h3>Оформлення замовлення</h3>
+        <div class="container">
+            <div class="checkout_form">
                 <div class="row">
-                  <div class="col-12 mb-20">
-                    <label>ПІБ <span>*</span></label>
-                    <input
-                      placeholder="ПІБ"
-                      type="text"
-                    />
-                  </div>
-                  <div class="col-lg-6 mb-20">
-                    <label>Телефон <span>*</span></label>
-                    <input placeholder="+38 (099) 999-99-99" type="text" />
-                  </div>
-                  <div class="col-lg-6 mb-20">
-                    <label> Email <span>*</span></label>
-                    <input placeholder="abc@gmail.com" type="text" />
-                  </div>
-                  <div class="col-12 mb-20">
-                    <label for="delivery">Доставка</label>
-                    <select class="select_option" name="delivery" id="delivery">
-                      <option value="8">Кур'єром</option>
-                      <option value="9">Нова Пошта</option>
-                    </select>
-                  </div>
-                   <div class="col-12 mb-20">
-                    <label>Місто <span>*</span></label>
-                    <input type="text" placeholder="Місто"/>
-                  </div>
-                  <div class="col-12 mb-20">
-                    <label>Вулиця <span>*</span></label>
-                    <input type="text" placeholder="Вулиця"/>
-                  </div>
-                  <div class="col-lg-6 mb-20">
-                    <label>Будинок <span>*</span></label>
-                    <input type="text" placeholder="Будинок"/>
-                  </div>
-                  <div class="col-lg-6 mb-20">
-                    <label>Квартира</label>
-                    <input type="text" placeholder="Квартира"/>
-                  </div>
+                    <div class="col-lg-6 col-md-6">
+                        <h3>Оформлення замовлення</h3>
+                        <div class="row">
+                            <div class="col-12 mb-20">
+                                <label>ПІБ <span>*</span></label>
+                                {{ form.customer_name }}
+                            </div>
+                            <div class="col-lg-6 mb-20">
+                                <label>Телефон <span>*</span></label>
+                                {{ form.phone }}
+                            </div>
+                            <div class="col-lg-6 mb-20">
+                                <label> Email <span>*</span></label>
+                                {{ form.email }}
+                            </div>
+                            <div class="col-12 mb-20">
+                                <label>Доставка</label>
+                                {{ form.delivery_method }}
+                            </div>
+                            <div class="col-12 mb-20">
+                                <label>Місто <span>*</span></label>
+                                {{ form.city }}
+                            </div>
+                            <div class="col-12 mb-20">
+                                <label>Вулиця <span>*</span></label>
+                                {{ form.street }}
+                            </div>
+                            <div class="col-lg-6 mb-20">
+                                <label>Будинок <span>*</span></label>
+                                {{ form.house }}
+                            </div>
+                            <div class="col-lg-6 mb-20">
+                                <label>Квартира</label>
+                                {{ form.room }}
+                            </div>
+                            <div class="col-12 mb-20">
+                                <label>Оберіть місто доставки</label>
+                                {{ form.new_post_city }}
+                                <!--                    <select class="select_option" name="new_post_city" id="delivery-city">-->
+                                <!--                      <option value="8">м. Черкаси</option>-->
+                                <!--                      <option value="9">м. Золотоноша</option>-->
+                                <!--                    </select>-->
+                            </div>
+                            <div class="col-12 mb-20">
+                                <label>Оберiть вiддiлення</label>
+                                {{ form.new_post_office }}
+                                <!--                    <select class="select_option" name="new_post_office" id="department">-->
+                                <!--                      <option value="8">Відділення №1</option>-->
+                                <!--                      <option value="9">Відділення №2</option>-->
+                                <!--                    </select>-->
+                            </div>
 
-                  <div class="col-12 mb-20">
-                    <label for="delivery-city">Виберіть місто доставки</label>
-                    <select class="select_option" name="delivery-city" id="delivery-city">
-                      <option value="8">1</option>
-                      <option value="9">2</option>
-                    </select>
-                  </div>
+                            <div class="col-lg-6 mb-20">
+                                <label>Бажана дата доставки</label>
+                                {{ form.delivery_date }}
+                            </div>
+                            <div class="col-lg-6 mb-20">
+                                <label>Час</label>
+                                {{ form.delivery_time }}
+                            </div>
+                            <div class="col-12 mb-20">
+                                <label>Спосіб оплати </label>
+                                {{ form.payment_method }}
+                            </div>
 
-                  <div class="col-12 mb-20">
-                    <label for="department">Оберiть вiддiлення</label>
-                    <select class="select_option" name="department" id="department">
-                      <option value="8">1</option>
-                      <option value="9">2</option>
-                    </select>
-                  </div>
 
-                  <div class="col-lg-6 mb-20">
-                    <label>Бажана дата доставки</label>
-                    <input type="date"/>
-                  </div>
-                  <div class="col-lg-6 mb-20">
-                    <label>Час</label>
-                    <input type="time"/>
-                  </div>
 
-                  <div class="col-12 mb-20">
-                    <label for="pay-method">Спосіб оплати </label>
-                    <select class="select_option" name="pay-method" id="pay-method">
-                      <option value="8">Кур'єру</option>
-                      <option value="9">Готівкою</option>
-                    </select>
-                  </div>
+                            <div class="col-12 mb-20">
+                                <label>Бажаний спосіб зв'язку: </label>
+                                {{ form.communication_method }}
+                            </div>
 
-                  <div class="col-12 mb-20">
-                    <label>Бажаний спосіб зв`язку: </label>
-                  </div>
 
-                  <div class="col-12 mb-20">
-                    <input id="phone" type="checkbox" data-target="createp_account"/>
-                    <a
-                      data-bs-toggle="collapse"
-                      href="#collapseOne"
-                      aria-controls="collapseOne"
-                      >Телефон</a
-                    >
-                  </div>
 
-                  <div class="col-12 mb-20">
-                    <input
-                      id="telegram"
-                      type="checkbox"
-                      data-target="createp_account"
-                    />
-                    <a
-                      data-bs-toggle="collapse"
-                      href="#collapseOne"
-                      aria-controls="collapseOne"
-                      >Telegram</a
-                    >
-                  </div>
 
-                  <div class="col-12 mb-20">
-                    <input
-                      id="viber"
-                      type="checkbox"
-                      data-target="createp_account"
-                    />
-                    <a
-                      data-bs-toggle="collapse"
-                      href="#collapseOne"
-                      aria-controls="collapseOne"
-                      >Viber</a
-                    >
-                  </div>
-
-                  <div class="col-12">
-                    <div class="order-notes">
-                      <label for="order_note"
-                        >Додати коментар до замовлення</label
-                      >
-                      <textarea
-                        id="order_note"
-                        placeholder="Напишіть ваші побажання"
-                      ></textarea>
+                            <div class="col-12">
+                                <div class="order-notes">
+                                    <label>Додати коментар до замовлення</label>
+                                    {{ form.order_note }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="col-lg-6 col-md-6">
-              <form action="#">
-                <h3>Ваше замовлення</h3>
-                <div class="order_table table-responsive">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Продукція</th>
-                        <th>Підсумок</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Handbag fringilla <strong> × 2</strong></td>
-                        <td>$165.00</td>
-                      </tr>
-                      <tr>
-                        <td>Handbag justo <strong> × 2</strong></td>
-                        <td>$50.00</td>
-                      </tr>
-                      <tr>
-                        <td>Handbag elit <strong> × 2</strong></td>
-                        <td>$50.00</td>
-                      </tr>
-                      <tr>
-                        <td>Handbag Rutrum <strong> × 1</strong></td>
-                        <td>$50.00</td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th>Cart Subtotal</th>
-                        <td>$215.00</td>
-                      </tr>
-                      <tr>
-                        <th>Shipping</th>
-                        <td><strong>$5.00</strong></td>
-                      </tr>
-                      <tr class="order_total">
-                        <th>Загальний підсумок</th>
-                        <td><strong>$220.00</strong></td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
 
-                  <div class="order_button">
-                    <button type="submit">Замовити</button>
-                  </div>
+                    <div class="col-lg-6 col-md-6">
+                        <h3>Ваше замовлення</h3>
+                        <div class="order_table table-responsive">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Продукція</th>
+                                    <th>Підсумок</th>
+                                </tr>
+                                </thead>
+                                <tbody>
 
-              </form>
+                                {% for item in basket %}
+                                {% with product=item.product %}
+                                <tr>
+                                    <td>{{ product.product_name }}<strong> × {{ item.qty }}</strong></td>
+                                    <td>{{ item.total_price }} ₴</td>
+                                </tr>
+                                {% endwith %}
+                                {% endfor %}
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Сума</th>
+                                    <td>{{ basket_all.get_total_price }} ₴</td>
+                                </tr>
+                                <tr>
+                                    <th>Знижка</th>
+                                    <td>{{ discount }} ₴</td>
+                                </tr>
+                                <tr class="order_total">
+                                    <th>Усього зі знижкою</th>
+                                    <td><strong>{{ total_with_discount }} ₴</strong></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="order_button">
+                            <button type="submit">Замовити</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-    <!--Checkout page section end-->
+</form>
 {% endblock %}

@@ -84,6 +84,9 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="cart_submit">
+                                <button type="button" onClick="refreshCartPage()">Оновити кошик</button>
+                            </div>
                         </div>
                      </div>
                  </div>
@@ -124,8 +127,8 @@
                                        <p class="cart_amount" id="total-with-discount">{{ basket_all.get_total_price }}</p>
                                        <p class="cart_amount"> ₴</p>
                                    </div>
-                                   <div class="checkout_btn">
-                                       <a href="{% url 'place_order' %}">Оформити замовлення</a>
+                                   <div class="checkout_btn" id="checkout">
+                                       <a href="{% url 'order_form' %}">Оформити замовлення</a>
                                    </div>
                                 </div>
                             </div>

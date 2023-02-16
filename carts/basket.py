@@ -17,6 +17,7 @@ class Basket:
         product_id = str(product.id)
 
         if product_id in self.basket:
+            self.basket[product_id]['price'] = str(product.price)
             self.basket[product_id]['qty'] += entered_quantity
         else:
             self.basket[product_id] = {
@@ -33,6 +34,7 @@ class Basket:
 
         for product in products:
             basket[str(product.id)]['product'] = product
+            basket[str(product.id)]['price'] = product.price
 
         for item in basket.values():
             item['price'] = int(item['price'])
@@ -46,6 +48,13 @@ class Basket:
     def get_total_price(self):
         """Count total sum in the basket"""
         return sum(int(item['price']) * item['qty'] for item in self.basket.values())
+
+    def set_discount(self, discount=0):
+        """Saves the discount if a coupon has been applied"""
+        basket = self.basket.copy()
+        for item in basket.values():
+            item['discount'] = int(discount)
+        self.save_session_data()
 
     def get_item_quantity(self, product):
         """Get quantity of current item by product id"""

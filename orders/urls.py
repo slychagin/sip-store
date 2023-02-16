@@ -4,5 +4,5 @@ from orders import views
 
 
 urlpatterns = [
-    path('', views.place_order, name='place_order')
+    path('', views.OrderFormView.as_view(), name='order_form')
 ]

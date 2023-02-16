@@ -16,8 +16,12 @@ class CouponAdminForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(CouponAdminForm, self).clean()
-        validity_date = cleaned_data['validity']
-        discount = cleaned_data['discount']
+        try:
+            validity_date = cleaned_data['validity']
+            discount = cleaned_data['discount']
+        except KeyError:
+            raise forms.ValidationError("Це поле обов'язкове.")
+
         current_date = date.today()
 
         if validity_date < current_date:

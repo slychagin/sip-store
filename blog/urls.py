@@ -4,17 +4,16 @@ from blog import views
 
 
 urlpatterns = [
-    path('', views.blog_page, name='blog_page'),
-    # path('', views.BlogPageView.as_view(), name='blog'),
-    # path(
-    #     'category/<slug:category_slug>/',
-    #     views.ProductsByCategoryListView.as_view(),
-    #     name='products_by_category'
-    # ),
-    # path(
-    #     'category/<slug:category_slug>/<slug:product_slug>/',
-    #     views.ProductDetailView.as_view(),
-    #     name='product_details'
-    # ),
-    # path('search/', views.SearchListView.as_view(), name='search')
+    path('', views.BlogPageView.as_view(), name='blog_page'),
+    path(
+        'category/<slug:slug>/',
+        views.PostsByCategoryListView.as_view(),
+        name='posts_by_category'
+    ),
+    path(
+        'category/<slug:slug>/<int:pk>/',
+        views.PostDetailView.as_view(),
+        name='post_details'
+    ),
+    path('search-post/', views.SearchListView.as_view(), name='search_post')
 ]

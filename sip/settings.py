@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'blog.context_processors.blog_sidebar',
                 'category.context_processors.menu_links',
                 'carts.context_processors.cart',
                 'wishlist.context_processors.get_wishlist'

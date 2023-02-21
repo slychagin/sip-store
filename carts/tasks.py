@@ -22,6 +22,7 @@ def check_coupon():
 
 # TODO: Настроить очистку сеансов с истекшим сроком действия (clearsessions)
 
+
 @shared_task
 def cleanup():
     """Cleanup expired sessions by using Django management command."""

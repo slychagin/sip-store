@@ -1305,120 +1305,45 @@
 <!--home three bg area end-->
 
 
-
 <!--blog area start-->
 <section class="blog_section blog_s_three color_three">
   <div class="container">
     <div class="row">
       <div class="col-12">
         <div class="section_title">
-          <p>Our recent articles about Organic</p>
-          <h2>Our Blog Posts</h2>
+          <p>Наші недавні статті про Сіль і Пательню</p>
+          <h2>Наші пости</h2>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="blog_carousel blog_column3 owl-carousel">
+
+        {% for post in recent_home_posts %}
         <div class="col-lg-3">
           <article class="single_blog">
             <figure>
               <div class="blog_thumb">
-                <a href="blog-details.html"
-                  ><img src="{% static 'img/blog/blog1.jpg' %}" alt=""
+                <a href="{{ post.get_url }}"
+                  ><img src="{{ post.mini_image.url }}" alt="Зображення до посту"
                 /></a>
               </div>
               <figcaption class="blog_content">
                 <div class="articles_date">
-                  <p>23/06/2021 | <a href="#">eCommerce</a></p>
+                  <p>{{ post.post_created_date }} | <a href="{% url 'home' %}">Сіль і Пательня</a></p>
                 </div>
                 <h4 class="post_title">
-                  <a href="blog-details.html"
-                    >Lorem ipsum dolor sit amet, elit. Impedit, aliquam animi,
-                    saepe ex.</a
-                  >
+                  <a href="{{ post.get_url }}">{{ post.title }}</a>
                 </h4>
                 <footer class="blog_footer">
-                  <a href="blog-details.html">Show more</a>
+                  <a href="{{ post.get_url }}">Показати більше</a>
                 </footer>
               </figcaption>
             </figure>
           </article>
         </div>
-        <div class="col-lg-3">
-          <article class="single_blog">
-            <figure>
-              <div class="blog_thumb">
-                <a href="blog-details.html"
-                  ><img src="{% static 'img/blog/blog2.jpg' %}" alt=""
-                /></a>
-              </div>
-              <figcaption class="blog_content">
-                <div class="articles_date">
-                  <p>23/06/2021 | <a href="#">eCommerce</a></p>
-                </div>
-                <h4 class="post_title">
-                  <a href="blog-details.html">
-                    dolor sit amet, elit. Illo iste sed animi quaerat nobis odit
-                    nulla.</a
-                  >
-                </h4>
-                <footer class="blog_footer">
-                  <a href="blog-details.html">Show more</a>
-                </footer>
-              </figcaption>
-            </figure>
-          </article>
-        </div>
-        <div class="col-lg-3">
-          <article class="single_blog">
-            <figure>
-              <div class="blog_thumb">
-                <a href="blog-details.html"
-                  ><img src="{% static 'img/blog/blog3.jpg' %}" alt=""
-                /></a>
-              </div>
-              <figcaption class="blog_content">
-                <div class="articles_date">
-                  <p>23/06/2021 | <a href="#">eCommerce</a></p>
-                </div>
-                <h4 class="post_title">
-                  <a href="blog-details.html"
-                    >maxime laborum voluptas minus, est, unde eaque esse
-                    tenetur.</a
-                  >
-                </h4>
-                <footer class="blog_footer">
-                  <a href="blog-details.html">Show more</a>
-                </footer>
-              </figcaption>
-            </figure>
-          </article>
-        </div>
-        <div class="col-lg-3">
-          <article class="single_blog">
-            <figure>
-              <div class="blog_thumb">
-                <a href="blog-details.html"
-                  ><img src="{% static 'img/blog/blog2.jpg' %}" alt=""
-                /></a>
-              </div>
-              <figcaption class="blog_content">
-                <div class="articles_date">
-                  <p>23/06/2021 | <a href="#">eCommerce</a></p>
-                </div>
-                <h4 class="post_title">
-                  <a href="blog-details.html"
-                    >Lorem ipsum dolor sit amet, elit. Impedit, aliquam animi,
-                    saepe ex.</a
-                  >
-                </h4>
-                <footer class="blog_footer">
-                  <a href="blog-details.html">Show more</a>
-                </footer>
-              </figcaption>
-            </figure>
-          </article>
-        </div>
+        {% endfor %}
+
       </div>
     </div>
   </div>

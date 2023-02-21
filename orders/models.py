@@ -29,8 +29,8 @@ class Order(models.Model):
     house = models.CharField(max_length=10, verbose_name='Будинок')
     room = models.CharField(max_length=10, verbose_name='Квартира')
 
-    new_post_city = models.CharField(max_length=50, verbose_name='Місто Нової Пошти')
-    new_post_office = models.CharField(max_length=255, verbose_name='Відділення Нової Пошти')
+    new_post_city = models.CharField(max_length=100, verbose_name='Місто Нової Пошти')
+    new_post_office = models.CharField(max_length=200, verbose_name='Відділення Нової Пошти')
 
     delivery_date = models.DateField(default=django.utils.timezone.localdate, verbose_name='Бажана дата доставки')
     delivery_time = models.TimeField(verbose_name='Бажаний час доставки')
@@ -74,3 +74,21 @@ class OrderItem(models.Model):
         verbose_name = 'Товар в замовленні'
         verbose_name_plural = 'Товари в замовленні'
         ordering = ('-created',)
+
+
+# class NewPostCities(models.Model):
+#     """Create NewPostCities model in the database"""
+#     objects = models.Manager()
+#
+#     city = models.CharField(max_length=100)
+
+
+class NewPostTerminals(models.Model):
+    """Create NewPostTerminals model in the database"""
+    objects = models.Manager()
+
+    city = models.CharField(max_length=100)
+    terminal = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ('city',)

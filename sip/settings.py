@@ -91,10 +91,21 @@ WSGI_APPLICATION = 'sip.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'sip_db',
+        'USER': 'postgres',
+        'PASSWORD': os.environ.get('POSTGRESQL_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -151,11 +162,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_TAGS = {
     messages.INFO: '',
 }
-
-# CELERY_BEAT_SCHEDULE = {
-#     'scheduled_task': {
-#         'task': 'carts.tasks.add',
-#         'schedule': 5.0,
-#         'args': (10, 10)
-#     }
-# }

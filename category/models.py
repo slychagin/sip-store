@@ -7,7 +7,7 @@ class Category(models.Model):
     objects = models.Manager()
 
     category_name = models.CharField(max_length=100, unique=True, verbose_name='Найменування категорії')
-    slug = models.SlugField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
     description = models.TextField(blank=True, verbose_name='Опис')
     category_image = models.ImageField(upload_to='photos/categories', blank=True, verbose_name='Фото категорії')
 

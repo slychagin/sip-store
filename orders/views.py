@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from django.http import HttpResponseRedirect, HttpResponse
+from django.core import serializers
+from django.db.models import Q
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import FormView
@@ -9,7 +11,7 @@ from carts.basket import Basket
 from orders.forms import OrderForm
 
 # TODO: Сделать, чтобы сумма и скидка в заказе повторяла корзину после обновления.
-from orders.models import Order
+from orders.models import Order, NewPostTerminals
 
 
 class OrderFormView(View):
@@ -79,7 +81,21 @@ class OrderFormView(View):
         return render(request, self.template_name, {'form': form})
 
 
+def post_search(request):
+    form = OrderForm
+    new_post_city = ''
+    results = []
+    query = Q()
 
+    if request.POST.get('action') == 'post':
+        search_string = str(request.POST.get('ss'))
+
+        if search_string is not None:
+            search_string = NewPostTerminals.objects.filter(city__icontains=search_string)[:3]
+            data = serializers.serialize('json', list(search_string), fields=('city',))
+            print(data)
+
+            return JsonResponse({'search_string': data}, safe=False)
 
 
 

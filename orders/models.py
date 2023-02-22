@@ -76,13 +76,6 @@ class OrderItem(models.Model):
         ordering = ('-created',)
 
 
-# class NewPostCities(models.Model):
-#     """Create NewPostCities model in the database"""
-#     objects = models.Manager()
-#
-#     city = models.CharField(max_length=100)
-
-
 class NewPostTerminals(models.Model):
     """Create NewPostTerminals model in the database"""
     objects = models.Manager()

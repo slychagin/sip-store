@@ -57,9 +57,8 @@ class OrderForm(forms.ModelForm):
         self.fields['delivery_method'].widget.attrs['class'] = 'select_option'
         self.fields['payment_method'].widget.attrs['class'] = 'select_option'
         self.fields['order_note'].widget.attrs['class'] = 'order-notes'
+
         self.fields['new_post_city'].widget.attrs['id'] = 'post-city'
-
-        self.fields['new_post_city'].widget.attrs.update({'class': 'js-example-basic-single'})
-
+        self.fields['new_post_office'].widget.attrs['id'] = 'post-terminal'
 
         self.fields['communication_method'].widget.attrs['type'] = 'checkbox'

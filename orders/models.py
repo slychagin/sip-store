@@ -83,5 +83,8 @@ class NewPostTerminals(models.Model):
     city = models.CharField(max_length=100)
     terminal = models.CharField(max_length=200)
 
+    def __str__(self):
+        return f'{self.city}, {self.terminal}'
+
     class Meta:
         ordering = ('city',)

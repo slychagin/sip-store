@@ -1,7 +1,9 @@
+import json
 from datetime import datetime
 
 from django.core import serializers
-from django.db.models import Q
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
@@ -74,29 +76,44 @@ class OrderFormView(View):
             data.order_number = current_date + '-' + str(data.pk)
             data.save()
 
-
-
             return HttpResponse('SUCCESS !!!')
-
         return render(request, self.template_name, {'form': form})
 
 
-def post_search(request):
-    form = OrderForm
-    new_post_city = ''
-    results = []
-    query = Q()
-
-    if request.POST.get('action') == 'post':
-        search_string = str(request.POST.get('ss'))
-
-        if search_string is not None:
-            search_string = NewPostTerminals.objects.filter(city__icontains=search_string)[:3]
-            data = serializers.serialize('json', list(search_string), fields=('city',))
-            print(data)
-
-            return JsonResponse({'search_string': data}, safe=False)
+def post_city_search(request):
+    """Search new post cities input"""
+    if 'term' in request.GET:
+        search_string = request.GET.get('term')
+        query = NewPostTerminals.objects.values('city').distinct().filter(city__istartswith=search_string)[:10]
+        cities = [city['city'] for city in query]
+        if cities:
+            return JsonResponse(cities, safe=False)
+        return JsonResponse(['Нічого не знайдено'], safe=False)
 
 
+def post_terminal_search(request):
+    """Search new post terminals input"""
+    if request.POST.get('action') == 'POST':
+        city_name = request.POST.get('city_name')
+        request.session['city'] = city_name
+        response = JsonResponse({'city_name': city_name})
+        return response
 
+    if 'term' in request.GET:
+        try:
+            city = request.session['city']
+        except KeyError:
+            return JsonResponse(['Оберіть спочатку місто доставки'], safe=False)
 
+        search_string = request.GET.get('term')
+        query = NewPostTerminals.objects.filter(city=city).values('terminal').filter(terminal__icontains=search_string)
+        terminals = [terminal['terminal'] for terminal in query]
+
+        try:
+            del request.session['city']
+        except KeyError:
+            return JsonResponse(['Оберіть спочатку місто доставки'], safe=False)
+
+        if terminals:
+            return JsonResponse(terminals, safe=False)
+        return JsonResponse(['Нічого не знайдено'], safe=False)

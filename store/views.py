@@ -73,9 +73,6 @@ class ProductDetailView(DetailView):
 
 class SearchListView(ListView):
     """Find products by keyword"""
-    # TODO: Настроить поиск в Postgres с использованием  расширения unaccent
-    # TODO: Также проблема с поиском слов после lower case.
-    #  Например Фітнес находит если вводить Фітнес, по фітнес не ищет. Проблема в SQLite.
 
     template_name = 'store/store.html'
 

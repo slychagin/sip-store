@@ -5,5 +5,6 @@ from orders import views
 
 urlpatterns = [
     path('', views.OrderFormView.as_view(), name='order_form'),
-    path('search/', views.post_search, name='post_search')
+    path('search-city/', views.post_city_search, name='post_city_search'),
+    path('search-terminal/', views.post_terminal_search, name='post_terminal_search')
 ]

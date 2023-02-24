@@ -44,31 +44,43 @@
                                 <label>Доставка</label>
                                 {{ form.delivery_method }}
                             </div>
-                            <div class="col-12 mb-20">
-                                <label>Місто <span>*</span></label>
-                                {{ form.city }}
-                            </div>
-                            <div class="col-12 mb-20">
-                                <label>Вулиця <span>*</span></label>
-                                {{ form.street }}
-                            </div>
-                            <div class="col-lg-6 mb-20">
-                                <label>Будинок <span>*</span></label>
-                                {{ form.house }}
-                            </div>
-                            <div class="col-lg-6 mb-20">
-                                <label>Квартира</label>
-                                {{ form.room }}
+
+
+
+                            <div class="courier-delivery" id="courier">
+                                <div class="col-12 mb-20">
+                                    <label>Місто <span>*</span></label>
+                                    {{ form.city }}
+                                </div>
+                                <div class="col-12 mb-20">
+                                    <label>Вулиця <span>*</span></label>
+                                    {{ form.street }}
+                                </div>
+                                <div class="col-lg-6 mb-20">
+                                    <label>Будинок <span>*</span></label>
+                                    {{ form.house }}
+                                </div>
+                                <div class="col-lg-6 mb-20">
+                                    <label>Квартира</label>
+                                    {{ form.room }}
+                                </div>
                             </div>
 
-                            <div class="col-12 mb-20">
-                                <label>Виберіть місто доставки</label>
-                                {{ form.new_post_city }}
+
+
+                            <div class="new-post-delivery" id="new-post" hidden>
+                                <div class="col-12 mb-20">
+                                    <label>Виберіть місто доставки <span>*</span></label>
+                                    {{ form.new_post_city }}
+                                </div>
+                                <div class="col-12 mb-20">
+                                    <label>Виберiть вiддiлення <span>*</span></label>
+                                    {{ form.new_post_office }}
+                                </div>
                             </div>
-                            <div class="col-12 mb-20">
-                                <label>Виберiть вiддiлення</label>
-                                {{ form.new_post_office }}
-                            </div>
+
+
+
 
                             <div class="col-lg-6 mb-20">
                                 <label>Бажана дата доставки</label>
@@ -82,17 +94,10 @@
                                 <label>Спосіб оплати </label>
                                 {{ form.payment_method }}
                             </div>
-
-
-
                             <div class="col-12 mb-20">
                                 <label>Бажаний спосіб зв'язку: </label>
                                 {{ form.communication_method }}
                             </div>
-
-
-
-
                             <div class="col-12">
                                 <div class="order-notes">
                                     <label>Додати коментар до замовлення</label>

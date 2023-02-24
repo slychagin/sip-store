@@ -27,13 +27,14 @@ class Order(models.Model):
     city = models.CharField(max_length=50, verbose_name='Місто')
     street = models.CharField(max_length=50, verbose_name='Вулиця')
     house = models.CharField(max_length=10, verbose_name='Будинок')
-    room = models.CharField(max_length=10, verbose_name='Квартира')
+    room = models.CharField(max_length=10, blank=True, verbose_name='Квартира')
 
     new_post_city = models.CharField(max_length=100, verbose_name='Місто Нової Пошти')
     new_post_office = models.CharField(max_length=200, verbose_name='Відділення Нової Пошти')
 
-    delivery_date = models.DateField(default=django.utils.timezone.localdate, verbose_name='Бажана дата доставки')
-    delivery_time = models.TimeField(verbose_name='Бажаний час доставки')
+    delivery_date = models.DateField(blank=True, null=True, verbose_name='Бажана дата доставки')
+    delivery_time = models.TimeField(blank=True, null=True, verbose_name='Бажаний час доставки')
+    # default = django.utils.timezone.localdate,
 
     delivery_method = models.CharField(max_length=50, choices=DELIVERY_METHOD_CHOICES, default=COURIER, verbose_name='Спосіб доставки')
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOICES, default=CASH, verbose_name='Спосіб оплати')

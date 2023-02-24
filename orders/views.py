@@ -47,18 +47,44 @@ class OrderFormView(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
 
+        # get delivery methods
+        courier = Order.DELIVERY_METHOD_CHOICES[0][0]
+        delivery_company = Order.DELIVERY_METHOD_CHOICES[1][0]
+
+        if request.POST.get('action') == 'POST':
+            delivery_method = request.POST.get('delivery_method')
+            # request.session['delivery_method'] = delivery_method
+            print(delivery_method)
+
+            if delivery_method == courier:
+                form.fields['city'].required = True
+                form.fields['street'].required = True
+                form.fields['house'].required = True
+                form.fields['new_post_city'].required = False
+                form.fields['new_post_office'].required = False
+            if delivery_method == delivery_company:
+                form.fields['city'].required = False
+                form.fields['street'].required = False
+                form.fields['house'].required = False
+                form.fields['new_post_city'].required = True
+                form.fields['new_post_office'].required = True
+
+
         if form.is_valid():
             data = Order()
 
             data.customer_name = form.cleaned_data['customer_name']
             data.phone = form.cleaned_data['phone']
             data.email = form.cleaned_data['email']
+
             data.city = form.cleaned_data['city']
             data.street = form.cleaned_data['street']
             data.house = form.cleaned_data['house']
             data.room = form.cleaned_data['room']
+
             data.new_post_city = form.cleaned_data['new_post_city']
             data.new_post_office = form.cleaned_data['new_post_office']
+
             data.delivery_date = form.cleaned_data['delivery_date']
             data.delivery_time = form.cleaned_data['delivery_time']
             data.delivery_method = form.cleaned_data['delivery_method']

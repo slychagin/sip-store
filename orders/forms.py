@@ -58,7 +58,14 @@ class OrderForm(forms.ModelForm):
         self.fields['payment_method'].widget.attrs['class'] = 'select_option'
         self.fields['order_note'].widget.attrs['class'] = 'order-notes'
 
+        self.fields['delivery_method'].widget.attrs['id'] = 'delivery-method'
         self.fields['new_post_city'].widget.attrs['id'] = 'post-city'
         self.fields['new_post_office'].widget.attrs['id'] = 'post-terminal'
 
         self.fields['communication_method'].widget.attrs['type'] = 'checkbox'
+
+        self.fields['new_post_city'].required = False
+        self.fields['new_post_office'].required = False
+
+        for field in self.fields:
+            self.fields[field].widget.attrs['title'] = 'Заповніть це поле'

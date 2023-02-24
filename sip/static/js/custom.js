@@ -16,7 +16,36 @@ function decrementQuickPopup() {
 };
 
 
+/*---Show or hide delivery method---*/
+$(document).on('change', '#delivery-method', function (e){
+  e.preventDefault();
 
+  let method = $('#delivery-method option:selected').val()
+  let address = document.getElementById('courier');
+  let post = document.getElementById('new-post');
+
+  if (method == 'DELIVERY COMPANY') {
+    address.style.display = 'none';
+    post.removeAttribute("hidden");
+    post.style.display = 'block';
+  } else if (method == 'COURIER') {
+    address.style.display = 'block';
+    post.style.display = 'none';
+  }
+
+  $.ajax({
+      type: 'POST',
+      url: order_form,
+      data: {
+          delivery_method: method,
+          csrfmiddlewaretoken: window.CSRF_TOKEN,
+          action: 'POST'
+      },
+      success: function (json) {
+      },
+      error: function(xhr, errmsg, err) {}
+  });
+});
 
 
 

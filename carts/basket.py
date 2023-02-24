@@ -7,9 +7,9 @@ class Basket:
 
     def __init__(self, request):
         self.session = request.session
-        basket = self.session.get('skey')
-        if 'skey' not in request.session:
-            basket = self.session['skey'] = {}
+        basket = self.session.get('basket')
+        if 'basket' not in request.session:
+            basket = self.session['basket'] = {}
         self.basket = basket
 
     def add(self, product, entered_quantity):
@@ -28,7 +28,7 @@ class Basket:
 
     def __iter__(self):
         """Iterate all items from basket"""
-        product_ids = [num for num in self.basket.keys() if not num.startswith('wish')]
+        product_ids = self.basket.keys()
         products = Product.objects.filter(id__in=product_ids)
         basket = self.basket.copy()
 

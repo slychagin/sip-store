@@ -10,14 +10,7 @@ from store.models import Product
 def cart_page(request):
     """Render Cart page"""
     basket = Basket(request)
-
-    # Get products in basket without products in wishlist
-    basket_filtered = [item for item in basket if 'wish_id' not in item.keys()]
-
-    context = {
-        'basket': basket_filtered
-    }
-    return render(request, 'store/cart.html', context)
+    return render(request, 'store/cart.html', {'basket': basket})
 
 
 def add_cart(request):

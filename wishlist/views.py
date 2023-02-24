@@ -7,15 +7,7 @@ from wishlist.wishlist import Wishlist
 
 def wishlist_page(request):
     """Render Wishlist page"""
-    wishlist = Wishlist(request)
-
-    # Get products in wishlist without products in basket
-    wishlist_filtered = [item for item in wishlist if 'wish_id' in item.keys()]
-
-    context = {
-        'wishlist': wishlist_filtered
-    }
-    return render(request, 'store/wishlist.html', context)
+    return render(request, 'store/wishlist.html', {'wishlist': Wishlist(request)})
 
 
 def add_wishlist(request):

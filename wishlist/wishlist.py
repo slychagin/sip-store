@@ -2,45 +2,50 @@ from carts.basket import Basket
 from store.models import Product
 
 
-class Wishlist(Basket):
+class Wishlist:
     """A base Wishlist class"""
     def __init__(self, request):
-        super().__init__(request)
+        self.session = request.session
+        wishlist = self.session.get('wishlist')
+        if 'wishlist' not in request.session:
+            wishlist = self.session['wishlist'] = {}
+        self.wishlist = wishlist
 
     def add_to_wishlist(self, product):
         """Add and update data to the session"""
-        wishlist_id = f'wish{product.id}'
+        product_id = str(product.id)
 
-        if wishlist_id in self.basket:
-            del self.basket[wishlist_id]
+        if product_id in self.wishlist:
+            del self.wishlist[product_id]
         else:
-            self.basket[wishlist_id] = {
-                'wish_id': str(product.id),
-                'price': 0,
-                'qty': 0
+            self.wishlist[product_id] = {
+                'product_id': str(product.id),
             }
         self.save_session_data()
 
     def __iter__(self):
         """Iterate all items from wishlist"""
-        product_ids = [int(num[4:]) for num in self.basket.keys() if num.startswith('wish')]
+        product_ids = self.wishlist.keys()
         products = Product.objects.filter(id__in=product_ids)
-        basket = self.basket.copy()
+        wishlist = self.wishlist.copy()
 
         for product in products:
-            basket[f'wish{product.id}']['product'] = product
+            wishlist[str(product.id)]['product'] = product
 
-        for item in basket.values():
-            item['price'] = int(item['price'])
+        for item in wishlist.values():
             yield item
 
     def __len__(self):
         """Count the product quantity in the wishlist"""
-        return sum(1 for item in self.basket.keys() if item.startswith('wish'))
+        return sum(1 for _ in self.wishlist.keys())
 
     def delete_from_wishlist(self, product):
         """Delete product from wishlist"""
-        product_id = f'wish{product}'
-        if product_id in self.basket:
-            del self.basket[product_id]
+        product_id = str(product)
+        if product_id in self.wishlist:
+            del self.wishlist[product_id]
             self.save_session_data()
+
+    def save_session_data(self):
+        """Save changes in session"""
+        self.session.modified = True

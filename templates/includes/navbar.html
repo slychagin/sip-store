@@ -105,10 +105,9 @@
                     <a href="{% url 'wish' %}"
                       ><span class="lnr lnr-heart"></span>
 
-                      {% with wish_qty=wishlist_all|length %}
+                      {% with wish_qty=wishlist|length %}
 
                       <span class="item_count" id="wishlist_icon_count">
-
 
                         {% if wish_qty > 0 %}
                             {{ wish_qty }}
@@ -123,7 +122,7 @@
                   <div class="header_account_list mini_cart_wrapper">
                     <a href="javascript:void(0)" id="mini-cart"><span class="lnr lnr-cart"></span>
 
-                      {% with total_qty=basket_all|length %}
+                      {% with total_qty=basket|length %}
                         <span class="item_count" id="cart_icon_count">
                           {% if total_qty > 0 %}
                             {{ total_qty }}
@@ -151,7 +150,7 @@
 
                         <div id="mini">
 
-                      {% for item in basket_filtered %}
+                      {% for item in basket %}
                         {% with product=item.product %}
                         <div class="cart_item" data-index="{{ product.id }}">
                           <div class="cart_img">
@@ -178,7 +177,7 @@
                         <div class="cart_table_border">
                           <div class="cart_total mt-10">
                             <span>Сума:</span>
-                            <span class="price" id="mini-cart-total">{{ basket_all.get_total_price }}</span>
+                            <span class="price" id="mini-cart-total">{{ basket.get_total_price }}</span>
                             <span class="price"> ₴ </span>
                           </div>
                         </div>

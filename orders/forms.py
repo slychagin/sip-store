@@ -1,18 +1,10 @@
-from datetime import date
+import string
 
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from orders.models import Order
-
-
-class DateInput(forms.DateInput):
-    input_type = 'date'
-    initial = date.today().strftime("%Y-%m-%d")
-
-
-class TimeInput(forms.TimeInput):
-    input_type = 'time'
-
+from orders.widgets import DateInput, TimeInput
 
 COMMUNICATION_METHOD_CHOICES = (
         (PHONE := 'PHONE', 'Телефон'),
@@ -38,13 +30,24 @@ class OrderForm(forms.ModelForm):
         widgets = {
             'delivery_date': DateInput(),
             'delivery_time': TimeInput(),
+            'phone': forms.TextInput(attrs={'data-mask': "+38 (000) 000-00-00"})
+        }
+        labels = {
+            'customer_name': _('ПІБ '),
+            'phone': _('Телефон '),
+            'email': _('Email '),
+            'city': _('Місто '),
+            'street': _('Вулиця '),
+            'house': _('Будинок '),
+            'new_post_city': _('Виберіть місто доставки '),
+            'new_post_office': _('Виберiть вiддiлення ')
         }
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
 
         self.fields['customer_name'].widget.attrs['placeholder'] = 'ПІБ'
-        self.fields['phone'].widget.attrs['placeholder'] = '+38 (0ХХ) ХХХ-ХХ-ХХ'
+        self.fields['phone'].widget.attrs['placeholder'] = '+38 (0XX) XXX-XX-XX'
         self.fields['email'].widget.attrs['placeholder'] = 'E-mail'
         self.fields['city'].widget.attrs['placeholder'] = 'Місто'
         self.fields['street'].widget.attrs['placeholder'] = 'Вулиця'
@@ -61,11 +64,35 @@ class OrderForm(forms.ModelForm):
         self.fields['delivery_method'].widget.attrs['id'] = 'delivery-method'
         self.fields['new_post_city'].widget.attrs['id'] = 'post-city'
         self.fields['new_post_office'].widget.attrs['id'] = 'post-terminal'
+        self.fields['city'].widget.attrs['id'] = 'city'
+        self.fields['street'].widget.attrs['id'] = 'street'
+        self.fields['house'].widget.attrs['id'] = 'house'
+        self.fields['room'].widget.attrs['id'] = 'room'
+        self.fields['phone'].widget.attrs['id'] = 'phone'
 
         self.fields['communication_method'].widget.attrs['type'] = 'checkbox'
-
-        self.fields['new_post_city'].required = False
-        self.fields['new_post_office'].required = False
+        self.fields['phone'].widget.attrs['value'] = '+38'
 
         for field in self.fields:
             self.fields[field].widget.attrs['title'] = 'Заповніть це поле'
+
+    def clean_customer_name(self):
+        """Validate Order form fields"""
+        customer_name = self.cleaned_data['customer_name']
+        invalid_letters = string.digits + string.punctuation
+
+        for letter in invalid_letters:
+            if letter in customer_name or len(customer_name) == 1:
+                raise forms.ValidationError(_('Введіть коректне ПІБ'))
+
+        return customer_name
+
+
+
+
+
+
+
+
+
+

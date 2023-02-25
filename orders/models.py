@@ -1,5 +1,6 @@
-import django.utils.timezone
+from django.core.validators import RegexValidator
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 from store.models import Product
 
@@ -17,11 +18,13 @@ class Order(models.Model):
         (GOOGLE := 'GOOGLE', 'Оплата Google Pay/Apple Pay')
     )
 
+    phone_number_regex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
+
     object = models.Manager()
 
     order_number = models.CharField(max_length=20, verbose_name='Номер замовлення')
     customer_name = models.CharField(max_length=100, verbose_name='ПІБ')
-    phone = models.CharField(max_length=15, verbose_name='Телефон')
+    phone = PhoneNumberField(validators=[phone_number_regex], max_length=16, verbose_name='Телефон')
     email = models.EmailField(max_length=50, verbose_name='E-mail')
 
     city = models.CharField(max_length=50, verbose_name='Місто')
@@ -29,12 +32,11 @@ class Order(models.Model):
     house = models.CharField(max_length=10, verbose_name='Будинок')
     room = models.CharField(max_length=10, blank=True, verbose_name='Квартира')
 
-    new_post_city = models.CharField(max_length=100, verbose_name='Місто Нової Пошти')
-    new_post_office = models.CharField(max_length=200, verbose_name='Відділення Нової Пошти')
+    new_post_city = models.CharField(max_length=100, default='-', verbose_name='Місто Нової Пошти')
+    new_post_office = models.CharField(max_length=200, default='-', verbose_name='Відділення Нової Пошти')
 
     delivery_date = models.DateField(blank=True, null=True, verbose_name='Бажана дата доставки')
     delivery_time = models.TimeField(blank=True, null=True, verbose_name='Бажаний час доставки')
-    # default = django.utils.timezone.localdate,
 
     delivery_method = models.CharField(max_length=50, choices=DELIVERY_METHOD_CHOICES, default=COURIER, verbose_name='Спосіб доставки')
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOICES, default=CASH, verbose_name='Спосіб оплати')

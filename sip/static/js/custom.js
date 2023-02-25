@@ -24,7 +24,7 @@ $(document).on('change', '#delivery-method', function (e){
   let address = document.getElementById('courier');
   let post = document.getElementById('new-post');
 
-  if (method == 'DELIVERY COMPANY') {
+    if (method == 'DELIVERY COMPANY') {
     address.style.display = 'none';
     post.removeAttribute("hidden");
     post.style.display = 'block';
@@ -37,11 +37,26 @@ $(document).on('change', '#delivery-method', function (e){
       type: 'POST',
       url: order_form,
       data: {
-          delivery_method: method,
           csrfmiddlewaretoken: window.CSRF_TOKEN,
           action: 'POST'
       },
       success: function (json) {
+
+        if (method == 'DELIVERY COMPANY') {
+            $('#city').val('-');
+            $('#street').val('-');
+            $('#house').val('-');
+            $('#room').val('-');
+            $('#post-city').val('');
+            $('#post-terminal').val('');
+        } else if (method == 'COURIER') {
+            $('#post-city').val('-');
+            $('#post-terminal').val('-');
+            $('#city').val('');
+            $('#street').val('');
+            $('#house').val('');
+            $('#room').val('');
+  }
       },
       error: function(xhr, errmsg, err) {}
   });

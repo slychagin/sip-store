@@ -7977,7 +7977,7 @@ textarea:-ms-input-placeholder {
 }
 .checkout_form .nice-select ul.list {
   width: 100%;
-  height: 180px;
+  height: 100px;
   overflow: auto;
 }
 .checkout_form .nice-select::after {
@@ -7993,7 +7993,7 @@ textarea:-ms-input-placeholder {
   margin-bottom: 8px;
 }
 .checkout_form label span {
-  color: #40a944;
+  color: #fc8a35;
 }
 .checkout_form label.righ_0 {
   cursor: pointer;

@@ -1,4 +1,7 @@
-{% extends 'sip/base.html' %}{% load static %}{% block content %}
+{% extends 'sip/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
 
 <!--breadcrumbs area start-->
 <div class="breadcrumbs_area">
@@ -19,7 +22,7 @@
 <!--breadcrumbs area end-->
 
 <!--Checkout page section-->
-<form action="{% url 'order_form' %}" method="POST">
+<form action="{% url 'order_form' %}" method="POST" novalidate>
     {% csrf_token %}
     <div class="Checkout_section mt-70">
         <div class="container">
@@ -28,37 +31,30 @@
                     <div class="col-lg-6 col-md-6">
                         <h3>Оформлення замовлення</h3>
                         <div class="row">
-                            <div class="col-12 mb-20">
-                                <label>ПІБ <span>*</span></label>
-                                {{ form.customer_name }}
+                            <div class="col-12">
+                                {{ form.customer_name|as_crispy_field }}
                             </div>
-                            <div class="col-lg-6 mb-20">
-                                <label>Телефон <span>*</span></label>
-                                {{ form.phone }}
+                            <div class="col-lg-6">
+                                {{ form.phone|as_crispy_field }}
                             </div>
-                            <div class="col-lg-6 mb-20">
-                                <label> Email <span>*</span></label>
-                                {{ form.email }}
+                            <div class="col-lg-6">
+                                {{ form.email|as_crispy_field }}
                             </div>
                             <div class="col-12 mb-20">
-                                <label>Доставка</label>
+                                <label>Спосіб доставки</label>
                                 {{ form.delivery_method }}
                             </div>
 
 
-
                             <div class="courier-delivery" id="courier">
                                 <div class="col-12 mb-20">
-                                    <label>Місто <span>*</span></label>
-                                    {{ form.city }}
+                                    {{ form.city|as_crispy_field }}
                                 </div>
                                 <div class="col-12 mb-20">
-                                    <label>Вулиця <span>*</span></label>
-                                    {{ form.street }}
+                                    {{ form.street|as_crispy_field }}
                                 </div>
                                 <div class="col-lg-6 mb-20">
-                                    <label>Будинок <span>*</span></label>
-                                    {{ form.house }}
+                                    {{ form.house|as_crispy_field }}
                                 </div>
                                 <div class="col-lg-6 mb-20">
                                     <label>Квартира</label>
@@ -70,12 +66,10 @@
 
                             <div class="new-post-delivery" id="new-post" hidden>
                                 <div class="col-12 mb-20">
-                                    <label>Виберіть місто доставки <span>*</span></label>
-                                    {{ form.new_post_city }}
+                                    {{ form.new_post_city|as_crispy_field }}
                                 </div>
                                 <div class="col-12 mb-20">
-                                    <label>Виберiть вiддiлення <span>*</span></label>
-                                    {{ form.new_post_office }}
+                                    {{ form.new_post_office|as_crispy_field }}
                                 </div>
                             </div>
 
@@ -132,7 +126,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>Сума</th>
-                                    <td>{{ basket_all.get_total_price }} ₴</td>
+                                    <td>{{ basket.get_total_price }} ₴</td>
                                 </tr>
                                 <tr>
                                     <th>Знижка</th>

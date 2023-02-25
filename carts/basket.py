@@ -51,10 +51,13 @@ class Basket:
 
     def set_discount(self, discount=0):
         """Saves the discount if a coupon has been applied"""
-        basket = self.basket.copy()
-        for item in basket.values():
-            item['discount'] = int(discount)
-        self.save_session_data()
+        self.session['discount'] = int(discount)
+    # def set_discount(self, discount=0):
+    #     """Saves the discount if a coupon has been applied"""
+    #     basket = self.basket.copy()
+    #     for item in basket.values():
+    #         item['discount'] = int(discount)
+    #     self.save_session_data()
 
     def get_item_quantity(self, product):
         """Get quantity of current item by product id"""

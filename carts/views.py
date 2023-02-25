@@ -129,5 +129,4 @@ def get_coupon(request):
                 'cart_discount': 0,
                 'total': basket_total
             })
-
         return response

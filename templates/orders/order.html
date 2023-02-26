@@ -44,27 +44,19 @@
                                 <label>Спосіб доставки</label>
                                 {{ form.delivery_method }}
                             </div>
-
-
-                            <div class="courier-delivery" id="courier">
-                                <div class="col-12 mb-20">
-                                    {{ form.city|as_crispy_field }}
-                                </div>
-                                <div class="col-12 mb-20">
-                                    {{ form.street|as_crispy_field }}
-                                </div>
-                                <div class="col-lg-6 mb-20">
-                                    {{ form.house|as_crispy_field }}
-                                </div>
-                                <div class="col-lg-6 mb-20">
-                                    <label>Квартира</label>
-                                    {{ form.room }}
-                                </div>
+                            <div class="col-12" id="city-address">
+                                {{ form.city|as_crispy_field }}
                             </div>
-
-
-
-                            <div class="new-post-delivery" id="new-post" hidden>
+                            <div class="col-12" id="street-address">
+                                {{ form.street|as_crispy_field }}
+                            </div>
+                            <div class="col-lg-6" id="house-address">
+                                {{ form.house|as_crispy_field }}
+                            </div>
+                            <div class="col-lg-6" id="room-address">
+                                {{ form.room|as_crispy_field }}
+                            </div>
+                            <div id="new-post" hidden>
                                 <div class="col-12 mb-20">
                                     {{ form.new_post_city|as_crispy_field }}
                                 </div>
@@ -72,10 +64,6 @@
                                     {{ form.new_post_office|as_crispy_field }}
                                 </div>
                             </div>
-
-
-
-
                             <div class="col-lg-6 mb-20">
                                 <label>Бажана дата доставки</label>
                                 {{ form.delivery_date }}
@@ -130,17 +118,17 @@
                                 </tr>
                                 <tr>
                                     <th>Знижка</th>
-                                    <td>{{ discount }} ₴</td>
+                                    <td id="order-discount">{{ discount }} ₴</td>
                                 </tr>
                                 <tr class="order_total">
                                     <th>Усього зі знижкою</th>
-                                    <td><strong>{{ total_with_discount }} ₴</strong></td>
+                                    <td id="order-total"><strong>{{ total_with_discount }} ₴</strong></td>
                                 </tr>
                                 </tfoot>
                             </table>
                         </div>
                         <div class="order_button">
-                            <button type="submit">Замовити</button>
+                            <button type="submit" id="order-btn">Замовити</button>
                         </div>
                     </div>
                 </div>

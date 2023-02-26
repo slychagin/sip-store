@@ -42,7 +42,7 @@ class Order(models.Model):
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOICES, default=CASH, verbose_name='Спосіб оплати')
 
     order_note = models.TextField(max_length=255, blank=True, verbose_name='Примітка до замовлення')
-    order_total = models.IntegerField(verbose_name='Сума замовлення')
+    order_total = models.IntegerField(verbose_name='Усього зі знижкою')
     discount = models.IntegerField(verbose_name='Знижка')
     ip = models.CharField(blank=True, max_length=20, verbose_name='IP адреса')
     is_ordered = models.BooleanField(default=False, verbose_name='Замовлено')
@@ -55,7 +55,7 @@ class Order(models.Model):
         ordering = ('-created',)
 
     def __str__(self):
-        return self.customer_name
+        return f'№ {self.order_number}'
 
 
 class OrderItem(models.Model):

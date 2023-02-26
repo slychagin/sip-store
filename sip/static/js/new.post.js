@@ -5,7 +5,7 @@ $( function() {
       minLength: 1,
 
       select: function (event, ui) {
-				$("#post-city").val(ui.item.label);
+				$("#post-city").val(ui.item.value);
 				var getCity=ui.item.value;
 				callback2Function(getCity);
 			}
@@ -27,7 +27,6 @@ function callback2Function(value){
       },
       error: function(xhr, errmsg, err) {}
   });
-
 }
 
 /*---Search New Post Terminals---*/

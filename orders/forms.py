@@ -39,6 +39,7 @@ class OrderForm(forms.ModelForm):
             'city': _('Місто '),
             'street': _('Вулиця '),
             'house': _('Будинок '),
+            'room': _('Квартира'),
             'new_post_city': _('Виберіть місто доставки '),
             'new_post_office': _('Виберiть вiддiлення ')
         }
@@ -54,7 +55,7 @@ class OrderForm(forms.ModelForm):
         self.fields['house'].widget.attrs['placeholder'] = 'Будинок'
         self.fields['room'].widget.attrs['placeholder'] = 'Квартира'
         self.fields['order_note'].widget.attrs['placeholder'] = 'Напишіть ваші побажання'
-        self.fields['new_post_city'].widget.attrs['placeholder'] = 'Виберіть місто доставки'
+        self.fields['new_post_city'].widget.attrs['placeholder'] = 'Почніть вводити місто доставки'
         self.fields['new_post_office'].widget.attrs['placeholder'] = 'Виберіть відділення'
 
         self.fields['delivery_method'].widget.attrs['class'] = 'select_option'

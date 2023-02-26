@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+Вітаємо, {{order.customer_name}}!
+<br>
+<br>
+Дякуємо за Ваше замовлення в онлайн-магазині Сіль і Пательня!<br>
+Найближчим часом з Вами зв'яжеться наш менеджер.
+<br>
+<br>
+<h3>Деталі Вашого замовлення:</h3>
+<br>
+
+<h4>Замовлення № {{order.order_number}} від {{date}}</h4>
+
+<table>
+    <thead>
+    <tr>
+        <th>Продукція</th>
+        <th>Підсумок</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in basket %}
+    {% with product=item.product %}
+    <tr>
+        <td>{{ product.product_name }}<strong> × {{ item.qty }}</strong></td>
+        <td style="text-align: right;">{{ item.total_price }} ₴</td>
+    </tr>
+    {% endwith %}
+    {% endfor %}
+
+    </tbody>
+    <tfoot>
+    <tr>
+        <th style="text-align: left;">Сума</th>
+        <td style="text-align: right;">{{ basket.get_total_price }} ₴</td>
+    </tr>
+    <tr>
+        <th style="text-align: left;">Знижка</th>
+        <td style="text-align: right;">{{ order.discount }} ₴</td>
+    </tr>
+    <tr class="order_total">
+        <th style="text-align: left;">Усього зі знижкою</th>
+        <td style="text-align: right;"><strong>{{ order.order_total }} ₴</strong></td>
+    </tr>
+    </tfoot>
+</table>
+
+<br>
+<br>
+З повагою, Сіль і Пательня!
+
+</body>
+</html>
+

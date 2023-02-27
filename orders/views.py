@@ -7,7 +7,7 @@ from django.views import View
 
 from carts.basket import Basket
 from orders.forms import OrderForm
-from orders.models import Order, NewPostTerminals, OrderItem
+from orders.models import Order, NewPostTerminals, OrderItem, save_customer
 
 from orders.send_email import send_email_to_customer
 from telebot.telegram import send_message_to_admin_telegram
@@ -83,11 +83,14 @@ class OrderFormView(View):
             # Create order items in OrderItem model
             create_order_items(basket, order)
 
+            # Save customer to the database
+            save_customer(order)
+
             # Send an email with order details to the customer's email
-            # send_email_to_customer(basket, order)
+            send_email_to_customer(basket, order)
 
             # Send message with order details to admin Telegram chat
-            send_message_to_admin_telegram(basket, order)
+            # send_message_to_admin_telegram(basket, order)
 
             # Clear basket session data
             try:

@@ -1,4 +1,3 @@
-import textwrap
 import threading
 
 import requests

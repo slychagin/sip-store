@@ -1,5 +1,6 @@
 from django.core.validators import RegexValidator
 from django.db import models
+from django.shortcuts import get_object_or_404
 from phonenumber_field.modelfields import PhoneNumberField
 
 from store.models import Product
@@ -91,3 +92,32 @@ class NewPostTerminals(models.Model):
 
     class Meta:
         ordering = ('city',)
+
+
+class Customers(models.Model):
+    """Create Customers model in the database"""
+    phone_number_regex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
+    objects = models.Manager()
+
+    customer_name = models.CharField(max_length=100, verbose_name='ПІБ')
+    phone = PhoneNumberField(validators=[phone_number_regex], max_length=16, verbose_name='Телефон')
+    email = models.EmailField(max_length=50, verbose_name='E-mail')
+    note = models.TextField(blank=True, verbose_name='Примітка')
+
+    def __str__(self):
+        return f'{self.customer_name}'
+
+    class Meta:
+        verbose_name_plural = 'Покупці'
+        ordering = ('customer_name',)
+
+
+def save_customer(order):
+    """Save customer to the database"""
+    customer = Customers.objects.filter(phone=order.phone).exists()
+    if not customer:
+        data = Customers()
+        data.customer_name = order.customer_name
+        data.phone = order.phone
+        data.email = order.email
+        data.save()

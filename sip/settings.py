@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'orders',
     'store',
     'sales',
+    'telebot',
     'wishlist'
 ]
 

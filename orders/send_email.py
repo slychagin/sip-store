@@ -7,7 +7,7 @@ from django.utils.html import strip_tags
 
 
 def send_email_to_customer(basket, order):
-    """Sending Email with Python Thread"""
+    """Create thread for sending email with Python Threading"""
     context = {
         'order': order,
         'date': order.created.date().strftime('%d.%m.%Y'),

@@ -10,6 +10,7 @@ from orders.forms import OrderForm
 from orders.models import Order, NewPostTerminals, OrderItem, save_customer
 
 from orders.send_email import send_email_to_customer
+from store.models import count_products
 from telebot.telegram import send_message_to_admin_telegram
 
 
@@ -80,6 +81,9 @@ class OrderFormView(View):
             order.order_number = current_date + '-' + str(order.pk)
             order.save()
 
+            # Save qty to product ordered count
+            count_products(basket)
+
             # Create order items in OrderItem model
             create_order_items(basket, order)
 
@@ -90,7 +94,7 @@ class OrderFormView(View):
             send_email_to_customer(basket, order)
 
             # Send message with order details to admin Telegram chat
-            # send_message_to_admin_telegram(basket, order)
+            send_message_to_admin_telegram(basket, order)
 
             # Clear basket session data
             try:

@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.http import Http404
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
 
 from category.models import Category
@@ -11,8 +11,28 @@ from store.models import Product
 class StorePageView(ListView):
     """Rendering all products in store page"""
     template_name = 'store/store.html'
-    queryset = Product.objects.all().filter(is_available=True).order_by('id')
     context_object_name = 'products'
+
+    def get_queryset(self):
+        queryset = Product.objects.all().filter(is_available=True)
+        ordering = self.get_ordering()
+        queryset = queryset.order_by(ordering)
+        return queryset
+
+    def get_ordering(self):
+        sort_dict = {
+            'id': 'id',
+            'popular': '-count_orders',
+            'newest': '-created_date',
+            'low-price': 'price',
+            'high-price': '-price'
+        }
+        if self.request.GET.get('orderby'):
+            ordering = self.request.GET.get('orderby')
+            ordering = sort_dict.get(ordering)
+        else:
+            ordering = sort_dict.get('id')
+        return ordering
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

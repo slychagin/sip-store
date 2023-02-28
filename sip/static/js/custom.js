@@ -22,7 +22,6 @@ function decrementQuickPopup() {
 
 
 
-
 /*---Fade message---*/
 //setTimeout(function(){
 //    $('#messages-list').fadeOut('slow')

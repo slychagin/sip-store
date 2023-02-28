@@ -20,6 +20,7 @@ class Product(models.Model):
     is_sale = models.BooleanField(default=False, verbose_name='Sale')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
     modified_date = models.DateTimeField(auto_now=True, verbose_name='Дата змін')
+    count_orders = models.IntegerField(default=0, verbose_name='Замовлено одиниць')
     category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE, verbose_name='Категорія')
 
     class Meta:
@@ -36,3 +37,11 @@ class Product(models.Model):
         :return: reverse url for particular product
         """
         return reverse('product_details', args=[self.category.slug, self.slug])
+
+
+def count_products(basket):
+    """Save qty to product count orders"""
+    for item in basket:
+        product = Product.objects.get(id=item['product'].pk)
+        product.count_orders += item['qty']
+        product.save()

@@ -4,6 +4,7 @@ from store import views
 
 
 urlpatterns = [
+    # path('', views.store_page, name='store'),
     path('', views.StorePageView.as_view(), name='store'),
     path(
         'category/<slug:category_slug>/',

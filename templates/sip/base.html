@@ -118,7 +118,7 @@
       post_city_search = '{% url "post_city_search" %}';
       post_terminal_search = '{% url "post_terminal_search" %}';
       order_form = '{% url "order_form" %}';
-      store = '{% url "store" %}';
+      subscribe = '{% url "subscribe" %}';
     </script>
 
     <!-- plus and minus buttons in product details -->
@@ -143,6 +143,13 @@
     <!-- Phone number mask -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
 
+  <script>
+  var message_ele = document.getElementById("message");
+
+setTimeout(function(){
+   message_ele.style.display = "none";
+}, 4000);
+</script>
 
   </body>
   </html>

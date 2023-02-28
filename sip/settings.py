@@ -84,6 +84,7 @@ TEMPLATES = [
                 'blog.context_processors.blog_sidebar',
                 'category.context_processors.menu_links',
                 'carts.context_processors.cart',
+                'sales.context_processors.subscribe_form',
                 'wishlist.context_processors.get_wishlist'
             ],
         },

@@ -1366,6 +1366,7 @@ textarea:-ms-input-placeholder {
   top: 0;
   transition: 0.5s;
   transform: translateX(100%);
+  overflow-y: auto;
 }
 .mini_cart.active {
   transform: translateX(0);

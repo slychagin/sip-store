@@ -60,28 +60,14 @@
             <p class="footer_desc">
               Get updates by subscribe our weekly newsletter
             </p>
-
             <div class="subscribe_form">
-              <form id="mc-form" class="mc-form footer-newsletter">
-                <input
-                  id="mc-email"
-                  type="email"
-                  autocomplete="off"
-                  placeholder="Enter you email"
-                />
-                <button id="mc-submit">Subscribe</button>
+              <form action="{% url 'subscribe' %}" method="POST" novalidate>
+                {% csrf_token %}
+                {{subscribe_form.email}}
+                <button type="submit" id="mc-submit">Підписатися</button>
               </form>
-              <!-- mailchimp-alerts Start -->
-              <div class="mailchimp-alerts text-centre">
-                <div class="mailchimp-submitting"></div>
-                <!-- mailchimp-submitting end -->
-                <div class="mailchimp-success"></div>
-                <!-- mailchimp-success end -->
-                <div class="mailchimp-error"></div>
-                <!-- mailchimp-error end -->
-              </div>
-              <!-- mailchimp-alerts end -->
             </div>
+
             <div class="social text-right">
               <ul>
                 <li>

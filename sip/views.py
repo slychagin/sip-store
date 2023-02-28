@@ -1,8 +1,12 @@
+from django.contrib import messages
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 
 from banners.models import WeekOfferBanner
 from benefits.models import Benefits, Partners
+from orders.models import Subscribers
+from sales.forms import SubscribeForm
 from sales.models import (
     BestSellers,
     NewProducts,
@@ -45,3 +49,26 @@ def get_single_product(request):
             'image': product.product_image.url
         })
         return response
+
+
+def subscribe(request):
+    """Subscribe the user in subscribe form"""
+    # TODO: Всплывающие сообщения
+    if request.method == 'POST':
+        form = SubscribeForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            subscriber = Subscribers.objects.filter(email=email).exists()
+            if not subscriber:
+                data = Subscribers()
+                data.email = email
+                data.save()
+            messages.success(request, 'Ви підписані!')
+            return redirect('home')
+        else:
+            messages.error(request, 'Введіть правильну email адресу.')
+            return redirect('home')
+
+
+

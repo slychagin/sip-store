@@ -16,6 +16,24 @@ function decrementQuickPopup() {
 };
 
 
+/*---Subscribe user---*/
+$(document).on('click', '#mc-submit', function (e){
+  e.preventDefault();
+  var user_email = $('#mc-email').val();
+
+  $.ajax({
+      type: 'POST',
+      url: subscribe,
+      data: {
+          email: user_email,
+          csrfmiddlewaretoken: window.CSRF_TOKEN,
+          action: 'POST'
+      },
+      success: function (json) {
+      },
+      error: function(xhr, errmsg, err) {}
+  });
+});
 
 
 

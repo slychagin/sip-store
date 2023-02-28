@@ -25,7 +25,7 @@ class Order(models.Model):
     order_number = models.CharField(max_length=20, verbose_name='Номер замовлення')
     customer_name = models.CharField(max_length=100, verbose_name='ПІБ')
     phone = PhoneNumberField(validators=[phone_number_regex], max_length=16, verbose_name='Телефон')
-    email = models.EmailField(max_length=50, verbose_name='E-mail')
+    email = models.EmailField(max_length=100, verbose_name='E-mail')
 
     city = models.CharField(max_length=50, verbose_name='Місто')
     street = models.CharField(max_length=50, verbose_name='Вулиця')
@@ -100,7 +100,7 @@ class Customers(models.Model):
 
     customer_name = models.CharField(max_length=100, verbose_name='ПІБ')
     phone = PhoneNumberField(validators=[phone_number_regex], max_length=16, verbose_name='Телефон')
-    email = models.EmailField(max_length=50, verbose_name='E-mail')
+    email = models.EmailField(max_length=100, verbose_name='E-mail')
     note = models.TextField(blank=True, verbose_name='Примітка')
 
     def __str__(self):
@@ -120,3 +120,15 @@ def save_customer(order):
         data.phone = order.phone
         data.email = order.email
         data.save()
+
+
+class Subscribers(models.Model):
+    """Create Subscribers model in the database"""
+    objects = models.Manager()
+    email = models.EmailField(max_length=100, verbose_name='E-mail')
+
+    def __str__(self):
+        return f'{self.email}'
+
+    class Meta:
+        verbose_name_plural = 'Підписки'

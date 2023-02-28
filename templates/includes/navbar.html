@@ -68,6 +68,7 @@
   </div>
 </div>
 <!--offcanvas menu area end-->
+
 <div class="home_three_container">
   <header>
     <div class="main_header header_three color_three">
@@ -192,8 +193,8 @@
                           >
                         </div>
                         <div class="cart_button">
-                          <a href="checkout.html"
-                            ><i class="fa fa-sign-in"></i> Checkout</a
+                          <a href="{% url 'order_form' %}"
+                            ><i class="fa fa-sign-in"></i> Замовити</a
                           >
                         </div>
                       </div>
@@ -209,6 +210,9 @@
       <div class="header_bottom">
         <div class="container">
           <div class="row align-items-center">
+
+
+
 
               <div class="col-lg-3 col-md-6">
               <div class="{% if '/' == request.path %} categories_menu categories_three {% endif %} categories_menu">

@@ -7,7 +7,7 @@
                 <div class="col-12">
                     <div class="breadcrumb_content">
                         <ul>
-                            <li><a href="index.html">home</a></li>
+                            <li><a href="{% url 'home' %}">home</a></li>
                             <li>product details</li>
                         </ul>
                     </div>
@@ -93,10 +93,6 @@
                             <div class="product_desc">
                                 <p>{{ single_product.description }}</p>
                             </div>
-
-
-
-
 
                            <div class="quantity_main_btn">
                                    <button class="quantity_btn_1 bg-c" id="button-minus" type="button" onclick="decrementProdDetail()">-</button>

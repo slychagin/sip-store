@@ -14,8 +14,11 @@ $(document).on('click', '#add-button', function (e){
       },
       success: function (json) {
         document.getElementById('cart_icon_count').innerHTML = json.qty;
+        handleAlerts('alert-prod-details', 'success', 'Додано до кошику');
       },
-      error: function(xhr, errmsg, err) {}
+      error: function(xhr, errmsg, err) {
+        handleAlerts('alert-prod-details', 'danger', 'ой... щось пішло не так');
+      }
   });
 });
 
@@ -125,7 +128,7 @@ $("#mini-cart").click(function () {
     $("#mini-cart-total").load(location.href + " #mini-cart-total");
 });
 
-/*---Add product to the cart after press action link add to cart---*/
+/*---Add product to the cart after press action link in the Home page add to cart---*/
 $(document).on('click', '.quick-add-button', function (e){
       e.preventDefault();
       var prodid = $(this).data('index');
@@ -141,8 +144,11 @@ $(document).on('click', '.quick-add-button', function (e){
           },
           success: function (json) {
             document.getElementById('cart_icon_count').innerHTML = json.qty;
+            handleAlerts('alert-home', 'success', 'Додано до кошику');
           },
-          error: function(xhr, errmsg, err) {}
+          error: function(xhr, errmsg, err) {
+            handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
+          }
       });
 });
 
@@ -192,10 +198,39 @@ $(document).on('click', '#quick-add-button', function (e){
       },
       success: function (json) {
         document.getElementById('cart_icon_count').innerHTML = json.qty;
+        handleAlerts('alert-pop-up', 'success', 'Додано до кошику');
       },
-      error: function(xhr, errmsg, err) {}
+      error: function(xhr, errmsg, err) {
+        handleAlerts('alert-pop-up', 'danger', 'ой... щось пішло не так');
+      }
   });
 });
+
+
+/*---Add product to the cart after press TO CART В ПРОПОЗИЦІЇ ТИЖНЯ---*/
+$(document).on('click', '.quick-add-button', function (e){
+      e.preventDefault();
+      var prodid = $(this).data('index');
+
+      $.ajax({
+          type: 'POST',
+          url: add_cart,
+          data: {
+              product_id: prodid,
+              quantity: 1,
+              csrfmiddlewaretoken: window.CSRF_TOKEN,
+              action: 'POST'
+          },
+          success: function (json) {
+            document.getElementById('cart_icon_count').innerHTML = json.qty;
+            handleAlerts('alert-home', 'success', 'Додано до кошику');
+          },
+          error: function(xhr, errmsg, err) {
+            handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
+          }
+      });
+});
+
 
 /*---Set quantity to one after close product quick show popup---*/
 $("#close-quick-button").click(function () {
@@ -217,10 +252,23 @@ $(document).on('click', '#coupon-button', function (e){
       success: function (json) {
         document.getElementById('cart-discount').innerHTML = json.cart_discount;
         document.getElementById('total-with-discount').innerHTML = json.total;
+
+        if (json.cart_discount) {
+            handleAlerts(
+                'alert-prod-details',
+                'success',
+                `Ви отримали знижку <strong>${json.coupon_discount}%</strong>`
+            );
+        } else {
+            handleAlerts('alert-prod-details', 'success', 'Нажаль цей промокод не дійсний');
+        }
       },
-      error: function(xhr, errmsg, err) {}
+      error: function(xhr, errmsg, err) {
+        handleAlerts('alert-prod-details', 'danger', 'ой... щось пішло не так');
+      }
   });
 });
+
 
 /*---Reload cart page after press refresh button---*/
 function refreshCartPage(){

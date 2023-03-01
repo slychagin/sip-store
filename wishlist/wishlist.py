@@ -1,4 +1,3 @@
-from carts.basket import Basket
 from store.models import Product
 
 

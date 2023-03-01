@@ -1,12 +1,11 @@
-from django.contrib import messages
 from django.http import JsonResponse
-from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 from banners.models import WeekOfferBanner
 from benefits.models import Benefits, Partners
 from orders.models import Subscribers
-from sales.forms import SubscribeForm
 from sales.models import (
     BestSellers,
     NewProducts,
@@ -36,7 +35,6 @@ class HomePageView(TemplateView):
 
 def get_single_product(request):
     """Return single product data by id to use in product quick show"""
-    # TODO: Сделать всплывающее сообщение о том, что товар добавлен в корзину, в лист желаний и т.д.
     if request.method == 'POST':
         product_id = int(request.POST.get('product_id'))
         product = Product.objects.get(id=product_id)
@@ -53,22 +51,18 @@ def get_single_product(request):
 
 def subscribe(request):
     """Subscribe the user in subscribe form"""
-    # TODO: Всплывающие сообщения
     if request.method == 'POST':
-        form = SubscribeForm(request.POST)
-
-        if form.is_valid():
-            email = form.cleaned_data['email']
+        email = request.POST.get('email')
+        try:
+            validate_email(email)
+        except ValidationError as e:
+            response = JsonResponse({'error': 'Введіть коректну email адресу'})
+            return response
+        else:
             subscriber = Subscribers.objects.filter(email=email).exists()
             if not subscriber:
                 data = Subscribers()
                 data.email = email
                 data.save()
-            messages.success(request, 'Ви підписані!')
-            return redirect('home')
-        else:
-            messages.error(request, 'Введіть правильну email адресу.')
-            return redirect('home')
-
-
-
+                response = JsonResponse({'success': 'Ви підписані!'})
+                return response

@@ -1,4 +1,10 @@
-{% extends 'sip/base.html' %}{% load static %}{% block content %}
+{% extends 'sip/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<!--fix flash alert in bottom of the screen-->
+<div class="alert-box-home" id="alert-home"></div>
 
 <!--breadcrumbs area start-->
 <div class="breadcrumbs_area">
@@ -324,7 +330,7 @@
                     </div>
                     <div class="modal_price mb-10">
                       <span class="new_price" id="quick_new_price"></span><span class="new_price"> ₴</span>
-                      <span class="old_price" id="quick_old_price"></span><span class="old_price"> ₴</span>
+                      <span class="old_price" id="quick_old_price"></span><span class="old_price"> </span>
                     </div>
                     <div class="modal_description mb-15">
                       <p id="quick_description"></p>
@@ -340,6 +346,8 @@
                         </form>
                       </div>
                     </div>
+
+                    <div id="alert-pop-up"></div>
 
                     <div class="modal_social">
                       <h2>Share this product</h2>

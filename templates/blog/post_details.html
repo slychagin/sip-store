@@ -38,10 +38,12 @@
                            </div>
                            <figcaption class="blog_content">
                                 <div class="post_content">
-
+                                    {% if single_post.quote %}
                                     <blockquote>
                                         <p>{{ single_post.quote }}</p>
                                     </blockquote>
+                                    {% endif %}
+
                                     <p>{{ single_post.description }}</p>
                                 </div>
                                 <div class="entry_content">

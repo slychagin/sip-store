@@ -102,21 +102,21 @@
                                     <button class="button" type="button" id="add-button" value="{{ single_product.id }}">В кошик</button>
                                </div>
                            </div>
+                            <div id="alert-prod-details"></div>
 
                             <div class="product_d_action" id="product_d_action">
                                <ul>
-                                   {% if single_product.id not in wishlist_ids %}
-
+                                   {% if single_product.id not in wish_products %}
                                    <li>
-                                       <a type="button" class="wishlist-add-button" id="wishlist-add-button" data-index="{{ single_product.id }}"
-                                          title="Додати до обраного">+ Додати до обраного
-                                       </a>
+                                       <a type="button" class="wishlist-add-button" id="wishlist-add-button"
+                                          data-index="{{ single_product.id }}" onClick="toggleText(this.id);"
+                                          >+ Додати до обраного</a>
                                    </li>
                                    {% else %}
                                    <li>
-                                       <a type="button" class="wishlist-add-button" id="wishlist-delete" data-index="{{ single_product.id }}"
-                                          title="Додати до обраного"> - Видалити з обраного
-                                       </a>
+                                       <a type="button" class="wishlist-add-button" id="wishlist-add-button"
+                                          data-index="{{ single_product.id }}" onClick="toggleText(this.id);"
+                                          >- Видалити з обраного</a>
                                    </li>
                                  {% endif %}
                                </ul>

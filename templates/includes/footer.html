@@ -13,60 +13,51 @@
               /></a>
             </div>
             <p class="footer_desc">
-              We are a team of designers and developers that create high quality
-              eCommerce, WordPress, Shopify .
+
             </p>
-            <p><span>Address:</span> 4710-4890 Breckinridge USA</p>
-            <p><span>Email:</span> <a href="#">demo@hasthemes.com</a></p>
+            <p><span>Адреса:</span> м.Черкаси, вул.Франка 6</p>
+            <p><span>Email:</span> <a href="#">sil.patelnya@gmail.com</a></p>
             <p>
-              <span>Call us:</span>
+              <span>Зателефонуйте нам:</span>
               <a href="tel:(08)23456789">(08) 23 456 789</a>
             </p>
           </div>
         </div>
-        <div class="col-lg-2 col-md-3 col-sm-5">
+        <div class="col-lg-4 col-md-3 col-sm-5">
           <div class="widgets_container widget_menu">
-            <h3>Information</h3>
+            <h3>Інформація</h3>
             <div class="footer_menu">
               <ul>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="#">Delivery Information</a></li>
-                <li><a href="#"> Privacy Policy</a></li>
-                <li><a href="#"> Terms & Conditions</a></li>
-                <li><a href="#"> Contact Us</a></li>
-                <li><a href="#"> Site Map</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-3 col-sm-4">
-          <div class="widgets_container widget_menu">
-            <h3>Extras</h3>
-            <div class="footer_menu">
-              <ul>
-                <li><a href="#">Brands</a></li>
-                <li><a href="#"> Gift Certificates</a></li>
-                <li><a href="#">Affiliate</a></li>
-                <li><a href="#">Specials</a></li>
-                <li><a href="#">Returns</a></li>
-                <li><a href="#"> Order History</a></li>
+                <li><a href="#">Де купити</a></li>
+                <li><a href="#">Умови для співпраці. HoReCa.</a></li>
+                <li><a href="#">Виробництво</a></li>
+                <li><a href="#">Контакти (і режим роботи)</a></li>
+                <li><a href="#">Договір оферти</a></li>
+                <li><a href="#">Політика конфіденційності</a></li>
               </ul>
             </div>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-8">
           <div class="widgets_container widget_newsletter">
-            <h3>Sign up newsletter</h3>
+            <h3>Додатково</h3>
             <p class="footer_desc">
-              Get updates by subscribe our weekly newsletter
+              Підпишіться на наши новини і таке інше
             </p>
+
             <div class="subscribe_form">
-              <form action="{% url 'subscribe' %}" method="POST" novalidate>
-                {% csrf_token %}
-                {{subscribe_form.email}}
-                <button type="submit" id="mc-submit">Підписатися</button>
-              </form>
+                <form id="mc-form" class="mc-form footer-newsletter">
+                  <input
+                    id="mc-email"
+                    type="email"
+                    autocomplete="off"
+                    placeholder="Введіть свій email"
+                  />
+                  <button type="button" id="mc-submit">Підписатися</button>
+                </form>
             </div>
+
+            <div id="alert-prod-details"></div>
 
             <div class="social text-right">
               <ul>

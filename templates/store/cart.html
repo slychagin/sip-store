@@ -1,4 +1,6 @@
-{% extends 'sip/base.html' %}{% load static %}{% block content %}
+{% extends 'sip/base.html' %}
+{% load static %}
+{% block content %}
 
 <!--breadcrumbs area start-->
     <div class="breadcrumbs_area">
@@ -37,7 +39,6 @@
      <!--shopping cart area start -->
     <div class="shopping_cart_area mt-70">
         <div class="container">
-<!--            <form action="#">-->
                 <div class="row">
                     <div class="col-12">
                         <div class="table_desc">
@@ -103,6 +104,7 @@
                                     <input placeholder="Введіть промокод" type="text" id="coupon-input" value="">
                                     <button type="button" id="coupon-button">Отримати знижку</button>
                                 </div>
+                                <div id="alert-prod-details"></div>
                             </div>
 
                         </div>
@@ -136,7 +138,6 @@
                     </div>
                 </div>
                 <!--coupon code area end-->
-<!--            </form>-->
         </div>
     </div>
      <!--shopping cart area end -->

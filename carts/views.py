@@ -120,13 +120,13 @@ def get_coupon(request):
 
             response = JsonResponse({
                 'cart_discount': cart_discount,
-                'total': total
+                'total': total,
+                'coupon_discount': coupon_discount
             })
         else:
-            # TODO: Вывести сообщение об отсутствии такого купона
             basket.set_discount()
             response = JsonResponse({
                 'cart_discount': 0,
-                'total': basket_total
+                'total': basket_total,
             })
         return response

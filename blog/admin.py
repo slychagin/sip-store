@@ -1,6 +1,20 @@
+from django import forms
 from django.contrib import admin
 
 from blog.models import BlogCategory, Post, Tag
+
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
+
+class PostAdminForm(forms.ModelForm):
+    description = forms.CharField(
+        label='Контент',
+        widget=CKEditorUploadingWidget()
+    )
+
+    class Meta:
+        model = Post
+        fields = '__all__'
 
 
 class BlogCategoryAdmin(admin.ModelAdmin):
@@ -11,6 +25,7 @@ class BlogCategoryAdmin(admin.ModelAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
+    form = PostAdminForm
     list_display = ('title', 'post_category', 'created_date', 'is_available')
     search_fields = ('title', 'post_category')
     list_per_page = 20

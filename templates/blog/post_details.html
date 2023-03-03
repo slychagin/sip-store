@@ -1,4 +1,6 @@
-{% extends 'sip/base.html' %}{% load static %}{% block content %}
+{% extends 'sip/base.html' %}
+{% load static %}
+{% block content %}
 
 <!--breadcrumbs area start-->
 <div class="breadcrumbs_area">
@@ -36,6 +38,7 @@
                             <div class="blog_thumb">
                                <a href="#"><img src="{{ single_post.post_image.url }}" alt="Зображення до посту"></a>
                            </div>
+
                            <figcaption class="blog_content">
                                 <div class="post_content">
                                     {% if single_post.quote %}
@@ -44,8 +47,9 @@
                                     </blockquote>
                                     {% endif %}
 
-                                    <p>{{ single_post.description }}</p>
+                                    <p>{{ single_post.description|safe }}</p>
                                 </div>
+                               <br>
                                 <div class="entry_content">
                                     <div class="post_meta">
                                         <span>Теги: </span>

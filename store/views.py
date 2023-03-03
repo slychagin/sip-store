@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
 from category.models import Category
@@ -90,7 +90,6 @@ class ProductDetailView(DetailView):
         product_gallery = ProductGallery.objects.filter(product_id=self.single_product.id)
         images = [i for i in product_gallery if i.image != '']
         videos = [i for i in product_gallery if i.video != '']
-        print(videos)
 
         context['single_product'] = self.single_product
         context['images'] = images

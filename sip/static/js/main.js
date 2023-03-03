@@ -613,6 +613,13 @@
         zoomType : 'inner'
 
     });
+    $("#zoom1").elevateZoom({
+        gallery:'gallery_02',
+        responsive : true,
+        cursor: 'crosshair',
+        zoomType : 'inner'
+
+    });
 
     /*---portfolio Isotope activation---*/
       $('.portfolio_gallery').imagesLoaded( function() {

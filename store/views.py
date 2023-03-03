@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
 
 from category.models import Category
-from store.models import Product
+from store.models import Product, ProductGallery
 
 
 class StorePageView(ListView):
@@ -87,7 +87,15 @@ class ProductDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        product_gallery = ProductGallery.objects.filter(product_id=self.single_product.id)
+        images = [i for i in product_gallery if i.image != '']
+        videos = [i for i in product_gallery if i.video != '']
+        print(videos)
+
         context['single_product'] = self.single_product
+        context['images'] = images
+        context['videos'] = videos
+
         return context
 
 

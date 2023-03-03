@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from embed_video.fields import EmbedVideoField
 
 from category.models import Category
 
@@ -45,3 +46,17 @@ def count_products(basket):
         product = Product.objects.get(id=item['product'].pk)
         product.count_orders += item['qty']
         product.save()
+
+
+class ProductGallery(models.Model):
+    objects = models.Manager()
+
+    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE, verbose_name='Товар')
+    image = models.ImageField(blank=True, upload_to='photos/gallery', max_length=255, verbose_name='Фото')
+    video = EmbedVideoField(blank=True, verbose_name='Відео', help_text='Завантаж URL відео з YouTube')
+
+    def __str__(self):
+        return f'{self.product.product_name}'
+
+    class Meta:
+        verbose_name_plural = 'Галерея товарів'

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'phonenumber_field',
+    'embed_video',
     'benefits',
     'banners',
     'blog',
@@ -179,3 +180,8 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
+
+
+# WSGI + Nginx settings for embed_video
+# TODO: Add SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') to your settings.py
+# TODO: Add proxy_set_header X-Forwarded-Proto $scheme; to your Nginx site config file.

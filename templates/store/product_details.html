@@ -1,4 +1,7 @@
-{% extends 'sip/base.html' %}{% load static %}{% block content %}
+{% extends 'sip/base.html' %}
+{% load static %}
+{% load embed_video_tags %}
+{% block content %}
 
     <!--breadcrumbs area start-->
     <div class="breadcrumbs_area">
@@ -23,39 +26,53 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6">
                     <div class="product-details-tab">
-                        <div id="img-1" class="zoomWrapper single-zoom">
-                            <a href="#">
-                                <img id="zoom1" src="{{ single_product.product_image.url }}" data-zoom-image="{{ single_product.product_image.url }}" alt="big-1">
-                            </a>
+                        <div id="img-1" class="zoomWrapper single-zoom mainImage">
+                                <img id="zoom1" src="{{ single_product.product_image.url }}"
+                                     data-zoom-image="{{ single_product.product_image.url }}" alt="big-1">
                         </div>
+
                         <div class="single-zoom-thumb">
-                            <ul class="s-tab-zoom owl-carousel single-product-active" id="gallery_01">
-                                <li>
-                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{% static 'img/product/productbig4.jpg' %}" data-zoom-image="{% static 'img/product/productbig4.jpg' %}">
-                                        <img src="{% static 'img/product/productbig4.jpg' %}" alt="zo-th-1"/>
+                            <ul class="s-tab-zoom owl-carousel single-product-active">
+                                <li id="gallery_01">
+                                    <a href="{{ single_product.product_image.url }}" target="mainImage"
+                                       rel="noopener noreferrer"
+                                       class="elevatezoom-gallery active" data-update=""
+                                       data-image="{{ single_product.product_image.url }}"
+                                       data-zoom-image="{{ single_product.product_image.url }}">
+                                        <img src="{{ single_product.product_image.url }}" alt="Фото товару"/>
                                     </a>
-
                                 </li>
-                                <li >
-                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{% static 'img/product/productbig1.jpg' %}" data-zoom-image="{% static 'img/product/productbig1.jpg' %}">
-                                        <img src="{% static 'img/product/productbig1.jpg' %}" alt="zo-th-1"/>
-                                    </a>
 
-                                </li>
-                                <li >
-                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{% static 'img/product/productbig2.jpg' %}" data-zoom-image="{% static 'img/product/productbig2.jpg' %}">
-                                        <img src="{% static 'img/product/productbig2.jpg' %}" alt="zo-th-1"/>
-                                    </a>
+                                {% for item in images %}
+                                    <li id="gallery_02">
+                                        <a href="{{ item.image.url }}" target="mainImage"
+                                           rel="noopener noreferrer"
+                                           class="elevatezoom-gallery" data-update=""
+                                           data-image="{{ item.image.url }}"
+                                           data-zoom-image="{{ item.image.url }}">
+                                            <img src="{{ item.image.url }}" alt="Фото товару"/>
+                                        </a>
+                                    </li>
+                                {% endfor %}
 
-                                </li>
+                                {% for item in videos %}
+                                    <li>
+                                        {% video item.video as product_video %}
+                                        <a href="{{ product_video.url }}" target="_blank" rel="noopener noreferrer">
+                                            <img src="{% static 'img/videoicon.jpg' %}" alt="Відео товару"/>
+                                        </a>
+                                        {% endvideo %}
+                                    </li>
+                                {% endfor %}
                             </ul>
-                        </div>
+                      </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6 col-md-6">
                     <div class="product_d_right">
 
-                            <h1><a href="#">{{ single_product.product_name }}</a></h1>
+                            <h1>{{ single_product.product_name }}</h1>
 
                             <div class=" product_ratting">
                                 <ul>

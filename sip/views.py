@@ -56,8 +56,13 @@ def get_single_product(request):
         for num, img in enumerate(images):
             data[f'img{num + 1}'] = img
 
-        for num, video in enumerate(videos):
-            data[f'video{num + 1}'] = video
+        if videos:
+            for num, video in enumerate(videos):
+                data[f'video{num + 1}'] = video
+            data['target'] = '_blank'
+        else:
+            data[f'video1'] = product.get_url()
+            data['target'] = '_self'
 
         response = JsonResponse(data=data)
 

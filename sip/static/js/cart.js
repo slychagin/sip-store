@@ -178,7 +178,10 @@ $(document).on('click', '.quick-show-button', function (e){
         document.getElementById('quick_img1_link').src = json.img1;
         document.getElementById('quick_img2').src = json.img2;
         document.getElementById('quick_img2_link').src = json.img2;
+
         document.getElementById('quick_video').href = json.video1;
+        document.getElementById('quick_video').target = json.target;
+
         document.getElementById('quick_main_href').href = json.product_url;
         document.getElementById('quick_img1_href').href = json.product_url;
         document.getElementById('quick_img2_href').href = json.product_url;

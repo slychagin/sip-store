@@ -3737,7 +3737,7 @@ textarea:-ms-input-placeholder {
 .price_box span.current_price {
   font-weight: 500;
   font-size: 17px;
-  color: #fc8a35;
+  color: #222222;
 }
 @media only screen and (max-width: 767px) {
   .price_box span.current_price {
@@ -10563,6 +10563,8 @@ textarea:-ms-input-placeholder {
 }
 
 /*blog details css end*/
+
+
 /*  24. modal css here */
 .modal-dialog.modal-dialog-centered {
   min-width: 1100px;
@@ -10802,12 +10804,49 @@ textarea:-ms-input-placeholder {
     margin-bottom: 14px;
   }
 }
+
 .modal-content button.close:hover {
   color: #fc8a35;
 }
 .modal-content button.close span {
   display: block;
 }
+
+.modal_info {
+margin: 0 auto;
+width: 50%;
+padding: 45px 35px 35px;
+border-radius: 0px;
+}
+
+@media only screen and (max-width: 767px) {
+ .modal_info {
+margin: 0 auto;
+width: 100%;
+padding: 35px 30px 30px;
+border-radius: 0px;
+}
+}
+
+ .modal-content button.close-info {
+    left: 90%;
+    width: 32px;
+    height: 32px;
+    line-height: 35px;
+    top: 10px;
+    margin-bottom: 14px;
+  }
+
+@media only screen and (max-width: 767px) {
+.modal-content button.close-info {
+    left: 87%;
+    width: 32px;
+    height: 32px;
+    line-height: 35px;
+    top: 10px;
+    margin-bottom: 14px;
+  }
+  }
 
 .modal_add_to_cart.mb-15 {
   margin-bottom: 23px;
@@ -10852,6 +10891,8 @@ textarea:-ms-input-placeholder {
 }
 
 /*modal css end*/
+
+
 /*  23. newsletter popup css here */
 .newletter-popup {
   background: #fff;
@@ -11989,7 +12030,7 @@ textarea:-ms-input-placeholder {
 
 /* CUSTOM CSS STYLES */
 
-
+/* Plus minus buttons */
 .quantity_main_btn {
   margin: 20px 0px 20px 0px;
   display: -webkit-box;
@@ -12043,6 +12084,7 @@ textarea:-ms-input-placeholder {
     border: 2px solid;
     border-radius: 40px;
     margin-left: 15px;
+    color: rgb(252, 138, 53, 0.5);
 }
 .gg-info::after,
 .gg-info::before {
@@ -12053,7 +12095,18 @@ textarea:-ms-input-placeholder {
     border-radius: 3px;
     width: 2px;
     background: currentColor;
-    left: 7px
+    left: 7px;
+    color: rgb(252, 138, 53, 0.5);
+}
+/*#BCBCBC*/
+.gg-info:hover {
+    color: #fc8a35;
+}
+.gg-info:hover::before {
+    color: #fc8a35;
+}
+.gg-info:hover::after {
+    color: #fc8a35;
 }
 .gg-info::after {
     bottom: 2px;
@@ -12167,6 +12220,103 @@ textarea:-ms-input-placeholder {
     z-index:99;
 }
 
+
+
+
+
+/* Popup product info */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 2;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 250px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 10px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.popup .close:hover {
+  color: #fc8a35;
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 767px){
+  .box{
+    width: 90%;
+  }
+  .popup{
+    margin: 130px auto;
+    width: 90%;
+  }
+}
+*/
 
 
 

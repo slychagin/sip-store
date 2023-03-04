@@ -58,8 +58,6 @@ function handleAlerts(alertId, type, text) {
 
 
 
-
-
 /*---Fade message---*/
 //setTimeout(function(){
 //    $('#messages-list').fadeOut('slow')

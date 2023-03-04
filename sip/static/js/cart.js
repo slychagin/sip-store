@@ -143,6 +143,7 @@ $(document).on('click', '.quick-add-button', function (e){
               action: 'POST'
           },
           success: function (json) {
+
             document.getElementById('cart_icon_count').innerHTML = json.qty;
             handleAlerts('alert-home', 'success', 'Додано до кошику');
           },
@@ -168,15 +169,26 @@ $(document).on('click', '.quick-show-button', function (e){
       success: function (json) {
         document.getElementById('quick-add-button').value = prodid;
         document.getElementById('quick_title').innerHTML = json.title;
+        document.getElementById('title_url').href = json.product_url;
         document.getElementById('quick_new_price').innerHTML = json.price;
         document.getElementById('quick_description').innerHTML = json.description;
-        document.getElementById('quick_img').src = json.image;
+        document.getElementById('quick_main').src = json.image_main;
+        document.getElementById('quick_main_link').src = json.image_main;
+        document.getElementById('quick_img1').src = json.img1;
+        document.getElementById('quick_img1_link').src = json.img1;
+        document.getElementById('quick_img2').src = json.img2;
+        document.getElementById('quick_img2_link').src = json.img2;
+        document.getElementById('quick_video').href = json.video1;
+        document.getElementById('quick_main_href').href = json.product_url;
+        document.getElementById('quick_img1_href').href = json.product_url;
+        document.getElementById('quick_img2_href').href = json.product_url;
 
         if (json.old_price) {
             document.getElementById('quick_old_price').innerHTML = json.old_price + ' ₴';
         } else {
         document.getElementById('quick_old_price').innerHTML = json.old_price;
         };
+
       },
       error: function(xhr, errmsg, err) {}
   });

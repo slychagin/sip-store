@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from embed_video.fields import EmbedVideoField
 
 from category.models import Category
@@ -9,24 +10,26 @@ class Product(models.Model):
     """Create Product model in the database"""
     objects = models.Manager()
 
-    product_name = models.CharField(max_length=255, verbose_name='Найменування товару')
-    slug = models.SlugField(max_length=255, unique=True)
-    description = models.TextField(blank=True, verbose_name='Опис')
-    price = models.IntegerField(verbose_name='Ціна')
-    price_old = models.IntegerField(blank=True, null=True, verbose_name='Стара ціна')
-    weight = models.DecimalField(max_digits=6, decimal_places=3, blank=True, null=True, verbose_name='Вага, кг')
-    product_image = models.ImageField(upload_to='photos/products', verbose_name='Фото товару')
-    is_available = models.BooleanField(default=True, verbose_name='Доступний')
-    is_new = models.BooleanField(default=False, verbose_name='New')
-    is_sale = models.BooleanField(default=False, verbose_name='Sale')
-    created_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
-    modified_date = models.DateTimeField(auto_now=True, verbose_name='Дата змін')
-    count_orders = models.IntegerField(default=0, verbose_name='Замовлено одиниць')
-    category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE, verbose_name='Категорія')
+    product_name = models.CharField(max_length=255, verbose_name=_('найменування товару'))
+    slug = models.SlugField(max_length=255, unique=True, verbose_name=_('slug'))
+    short_description = models.TextField(blank=True, verbose_name=_('короткий опис'))
+    description = models.TextField(blank=True, verbose_name=_('детальний опис'))
+    specification = models.TextField(blank=True, verbose_name=_('специфікація'))
+    price = models.IntegerField(verbose_name=_('ціна'))
+    price_old = models.IntegerField(blank=True, null=True, verbose_name=_('стара ціна'))
+    weight = models.DecimalField(max_digits=6, decimal_places=3, blank=True, null=True, verbose_name=_('вага, кг'))
+    product_image = models.ImageField(upload_to='photos/products', verbose_name=_('фото товару'))
+    is_available = models.BooleanField(default=True, verbose_name=_('доступний'))
+    is_new = models.BooleanField(default=False, verbose_name=_('new'))
+    is_sale = models.BooleanField(default=False, verbose_name=_('sale'))
+    created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
+    modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата змін'))
+    count_orders = models.IntegerField(default=0, verbose_name=_('замовлено одиниць'))
+    category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE, verbose_name=_('категорія'))
 
     class Meta:
-        verbose_name = 'Товар'
-        verbose_name_plural = 'Товари'
+        verbose_name = _('товар')
+        verbose_name_plural = _('товари')
         ordering = ('-created_date',)
 
     def __str__(self):
@@ -51,12 +54,12 @@ def count_products(basket):
 class ProductGallery(models.Model):
     objects = models.Manager()
 
-    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE, verbose_name='Товар')
-    image = models.ImageField(blank=True, upload_to='photos/gallery', max_length=255, verbose_name='Фото')
-    video = EmbedVideoField(blank=True, verbose_name='Відео', help_text='Завантаж URL відео з YouTube')
+    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE, verbose_name=_('товар'))
+    image = models.ImageField(blank=True, upload_to='photos/gallery', max_length=255, verbose_name=_('фото'))
+    video = EmbedVideoField(blank=True, verbose_name=_('відео'), help_text=_('Завантаж URL відео з YouTube'))
 
     def __str__(self):
         return f'{self.product.product_name}'
 
     class Meta:
-        verbose_name_plural = 'Галерея товарів'
+        verbose_name_plural = _('галерея товарів')

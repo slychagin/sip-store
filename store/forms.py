@@ -1,6 +1,31 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
-from store.models import ProductGallery
+from store.models import ProductGallery, Product
+
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
+
+class ProductAdminForm(forms.ModelForm):
+    short_description = forms.CharField(
+        required=False,
+        label=_('Короткий опис'),
+        widget=CKEditorUploadingWidget()
+    )
+    description = forms.CharField(
+        required=False,
+        label=_('Детальний опис'),
+        widget=CKEditorUploadingWidget()
+    )
+    specification = forms.CharField(
+        required=False,
+        label=_('Специфікація'),
+        widget=CKEditorUploadingWidget()
+    )
+
+    class Meta:
+        model = Product
+        fields = '__all__'
 
 
 class ProductGalleryForm(forms.ModelForm):

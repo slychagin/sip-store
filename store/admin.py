@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from embed_video.admin import AdminVideoMixin
 
-from store.forms import ProductGalleryForm
+from store.forms import ProductGalleryForm, ProductAdminForm
 from store.models import Product, ProductGallery
 
 
@@ -15,6 +15,7 @@ class ProductGalleryInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
+    form = ProductAdminForm
     prepopulated_fields = {'slug': ('product_name',)}
     list_display = (
         'product_name', 'price', 'category', 'modified_date',

@@ -10612,6 +10612,10 @@ textarea:-ms-input-placeholder {
   line-height: 26px;
 }
 
+.title_url:hover {
+    color: #fc8a35;
+}
+
 .modal_social h2 {
   font-size: 16px;
   text-transform: uppercase;

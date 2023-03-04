@@ -1,20 +1,7 @@
-from django import forms
 from django.contrib import admin
 
+from blog.forms import PostAdminForm
 from blog.models import BlogCategory, Post, Tag
-
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
-
-
-class PostAdminForm(forms.ModelForm):
-    description = forms.CharField(
-        label='Контент',
-        widget=CKEditorUploadingWidget()
-    )
-
-    class Meta:
-        model = Post
-        fields = '__all__'
 
 
 class BlogCategoryAdmin(admin.ModelAdmin):

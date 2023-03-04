@@ -1,4 +1,7 @@
-{% extends 'sip/base.html' %} {% load static %} {% block content %}
+{% extends 'sip/base.html' %}
+{% load static %}
+{% load embed_video_tags %}
+{% block content %}
 
 <!--fix flash alert in bottom of the screen-->
 <div class="alert-box-home" id="alert-home"></div>
@@ -1399,13 +1402,7 @@
 <!--brand area end-->
 
 <!-- modal area start-->
-    <div
-      class="modal fade"
-      id="modal_box"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <button
@@ -1417,59 +1414,56 @@
           >
             <span aria-hidden="true"><i class="icon-x"></i></span>
           </button>
+
           <div class="modal_body">
             <div class="container">
               <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-12">
                   <div class="modal_tab">
                     <div class="tab-content product-details-large">
-                      <div
-                        class="tab-pane fade show active"
-                        id="tab1"
-                        role="tabpanel"
-                      >
+
+                      <div class="tab-pane fade show active" id="tab1" role="tabpanel">
                         <div class="modal_tab_img">
-                          <a href="#"
-                            ><img
-                              id="quick_img"
+                          <a id="quick_main_href" href="#">
+                            <img id="quick_main" src="" alt="Зображення товару"></a>
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="tab2" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a  id="quick_img1_href" href="#"
+                            ><img id="quick_img1"
                               src=""
                               alt="Зображення товару"
                           /></a>
                         </div>
                       </div>
-                      <div class="tab-pane fade" id="tab2" role="tabpanel">
-                        <div class="modal_tab_img">
-                          <a href="#"
-                            ><img
-                              src="{% static 'img/product/productbig2.jpg' %}"
-                              alt="Зображення товару"
-                          /></a>
-                        </div>
-                      </div>
+
                       <div class="tab-pane fade" id="tab3" role="tabpanel">
                         <div class="modal_tab_img">
-                          <a href="#"
-                            ><img
-                              src="{% static 'img/product/productbig3.jpg' %}"
+                          <a id="quick_img2_href" href="#"
+                            ><img id="quick_img2"
+                              src=""
                               alt="Зображення товару"
                           /></a>
                         </div>
                       </div>
+
                       <div class="tab-pane fade" id="tab4" role="tabpanel">
                         <div class="modal_tab_img">
-                          <a href="#"
+                          <a id="quick_video" href=""
+                             target="_blank" rel="noopener noreferrer"
                             ><img
-                              src="{% static 'img/product/productbig4.jpg' %}"
+                              src="{% static 'img/videoicon.jpg' %}"
                               alt="Зображення товару"
                           /></a>
                         </div>
                       </div>
                     </div>
+
                     <div class="modal_tab_button">
-                      <ul
-                        class="nav product_navactive owl-carousel"
-                        role="tablist"
-                      >
+                      <ul class="nav product_navactive owl-carousel" role="tablist">
+
                         <li>
                           <a
                             class="nav-link active"
@@ -1478,9 +1472,10 @@
                             role="tab"
                             aria-controls="tab1"
                             aria-selected="false"
-                            ><img src="{% static 'img/product/product1.jpg' %}" alt="Зображення товару"
+                            ><img id="quick_main_link" src="" alt="Зображення товару"
                           /></a>
                         </li>
+
                         <li>
                           <a
                             class="nav-link"
@@ -1489,9 +1484,10 @@
                             role="tab"
                             aria-controls="tab2"
                             aria-selected="false"
-                            ><img src="{% static 'img/product/product6.jpg' %}" alt="Зображення товару"
+                            ><img id="quick_img1_link" src="" alt="Зображення товару"
                           /></a>
                         </li>
+
                         <li>
                           <a
                             class="nav-link button_three"
@@ -1500,28 +1496,30 @@
                             role="tab"
                             aria-controls="tab3"
                             aria-selected="false"
-                            ><img src="{% static 'img/product/product2.jpg' %}" alt="Зображення товару"
+                            ><img id="quick_img2_link" src="" alt="Зображення товару"
                           /></a>
                         </li>
+
                         <li>
-                          <a
+                          <a id="quick_video_link"
                             class="nav-link"
                             data-toggle="tab"
                             href="#tab4"
                             role="tab"
                             aria-controls="tab4"
                             aria-selected="false"
-                            ><img src="{% static 'img/product/product7.jpg' %}" alt="Зображення товару"
+                            ><img src="{% static 'img/videoicon.jpg' %}" alt="Відео товару"
                           /></a>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </div>
+
                 <div class="col-lg-7 col-md-7 col-sm-12">
                   <div class="modal_right">
                     <div class="modal_title mb-10">
-                      <h2 id="quick_title"></h2>
+                      <a class="title_url" id="title_url" href=""><h2 id="quick_title"></h2></a>
                     </div>
                     <div class="modal_price mb-10">
                       <span class="new_price" id="quick_new_price"></span><span class="new_price"> ₴</span>

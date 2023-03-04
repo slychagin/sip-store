@@ -13,7 +13,7 @@ from sales.models import (
     MostPopularCenter,
     MostPopularRight
 )
-from store.models import Product
+from store.models import Product, ProductGallery
 
 
 class HomePageView(TemplateView):
@@ -39,13 +39,28 @@ def get_single_product(request):
         product_id = int(request.POST.get('product_id'))
         product = Product.objects.get(id=product_id)
 
-        response = JsonResponse({
+        # Get all images and videos from Product Gallery
+        product_gallery = ProductGallery.objects.filter(product=product)
+        images = [i.image.url for i in product_gallery if i.image != '']
+        videos = [i.video for i in product_gallery if i.video != '']
+
+        data = {
             'title': product.product_name,
             'price': product.price,
             'old_price': product.price_old,
-            'description': product.description,
-            'image': product.product_image.url
-        })
+            'description': product.short_description,
+            'image_main': product.product_image.url,
+            'product_url': product.get_url()
+        }
+
+        for num, img in enumerate(images):
+            data[f'img{num + 1}'] = img
+
+        for num, video in enumerate(videos):
+            data[f'video{num + 1}'] = video
+
+        response = JsonResponse(data=data)
+
         return response
 
 
@@ -55,7 +70,7 @@ def subscribe(request):
         email = request.POST.get('email')
         try:
             validate_email(email)
-        except ValidationError as e:
+        except ValidationError:
             response = JsonResponse({'error': 'Введіть коректну email адресу'})
             return response
         else:

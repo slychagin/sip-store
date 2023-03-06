@@ -99,7 +99,7 @@
                                     data-tippy-inertia="true"
                                     data-tippy-trigger="mouseenter"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#modal_box"
+                                    data-bs-target="#modal_box_info"
                                   >
                                     <span class="gg-info"></span
                                 ></a>
@@ -110,9 +110,9 @@
                             </div>
 
                            <div class="quantity_main_btn">
-                                   <button class="quantity_btn_1 bg-c" id="button-minus" type="button" onclick="decrementProdDetail()">-</button>
+                                   <button class="quantity_btn_1 bg-c" type="button" onclick="decrementProdDetail()">-</button>
                                    <input type="number" min="1" max="100" value="1" readonly class="raz" id="qty" name="quantity">
-                                   <button class="quantity_btn_1 bg-c" id="button-plus" type="button" onclick="incrementProdDetail()">+</button>
+                                   <button class="quantity_btn_1 bg-c" type="button" onclick="incrementProdDetail()">+</button>
                                <div class="product_variant quantity">
                                     <button class="button" type="button" id="add-button" value="{{ single_product.id }}">В кошик</button>
                                </div>
@@ -259,378 +259,293 @@
     <!--product info end-->
 
     <!--product area start-->
+{% if related_products %}
     <section class="product_area related_products">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="section_title">
-                        <h2>Related Products	</h2>
+                        <h2>З цим товаром купують</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="product_carousel product_column5 owl-carousel">
+
+                        {% for product in related_products %}
                         <article class="single_product">
                             <figure>
                                 <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product20.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product21.jpg' %}" alt=""></a>
+                                    <a class="primary_img" href="{{ product.get_url }}"><img src="{{ product.product_image.url }}" alt="Головне фото"></a>
+                                    {% if product.second_image %}
+                                    <a class="secondary_img" href="{{ product.get_url }}"><img src="{{ product.second_image.url }}" alt="Друге фото"></a>
+                                    {% endif %}
                                     <div class="label_product">
+                                        {% if product.is_sale %}
                                         <span class="label_sale">Sale</span>
+                                        {% endif %}
+                                        {% if product.is_new %}
                                         <span class="label_new">New</span>
+                                        {% endif %}
                                     </div>
                                     <div class="action_links">
                                         <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
+                                           <li class="add_to_cart">
+                                               <a
+                                                 type="button"
+                                                  class="quick-add-button"
+                                                  data-index="{{ product.id }}"
+                                                  data-tippy="В кошик"
+                                                  data-tippy-placement="top"
+                                                  data-tippy-arrow="true"
+                                                  data-tippy-inertia="true"
+                                               >
+                                                   <span class="lnr lnr-cart"></span>
+                                               </a>
+                                           </li>
+                                           <li class="quick_button">
+                                               <a
+                                                  type="button"
+                                                  class="quick-show-button"
+                                                  data-index="{{ product.id }}"
+                                                  data-tippy="Швидкий просмотр"
+                                                  data-tippy-placement="top"
+                                                  data-tippy-arrow="true"
+                                                  data-tippy-inertia="true"
+                                                  data-bs-toggle="modal"
+                                                  data-bs-target="#modal_box">
+                                                   <span class="lnr lnr-magnifier"></span>
+                                               </a>
+                                           </li>
+                                           <li class="wishlist">
+                                            {% if product.id in wish_products %}
+                                            <a
+                                              type="button"
+                                              class="wishlist-button"
+                                              data-index="{{ product.id }}"
+                                              data-tippy="У обране"
+                                              data-tippy-placement="top"
+                                              data-tippy-arrow="true"
+                                              data-tippy-inertia="true"
+                                              style="background: #fc8a35;"
+                                              ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                                            ></a>
+                                            {% else %}
+                                            <a
+                                              type="button"
+                                              class="wishlist-button"
+                                              data-index="{{ product.id }}"
+                                              data-tippy="У обране"
+                                              data-tippy-placement="top"
+                                              data-tippy-arrow="true"
+                                              data-tippy-inertia="true"
+                                              ><span class="lnr lnr-heart"></span
+                                            ></a>
+                                            {% endif %}
+                                          </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Quisque In Arcu</a></h4>
-                                    <p><a href="#">Fruits</a></p>
+                                    <h4 class="product_name"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h4>
+                                    <p><a href="{{ product.category.get_url }}">{{ product.category }}</a></p>
                                     <div class="price_box">
-                                        <span class="current_price">$55.00</span>
-                                        <span class="old_price">$235.00</span>
+                                        <span class="current_price">{{ product.price }} ₴</span>
+                                        {% if product.price_old %}
+                                        <span class="old_price">{{ product.price_old }} ₴</span>
+                                        {% endif %}
                                     </div>
                                 </figcaption>
                             </figure>
                         </article>
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product15.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product14.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Cas Meque Metus</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$26.00</span>
-                                        <span class="old_price">$362.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product17.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product16.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Aliquam Consequat</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$26.00</span>
-                                        <span class="old_price">$362.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product14.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product15.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                        <span class="label_new">New</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Mauris Vel Tellus</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$48.00</span>
-                                        <span class="old_price">$257.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product16.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product17.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Nunc Neque Eros</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$35.00</span>
-                                        <span class="old_price">$245.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product18.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product19.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Proin Lectus Ipsum</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$26.00</span>
-                                        <span class="old_price">$362.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </section>
+{% endif %}
     <!--product area end-->
 
-     <!--product area start-->
-    <section class="product_area upsell_products">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section_title">
-                        <h2>Upsell Products	</h2>
+<!-- modal area start-->
+    <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <button
+            id="close-quick-button"
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true"><i class="icon-x"></i></span>
+          </button>
+
+          <div class="modal_body">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                  <div class="modal_tab">
+                    <div class="tab-content product-details-large">
+
+                      <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a id="quick_main_href" href="#">
+                            <img id="quick_main" src="" alt="Зображення товару"></a>
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="tab2" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a  id="quick_img1_href" href="#"
+                            ><img id="quick_img1"
+                              src=""
+                              alt="Зображення товару"
+                          /></a>
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="tab3" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a id="quick_img2_href" href="#"
+                            ><img id="quick_img2"
+                              src=""
+                              alt="Зображення товару"
+                          /></a>
+                        </div>
+                      </div>
+
+                      <div class="tab-pane fade" id="tab4" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a id="quick_video" href=""
+                             target="" rel="noopener noreferrer"
+                            ><img
+                              src="{% static 'img/videoicon.jpg' %}"
+                              alt="Зображення товару"
+                          /></a>
+                        </div>
+                      </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="product_carousel product_column5 owl-carousel">
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product1.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product2.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Proin Lectus Ipsum</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$26.00</span>
-                                        <span class="old_price">$362.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product9.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product4.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                        <span class="label_new">New</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Quisque In Arcu</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$55.00</span>
-                                        <span class="old_price">$235.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product13.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product1.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                        <span class="label_new">New</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Mauris Vel Tellus</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$48.00</span>
-                                        <span class="old_price">$257.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product12.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product2.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Nunc Neque Eros</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$35.00</span>
-                                        <span class="old_price">$245.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product1.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product2.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                        <span class="label_new">New</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Aliquam Consequat</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$26.00</span>
-                                        <span class="old_price">$362.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
-                        <article class="single_product">
-                            <figure>
-                                <div class="product_thumb">
-                                    <a class="primary_img" href="product-details.html"><img src="{% static 'img/product/product3.jpg' %}" alt=""></a>
-                                    <a class="secondary_img" href="product-details.html"><img src="{% static 'img/product/product4.jpg' %}" alt=""></a>
-                                    <div class="label_product">
-                                        <span class="label_sale">Sale</span>
-                                    </div>
-                                    <div class="action_links">
-                                        <ul>
-                                            <li class="add_to_cart"><a href="cart.html" data-tippy="Add to cart" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"> <span class="lnr lnr-cart"></span></a></li>
-                                           <li class="quick_button"><a href="#" data-tippy="quick view" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true" data-bs-toggle="modal" data-bs-target="#modal_box" > <span class="lnr lnr-magnifier"></span></a></li>
-                                             <li class="wishlist"><a href="wishlist.html" data-tippy="Add to Wishlist" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-heart"></span></a></li>
-                                            <li class="compare"><a href="#" data-tippy="Add to Compare" data-tippy-placement="top" data-tippy-arrow="true" data-tippy-inertia="true"><span class="lnr lnr-sync"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="product-details.html">Donec Non Est</a></h4>
-                                    <p><a href="#">Fruits</a></p>
-                                    <div class="price_box">
-                                        <span class="current_price">$46.00</span>
-                                        <span class="old_price">$382.00</span>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                        </article>
+
+                    <div class="modal_tab_button">
+                      <ul class="nav product_navactive owl-carousel" role="tablist">
+
+                        <li>
+                          <a
+                            class="nav-link active"
+                            data-toggle="tab"
+                            href="#tab1"
+                            role="tab"
+                            aria-controls="tab1"
+                            aria-selected="false"
+                            ><img id="quick_main_link" src="" alt="Зображення товару"
+                          /></a>
+                        </li>
+
+                        <li>
+                          <a
+                            class="nav-link"
+                            data-toggle="tab"
+                            href="#tab2"
+                            role="tab"
+                            aria-controls="tab2"
+                            aria-selected="false"
+                            ><img id="quick_img1_link" src="" alt="Зображення товару"
+                          /></a>
+                        </li>
+
+                        <li>
+                          <a
+                            class="nav-link button_three"
+                            data-toggle="tab"
+                            href="#tab3"
+                            role="tab"
+                            aria-controls="tab3"
+                            aria-selected="false"
+                            ><img id="quick_img2_link" src="" alt="Зображення товару"
+                          /></a>
+                        </li>
+
+                        <li>
+                          <a id="quick_video_link"
+                            class="nav-link"
+                            data-toggle="tab"
+                            href="#tab4"
+                            role="tab"
+                            aria-controls="tab4"
+                            aria-selected="false"
+                            ><img src="{% static 'img/videoicon.jpg' %}" alt="Відео товару"
+                          /></a>
+                        </li>
+                      </ul>
                     </div>
+                  </div>
                 </div>
+
+                <div class="col-lg-7 col-md-7 col-sm-12">
+                  <div class="modal_right">
+                    <div class="modal_title mb-10">
+                      <a class="title_url" id="title_url" href=""><h2 id="quick_title"></h2></a>
+                    </div>
+                    <div class="modal_price mb-10">
+                      <span class="new_price" id="quick_new_price"></span><span class="new_price"> ₴</span>
+
+                      <span class="old_price" id="quick_old_price"></span><span class="old_price"></span>
+
+                    </div>
+                    <div class="modal_description mb-15">
+                      <p id="quick_description"></p>
+                    </div>
+
+                    <div class="variants_selects">
+                      <div class="modal_add_to_cart">
+                        <button class="quantity_btn_1 bg-c" id="button-minus" type="button" onclick="decrementQuickPopup()">-</button>
+                        <input type="number" min="1" max="100" value="1" readonly class="raz" id="qty-quick-popup">
+                        <button class="quantity_btn_1 bg-c" id="button-plus" type="button" onclick="incrementQuickPopup()">+</button>
+                        <form action="#">
+                          <button type="button" id="quick-add-button" value="">В кошик</button>
+                        </form>
+                      </div>
+                    </div>
+
+                    <div id="alert-pop-up"></div>
+
+                    <div class="modal_social">
+                      <h2>Share this product</h2>
+                      <ul>
+                        <li class="facebook">
+                          <a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li class="twitter">
+                          <a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li class="pinterest">
+                          <a href="#"><i class="fa fa-pinterest"></i></a>
+                        </li>
+                        <li class="google-plus">
+                          <a href="#"><i class="fa fa-google-plus"></i></a>
+                        </li>
+                        <li class="linkedin">
+                          <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
-    <!--product area end-->
+      </div>
+    </div>
+<!-- modal area end-->
 
-<!-- modal area start -->
+
+<!-- modal info start -->
     <div
       class="modal fade"
-      id="modal_box"
+      id="modal_box_info"
       tabindex="-1"
       role="dialog"
       aria-hidden="true"
@@ -661,6 +576,9 @@
         </div>
       </div>
     </div>
-    <!-- modal area end-->
+    <!-- modal info end-->
+
+<!--fix flash alert in bottom of the screen-->
+<div class="alert-box-home" id="alert-home"></div>
 
 {% endblock %}

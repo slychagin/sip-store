@@ -6,6 +6,24 @@ from embed_video.fields import EmbedVideoField
 from category.models import Category
 
 
+# class RelatedProducts(models.Model):
+#     objects = models.Manager()
+#
+#     product = models.ForeignKey(
+#         Product,
+#         related_name='product',
+#         on_delete=models.CASCADE,
+#         verbose_name=_('супутній товар')
+#     )
+#
+#     def __str__(self):
+#         return f'{self.product.product_name}'
+#
+#     class Meta:
+#         verbose_name = _('супутній товар')
+#         verbose_name_plural = _('супутні товари')
+
+
 class Product(models.Model):
     """Create Product model in the database"""
     objects = models.Manager()
@@ -18,7 +36,13 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name=_('ціна'))
     price_old = models.IntegerField(blank=True, null=True, verbose_name=_('стара ціна'))
     weight = models.DecimalField(max_digits=6, decimal_places=3, blank=True, null=True, verbose_name=_('вага, кг'))
-    product_image = models.ImageField(upload_to='photos/products', verbose_name=_('фото товару'))
+    product_image = models.ImageField(upload_to='photos/products', verbose_name=_('активне фото'))
+    second_image = models.ImageField(
+        upload_to='photos/products',
+        blank=True,
+        help_text="Необов'язкове (потрібно для супутніх товарів)",
+        verbose_name=_('друге фото')
+    )
     is_available = models.BooleanField(default=True, verbose_name=_('доступний'))
     is_new = models.BooleanField(default=False, verbose_name=_('new'))
     is_sale = models.BooleanField(default=False, verbose_name=_('sale'))
@@ -26,6 +50,7 @@ class Product(models.Model):
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата змін'))
     count_orders = models.IntegerField(default=0, verbose_name=_('замовлено одиниць'))
     category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE, verbose_name=_('категорія'))
+    related_products = models.ManyToManyField('self', related_name='+', symmetrical=False, blank=True, verbose_name=_('супутні товари'))
 
     class Meta:
         verbose_name = _('товар')

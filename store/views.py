@@ -91,9 +91,12 @@ class ProductDetailView(DetailView):
         images = [i for i in product_gallery if i.image != '']
         videos = [i for i in product_gallery if i.video != '']
 
+        related_products = Product.related_products.through.objects.filter(from_product_id=self.single_product.id)
+
         context['single_product'] = self.single_product
         context['images'] = images
         context['videos'] = videos
+        context['related_products'] = [item.to_product for item in related_products]
 
         return context
 

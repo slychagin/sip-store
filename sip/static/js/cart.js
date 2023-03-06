@@ -143,7 +143,6 @@ $(document).on('click', '.quick-add-button', function (e){
               action: 'POST'
           },
           success: function (json) {
-
             document.getElementById('cart_icon_count').innerHTML = json.qty;
             handleAlerts('alert-home', 'success', 'Додано до кошику');
           },

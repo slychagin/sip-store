@@ -28,6 +28,18 @@ class ProductAdminForm(forms.ModelForm):
         fields = '__all__'
 
 
+class ProductInfoAdminForm(forms.ModelForm):
+    description = forms.CharField(
+        required=False,
+        label=_('Інформація щодо товару'),
+        widget=CKEditorUploadingWidget()
+    )
+
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
 class ProductGalleryForm(forms.ModelForm):
     """Validation that prohibit to enter image and video together"""
     class Meta:

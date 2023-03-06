@@ -6,24 +6,6 @@ from embed_video.fields import EmbedVideoField
 from category.models import Category
 
 
-# class RelatedProducts(models.Model):
-#     objects = models.Manager()
-#
-#     product = models.ForeignKey(
-#         Product,
-#         related_name='product',
-#         on_delete=models.CASCADE,
-#         verbose_name=_('супутній товар')
-#     )
-#
-#     def __str__(self):
-#         return f'{self.product.product_name}'
-#
-#     class Meta:
-#         verbose_name = _('супутній товар')
-#         verbose_name_plural = _('супутні товари')
-
-
 class Product(models.Model):
     """Create Product model in the database"""
     objects = models.Manager()
@@ -50,6 +32,7 @@ class Product(models.Model):
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата змін'))
     count_orders = models.IntegerField(default=0, verbose_name=_('замовлено одиниць'))
     category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE, verbose_name=_('категорія'))
+    related_products_title = models.CharField(max_length=255, blank='З цим товаром купують', verbose_name=_('заголовок до супутніх товарів'))
     related_products = models.ManyToManyField('self', related_name='+', symmetrical=False, blank=True, verbose_name=_('супутні товари'))
 
     class Meta:
@@ -88,3 +71,16 @@ class ProductGallery(models.Model):
 
     class Meta:
         verbose_name_plural = _('галерея товарів')
+
+
+class ProductInfo(models.Model):
+    """Create ProductInfo model in the database"""
+    objects = models.Manager()
+    description = models.TextField(blank=True, verbose_name=_('инфо'))
+
+    class Meta:
+        verbose_name = _('инфо про товар')
+        verbose_name_plural = _('инфо')
+
+    def __str__(self):
+        return 'Інформація щодо товару'

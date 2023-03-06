@@ -3,11 +3,11 @@ from django.contrib import admin
 from django.utils.html import format_html
 from embed_video.admin import AdminVideoMixin
 
-from store.forms import ProductGalleryForm, ProductAdminForm
+from store.forms import ProductGalleryForm, ProductAdminForm, ProductInfoAdminForm
 from store.models import (
     Product,
     ProductGallery,
-    # RelatedProducts
+    ProductInfo
 )
 
 
@@ -16,11 +16,6 @@ class ProductGalleryInline(admin.TabularInline):
     form = ProductGalleryForm
     model = ProductGallery
     extra = 0
-
-
-# class RelatedProductsInline(admin.TabularInline):
-#     model = RelatedProducts
-#     extra = 0
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -55,14 +50,10 @@ class ProductGalleryAdmin(AdminVideoMixin, admin.ModelAdmin):
     list_max_show_all = 100
 
 
-class RelatedProductsAdmin(admin.ModelAdmin):
-    list_display = ('product',)
-    list_filter = ('product',)
-    search_fields = ('product__product_name',)
-    list_per_page = 20
-    list_max_show_all = 100
+class ProductInfoAdmin(admin.ModelAdmin):
+    form = ProductInfoAdminForm
 
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductGallery, ProductGalleryAdmin)
-# admin.site.register(RelatedProducts, RelatedProductsAdmin)
+admin.site.register(ProductInfo, ProductInfoAdmin)

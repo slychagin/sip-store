@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
 from category.models import Category
-from store.models import Product, ProductGallery
+from store.models import Product, ProductGallery, ProductInfo
 
 
 class StorePageView(ListView):
@@ -97,6 +97,7 @@ class ProductDetailView(DetailView):
         context['images'] = images
         context['videos'] = videos
         context['related_products'] = [item.to_product for item in related_products]
+        context['info'] = ProductInfo.objects.all()[0].description
 
         return context
 

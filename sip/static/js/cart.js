@@ -108,15 +108,16 @@ $(document).on('click', '.button-minus', function (e){
               document.getElementById('total').innerHTML = json.total;
               $(".shopping_cart_area").load(location.href + " .shopping_cart_area");
               document.getElementById('cart_icon_count').innerHTML = json.qty;
-              if (json.qty === 0) {
-                window.location.reload();
-            }
-            }
+                  if (json.qty === 0) {
+                    window.location.reload();
+                }
+            } else {
             document.getElementById(prodid + 'item-qty').value = json.item_qty;
             document.getElementById(prodid + 'item_total').innerHTML = json.item_total_price +  ' ₴';
             document.getElementById('cart_icon_count').innerHTML = json.qty;
             document.getElementById('total').innerHTML = json.total;
             document.getElementById('total-with-discount').innerHTML = json.total;
+            }
           },
           error: function(xhr, errmsg, err) {}
       });

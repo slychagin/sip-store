@@ -3,7 +3,13 @@ from django.views.generic.base import TemplateView
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
-from banners.models import WeekOfferBanner
+from banners.models import (
+    WeekOfferBanner,
+    MainBanner,
+    TwoBanners,
+    OfferSingleBanner,
+    FooterBanner
+)
 from benefits.models import Benefits, Partners
 from orders.models import Subscribers
 from sales.models import (
@@ -30,6 +36,10 @@ class HomePageView(TemplateView):
         context['popular_right'] = MostPopularRight.objects.all()
         context['partners'] = Partners.objects.all()
         context['week_offer_banners'] = WeekOfferBanner.objects.all()
+        context['main_banner'] = MainBanner.objects.all()
+        context['two_banners'] = TwoBanners.objects.all()
+        context['offer_single_banner'] = OfferSingleBanner.objects.all()
+        context['footer_banner'] = FooterBanner.objects.all()
         return context
 
 

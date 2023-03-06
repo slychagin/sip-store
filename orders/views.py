@@ -90,11 +90,11 @@ class OrderFormView(View):
             # Save customer to the database
             save_customer(order)
 
-            # Send an email with order details to the customer's email
-            send_email_to_customer(basket, order)
-
-            # Send message with order details to admin Telegram chat
-            send_message_to_admin_telegram(basket, order)
+            # # Send an email with order details to the customer's email
+            # send_email_to_customer(basket, order)
+            #
+            # # Send message with order details to admin Telegram chat
+            # send_message_to_admin_telegram(basket, order)
 
             # Clear basket session data
             try:
@@ -119,6 +119,7 @@ class OrderFormView(View):
 def create_order_items(basket, order):
     """Create and save order items"""
     for item in basket.__iter__():
+        print(item)
         ordered_product = OrderItem()
 
         ordered_product.order = order

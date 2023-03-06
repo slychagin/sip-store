@@ -3,45 +3,24 @@
 {% load embed_video_tags %}
 {% block content %}
 
-<!--fix flash alert in bottom of the screen-->
-<div class="alert-box-home" id="alert-home"></div>
-
 <!--slider area start-->
 <section class="slider_section slider_s_three">
   <div class="container">
     <div class="row">
       <div class="col-lg-9 offset-lg-3">
         <div class="slider_area owl-carousel">
-          <div
-            class="single_slider d-flex align-items-center"
-            data-bgimg="{% static 'img/slider/slider7.jpg' %}"
-          >
+
+        {% for banner in main_banner %}
+          <div class="single_slider d-flex align-items-center"
+            data-bgimg="{{ banner.image.url }}">
             <div class="slider_content slider_c_three">
-              <h1>Vegetables 100% Organic</h1>
-              <p>Organic ingredients & healthy recipes</p>
-              <a href="#">Read more </a>
+              <h1>{{ banner.title }}</h1>
+              <p>{{ banner.description }}</p>
+              <a href="{{ banner.banner_url }}">Дізнатися більше</a>
             </div>
           </div>
-          <div
-            class="single_slider d-flex align-items-center"
-            data-bgimg="{% static 'img/slider/slider8.jpg' %}"
-          >
-            <div class="slider_content slider_c_three">
-              <h1>Organic & Fresh Lemon</h1>
-              <p>Healthy fruits tropical paradise</p>
-              <a href="#">Read more </a>
-            </div>
-          </div>
-          <div
-            class="single_slider d-flex align-items-center"
-            data-bgimg="{% static 'img/slider/slider9.jpg' %}"
-          >
-            <div class="slider_content slider_c_three">
-              <h1>Fresh Banana 100% Natural</h1>
-              <p>Healthy fruits tropical paradise</p>
-              <a href="#">Read more </a>
-            </div>
-          </div>
+          {% endfor %}
+
         </div>
       </div>
     </div>
@@ -139,6 +118,19 @@
                           ></a>
                         </li>
                         <li class="wishlist">
+                          {% if item.product_1.id in wish_products %}
+                          <a
+                            type="button"
+                            class="wishlist-button"
+                            data-index="{{ item.product_1.id }}"
+                            data-tippy="У обране"
+                            data-tippy-placement="top"
+                            data-tippy-arrow="true"
+                            data-tippy-inertia="true"
+                            style="background: #fc8a35;"
+                            ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                          ></a>
+                          {% else %}
                           <a
                             type="button"
                             class="wishlist-button"
@@ -149,6 +141,7 @@
                             data-tippy-inertia="true"
                             ><span class="lnr lnr-heart"></span
                           ></a>
+                          {% endif %}
                         </li>
                       </ul>
                     </div>
@@ -213,6 +206,19 @@
                           ></a>
                         </li>
                         <li class="wishlist">
+                          {% if item.product_2.id in wish_products %}
+                          <a
+                            type="button"
+                            class="wishlist-button"
+                            data-index="{{ item.product_2.id }}"
+                            data-tippy="У обране"
+                            data-tippy-placement="top"
+                            data-tippy-arrow="true"
+                            data-tippy-inertia="true"
+                            style="background: #fc8a35;"
+                            ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                          ></a>
+                          {% else %}
                           <a
                             type="button"
                             class="wishlist-button"
@@ -223,6 +229,7 @@
                             data-tippy-inertia="true"
                             ><span class="lnr lnr-heart"></span
                           ></a>
+                          {% endif %}
                         </li>
                       </ul>
                     </div>
@@ -287,6 +294,19 @@
                           ></a>
                         </li>
                         <li class="wishlist">
+                          {% if item.product_3.id in wish_products %}
+                          <a
+                            type="button"
+                            class="wishlist-button"
+                            data-index="{{ item.product_3.id }}"
+                            data-tippy="У обране"
+                            data-tippy-placement="top"
+                            data-tippy-arrow="true"
+                            data-tippy-inertia="true"
+                             style="background: #fc8a35;"
+                            ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                          ></a>
+                          {% else %}
                           <a
                             type="button"
                             class="wishlist-button"
@@ -297,6 +317,7 @@
                             data-tippy-inertia="true"
                             ><span class="lnr lnr-heart"></span
                           ></a>
+                          {% endif %}
                         </li>
                       </ul>
                     </div>
@@ -377,6 +398,19 @@
                           ></a>
                         </li>
                         <li class="wishlist">
+                          {% if item.product_1.id in wish_products %}
+                          <a
+                            type="button"
+                            class="wishlist-button"
+                            data-index="{{ item.product_1.id }}"
+                            data-tippy="У обране"
+                            data-tippy-placement="top"
+                            data-tippy-arrow="true"
+                            data-tippy-inertia="true"
+                            style="background: #fc8a35;"
+                            ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                          ></a>
+                          {% else %}
                           <a
                             type="button"
                             class="wishlist-button"
@@ -387,6 +421,7 @@
                             data-tippy-inertia="true"
                             ><span class="lnr lnr-heart"></span
                           ></a>
+                          {% endif %}
                         </li>
                       </ul>
                     </div>
@@ -451,6 +486,19 @@
                           ></a>
                         </li>
                         <li class="wishlist">
+                          {% if item.product_2.id in wish_products %}
+                          <a
+                            type="button"
+                            class="wishlist-button"
+                            data-index="{{ item.product_2.id }}"
+                            data-tippy="У обране"
+                            data-tippy-placement="top"
+                            data-tippy-arrow="true"
+                            data-tippy-inertia="true"
+                            style="background: #fc8a35;"
+                            ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                          ></a>
+                          {% else %}
                           <a
                             type="button"
                             class="wishlist-button"
@@ -461,6 +509,7 @@
                             data-tippy-inertia="true"
                             ><span class="lnr lnr-heart"></span
                           ></a>
+                          {% endif %}
                         </li>
                       </ul>
                     </div>
@@ -525,6 +574,19 @@
                           ></a>
                         </li>
                         <li class="wishlist">
+                          {% if item.product_1.id in wish_products %}
+                          <a
+                            type="button"
+                            class="wishlist-button"
+                            data-index="{{ item.product_3.id }}"
+                            data-tippy="У обране"
+                            data-tippy-placement="top"
+                            data-tippy-arrow="true"
+                            data-tippy-inertia="true"
+                            style="background: #fc8a35;"
+                            ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                          ></a>
+                          {% else %}
                           <a
                             type="button"
                             class="wishlist-button"
@@ -535,6 +597,7 @@
                             data-tippy-inertia="true"
                             ><span class="lnr lnr-heart"></span
                           ></a>
+                          {% endif %}
                         </li>
                       </ul>
                     </div>
@@ -615,6 +678,19 @@
                           ></a>
                         </li>
                         <li class="wishlist">
+                          {% if item.product_1.id in wish_products %}
+                          <a
+                            type="button"
+                            class="wishlist-button"
+                            data-index="{{ item.product_1.id }}"
+                            data-tippy="У обране"
+                            data-tippy-placement="top"
+                            data-tippy-arrow="true"
+                            data-tippy-inertia="true"
+                            style="background: #fc8a35;"
+                            ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                          ></a>
+                          {% else %}
                           <a
                             type="button"
                             class="wishlist-button"
@@ -625,6 +701,7 @@
                             data-tippy-inertia="true"
                             ><span class="lnr lnr-heart"></span
                           ></a>
+                          {% endif %}
                         </li>
                       </ul>
                     </div>
@@ -689,6 +766,19 @@
                           ></a>
                         </li>
                         <li class="wishlist">
+                          {% if item.product_2.id in wish_products %}
+                          <a
+                            type="button"
+                            class="wishlist-button"
+                            data-index="{{ item.product_2.id }}"
+                            data-tippy="У обране"
+                            data-tippy-placement="top"
+                            data-tippy-arrow="true"
+                            data-tippy-inertia="true"
+                            style="background: #fc8a35;"
+                            ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                          ></a>
+                          {% else %}
                           <a
                             type="button"
                             class="wishlist-button"
@@ -699,6 +789,7 @@
                             data-tippy-inertia="true"
                             ><span class="lnr lnr-heart"></span
                           ></a>
+                          {% endif %}
                         </li>
                       </ul>
                     </div>
@@ -763,6 +854,19 @@
                           ></a>
                         </li>
                         <li class="wishlist">
+                          {% if item.product_3.id in wish_products %}
+                          <a
+                            type="button"
+                            class="wishlist-button"
+                            data-index="{{ item.product_3.id }}"
+                            data-tippy="У обране"
+                            data-tippy-placement="top"
+                            data-tippy-arrow="true"
+                            data-tippy-inertia="true"
+                            style="background: #fc8a35;"
+                            ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                          ></a>
+                          {% else %}
                           <a
                             type="button"
                             class="wishlist-button"
@@ -773,6 +877,7 @@
                             data-tippy-inertia="true"
                             ><span class="lnr lnr-heart"></span
                           ></a>
+                          {% endif %}
                         </li>
                       </ul>
                     </div>
@@ -802,24 +907,19 @@
 <div class="banner_area banner3_col2">
   <div class="container">
     <div class="row">
+
+    {% for banner in two_banners %}
       <div class="col-lg-6 col-md-6">
         <div class="single_banner">
           <div class="banner_thumb">
-            <a href="#"
-              ><img src="{% static 'img/bg/banner10.jpg' %}" alt="Зображення товару"
+            <a href="{{ banner.banner_url }}"
+              ><img src="{{ banner.image.url }}" alt="Банер"
             /></a>
           </div>
         </div>
       </div>
-      <div class="col-lg-6 col-md-6">
-        <div class="single_banner">
-          <div class="banner_thumb">
-            <a href="#"
-              ><img src="{% static 'img/bg/banner11.jpg' %}" alt="Зображення товару"
-            /></a>
-          </div>
-        </div>
-      </div>
+    {% endfor %}
+
     </div>
   </div>
 </div>
@@ -896,6 +996,19 @@
                             ></a>
                           </li>
                           <li class="wishlist">
+                            {% if item.product.id in wish_products %}
+                            <a
+                              type="button"
+                            class="wishlist-button"
+                            data-index="{{ item.product.id }}"
+                              data-tippy="У обране"
+                              data-tippy-placement="top"
+                              data-tippy-arrow="true"
+                              data-tippy-inertia="true"
+                              style="background: #fc8a35;"
+                              ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                            ></a>
+                            {% else %}
                             <a
                               type="button"
                             class="wishlist-button"
@@ -906,6 +1019,7 @@
                               data-tippy-inertia="true"
                               ><span class="lnr lnr-heart"></span
                             ></a>
+                            {% endif %}
                           </li>
                         </ul>
                       </div>
@@ -944,11 +1058,13 @@
               </div>
             </div>
           </div>
+          {% for banner in offer_single_banner %}
           <div class="banner_thumb">
-            <a href="#"
-              ><img src="{% static 'img/bg/banner12.jpg' %}" alt="Зображення товару"
+            <a href="{{ banner.banner_url }}"
+              ><img src="{{ banner.image.url }}" alt="Банер"
             /></a>
           </div>
+          {% endfor %}
         </div>
       </div>
       <div class="col-lg-8 col-md-7">
@@ -1018,6 +1134,19 @@
                             ></a>
                           </li>
                           <li class="wishlist">
+                            {% if item.product_1.id in wish_products %}
+                            <a
+                              type="button"
+                              class="wishlist-button"
+                              data-index="{{ item.product_1.id }}"
+                              data-tippy="У обране"
+                              data-tippy-placement="top"
+                              data-tippy-arrow="true"
+                              data-tippy-inertia="true"
+                              style="background: #fc8a35;"
+                              ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                            ></a>
+                            {% else %}
                             <a
                               type="button"
                               class="wishlist-button"
@@ -1028,6 +1157,7 @@
                               data-tippy-inertia="true"
                               ><span class="lnr lnr-heart"></span
                             ></a>
+                            {% endif %}
                           </li>
                         </ul>
                       </div>
@@ -1092,6 +1222,19 @@
                             ></a>
                           </li>
                           <li class="wishlist">
+                            {% if item.product_2.id in wish_products %}
+                            <a
+                              type="button"
+                              class="wishlist-button"
+                              data-index="{{ item.product_2.id }}"
+                              data-tippy="У обране"
+                              data-tippy-placement="top"
+                              data-tippy-arrow="true"
+                              data-tippy-inertia="true"
+                              style="background: #fc8a35;"
+                              ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                            ></a>
+                            {% else %}
                             <a
                               type="button"
                               class="wishlist-button"
@@ -1102,6 +1245,7 @@
                               data-tippy-inertia="true"
                               ><span class="lnr lnr-heart"></span
                             ></a>
+                            {% endif %}
                           </li>
                         </ul>
                       </div>
@@ -1189,6 +1333,19 @@
                             ></a>
                           </li>
                           <li class="wishlist">
+                            {% if item.product_1.id in wish_products %}
+                            <a
+                              type="button"
+                              class="wishlist-button"
+                              data-index="{{ item.product_1.id }}"
+                              data-tippy="У обране"
+                              data-tippy-placement="top"
+                              data-tippy-arrow="true"
+                              data-tippy-inertia="true"
+                              style="background: #fc8a35;"
+                              ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                            ></a>
+                            {% else %}
                             <a
                               type="button"
                               class="wishlist-button"
@@ -1199,6 +1356,7 @@
                               data-tippy-inertia="true"
                               ><span class="lnr lnr-heart"></span
                             ></a>
+                            {% endif %}
                           </li>
                         </ul>
                       </div>
@@ -1274,6 +1432,19 @@
                             ></a>
                           </li>
                           <li class="wishlist">
+                            {% if item.product_2.id in wish_products %}
+                            <a
+                              type="button"
+                              class="wishlist-button"
+                              data-index="{{ item.product_2.id }}"
+                              data-tippy="У обране"
+                              data-tippy-placement="top"
+                              data-tippy-arrow="true"
+                              data-tippy-inertia="true"
+                              style="background: #fc8a35;"
+                              ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                            ></a>
+                            {% else %}
                             <a
                               type="button"
                               class="wishlist-button"
@@ -1284,6 +1455,7 @@
                               data-tippy-inertia="true"
                               ><span class="lnr lnr-heart"></span
                             ></a>
+                            {% endif %}
                           </li>
                         </ul>
                       </div>
@@ -1324,8 +1496,7 @@
     <div class="row">
       <div class="col-12">
         <div class="section_title">
-          <p>Наші недавні статті про Сіль і Пательню</p>
-          <h2>Наші пости</h2>
+          <h2>Наші новини</h2>
         </div>
       </div>
     </div>
@@ -1364,22 +1535,25 @@
 <!--blog area end-->
 
 <!--banner area start-->
+{% for banner in footer_banner %}
 <div class="banner_area">
   <div class="container">
     <div class="row">
       <div class="col-12">
         <div class="banner_thumb">
-          <a href="#"
-            ><img src="{% static 'img/bg/banner13.jpg' %}" alt=""
+          <a href="{{ banner.banner_url }}"
+            ><img src="{{ banner.image.url }}" alt="Банер"
           /></a>
         </div>
       </div>
     </div>
   </div>
 </div>
+{% endfor %}
 <!--banner area end-->
 
 <!--brand area start-->
+{% if partners %}
 <div class="brand_area">
   <div class="container">
     <div class="row">
@@ -1399,6 +1573,7 @@
     </div>
   </div>
 </div>
+{% endif %}
 <!--brand area end-->
 
 <!-- modal area start-->
@@ -1565,6 +1740,8 @@
                         </li>
                       </ul>
                     </div>
+
+
                   </div>
                 </div>
               </div>
@@ -1574,5 +1751,8 @@
       </div>
     </div>
 <!-- modal area end-->
+
+<!--fix flash alert in bottom of the screen-->
+<div class="alert-box-home" id="alert-home"></div>
 
 {% endblock %}

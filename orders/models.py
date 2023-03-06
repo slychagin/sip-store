@@ -8,14 +8,14 @@ from store.models import Product
 class Order(models.Model):
     """Create Order model in the database"""
     DELIVERY_METHOD_CHOICES = (
-        (COURIER := 'COURIER', "Кур'єр по м. Золотоноша та м. Черкаси"),
+        (COURIER1 := 'COURIER_CHERKASY', "Кур'єр по м. Черкаси"),
+        (COURIER2 := 'COURIER_ZOLOTONOSHA', "Кур'єр по м. Золотоноша"),
         (COMPANY := 'DELIVERY COMPANY', 'Доставка Новою Поштою')
     )
     PAYMENT_METHOD_CHOICES = (
         (CASH := 'CASH', 'Готівка'),
         (TERMINAL := 'TERMINAL', "Кур'єру через термінал"),
-        (VISA := 'VISA', 'Оплата карткою VISA/MasterCard'),
-        (GOOGLE := 'GOOGLE', 'Оплата Google Pay/Apple Pay')
+        (VISA := 'VISA', 'Оплата карткою VISA/MasterCard')
     )
 
     phone_number_regex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
@@ -38,7 +38,7 @@ class Order(models.Model):
     delivery_date = models.DateField(blank=True, null=True, verbose_name='Бажана дата доставки')
     delivery_time = models.TimeField(blank=True, null=True, verbose_name='Бажаний час доставки')
 
-    delivery_method = models.CharField(max_length=50, choices=DELIVERY_METHOD_CHOICES, default=COURIER, verbose_name='Спосіб доставки')
+    delivery_method = models.CharField(max_length=50, choices=DELIVERY_METHOD_CHOICES, default=COURIER1, verbose_name='Спосіб доставки')
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOICES, default=CASH, verbose_name='Спосіб оплати')
 
     order_note = models.TextField(max_length=255, blank=True, verbose_name='Примітка до замовлення')

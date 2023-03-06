@@ -4,7 +4,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from orders.models import Order
-from orders.widgets import DateInput, TimeInput
+
 
 COMMUNICATION_METHOD_CHOICES = (
         (PHONE := 'PHONE', 'Телефон'),
@@ -22,14 +22,19 @@ class OrderForm(forms.ModelForm):
 
     class Meta:
         model = Order
+
         fields = (
             'customer_name', 'phone', 'email', 'city', 'street', 'house', 'room', 'new_post_city',
             'new_post_office', 'delivery_date', 'delivery_time', 'delivery_method',
             'payment_method', 'order_note'
         )
         widgets = {
-            'delivery_date': DateInput(),
-            'delivery_time': TimeInput(),
+            'delivery_date': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'}
+            ),
+            'delivery_time': forms.TimeInput(
+                attrs={'class': 'form-control', 'type': 'time'}
+            ),
             'phone': forms.TextInput(attrs={'data-mask': "+38 (000) 000-00-00"})
         }
         labels = {

@@ -5,14 +5,26 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+from orders.models import OrderMessage
+
 
 def send_email_to_customer(basket, order):
     """Create thread for sending email with Python Threading"""
+    try:
+        text = OrderMessage.objects.all()[0]
+        text_1 = text.text_1
+        text_2 = text.text_2
+    except IndexError:
+        text_1 = ''
+        text_2 = ''
+
     context = {
         'order': order,
         'date': order.created.date().strftime('%d.%m.%Y'),
         'total': basket.get_total_price(),
-        'basket': basket
+        'basket': basket,
+        'text_1': text_1,
+        'text_2': text_2
     }
     subject = 'Замовлення в Сіль і Пательня'
     html_content = render_to_string('orders/email.html', context)

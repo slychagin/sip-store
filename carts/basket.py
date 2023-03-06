@@ -1,3 +1,5 @@
+import copy
+
 from store.models import Product
 
 
@@ -30,7 +32,7 @@ class Basket:
         """Iterate all items from basket"""
         product_ids = self.basket.keys()
         products = Product.objects.filter(id__in=product_ids)
-        basket = self.basket.copy()
+        basket = copy.deepcopy(self.basket)
 
         for product in products:
             basket[str(product.id)]['product'] = product

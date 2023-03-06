@@ -15,7 +15,6 @@ def cart_page(request):
 
 def add_cart(request):
     """Add the particular product with entered quantity to the cart by product id"""
-    # TODO: Настроить всплывающее сообщение или открытие мини корзины при добавлении товара в корзину либо
     basket = Basket(request)
     if request.POST.get('action') == 'POST':
         product_id = int(request.POST.get('product_id'))
@@ -32,7 +31,6 @@ def add_cart(request):
 def plus_quantity(request):
     """Increase quantity by one after press plus button"""
     # TODO: Сделать ограничение по количеству (не более 99)
-    # TODO: Проблема с отображением знака гривны
     basket = Basket(request)
     if request.method == 'POST':
         product_id = int(request.POST.get('product_id'))

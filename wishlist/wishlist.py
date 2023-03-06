@@ -1,3 +1,5 @@
+import copy
+
 from store.models import Product
 
 
@@ -26,7 +28,7 @@ class Wishlist:
         """Iterate all items from wishlist"""
         product_ids = self.wishlist.keys()
         products = Product.objects.filter(id__in=product_ids)
-        wishlist = self.wishlist.copy()
+        wishlist = copy.deepcopy(self.wishlist)
 
         for product in products:
             wishlist[str(product.id)]['product'] = product

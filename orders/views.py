@@ -103,6 +103,9 @@ class OrderFormView(View):
             except KeyError:
                 pass
 
+            for key, value in request.session.items():
+                print('{} => {}'.format(key, value))
+
             return HttpResponseRedirect(reverse('thanks'))
 
         else:
@@ -119,7 +122,6 @@ class OrderFormView(View):
 def create_order_items(basket, order):
     """Create and save order items"""
     for item in basket.__iter__():
-        print(item)
         ordered_product = OrderItem()
 
         ordered_product.order = order

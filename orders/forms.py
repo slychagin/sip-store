@@ -1,10 +1,10 @@
 import string
 
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from orders.models import Order
-
+from orders.models import Order, OrderMessage
 
 COMMUNICATION_METHOD_CHOICES = (
         (PHONE := 'PHONE', 'Телефон'),
@@ -94,7 +94,23 @@ class OrderForm(forms.ModelForm):
         return customer_name
 
 
+class OrderMessageAdminForm(forms.ModelForm):
+    text_1 = forms.CharField(
+        required=False,
+        label=_('Текст до деталей замовлення'),
+        help_text=_('Повідомлення між привітанням та деталями замовлення'),
+        widget=CKEditorUploadingWidget()
+    )
+    text_2 = forms.CharField(
+        required=False,
+        label=_('Текст після деталей замовлення'),
+        help_text=_('Повідомлення після деталей замовлення'),
+        widget=CKEditorUploadingWidget()
+    )
 
+    class Meta:
+        model = OrderMessage
+        fields = '__all__'
 
 
 

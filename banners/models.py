@@ -12,6 +12,7 @@ class WeekOfferBanner(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('товар'))
     image_active = models.ImageField(upload_to='photos/banners', verbose_name=_('фото 1 (активне)'))
     image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото 2'))
+    countdown = models.DateField(blank=True, null=True, verbose_name=_('таймер'))
 
     class Meta:
         verbose_name = _('пропозицію тижня')

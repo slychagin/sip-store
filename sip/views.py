@@ -36,6 +36,8 @@ class HomePageView(TemplateView):
         context['popular_right'] = MostPopularRight.objects.all()
         context['partners'] = Partners.objects.all()
         context['week_offer_banners'] = WeekOfferBanner.objects.all()
+
+        print(WeekOfferBanner.objects.all()[0].countdown.strftime('%Y/%m/%d'))
         context['main_banner'] = MainBanner.objects.all()
         context['two_banners'] = TwoBanners.objects.all()
         context['offer_single_banner'] = OfferSingleBanner.objects.all()

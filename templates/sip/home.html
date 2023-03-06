@@ -1036,9 +1036,13 @@
                         <span class="old_price">{{ item.product.price_old }} ₴</span>
                         {% endif %}
                       </div>
+
+
                       <div class="product_timing">
-                        <div data-countdown="2021/12/15"></div>
+                        <div data-countdown="{{item.countdown|date:'Y/m/d'}}"></div>
                       </div>
+
+
                       <div class="addto_cart_btn">
                         <a
                         type="button"

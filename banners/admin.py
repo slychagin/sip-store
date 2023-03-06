@@ -12,7 +12,7 @@ from banners.models import (
 
 
 class WeekOfferBannerAdmin(admin.ModelAdmin):
-    list_display = ('title', 'product')
+    list_display = ('title', 'product', 'countdown')
 
 
 class MainBannerAdmin(admin.ModelAdmin):

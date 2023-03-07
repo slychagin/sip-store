@@ -11,7 +11,7 @@ class Product(models.Model):
     objects = models.Manager()
 
     product_name = models.CharField(max_length=255, verbose_name=_('найменування товару'))
-    slug = models.SlugField(max_length=255, unique=True, verbose_name=_('slug'))
+    slug = models.SlugField(max_length=255, unique=True, verbose_name=_('написання в URL'), help_text=_('заповнюється автоматично, коли вносишь назву'))
     short_description = models.TextField(blank=True, verbose_name=_('короткий опис'))
     description = models.TextField(blank=True, verbose_name=_('детальний опис'))
     specification = models.TextField(blank=True, verbose_name=_('специфікація'))
@@ -23,7 +23,7 @@ class Product(models.Model):
     second_image = models.ImageField(
         upload_to='photos/products',
         blank=True,
-        help_text="Необов'язкове (потрібно для супутніх товарів)",
+        help_text=_("Необов'язкове (потрібно для супутніх товарів)"),
         verbose_name=_('друге фото')
     )
     is_available = models.BooleanField(default=True, verbose_name=_('доступний'))
@@ -45,10 +45,7 @@ class Product(models.Model):
         return self.product_name
 
     def get_url(self):
-        """
-        Get product url to go to product detail page.
-        :return: reverse url for particular product
-        """
+        """Get product url to go to product detail page"""
         return reverse('product_details', args=[self.category.slug, self.slug])
 
 

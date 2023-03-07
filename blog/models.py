@@ -22,10 +22,7 @@ class BlogCategory(models.Model):
         return self.category_name
 
     def get_url(self):
-        """
-        Get blog category url to use in right side navbar menu
-        :return: url for particular blog category
-        """
+        """Get blog category url to use in right side navbar menu"""
         return reverse('posts_by_category', args=[self.slug])
 
 

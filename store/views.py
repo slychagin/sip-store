@@ -98,7 +98,6 @@ class ProductDetailView(DetailView):
         context['videos'] = videos
         context['related_products'] = [item.to_product for item in related_products]
         context['info'] = ProductInfo.objects.all()[0].description
-
         return context
 
 

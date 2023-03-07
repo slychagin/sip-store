@@ -1,17 +1,18 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Benefits(models.Model):
     """Create Benefits model in the database"""
     objects = models.Manager()
 
-    title = models.CharField(max_length=100, blank=True, verbose_name='Заголовок')
-    description = models.CharField(max_length=255, blank=True, verbose_name='Опис')
-    image = models.ImageField(upload_to='photos/benefits', blank=True, verbose_name='Фото переваги')
+    title = models.CharField(max_length=100, blank=True, verbose_name=_('заголовок'))
+    description = models.CharField(max_length=255, blank=True, verbose_name=_('опис'))
+    image = models.ImageField(upload_to='photos/benefits', blank=True, verbose_name=_('фото переваги'))
 
     class Meta:
-        verbose_name = 'Перевага'
-        verbose_name_plural = 'Переваги'
+        verbose_name = _('перевага')
+        verbose_name_plural = _('переваги')
 
     def __str__(self):
         return self.title
@@ -20,12 +21,12 @@ class Benefits(models.Model):
 class Partners(models.Model):
     """Create Partners model in the database"""
     objects = models.Manager()
-    title = models.CharField(max_length=100, blank=True, verbose_name='Найменування партнеру')
-    image = models.ImageField(upload_to='photos/partners', blank=True, verbose_name='Фото партнера')
+    title = models.CharField(max_length=100, blank=True, verbose_name=_('найменування партнеру'))
+    image = models.ImageField(upload_to='photos/partners', blank=True, verbose_name=_('фото партнера'))
 
     class Meta:
-        verbose_name = 'Партнер'
-        verbose_name_plural = 'Партнери'
+        verbose_name = _('партнер')
+        verbose_name_plural = _('партнери')
 
     def __str__(self):
         return self.title

@@ -861,7 +861,7 @@ textarea:-ms-input-placeholder {
 
 .social {
   text-align: left;
-  margin-top: 45px;
+  margin-top: 30px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .header_social {
@@ -883,7 +883,7 @@ textarea:-ms-input-placeholder {
   margin-right: 0;
 }
 .social ul li a {
-  font-size: 16px;
+  font-size: 20px;
 }
 .social ul li a:hover {
   color: #f2812b;
@@ -12233,6 +12233,8 @@ border-radius: 0px;
     transform: translate(-50%, 0);
     z-index:99;
 }
+
+
 
 
 

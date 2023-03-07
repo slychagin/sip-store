@@ -1,5 +1,7 @@
 import string
+from datetime import date
 
+from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.utils.translation import gettext_lazy as _
@@ -29,12 +31,14 @@ class OrderForm(forms.ModelForm):
             'payment_method', 'order_note'
         )
         widgets = {
-            'delivery_date': forms.DateInput(
-                attrs={'class': 'form-control', 'type': 'date'}
+            'delivery_date': DatePickerInput(
+                options={
+                    'format': 'DD.MM.YYYY',
+                    'locale': 'uk',
+                    'minDate': date.today(),
+                }
             ),
-            'delivery_time': forms.TimeInput(
-                attrs={'class': 'form-control', 'type': 'time'}
-            ),
+            'delivery_time': TimePickerInput(),
             'phone': forms.TextInput(attrs={'data-mask': "+38 (000) 000-00-00"})
         }
         labels = {

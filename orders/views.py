@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -102,9 +100,6 @@ class OrderFormView(View):
                 del request.session['discount']
             except KeyError:
                 pass
-
-            for key, value in request.session.items():
-                print('{} => {}'.format(key, value))
 
             return HttpResponseRedirect(reverse('thanks'))
 

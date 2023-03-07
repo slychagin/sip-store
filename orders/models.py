@@ -37,7 +37,7 @@ class Order(models.Model):
     new_post_office = models.CharField(max_length=200, default='-', verbose_name=_('Відділення Нової Пошти'))
 
     delivery_date = models.DateField(blank=True, null=True, verbose_name=_('бажана дата доставки'))
-    delivery_time = models.TimeField(blank=True, null=True, verbose_name=_('бажаний час доставки'))
+    delivery_time = models.TimeField(blank=True, null=True, verbose_name=_('час доставки'))
 
     delivery_method = models.CharField(max_length=50, choices=DELIVERY_METHOD_CHOICES, default=COURIER1, verbose_name=_('спосіб доставки'))
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOICES, default=CASH, verbose_name=_('спосіб оплати'))

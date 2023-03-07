@@ -64,13 +64,11 @@
                                     {{ form.new_post_office|as_crispy_field }}
                                 </div>
                             </div>
-                            <div class="col-lg-6 mb-20">
-                                <label>Бажана дата доставки</label>
-                                {{ form.delivery_date }}
+                            <div class="col-lg-6">
+                                {{ form.delivery_date|as_crispy_field }}
                             </div>
-                            <div class="col-lg-6 mb-20">
-                                <label>Час</label>
-                                {{ form.delivery_time }}
+                            <div class="col-lg-6">
+                                {{ form.delivery_time|as_crispy_field }}
                             </div>
                             <div class="col-12 mb-20">
                                 <label>Спосіб оплати </label>

@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from orders.forms import OrderMessageAdminForm
+from orders.forms import OrderMessageAdminForm, ThanksPageAdminForm
 from orders.models import (
     Order,
     OrderItem,
     Customers,
     Subscribers,
-    OrderMessage
+    OrderMessage, ThanksPage
 )
 
 
@@ -49,8 +49,13 @@ class OrderMessageAdmin(admin.ModelAdmin):
     form = OrderMessageAdminForm
 
 
+class ThanksPageAdmin(admin.ModelAdmin):
+    form = ThanksPageAdminForm
+
+
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Customers, CustomersAdmin)
 admin.site.register(Subscribers, SubscribersAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(OrderMessage, OrderMessageAdmin)
+admin.site.register(ThanksPage, ThanksPageAdmin)

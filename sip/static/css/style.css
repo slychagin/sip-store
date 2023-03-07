@@ -1318,12 +1318,13 @@ textarea:-ms-input-placeholder {
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .header_right_info {
-    justify-content: center;
+    justify-content: flex-end;
   }
 }
 @media only screen and (max-width: 767px) {
   .header_right_info {
-    justify-content: center;
+    justify-content: flex-end;
+    padding-right: 40px;
   }
 }
 
@@ -3715,6 +3716,10 @@ textarea:-ms-input-placeholder {
 }
 .product_content p a:hover {
   color: #fc8a35;
+}
+
+.unit_price {
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .price_box {

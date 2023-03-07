@@ -171,6 +171,7 @@ $(document).on('click', '.quick-show-button', function (e){
         document.getElementById('quick_title').innerHTML = json.title;
         document.getElementById('title_url').href = json.product_url;
         document.getElementById('quick_new_price').innerHTML = json.price;
+        document.getElementById('unit_price').innerHTML = json.price + ' ' + json.unit;
         document.getElementById('quick_description').innerHTML = json.description;
         document.getElementById('quick_main').src = json.image_main;
         document.getElementById('quick_main_link').src = json.image_main;

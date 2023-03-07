@@ -36,8 +36,6 @@ class HomePageView(TemplateView):
         context['popular_right'] = MostPopularRight.objects.all()
         context['partners'] = Partners.objects.all()
         context['week_offer_banners'] = WeekOfferBanner.objects.all()
-
-        print(WeekOfferBanner.objects.all()[0].countdown.strftime('%Y/%m/%d'))
         context['main_banner'] = MainBanner.objects.all()
         context['two_banners'] = TwoBanners.objects.all()
         context['offer_single_banner'] = OfferSingleBanner.objects.all()
@@ -62,7 +60,8 @@ def get_single_product(request):
             'old_price': product.price_old,
             'description': product.short_description,
             'image_main': product.product_image.url,
-            'product_url': product.get_url()
+            'product_url': product.get_url(),
+            'unit': product.unit
         }
 
         for num, img in enumerate(images):

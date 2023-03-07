@@ -78,3 +78,14 @@ class FooterBanner(models.Model):
         verbose_name = _('банер')
         verbose_name_plural = _('футер банер')
 
+
+class BackgroundBanner(models.Model):
+    """Create BackgroundBanner model in the database"""
+    objects = models.Manager()
+
+    image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'))
+    banner_url = models.URLField(max_length=255, blank=True, verbose_name=_('URL банера'))
+
+    class Meta:
+        verbose_name = _('фоновий банер')
+        verbose_name_plural = _('фоновий банер')

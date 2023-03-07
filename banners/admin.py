@@ -7,7 +7,7 @@ from banners.models import (
     MainBanner,
     TwoBanners,
     OfferSingleBanner,
-    FooterBanner
+    FooterBanner, BackgroundBanner
 )
 
 
@@ -47,8 +47,17 @@ class FooterBannerAdmin(admin.ModelAdmin):
     list_display = ('thumbnail', 'banner_url')
 
 
+class BackgroundBannerAdmin(admin.ModelAdmin):
+    def thumbnail(self, obj):
+        return format_html(f'<img src="{obj.image.url}" width="120" height="20"">')
+
+    thumbnail.short_description = _('фото')
+    list_display = ('thumbnail', 'banner_url')
+
+
 admin.site.register(WeekOfferBanner, WeekOfferBannerAdmin)
 admin.site.register(MainBanner, MainBannerAdmin)
 admin.site.register(TwoBanners, TwoBannersAdmin)
 admin.site.register(OfferSingleBanner, OfferSingleBannerAdmin)
 admin.site.register(FooterBanner, FooterBannerAdmin)
+admin.site.register(BackgroundBanner, BackgroundBannerAdmin)

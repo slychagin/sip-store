@@ -155,3 +155,19 @@ class OrderMessage(models.Model):
 
     def __str__(self):
         return 'Повідомлення покупцям'
+
+
+class ThanksPage(models.Model):
+    """Create ThanksPage model in the database"""
+    objects = models.Manager()
+    text = models.TextField(
+        blank=True,
+        verbose_name=_('текст до сторінки подяки')
+    )
+
+    class Meta:
+        verbose_name = _('сторінку подяки')
+        verbose_name_plural = _('сторінка подяки')
+
+    def __str__(self):
+        return 'Сторінка подяки'

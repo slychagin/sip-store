@@ -18,6 +18,7 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name=_('ціна'))
     price_old = models.IntegerField(blank=True, null=True, verbose_name=_('стара ціна'))
     weight = models.DecimalField(max_digits=6, decimal_places=3, blank=True, null=True, verbose_name=_('вага, кг'))
+    unit = models.CharField(max_length=50, default='грн/кг', verbose_name=_('одиниця виміру'))
     product_image = models.ImageField(upload_to='photos/products', verbose_name=_('активне фото'))
     second_image = models.ImageField(
         upload_to='photos/products',

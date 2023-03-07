@@ -1,11 +1,14 @@
+from datetime import datetime
+
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
+from django.views.generic import TemplateView
 
 from carts.basket import Basket
 from orders.forms import OrderForm
-from orders.models import Order, NewPostTerminals, OrderItem, save_customer
+from orders.models import Order, NewPostTerminals, OrderItem, save_customer, ThanksPage
 
 from orders.send_email import send_email_to_customer
 from store.models import count_products
@@ -161,7 +164,17 @@ def post_terminal_search(request):
         return JsonResponse(['Нічого не знайдено'], safe=False)
 
 
-class ThanksPageView(View):
+class ThanksPageView(TemplateView):
     """Render success page after order complete"""
-    def get(self, request):
-        return render(request, 'orders/success.html')
+    template_name = 'orders/success.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            thanks_text = ThanksPage.objects.all()[0]
+        except IndexError:
+            thanks_text = ''
+        context['thanks_text'] = thanks_text
+        return context
+
+

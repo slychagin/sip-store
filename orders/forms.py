@@ -6,7 +6,7 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from orders.models import Order, OrderMessage
+from orders.models import Order, OrderMessage, ThanksPage
 
 COMMUNICATION_METHOD_CHOICES = (
         (PHONE := 'PHONE', 'Телефон'),
@@ -117,8 +117,13 @@ class OrderMessageAdminForm(forms.ModelForm):
         fields = '__all__'
 
 
+class ThanksPageAdminForm(forms.ModelForm):
+    text = forms.CharField(
+        required=False,
+        label=_('Текст до сторінки подяки'),
+        widget=CKEditorUploadingWidget()
+    )
 
-
-
-
-
+    class Meta:
+        model = ThanksPage
+        fields = '__all__'

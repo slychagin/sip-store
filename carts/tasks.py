@@ -4,6 +4,8 @@ from carts.models import Coupon
 
 from django.core import management
 
+# TODO: Включить проверку купонов по дате
+
 
 @shared_task
 def check_coupon():

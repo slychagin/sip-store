@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.views.generic import TemplateView
 
 from carts.basket import Basket
 from carts.models import Coupon
@@ -7,10 +8,16 @@ from store.models import Product
 
 
 # TODO: Если товары находятся в корзине и при этом обновились цены, то сумма не пересчитывается по новым ценам
-def cart_page(request):
+
+
+class CartPageView(TemplateView):
     """Render Cart page"""
-    basket = Basket(request)
-    return render(request, 'store/cart.html', {'basket': basket})
+    template_name = 'store/cart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['basket'] = Basket(self.request)
+        return context
 
 
 def add_cart(request):
@@ -31,6 +38,7 @@ def add_cart(request):
 def plus_quantity(request):
     """Increase quantity by one after press plus button"""
     # TODO: Сделать ограничение по количеству (не более 99)
+
     basket = Basket(request)
     if request.method == 'POST':
         product_id = int(request.POST.get('product_id'))
@@ -87,7 +95,6 @@ def cart_delete(request):
 
 def mini_cart_delete(request):
     """Delete product from the mini cart popup menu"""
-    # TODO: Проблема с отображением знака гривны
     basket = Basket(request)
     if request.POST.get('action') == 'POST':
         product_id = int(request.POST.get('product_id'))

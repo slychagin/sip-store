@@ -9,9 +9,9 @@ from django.utils.translation import gettext_lazy as _
 from orders.models import Order, OrderMessage, ThanksPage
 
 COMMUNICATION_METHOD_CHOICES = (
-        (PHONE := 'PHONE', 'Телефон'),
-        (TELEGRAM := 'TELEGRAM', 'Telegram'),
-        (VIBER := 'VIBER', 'Viber')
+        (PHONE := 'PHONE', _('Телефон')),
+        (TELEGRAM := 'TELEGRAM', _('Telegram')),
+        (VIBER := 'VIBER', _('Viber'))
     )
 
 

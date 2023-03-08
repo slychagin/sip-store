@@ -7,7 +7,6 @@ from store.models import Product
 class WeekOfferBanner(models.Model):
     """Create Week Offer model for left banner"""
     objects = models.Manager()
-
     title = models.CharField(max_length=100, blank=True, verbose_name=_('назва банера'))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('товар'))
     image_active = models.ImageField(upload_to='photos/banners', verbose_name=_('фото 1 (активне)'))
@@ -25,7 +24,6 @@ class WeekOfferBanner(models.Model):
 class MainBanner(models.Model):
     """Create Main Banner in the Home page"""
     objects = models.Manager()
-
     title = models.CharField(max_length=200, blank=True, verbose_name=_('заголовок'))
     description = models.CharField(max_length=255, blank=True, verbose_name=_('опис'))
     image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'))
@@ -42,7 +40,6 @@ class MainBanner(models.Model):
 class TwoBanners(models.Model):
     """Create TwoBanners model in the database"""
     objects = models.Manager()
-
     title = models.CharField(max_length=100, blank=True, verbose_name=_('заголовок'))
     image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'))
     banner_url = models.URLField(max_length=255, verbose_name=_('URL банера'))
@@ -58,13 +55,15 @@ class TwoBanners(models.Model):
 class OfferSingleBanner(models.Model):
     """Create OfferSingleBanner model in the database"""
     objects = models.Manager()
-
     image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'))
     banner_url = models.URLField(max_length=255, verbose_name=_('URL банера'))
 
     class Meta:
         verbose_name = _('банер')
         verbose_name_plural = _('банер (1од.)')
+
+    def __str__(self):
+        return str(_('Одиночний банер зліва'))
 
 
 class FooterBanner(models.Model):
@@ -78,6 +77,9 @@ class FooterBanner(models.Model):
         verbose_name = _('банер')
         verbose_name_plural = _('футер банер')
 
+    def __str__(self):
+        return str(_('Футер банер'))
+
 
 class BackgroundBanner(models.Model):
     """Create BackgroundBanner model in the database"""
@@ -89,3 +91,6 @@ class BackgroundBanner(models.Model):
     class Meta:
         verbose_name = _('фоновий банер')
         verbose_name_plural = _('фоновий банер')
+
+    def __str__(self):
+        return str(_('Фоновий банер'))

@@ -5,7 +5,6 @@ from django.utils.translation import gettext_lazy as _
 class Coupon(models.Model):
     """Create Coupon model in the database"""
     objects = models.Manager()
-
     coupon_kod = models.CharField(max_length=15, verbose_name=_('промокод'))
     discount = models.PositiveSmallIntegerField(verbose_name=_('знижка, %'))
     validity = models.DateField(verbose_name=_('термін дії'))

@@ -47,8 +47,8 @@ class Order(models.Model):
     discount = models.IntegerField(verbose_name=_('знижка'))
     ip = models.CharField(blank=True, max_length=20, verbose_name=_('IP адреса'))
     is_ordered = models.BooleanField(default=False, verbose_name=_('замовлено'))
-    created = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
-    updated = models.DateTimeField(auto_now=True, verbose_name=_('дата оновлення'))
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_('дата замовлення'))
+    updated = models.DateTimeField(auto_now=True, verbose_name=_('дата коригування'))
 
     class Meta:
         verbose_name = _('замовлення')
@@ -56,13 +56,12 @@ class Order(models.Model):
         ordering = ('-created',)
 
     def __str__(self):
-        return f'№ {self.order_number}'
+        return f'№ {self.order_number} від {self.created.date().strftime("%d.%m.%Y")}'
 
 
 class OrderItem(models.Model):
     """Create OrderItem model in the database"""
     objects = models.Manager()
-
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name=_('замовлення'))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('товар'))
     price = models.IntegerField(verbose_name=_('ціна товару'))
@@ -83,7 +82,6 @@ class OrderItem(models.Model):
 class NewPostTerminals(models.Model):
     """Create NewPostTerminals model in the database"""
     objects = models.Manager()
-
     city = models.CharField(max_length=100)
     terminal = models.CharField(max_length=255)
 
@@ -96,9 +94,8 @@ class NewPostTerminals(models.Model):
 
 class Customers(models.Model):
     """Create Customers model in the database"""
-    phone_number_regex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
     objects = models.Manager()
-
+    phone_number_regex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
     customer_name = models.CharField(max_length=100, verbose_name=_('ПІБ'))
     phone = PhoneNumberField(validators=[phone_number_regex], max_length=16, verbose_name=_('телефон'))
     email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
@@ -108,6 +105,7 @@ class Customers(models.Model):
         return f'{self.customer_name}'
 
     class Meta:
+        verbose_name = _('покупця')
         verbose_name_plural = _('покупці')
         ordering = ('customer_name',)
 
@@ -132,7 +130,8 @@ class Subscribers(models.Model):
         return f'{self.email}'
 
     class Meta:
-        verbose_name_plural = _('підписки')
+        verbose_name = 'підписчика'
+        verbose_name_plural = _('підписчики')
 
 
 class OrderMessage(models.Model):
@@ -150,11 +149,11 @@ class OrderMessage(models.Model):
     )
 
     class Meta:
-        verbose_name = _('Повідомлення покупцям')
-        verbose_name_plural = _('Повідомлення покупцям')
+        verbose_name = _('повідомлення покупцям')
+        verbose_name_plural = _('повідомлення на email')
 
     def __str__(self):
-        return 'Повідомлення покупцям'
+        return str(_('Повідомлення покупцям на email після замовлення'))
 
 
 class ThanksPage(models.Model):
@@ -166,8 +165,8 @@ class ThanksPage(models.Model):
     )
 
     class Meta:
-        verbose_name = _('сторінку подяки')
+        verbose_name = _('сторінка подяки')
         verbose_name_plural = _('сторінка подяки')
 
     def __str__(self):
-        return 'Сторінка подяки'
+        return str(_('Сторінка подяки'))

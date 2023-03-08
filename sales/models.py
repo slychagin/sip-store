@@ -20,7 +20,6 @@ class BlockTitle(models.Model):
 class BestSellers(models.Model):
     """Create BestSellers model in the database"""
     objects = models.Manager()
-
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
     product_1 = models.ForeignKey(Product, related_name='product_1', on_delete=models.CASCADE, verbose_name=_('товар 1'))
     image_prod1_active = models.ImageField(upload_to='photos/bestsellers', verbose_name=_('фото 1 (активне)'))
@@ -40,7 +39,6 @@ class BestSellers(models.Model):
 class NewProducts(models.Model):
     """Create NewProducts model in the database"""
     objects = models.Manager()
-
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
     product_1 = models.ForeignKey(Product, related_name='new_product_1', on_delete=models.CASCADE, verbose_name=_('товар 1'))
     image_prod1_active = models.ImageField(upload_to='photos/new_products', verbose_name=_('фото 1 (активне)'))

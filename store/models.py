@@ -9,7 +9,6 @@ from category.models import Category
 class Product(models.Model):
     """Create Product model in the database"""
     objects = models.Manager()
-
     product_name = models.CharField(max_length=255, verbose_name=_('найменування товару'))
     slug = models.SlugField(max_length=255, unique=True, verbose_name=_('написання в URL'), help_text=_('заповнюється автоматично, коли вносишь назву'))
     short_description = models.TextField(blank=True, verbose_name=_('короткий опис'))
@@ -59,7 +58,6 @@ def count_products(basket):
 
 class ProductGallery(models.Model):
     objects = models.Manager()
-
     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE, verbose_name=_('товар'))
     image = models.ImageField(blank=True, upload_to='photos/gallery', max_length=255, verbose_name=_('фото'))
     video = EmbedVideoField(blank=True, verbose_name=_('відео'), help_text=_('Завантаж URL відео з YouTube'))
@@ -68,6 +66,7 @@ class ProductGallery(models.Model):
         return f'{self.product.product_name}'
 
     class Meta:
+        verbose_name = _('товар')
         verbose_name_plural = _('галерея товарів')
 
 

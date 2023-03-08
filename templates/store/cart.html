@@ -2,23 +2,23 @@
 {% load static %}
 {% block content %}
 
-<!--breadcrumbs area start-->
-    <div class="breadcrumbs_area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breadcrumb_content">
-                       <h3>Кошик</h3>
-                        <ul>
-                            <li><a href="{% url 'home' %}">Головна</a></li>
-                            <li>Кошик покупця</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+<!--background banner area start-->
+{% if background_banner %}
+    {% if background_banner.banner_url %}
+    <a href="{{ background_banner.banner_url }}">
+        <div class="breadcrumbs_area"
+             style="background: url({{background_banner.image.url}});">
         </div>
-    </div>
-    <!--breadcrumbs area end-->
+    </a>
+    {% else %}
+    <a href="{% url 'home' %}">
+        <div class="breadcrumbs_area"
+             style="background: url({{background_banner.image.url}});">
+        </div>
+    </a>
+    {% endif %}
+{% endif %}
+<!--background banner area end-->
 
 {% if not basket %}
 

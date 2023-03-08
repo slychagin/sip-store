@@ -11,7 +11,7 @@ class Benefits(models.Model):
     image = models.ImageField(upload_to='photos/benefits', blank=True, verbose_name=_('фото переваги'))
 
     class Meta:
-        verbose_name = _('перевага')
+        verbose_name = _('перевагу')
         verbose_name_plural = _('переваги')
 
     def __str__(self):

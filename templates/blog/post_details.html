@@ -116,26 +116,33 @@
                         </div>
                     </div>
 
+                        <div class="comments_form">
+                            <h3 id="comment-form-title">Залиште свій коментар</h3>
+                                {% crispy form %}
+                            <div id="alert-prod-details"></div>
+                        </div>
 
-                    <div class="comments_form">
-                        <h3>Залиште свій коментар</h3>
-                        <form method="POST" id="post-comment-form" novalidate>
-                            {% csrf_token %}
 
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6">
-                                    {{ form.name|as_crispy_field }}
-                                </div>
-                                <div class="col-lg-6 col-md-6">
-                                    {{ form.email|as_crispy_field }}
-                                </div>
-                                <div class="col-12">
-                                    {{ form.content|as_crispy_field }}
-                                </div>
-                            </div>
-                            <button class="button" type="submit">Залишити коментар</button>
-                         </form>
-                    </div>
+<!--                    <div class="comments_form">-->
+<!--                        <h3>Залиште свій коментар</h3>-->
+<!--                        <form id="post-comment-form" novalidate>-->
+<!--                            {% csrf_token %}-->
+
+<!--                            <div class="row">-->
+<!--                                <div class="col-lg-6 col-md-6">-->
+<!--                                    {{ form.name|as_crispy_field }}-->
+<!--                                </div>-->
+<!--                                <div class="col-lg-6 col-md-6">-->
+<!--                                    {{ form.email|as_crispy_field }}-->
+<!--                                </div>-->
+<!--                                <div class="col-12">-->
+<!--                                    {{ form.content|as_crispy_field }}-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <button class="button" type="submit" id="ajax_comment">Залишити коментар</button>-->
+<!--                         </form>-->
+<!--                    </div>-->
+
                 </div>
                 <!--blog grid area start-->
             </div>
@@ -148,4 +155,6 @@
 </div>
 <!--blog section area end-->
 
+
 {% endblock %}
+

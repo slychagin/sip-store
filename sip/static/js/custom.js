@@ -45,6 +45,36 @@ $(document).on('click', '#mc-submit', function (e){
 });
 
 
+/*--- Handle Comments form ---*/
+$(document).on('click', '#ajax_comment', function (e){
+  e.preventDefault();
+  var form_id = $('#post-comment-form');
+
+  $.ajax({
+      type: 'POST',
+      data: form_id.serialize(),
+      dataType: 'json',
+      header: window.CSRF_TOKEN,
+
+      success: function (data) {
+        var success = data['success']
+        if (success) {
+            form_id.trigger("reset");
+            form_id.replaceWith(data['html']);
+            $("#comment-form-title").hide();
+            handleAlerts('alert-prod-details', 'success',
+            "Дякуємо за Ваш коментар!<br/>Він з'явиться одразу після модерації." );
+        } else {
+            form_id.replaceWith(data['html']);
+        }
+      },
+      error: function(xhr, errmsg, err) {
+        handleAlerts('alert-prod-details', 'danger', 'ой... щось пішло не так');
+      }
+  });
+});
+
+
 /*--- Show flash message ---*/
 function handleAlerts(alertId, type, text) {
   const alertBox = document.getElementById(alertId);

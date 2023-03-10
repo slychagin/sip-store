@@ -1,5 +1,6 @@
+from crispy_forms.bootstrap import FormActions
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column
+from crispy_forms.layout import Layout, Row, Column, Submit
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
@@ -33,10 +34,22 @@ class CommentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
-
-        self.fields['name'].widget.attrs['id'] = 'name'
-        self.fields['email'].widget.attrs['id'] = 'email'
-        self.fields['content'].widget.attrs['id'] = 'content'
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+        self.helper.form_id = 'post-comment-form'
+        self.helper.attrs = {
+            'novalidate': ''
+        }
+        self.helper.layout = Layout(
+            Row(
+                Column('name'),
+                Column('email')
+            ),
+            'content',
+            FormActions(
+                Submit('submit', 'Залишити коментар', css_class='button comment_button', css_id='ajax_comment')
+            )
+        )
 
         for field in self.fields:
             self.fields[field].widget.attrs['title'] = 'Заповніть це поле'

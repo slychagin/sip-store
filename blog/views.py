@@ -1,7 +1,11 @@
+import json
+
+from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.template.context_processors import csrf
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import ModelFormMixin
@@ -41,11 +45,6 @@ class PostsByCategoryListView(ListView):
         return context
 
 
-
-
-
-
-
 class PostDetailView(ModelFormMixin, DetailView):
     """Render a single post details page"""
     template_name = 'blog/post_details.html'
@@ -77,24 +76,31 @@ class PostDetailView(ModelFormMixin, DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        self.object = self.get_object()
-
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return render(request, self.template_name, {'form': form})
-            # ctx = {}
-            # ctx.update(csrf(request))
-            # form_html = render_crispy_form(form, context=ctx)
-            # return JsonResponse({'form_html': form_html})
+        is_ajax = request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+        if is_ajax:
+            form = self.get_form()
+            self.object = self.get_object()
+            if form.is_valid():
+                return self.form_valid(form)
+            else:
+                resp = {'success': False}
+                csrf_context = {}
+                csrf_context.update(csrf(request))
+                comment_form = render_crispy_form(form, context=csrf_context)
+                resp['html'] = comment_form
+            return HttpResponse(json.dumps(resp), content_type='application/json')
 
     def form_valid(self, form):
         post = self.get_object()
         comment_form = form.save(commit=False)
         comment_form.post = post
         form.save()
-        return super(PostDetailView, self).form_valid(form)
+        resp = {'success': True}
+
+
+
+
+        return HttpResponse(json.dumps(resp), content_type='application/json')
 
     def get_success_url(self):
         return reverse('post_details', kwargs={

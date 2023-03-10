@@ -10481,6 +10481,33 @@ textarea:-ms-input-placeholder {
   }
 }
 
+
+
+
+
+.comment_button {
+  border: 0;
+  line-height: 36px;
+  background: #222222;
+  font-weight: 500;
+}
+.comment_button:hover {
+  background: #fc8a35;
+}
+@media only screen and (max-width: 767px) {
+  .comment_button {
+    line-height: 38px;
+    height: 38px;
+    padding: 0 10px;
+  }
+}
+
+
+
+
+
+
+
 .comment_list.list_two {
   padding-left: 50px;
 }

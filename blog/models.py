@@ -53,6 +53,8 @@ class Post(models.Model):
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата змін'))
     post_category = models.ForeignKey(BlogCategory, related_name='post', on_delete=models.CASCADE, verbose_name=_('категорія'))
     tags = models.ManyToManyField(Tag, blank=True)
+    related_posts_title = models.CharField(max_length=255, blank='Схожі пости', verbose_name=_('заголовок до схожих постів'))
+    related_posts = models.ManyToManyField('self', related_name='+', symmetrical=False, blank=True, verbose_name=_('схожі пости'))
 
     class Meta:
         verbose_name = _('пост')
@@ -73,3 +75,23 @@ class Post(models.Model):
     def recent_created_date(self):
         """Modified created date to format dd/mm/yyyy"""
         return self.created_date.date().strftime('%d/%m/%Y')
+
+
+class PostComment(models.Model):
+    """Create PostComment model in the database"""
+    objects = models.Manager()
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, verbose_name=_('пост'))
+    name = models.CharField(max_length=80, verbose_name=_("ім'я"))
+    email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
+    content = models.TextField(verbose_name=_('коментар'))
+    created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
+    modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата коригування'))
+    is_moderated = models.BooleanField(default=False, verbose_name=_('промодерований'))
+
+    class Meta:
+        verbose_name = _('коментар')
+        verbose_name_plural = _('коментари')
+        ordering = ('-created_date',)
+
+    def __str__(self):
+        return f'{self.post.title}'

@@ -1897,7 +1897,7 @@ textarea:-ms-input-placeholder {
 .categories_menu_toggle > ul > li ul.categories_mega_menu > li > a {
   line-height: 30px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: none;
   display: block;
   padding: 0px 15px 0px 15px;
@@ -2114,6 +2114,7 @@ textarea:-ms-input-placeholder {
 .call-support {
   text-align: right;
   width: 277px;
+
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .call-support {
@@ -2125,28 +2126,29 @@ textarea:-ms-input-placeholder {
 @media only screen and (max-width: 767px) {
   .call-support {
     display: none;
-    text-align: right;
+    text-align: center;
     margin-bottom: 22px;
   }
 }
 .call-support p {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 18px;
   display: inline-block;
   position: relative;
+
 }
 .call-support p::before {
   content: "";
   position: absolute;
-  background: url("../img/icon/icon-phone.png") no-repeat 0 0;
-  width: 32px;
-  height: 32px;
+
   display: inline-block;
   left: -41px;
 }
 .call-support p a {
   display: block;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 500;
+
 }
 .call-support p a:hover {
   color: #fc8a35;
@@ -3502,7 +3504,7 @@ textarea:-ms-input-placeholder {
 .section_title p {
   font-size: 15px;
   line-height: 24px;
-  font-family: "Playfair Display", serif;
+  font-family: 'Rubik', sans-serif;
   font-style: italic;
   margin-bottom: 2px;
 }
@@ -3695,7 +3697,7 @@ textarea:-ms-input-placeholder {
 }
 .product_content h4 {
   font-size: 15px;
-  line-height: 15px;
+  line-height: 20px;
   font-weight: 400;
   text-transform: none;
   margin-bottom: 16px;
@@ -5259,7 +5261,8 @@ textarea:-ms-input-placeholder {
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .shipping_area {
-    padding: 68px 0 37px;
+    padding: 68px 37px ;
+    margin-bottom: 0px;
   }
 }
 @media only screen and (max-width: 767px) {
@@ -5541,6 +5544,7 @@ textarea:-ms-input-placeholder {
   margin-bottom: 0;
 }
 .widgets_container.contact_us > p.footer_desc {
+
   margin-bottom: 22px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -5566,19 +5570,21 @@ textarea:-ms-input-placeholder {
 }
 
 .footer_logo {
-  margin-bottom: 30px;
-  max-width: 200px;
+  margin-bottom: 20px;
+  max-width: 250px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .footer_logo {
+
     margin-bottom: 18px;
     max-width: 250px;
   }
 }
 @media only screen and (max-width: 767px) {
   .footer_logo {
-    margin-bottom: 18px;
-    max-width: 250px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    max-width: 200px;
   }
 }
 
@@ -5595,7 +5601,7 @@ textarea:-ms-input-placeholder {
 @media only screen and (max-width: 767px) {
   .burger_logo {
     margin: 0 auto;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
     max-width: 200px;
   }
 }
@@ -5625,7 +5631,7 @@ textarea:-ms-input-placeholder {
 .widget_newsletter p {
   font-size: 14px;
   line-height: 22px;
-  padding-right: 100px;
+  padding-right: 0px;
   margin-bottom: 22px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -10298,12 +10304,12 @@ textarea:-ms-input-placeholder {
   background: #e6e6e6;
   border-radius: 100%;
   display: inline-block;
-  font-size: 12px;
-  height: 26px;
-  line-height: 28px;
+  font-size: 16px;
+  height: 40px;
+  line-height: 40px;
   margin-right: 5px;
   text-align: center;
-  width: 26px;
+  width: 40px;
 }
 .blog_details .social_sharing ul li a:hover {
   color: #ffffff;

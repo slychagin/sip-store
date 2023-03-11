@@ -52,6 +52,8 @@ class PostDetailView(ModelFormMixin, DetailView):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.post_comments = None
+        self.session = None
         self.object = None
         self.category_slug = None
         self.post_id = None
@@ -64,16 +66,24 @@ class PostDetailView(ModelFormMixin, DetailView):
             post_category__slug=self.kwargs['slug'],
             id=self.kwargs['pk']
         )
-
         return self.single_post
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # Create session for count user post comments
+        self.session = self.request.session
+        post_comments = self.session.get('post_comments')
+        if 'post_comments' not in self.request.session:
+            post_comments = self.session['post_comments'] = str(0)
+        self.post_comments = post_comments
+
         related_posts = Post.related_posts.through.objects.filter(from_post_id=self.single_post.id)
         context['single_post'] = self.single_post
         context['related_posts'] = [item.to_post for item in related_posts]
         context['comments'] = PostComment.objects.filter(post=self.single_post, is_moderated=True)
         context['form'] = CommentForm()
+        context['comment_count'] = int(self.request.session['post_comments'])
         return context
 
     def post(self, request, *args, **kwargs):
@@ -105,6 +115,12 @@ class PostDetailView(ModelFormMixin, DetailView):
 
         # Send message to telegram
         send_moderate_comment_message()
+
+        # Count comments and save in session. If user write > 30 comments at 2 week,
+        # then forbid writing until the next session refresh
+        comments_count = int(self.request.session['post_comments']) + 1
+        self.request.session['post_comments'] = str(comments_count)
+
         return HttpResponse(json.dumps(resp), content_type='application/json')
 
     def get_success_url(self):

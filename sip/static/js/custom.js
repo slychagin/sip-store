@@ -75,6 +75,21 @@ $(document).on('click', '#ajax_comment', function (e){
 });
 
 
+/*---Show/hide post comments---*/
+function showHideComments() {
+  var commentBlock = document.getElementById("comment-box-full");
+  var showBtn = document.getElementById("show-button")
+
+  if (commentBlock.style.display === "none") {
+    commentBlock.style.display = "block";
+    showBtn.innerHTML = "Менше коментарів";
+  } else {
+    commentBlock.style.display = "none";
+    showBtn.innerHTML = "Більше коментарів";
+  }
+}
+
+
 /*--- Show flash message ---*/
 function handleAlerts(alertId, type, text) {
   const alertBox = document.getElementById(alertId);

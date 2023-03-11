@@ -28,8 +28,7 @@
     24. modal css here
     25. new home page css here
 -----------------------------------------------------------------------------------*/
-@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
-</style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 * {
   box-sizing: border-box;
@@ -61,7 +60,7 @@ body {
   font-style: normal;
   font-weight: 400;
   visibility: visible;
-  font-family: 'Sofia Sans', sans-serif;
+  font-family: 'Rubik', sans-serif;
   color: #222222;
   letter-spacing: 0.01em;
 }
@@ -1502,7 +1501,7 @@ textarea:-ms-input-placeholder {
 .menu_position {
   position: relative;
   margin-left: -10px;
-  width: 650px;
+  width: 670px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -1549,7 +1548,7 @@ textarea:-ms-input-placeholder {
 }
 .main_menu nav > ul > li > a {
   display: block;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 50px;
   text-transform: none;
   font-weight: 500;
@@ -3710,8 +3709,9 @@ textarea:-ms-input-placeholder {
   color: #fc8a35;
 }
 .product_content p {
-  font-size: 12px;
-  line-height: 12px;
+  font-size: 14px;
+  line-height: 14px;
+  opacity: .6;
   margin-bottom: 0;
 }
 .product_content p a:hover {
@@ -5581,6 +5581,25 @@ textarea:-ms-input-placeholder {
     max-width: 250px;
   }
 }
+
+.burger_logo {
+  margin-bottom: 30px;
+  max-width: 200px;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .burger_logo {
+    margin-bottom: 18px;
+    max-width: 200px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .burger_logo {
+    margin: 0 auto;
+    margin-bottom: 18px;
+    max-width: 200px;
+  }
+}
+
 
 .footer_menu ul li a {
   display: block;
@@ -10361,7 +10380,6 @@ textarea:-ms-input-placeholder {
   }
 }
 .comment_list .comment_content {
-
   position: relative;
   border: 1px solid #ebebeb;
   border-radius: 3px;
@@ -10391,6 +10409,26 @@ textarea:-ms-input-placeholder {
 .comment_list .comment_content p {
   margin-bottom: 0;
   font-size: 14px;
+}
+.btn-outline-warning {
+  display: inline-block;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 22px;
+  text-transform: uppercase;
+  font-size: 13px;
+  border-radius: 3px;
+  color: #fc8a35;
+  border-color: #fc8a35;
+  font-weight: 500;
+  box-shadow:none !important;
+  outline:0px !important;
+}
+
+.btn-outline-warning:hover {
+  background: #fc8a35;
+  border-color: #fc8a35;
+  color: #ffffff;
 }
 
 .comment_reply {

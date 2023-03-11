@@ -107,10 +107,10 @@
                    </div>
                     {% endif %}
 
+
                     <div class="comments_box">
                         <h3>Коментари ({{ comments|length }})</h3>
-
-                        {% for comment in comments %}
+                        {% for comment in comments|slice:3 %}
                         <div class="comment_list">
                             <div class="comment_content">
                                 <div class="comment_meta">
@@ -121,15 +121,41 @@
                             </div>
                         </div>
                         {% endfor %}
+
+
+                        <div id="comment-box-full" style="display:none;">
+                            {% for comment in comments|slice:"3:" %}
+                            <div class="comment_list">
+                                <div class="comment_content">
+                                    <div class="comment_meta">
+                                        <h5>{{ comment.name }}</h5>
+                                        <span>{{ comment.created_date }}</span>
+                                    </div>
+                                    <p>{{ comment.content }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <br>
+                        </div>
+
+                        {% if comments|length > 3 %}
+                        <button type="button" class="btn btn-outline-warning"
+                                onclick="showHideComments()" id="show-button">
+                            Більше коментарів
+                        </button>
+                        {% endif %}
                     </div>
 
-
-
-
-                        <div class="comments_form">
-                            <h3 id="comment-form-title">Залиште свій коментар</h3>
-                        </div>
-                            {% crispy form %}
+                        {% if comment_count > 20 and not user.is_authenticated %}
+                            <div class="comments_form">
+                                <h3 style="color: #fc8a35;">Нажаль ви перевисили ліміт в 30 коментарів на два тижні.</h3>
+                            </div>
+                        {% else %}
+                            <div class="comments_form">
+                                <h3 id="comment-form-title">Залиште свій коментар</h3>
+                            </div>
+                                {% crispy form %}
+                        {% endif %}
                     <div id="alert-prod-details"></div>
                 </div>
                 <!--blog grid area start-->

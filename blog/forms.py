@@ -42,14 +42,23 @@ class CommentForm(forms.ModelForm):
         }
         self.helper.layout = Layout(
             Row(
-                Column('name'),
+                Column('name', ),
                 Column('email')
             ),
             'content',
             FormActions(
-                Submit('submit', 'Залишити коментар', css_class='button comment_button', css_id='ajax_comment')
+                Submit('submit', 'Залишити коментар', css_class='comment_button', css_id='ajax_comment')
             )
         )
 
         for field in self.fields:
             self.fields[field].widget.attrs['title'] = 'Заповніть це поле'
+
+    def clean_content(self):
+        """Validate content field by length (not greater 1000 sings)"""
+        content = self.cleaned_data['content']
+
+        if len(content) > 1000:
+            raise forms.ValidationError(_('Коментар не повинен бути більш ніж 1000 знаків.'))
+
+        return content

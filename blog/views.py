@@ -1,17 +1,17 @@
 import json
 
 from crispy_forms.utils import render_crispy_form
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import Http404, JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.template.context_processors import csrf
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import ModelFormMixin
 
 from blog.forms import CommentForm
-from blog.models import Post, BlogCategory
+from blog.models import Post, BlogCategory, PostComment
+from telebot.telegram import send_moderate_comment_message
 
 
 class BlogPageView(ListView):
@@ -72,6 +72,7 @@ class PostDetailView(ModelFormMixin, DetailView):
         related_posts = Post.related_posts.through.objects.filter(from_post_id=self.single_post.id)
         context['single_post'] = self.single_post
         context['related_posts'] = [item.to_post for item in related_posts]
+        context['comments'] = PostComment.objects.filter(post=self.single_post, is_moderated=True)
         context['form'] = CommentForm()
         return context
 
@@ -91,15 +92,19 @@ class PostDetailView(ModelFormMixin, DetailView):
             return HttpResponse(json.dumps(resp), content_type='application/json')
 
     def form_valid(self, form):
+        """
+        Save entered data to data base and send message
+        to admin telegram for moderate comment
+        """
+        # Save data
         post = self.get_object()
         comment_form = form.save(commit=False)
         comment_form.post = post
         form.save()
         resp = {'success': True}
 
-
-
-
+        # Send message to telegram
+        send_moderate_comment_message()
         return HttpResponse(json.dumps(resp), content_type='application/json')
 
     def get_success_url(self):
@@ -107,81 +112,6 @@ class PostDetailView(ModelFormMixin, DetailView):
             'slug': self.object.post.post_category.slug,
             'pk': self.object.post.pk
         })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class PostDetailView(ModelFormMixin, DetailView):
-#     """Render a single post details page"""
-#     template_name = 'blog/post_details.html'
-#     form_class = CommentForm
-#
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
-#         self.object = None
-#         self.category_slug = None
-#         self.post_id = None
-#         self.single_post = None
-#
-#     def get_object(self, **kwargs):
-#         """Return single post by category and post id"""
-#         self.single_post = get_object_or_404(
-#             Post,
-#             post_category__slug=self.kwargs['slug'],
-#             id=self.kwargs['pk']
-#         )
-#
-#         return self.single_post
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         related_posts = Post.related_posts.through.objects.filter(from_post_id=self.single_post.id)
-#         context['single_post'] = self.single_post
-#         context['related_posts'] = [item.to_post for item in related_posts]
-#         context['form'] = CommentForm()
-#         return context
-#
-#     def post(self, request, *args, **kwargs):
-#         form = self.get_form()
-#         self.object = self.get_object()
-#
-#         if form.is_valid():
-#             return self.form_valid(form)
-#         else:
-#             return self.form_invalid(form)
-#
-#     def form_valid(self, form):
-#         post = self.get_object()
-#         comment_form = form.save(commit=False)
-#         comment_form.post = post
-#         form.save()
-#         return super(PostDetailView, self).form_valid(form)
-#
-#     def get_success_url(self):
-#         return reverse('post_details', kwargs={
-#             'slug': self.object.post.post_category.slug,
-#             'pk': self.object.post.pk
-#         })
-
-
-
-
 
 
 class SearchListView(ListView):

@@ -37,8 +37,12 @@
                                 </div>
                             </div>
                             <div class="blog_thumb">
-                               <a href="#"><img src="{{ single_post.post_image.url }}" alt="Зображення до посту"></a>
-                           </div>
+                                {% if single_post.banner_url %}
+                               <a href="{{ single_post.banner_url }}"><img src="{{ single_post.post_image.url }}" alt="Зображення до посту"></a>
+                                {% else %}
+                                <a href="#"><img src="{{ single_post.post_image.url }}" alt="Зображення до посту"></a>
+                                {% endif %}
+                            </div>
 
                            <figcaption class="blog_content">
                                 <div class="post_content">
@@ -104,49 +108,32 @@
                     {% endif %}
 
                     <div class="comments_box">
-                        <h3>3 Коментари	</h3>
+                        <h3>Коментари ({{ comments|length }})</h3>
+
+                        {% for comment in comments %}
                         <div class="comment_list">
                             <div class="comment_content">
                                 <div class="comment_meta">
-                                    <h5>Admin</h5>
-                                    <span>October 16, 2018 at 1:38 am</span>
+                                    <h5>{{ comment.name }}</h5>
+                                    <span>{{ comment.created_date }}</span>
                                 </div>
-                                <p>But I must explain to you how all this mistaken idea of denouncing pleasure</p>
+                                <p>{{ comment.content }}</p>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
+
+
+
 
                         <div class="comments_form">
                             <h3 id="comment-form-title">Залиште свій коментар</h3>
-                                {% crispy form %}
-                            <div id="alert-prod-details"></div>
                         </div>
-
-
-<!--                    <div class="comments_form">-->
-<!--                        <h3>Залиште свій коментар</h3>-->
-<!--                        <form id="post-comment-form" novalidate>-->
-<!--                            {% csrf_token %}-->
-
-<!--                            <div class="row">-->
-<!--                                <div class="col-lg-6 col-md-6">-->
-<!--                                    {{ form.name|as_crispy_field }}-->
-<!--                                </div>-->
-<!--                                <div class="col-lg-6 col-md-6">-->
-<!--                                    {{ form.email|as_crispy_field }}-->
-<!--                                </div>-->
-<!--                                <div class="col-12">-->
-<!--                                    {{ form.content|as_crispy_field }}-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <button class="button" type="submit" id="ajax_comment">Залишити коментар</button>-->
-<!--                         </form>-->
-<!--                    </div>-->
-
+                            {% crispy form %}
+                    <div id="alert-prod-details"></div>
                 </div>
                 <!--blog grid area start-->
             </div>
-
   <!--sidebar-->
   {% include 'blog/sidebar.html' %}
 

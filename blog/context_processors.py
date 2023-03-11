@@ -1,4 +1,9 @@
-from blog.models import BlogCategory, Tag, Post
+from blog.models import (
+    BlogCategory,
+    Tag,
+    Post,
+    PostComment
+)
 
 
 def blog_sidebar(request):
@@ -7,9 +12,11 @@ def blog_sidebar(request):
     post_tags = Tag.objects.all().order_by('name')
     recent_posts = Post.objects.all().order_by('-created_date')[:3]
     recent_home_posts = Post.objects.all().order_by('-created_date')[:6]
+    recent_comments = PostComment.objects.filter(is_moderated=True).order_by('-created_date')[:3]
     return dict(
         blog_categories=blog_categories,
         post_tags=post_tags,
         recent_posts=recent_posts,
-        recent_home_posts=recent_home_posts
+        recent_home_posts=recent_home_posts,
+        recent_comments=recent_comments
     )

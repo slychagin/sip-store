@@ -48,6 +48,8 @@ class Post(models.Model):
     quote = models.TextField(blank=True, verbose_name=_('цитата до посту'))
     post_image = models.ImageField(upload_to='photos/blog/images', blank=True, verbose_name=_('фото до посту'))
     mini_image = models.ImageField(upload_to='photos/blog/mini_images', verbose_name=_('міні фото до посту'))
+    banner_url = models.URLField(max_length=255, blank=True, verbose_name=_('URL переходу'),
+                                 help_text=_('Введіть URL куди переходити по кліку на головне фото поста'))
     is_available = models.BooleanField(default=True, verbose_name=_('доступний'))
     created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата змін'))

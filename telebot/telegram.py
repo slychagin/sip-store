@@ -8,7 +8,7 @@ from telebot.models import TelegramSettings
 
 
 def send_message_to_admin_telegram(basket, order):
-    """Create thread for sending message to telegram with Python Threading"""
+    """Create thread for sending message to telegram with new order"""
     try:
         # Get Telegram Bot settings from the database
         tg_settings = TelegramSettings.objects.filter(available=True)[0]
@@ -107,6 +107,31 @@ def send_message_to_admin_telegram(basket, order):
                       f"\nСума:  {basket.get_total_price()} ₴" \
                       f"\nЗнижка:  {order.discount} ₴" \
                       f"\nУсього:  {order.order_total} ₴"
+
+        thread = threading.Thread(
+            target=telegram_sender,
+            args=(query, chat_id, message)
+        )
+        thread.start()
+
+    except ObjectDoesNotExist:
+        pass
+
+
+def send_moderate_comment_message():
+    """Create thread for sending message to telegram with new comment"""
+    try:
+        # Get Telegram Bot settings from the database
+        tg_settings = TelegramSettings.objects.filter(available=True)[0]
+        api = str(tg_settings.tg_api)
+        token = str(tg_settings.tg_token)
+        chat_id = str(tg_settings.tg_chat)
+        method = '/sendMessage'
+
+        # Create query for Telegram
+        query = api + token + method
+
+        message = f"На сайті новий коментар до посту чекає на модерацію!"
 
         thread = threading.Thread(
             target=telegram_sender,

@@ -32,6 +32,7 @@ class TagAdmin(admin.ModelAdmin):
 
 class PostCommentAdmin(admin.ModelAdmin):
     list_display = ('post', 'name', 'email', 'content', 'created_date', 'is_moderated')
+    list_display_links = ('post', 'name', 'email')
     search_fields = ('name', 'email', 'content')
     list_filter = ('is_moderated', 'created_date')
     list_editable = ('is_moderated',)

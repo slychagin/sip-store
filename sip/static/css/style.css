@@ -10361,7 +10361,7 @@ textarea:-ms-input-placeholder {
   }
 }
 .comment_list .comment_content {
-  margin-left: 70px;
+
   position: relative;
   border: 1px solid #ebebeb;
   border-radius: 3px;
@@ -10369,7 +10369,7 @@ textarea:-ms-input-placeholder {
 }
 @media only screen and (max-width: 767px) {
   .comment_list .comment_content {
-    margin-left: 55px;
+    margin-left: 0px;
   }
 }
 .comment_list .comment_content h5 {
@@ -10480,16 +10480,21 @@ textarea:-ms-input-placeholder {
     padding: 0 10px;
   }
 }
-
-
-
-
-
 .comment_button {
-  border: 0;
+  border: none;
   line-height: 36px;
   background: #222222;
   font-weight: 500;
+  box-shadow: none;
+  color: #ffffff;
+  display: inline-block;
+  min-height: 45px;
+  max-width: 200px;
+  line-height: 45px;
+  padding: 0 22px;
+  text-transform: uppercase;
+  font-size: 13px;
+  border-radius: 3px;
 }
 .comment_button:hover {
   background: #fc8a35;
@@ -10501,13 +10506,6 @@ textarea:-ms-input-placeholder {
     padding: 0 10px;
   }
 }
-
-
-
-
-
-
-
 .comment_list.list_two {
   padding-left: 50px;
 }

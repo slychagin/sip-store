@@ -93,7 +93,7 @@ class PostComment(models.Model):
     class Meta:
         verbose_name = _('коментар')
         verbose_name_plural = _('коментари')
-        ordering = ('-created_date',)
+        ordering = ('-modified_date',)
 
     def __str__(self):
         return f'{self.post.title}'

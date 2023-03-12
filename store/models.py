@@ -81,3 +81,24 @@ class ProductInfo(models.Model):
 
     def __str__(self):
         return 'Інформація щодо товару'
+
+
+class ReviewRating(models.Model):
+    objects = models.Manager()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('товар'))
+    rating = models.FloatField(default=0, verbose_name=_('рейтинг'))
+    review = models.TextField(max_length=500, blank=True, verbose_name=_('відгук'))
+    name = models.CharField(max_length=80, verbose_name=_("ім'я"))
+    email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
+    ip = models.CharField(max_length=20, blank=True, verbose_name=_('IP адреса'))
+    created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
+    modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата коригування'))
+    is_moderated = models.BooleanField(default=False, verbose_name=_('промодерований'))
+
+    class Meta:
+        verbose_name = _('відгук')
+        verbose_name_plural = _('відгуки')
+        ordering = ('-modified_date',)
+
+    def __str__(self):
+        return f'{self.product.title}'

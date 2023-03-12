@@ -3,11 +3,15 @@ from django.contrib import admin
 from django.utils.html import format_html
 from embed_video.admin import AdminVideoMixin
 
-from store.forms import ProductGalleryForm, ProductAdminForm, ProductInfoAdminForm
+from store.forms import (
+    ProductGalleryForm,
+    ProductAdminForm,
+    ProductInfoAdminForm
+)
 from store.models import (
     Product,
     ProductGallery,
-    ProductInfo
+    ProductInfo, ReviewRating
 )
 
 
@@ -54,6 +58,17 @@ class ProductInfoAdmin(admin.ModelAdmin):
     form = ProductInfoAdminForm
 
 
+class ReviewRatingAdmin(admin.ModelAdmin):
+    list_display = ('product', 'rating', 'name', 'email', 'created_date', 'modified_date', 'is_moderated')
+    list_display_links = ('product', 'rating', 'name')
+    search_fields = ('product', 'rating', 'name', 'email', 'review', 'product__product_name')
+    list_filter = ('is_moderated', 'product', 'rating', 'modified_date')
+    list_editable = ('is_moderated',)
+    list_per_page = 50
+    list_max_show_all = 100
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductGallery, ProductGalleryAdmin)
 admin.site.register(ProductInfo, ProductInfoAdmin)
+admin.site.register(ReviewRating, ReviewRatingAdmin)

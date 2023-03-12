@@ -72,20 +72,23 @@
 
                 <div class="col-lg-6 col-md-6">
                     <div class="product_d_right">
-
                             <h1>{{ single_product.product_name }}</h1>
 
-                            <div class=" product_ratting">
-                                <ul>
-                                    <li><a href="#"><i class="icon-star"></i></a></li>
-                                   <li><a href="#"><i class="icon-star"></i></a></li>
-                                   <li><a href="#"><i class="icon-star"></i></a></li>
-                                   <li><a href="#"><i class="icon-star"></i></a></li>
-                                   <li><a href="#"><i class="icon-star"></i></a></li>
-                                    <li class="review"><a href="#"> (customer review ) </a></li>
-                                </ul>
 
+
+                            <div class="product_ratting">
+                                <ul>
+                                   <li><a href="#"><i class="icon-star"></i></a></li>
+                                   <li><a href="#"><i class="icon-star"></i></a></li>
+                                   <li><a href="#"><i class="icon-star"></i></a></li>
+                                   <li><a href="#"><i class="icon-star"></i></a></li>
+                                   <li><a href="#"><i class="icon-star"></i></a></li>
+                                   <li class="review"><a href="#"> (customer review ) </a></li>
+                                </ul>
                             </div>
+
+
+
                             <div class="price_box">
                                 <span class="current_price">{{ single_product.price }} ₴</span>
 
@@ -144,16 +147,24 @@
                             <div class="product_meta">
                                 <span>Категорія: <a href="{{ single_product.category.get_url }}">{{ single_product.category }}</a></span>
                             </div>
-
-                        <div class="priduct_social">
-                            <ul>
-                                <li><a class="facebook" href="#" title="facebook"><i class="fa fa-facebook"></i> Like</a></li>
-                                <li><a class="twitter" href="#" title="twitter"><i class="fa fa-twitter"></i> tweet</a></li>
-                                <li><a class="pinterest" href="#" title="pinterest"><i class="fa fa-pinterest"></i> save</a></li>
-                                <li><a class="google-plus" href="#" title="google +"><i class="fa fa-google-plus"></i> share</a></li>
-                                <li><a class="linkedin" href="#" title="linkedin"><i class="fa fa-linkedin"></i> linked</a></li>
-                            </ul>
-                        </div>
+                        <div class="social_wrapper">
+                          <p>Поділитись цим товаром:</p>
+                          <div class="instagram">
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                          </div>
+                          <div class="facebook">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                          </div>
+                          <div class="telegram">
+                            <a href="#"><i class="fa fa-paper-plane"></i></a>
+                          </div>
+                          <div class="whatsapp">
+                            <a href="#"><i class="fa fa-whatsapp"></i></a>
+                          </div>
+                          <div class="youtube">
+                            <a href="#"><i class="fa fa-youtube"></i></a>
+                          </div>
+                    </div>
 
                     </div>
                 </div>
@@ -194,13 +205,16 @@
                                 </div>
                             </div>
 
+
+
+
+
+
+
+
                             <div class="tab-pane fade" id="reviews" role="tabpanel" >
                                 <div class="reviews_wrapper">
-                                    <h2>1 review for Donec eu furniture</h2>
                                     <div class="reviews_comment_box">
-                                        <div class="comment_thmb">
-                                            <img src="{% static 'img/blog/comment2.jpg' %}" alt="">
-                                        </div>
                                         <div class="comment_text">
                                             <div class="reviews_meta">
                                                 <div class="star_rating">
@@ -216,44 +230,83 @@
                                                 <span>roadthemes</span>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="comment_title">
+                                        <h2>Додайте відгук</h2>
+                                        <p><sap>* </sap><i>Відгук можна залишити, якщо ви купували даний товар</i></p>
+                                    </div>
+
+                                    <div class="product_ratting mb-10">
+                                       <h3>Ваш рейтинг</h3>
+<!--                                        <ul>-->
+<!--                                           <li><a href="#"><i class="fa fa-star checked"></i></a></li>-->
+<!--                                           <li><a href="#"><i class="fa fa-star checked"></i></a></li>-->
+<!--                                           <li><a href="#"><i class="fa fa-star checked"></i></a></li>-->
+<!--                                           <li><a href="#"><i class="fa fa-star"></i></a></li>-->
+<!--                                           <li><a href="#"><i class="fa fa-star"></i></a></li>-->
+<!--                                        </ul>-->
+
+
+                                            <div class="rating-group">
+                                                <input class="rating__input rating__input--none" checked name="rating2" id="rating2-0" value="0" type="radio">
+                                                <label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
+                                                <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                <input class="rating__input" name="rating2" id="rating2-05" value="0.5" type="radio">
+                                                <label aria-label="1 star" class="rating__label" for="rating2-10"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                <input class="rating__input" name="rating2" id="rating2-10" value="1" type="radio">
+                                                <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                <input class="rating__input" name="rating2" id="rating2-15" value="1.5" type="radio">
+                                                <label aria-label="2 stars" class="rating__label" for="rating2-20"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                <input class="rating__input" name="rating2" id="rating2-20" value="2" type="radio">
+                                                <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                <input class="rating__input" name="rating2" id="rating2-25" value="2.5" type="radio">
+                                                <label aria-label="3 stars" class="rating__label" for="rating2-30"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                <input class="rating__input" name="rating2" id="rating2-30" value="3" type="radio">
+                                                <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                <input class="rating__input" name="rating2" id="rating2-35" value="3.5" type="radio">
+                                                <label aria-label="4 stars" class="rating__label" for="rating2-40"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                <input class="rating__input" name="rating2" id="rating2-40" value="4" type="radio">
+                                                <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                <input class="rating__input" name="rating2" id="rating2-45" value="4.5" type="radio">
+                                                <label aria-label="5 stars" class="rating__label" for="rating2-50"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                <input class="rating__input" name="rating2" id="rating2-50" value="5" type="radio">
+                                            </div>
+
 
                                     </div>
-                                    <div class="comment_title">
-                                        <h2>Add a review </h2>
-                                        <p>Your email address will not be published.  Required fields are marked </p>
-                                    </div>
-                                    <div class="product_ratting mb-10">
-                                       <h3>Your rating</h3>
-                                        <ul>
-                                            <li><a href="#"><i class="icon-star"></i></a></li>
-                                               <li><a href="#"><i class="icon-star"></i></a></li>
-                                               <li><a href="#"><i class="icon-star"></i></a></li>
-                                               <li><a href="#"><i class="icon-star"></i></a></li>
-                                               <li><a href="#"><i class="icon-star"></i></a></li>
-                                        </ul>
-                                    </div>
+
                                     <div class="product_review_form">
                                         <form action="#">
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <label for="review_comment">Your review </label>
+                                                    <label for="review_comment">Ваш відгук</label>
                                                     <textarea name="comment" id="review_comment" ></textarea>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6">
-                                                    <label for="author">Name</label>
-                                                    <input id="author"  type="text">
-
+                                                    <label for="author">Ім'я</label>
+                                                    <input id="author" type="text">
                                                 </div>
                                                 <div class="col-lg-6 col-md-6">
-                                                    <label for="email">Email </label>
-                                                    <input id="email"  type="text">
+                                                    <label for="email">Email</label>
+                                                    <input id="email" type="text">
                                                 </div>
                                             </div>
-                                            <button type="submit">Submit</button>
+                                            <button type="submit">Відправити</button>
                                          </form>
                                     </div>
                                 </div>
                             </div>
+
+
+
+
+
+
+
+
+
+
                         </div>
                     </div>
                 </div>
@@ -518,28 +571,24 @@
 
                     <div id="alert-pop-up"></div>
 
-                    <div class="modal_social">
-                      <h2>Поділитися цим товаром:</h2>
-                      <ul>
-                        <li class="facebook">
-                          <a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li class="twitter">
-                          <a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li class="pinterest">
-                          <a href="#"><i class="fa fa-pinterest"></i></a>
-                        </li>
-                        <li class="google-plus">
-                          <a href="#"><i class="fa fa-google-plus"></i></a>
-                        </li>
-                        <li class="linkedin">
-                          <a href="#"><i class="fa fa-linkedin"></i></a>
-                        </li>
-                      </ul>
-                    </div>
-
-
+                      <div class="social_wrapper">
+                          <p>Поділитись цим товаром:</p>
+                          <div class="instagram">
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                          </div>
+                          <div class="facebook">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                          </div>
+                          <div class="telegram">
+                            <a href="#"><i class="fa fa-paper-plane"></i></a>
+                          </div>
+                          <div class="whatsapp">
+                            <a href="#"><i class="fa fa-whatsapp"></i></a>
+                          </div>
+                          <div class="youtube">
+                            <a href="#"><i class="fa fa-youtube"></i></a>
+                          </div>
+                      </div>
                   </div>
                 </div>
               </div>

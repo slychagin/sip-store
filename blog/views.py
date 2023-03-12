@@ -46,7 +46,7 @@ class PostsByCategoryListView(ListView):
 
 
 class PostDetailView(ModelFormMixin, DetailView):
-    """Render a single post details page"""
+    """Render a single post details page with PostComment form"""
     template_name = 'blog/post_details.html'
     form_class = CommentForm
 

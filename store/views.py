@@ -1,10 +1,17 @@
+import json
+
+from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
+from django.template.context_processors import csrf
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import ModelFormMixin
 
 from category.models import Category
+from store.forms import ReviewRatingForm
 from store.models import Product, ProductGallery, ProductInfo
 
 
@@ -63,26 +70,25 @@ class ProductsByCategoryListView(ListView):
         return context
 
 
-class ProductDetailView(DetailView):
-    """Render a single product details page"""
+class ProductDetailView(ModelFormMixin, DetailView):
+    """Render a single product details page with ReviewRating form"""
     template_name = 'store/product_details.html'
+    form_class = ReviewRatingForm
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.object = None
         self.category_slug = None
         self.product_slug = None
         self.single_product = None
 
     def get_object(self, **kwargs):
         """Return single product by category and product slugs"""
-        try:
-            self.single_product = Product.objects.get(
-                category__slug=self.kwargs['category_slug'],
-                slug=self.kwargs['product_slug']
-            )
-        except ObjectDoesNotExist:
-            raise Http404('Сторінку не знайдено')
-
+        self.single_product = get_object_or_404(
+            Product,
+            category__slug=self.kwargs['category_slug'],
+            slug=self.kwargs['product_slug']
+        )
         return self.single_product
 
     def get_context_data(self, **kwargs):
@@ -97,8 +103,99 @@ class ProductDetailView(DetailView):
         context['images'] = images
         context['videos'] = videos
         context['related_products'] = [item.to_product for item in related_products]
-        context['info'] = ProductInfo.objects.all()[0].description
+        context['form'] = ReviewRatingForm()
+
+        try:
+            context['info'] = ProductInfo.objects.all()[0].description
+        except IndexError:
+            context['info'] = ''
         return context
+
+    def post(self, request, *args, **kwargs):
+        is_ajax = request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+        if is_ajax:
+            form = self.get_form()
+            self.object = self.get_object()
+
+            if form.is_valid():
+                return self.form_valid(form)
+            else:
+                resp = {'success': False}
+                csrf_context = {}
+                csrf_context.update(csrf(request))
+                review_form = render_crispy_form(form, context=csrf_context)
+                resp['html'] = review_form
+            return HttpResponse(json.dumps(resp), content_type='application/json')
+
+    def form_valid(self, form):
+        """
+        Save entered data to data base and send message
+        to admin telegram for moderate review
+        """
+        # Save data
+        product = self.get_object()
+        review_form = form.save(commit=False)
+        review_form.product = product
+        review_form.ip = self.request.META.get('REMOTE_ADDR')
+        form.save()
+        resp = {'success': True}
+
+        # Send message to telegram
+        # send_moderate_review_message()
+
+        return HttpResponse(json.dumps(resp), content_type='application/json')
+
+
+
+
+
+
+
+
+
+    def get_success_url(self):
+        return reverse('product_details', kwargs={
+            'category__slug': self.kwargs['category_slug'],
+            'slug': self.kwargs['product_slug']
+        })
+
+
+# class ProductDetailView(DetailView):
+#     """Render a single product details page"""
+#     template_name = 'store/product_details.html'
+#
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+#         self.category_slug = None
+#         self.product_slug = None
+#         self.single_product = None
+#
+#     def get_object(self, **kwargs):
+#         """Return single product by category and product slugs"""
+#         try:
+#             self.single_product = Product.objects.get(
+#                 category__slug=self.kwargs['category_slug'],
+#                 slug=self.kwargs['product_slug']
+#             )
+#         except ObjectDoesNotExist:
+#             raise Http404('Сторінку не знайдено')
+#
+#         return self.single_product
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         product_gallery = ProductGallery.objects.filter(product_id=self.single_product.id)
+#         images = [i for i in product_gallery if i.image != '']
+#         videos = [i for i in product_gallery if i.video != '']
+#
+#         related_products = Product.related_products.through.objects.filter(from_product_id=self.single_product.id)
+#
+#         context['single_product'] = self.single_product
+#         context['images'] = images
+#         context['videos'] = videos
+#         context['related_products'] = [item.to_product for item in related_products]
+#         context['info'] = ProductInfo.objects.all()[0].description
+#         return context
 
 
 class SearchListView(ListView):

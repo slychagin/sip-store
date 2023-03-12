@@ -34,6 +34,9 @@ class CommentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['title'] = 'Заповніть це поле'
+
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_id = 'post-comment-form'
@@ -51,8 +54,7 @@ class CommentForm(forms.ModelForm):
             )
         )
 
-        for field in self.fields:
-            self.fields[field].widget.attrs['title'] = 'Заповніть це поле'
+
 
     def clean_content(self):
         """Validate content field by length (not greater 1000 sings)"""

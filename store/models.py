@@ -86,8 +86,8 @@ class ProductInfo(models.Model):
 class ReviewRating(models.Model):
     objects = models.Manager()
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('товар'))
-    rating = models.FloatField(default=0, verbose_name=_('рейтинг'))
-    review = models.TextField(max_length=500, blank=True, verbose_name=_('відгук'))
+    rating = models.FloatField(verbose_name=_('рейтинг'))
+    review = models.TextField(max_length=500, verbose_name=_('відгук'))
     name = models.CharField(max_length=80, verbose_name=_("ім'я"))
     email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
     ip = models.CharField(max_length=20, blank=True, verbose_name=_('IP адреса'))
@@ -101,4 +101,4 @@ class ReviewRating(models.Model):
         ordering = ('-modified_date',)
 
     def __str__(self):
-        return f'{self.product.title}'
+        return f'{self.product.product_name}'

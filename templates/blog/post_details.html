@@ -81,17 +81,6 @@
                                                 <a href="#"><i class="fa fa-whatsapp"></i></a>
                                               </div>
                                       </div>
-
-
-<!--                                    <div class="social_sharing">-->
-<!--                                        <p>Поділитися цим постом:</p>-->
-<!--                                        <ul>-->
-<!--                                            <li><a href="#" title="facebook"><i class="fa fa-facebook"></i></a></li>-->
-<!--                                            <li><a href="#" title="instagram"><i class="fa fa-instagram"></i></a></li>-->
-<!--                                            <li><a href="#" title="telegram"><i class="fa fa-telegram"></i></a></li>-->
-<!--                                            <li><a href="#" title="whatsapp"><i class="fa fa-whatsapp"></i></a></li>-->
-<!--                                        </ul>-->
-<!--                                    </div>-->
                                 </div>
                            </figcaption>
                         </figure>
@@ -122,7 +111,6 @@
                    </div>
                     {% endif %}
 
-
                     <div class="comments_box">
                         <h3>Коментари ({{ comments|length }})</h3>
                         {% for comment in comments|slice:3 %}
@@ -136,7 +124,6 @@
                             </div>
                         </div>
                         {% endfor %}
-
 
                         <div id="comment-box-full" style="display:none;">
                             {% for comment in comments|slice:"3:" %}
@@ -163,7 +150,7 @@
 
                         {% if comment_count > 20 and not user.is_authenticated %}
                             <div class="comments_form">
-                                <h3 style="color: #fc8a35;">Нажаль ви перевисили ліміт в 30 коментарів на два тижні.</h3>
+                                <h3 style="color: #fc8a35;">Нажаль ви перевисили ліміт в 20 коментарів на два тижні.</h3>
                             </div>
                         {% else %}
                             <div class="comments_form">
@@ -171,6 +158,7 @@
                             </div>
                                 {% crispy form %}
                         {% endif %}
+
                     <div id="alert-prod-details"></div>
                 </div>
                 <!--blog grid area start-->

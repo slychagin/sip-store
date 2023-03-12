@@ -75,6 +75,47 @@ $(document).on('click', '#ajax_comment', function (e){
 });
 
 
+/*--- Handle Review Rating form ---*/
+$(document).on('click', '#ajax_review', function (e){
+  e.preventDefault();
+  var rating = document.querySelector('input[name="rating"]:checked').value;
+  document.getElementById('rating').value = rating;
+  var form_id = $('#review-rating-form');
+
+
+  $.ajax({
+      type: 'POST',
+      data: form_id.serialize(),
+      dataType: 'json',
+      header: window.CSRF_TOKEN,
+
+
+      success: function (data) {
+
+        var success = data['success']
+        if (success) {
+            form_id.trigger("reset");
+            form_id.replaceWith(data['html']);
+            $("#review_form_title").hide();
+            $("#rating-stars").hide();
+            handleAlerts('alert-rating-success', 'success',
+            "Дякуємо за Ваш відгук!<br/>Він з'явиться одразу після модерації." );
+        } else {
+            form_id.replaceWith(data['html']);
+            if (rating == 0) {
+                fixAlerts('alert-prod-rating', 'danger', 'Будь ласка, встановіть рейтинг');
+            } else {
+                document.getElementById('alert-prod-rating').innerHTML = ''
+            }
+        }
+      },
+      error: function(xhr, errmsg, err) {
+        handleAlerts('alert-prod-details', 'danger', 'ой... щось пішло не так');
+      }
+  });
+});
+
+
 /*---Show/hide post comments---*/
 function showHideComments() {
   var commentBlock = document.getElementById("comment-box-full");
@@ -90,7 +131,7 @@ function showHideComments() {
 }
 
 
-/*--- Show flash message ---*/
+/*--- Show temporary flash message ---*/
 function handleAlerts(alertId, type, text) {
   const alertBox = document.getElementById(alertId);
   alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
@@ -99,6 +140,14 @@ function handleAlerts(alertId, type, text) {
   setTimeout(()=>{
       alertBox.innerHTML = ''
   }, 3000)
+};
+
+/*--- Show standing flash message ---*/
+function fixAlerts(alertId, type, text) {
+  const alertBox = document.getElementById(alertId);
+  alertBox.innerHTML = `<div class="alert alert-${type} alert-rating" role="alert">
+                              ${text}
+                            </div>`
 };
 
 

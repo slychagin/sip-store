@@ -12384,6 +12384,15 @@ padding: 0 0.1em;
 font-size: 1.5rem;
 }
 
+.small_star {
+    font-size: 1rem;
+}
+
+.small_star--half {
+    padding-right: 0;
+    z-index: 2;
+}
+
 /* add padding and positioning to half star labels */
 .rating__label--half {
 padding-right: 0;

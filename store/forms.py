@@ -75,7 +75,6 @@ class ReviewRatingForm(forms.ModelForm):
             'email': _('Email')
         }
 
-
     def __init__(self, *args, **kwargs):
         super(ReviewRatingForm, self).__init__(*args, **kwargs)
 
@@ -89,7 +88,7 @@ class ReviewRatingForm(forms.ModelForm):
             'novalidate': ''
         }
         self.helper.layout = Layout(
-            Field('rating', id='rating'),
+            Field('rating', type='hidden', id='rating'),
             'review',
             Row(
                 Column('name', ),
@@ -105,25 +104,6 @@ class ReviewRatingForm(forms.ModelForm):
         rating = self.cleaned_data['rating']
 
         if rating == 0:
-            raise forms.ValidationError(_('Встановіть рейтинг'))
+            raise forms.ValidationError(_('Будь ласка, встановіть рейтинг'))
 
         return rating
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

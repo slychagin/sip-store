@@ -12,7 +12,7 @@ from orders.models import Order, NewPostTerminals, OrderItem, save_customer, Tha
 
 from orders.send_email import send_email_to_customer
 from store.models import count_products
-from telebot.telegram import send_message_to_admin_telegram
+from telebot.telegram import send_to_telegram_order_message
 
 
 class OrderFormView(View):
@@ -95,7 +95,7 @@ class OrderFormView(View):
             # send_email_to_customer(basket, order)
             #
             # # Send message with order details to admin Telegram chat
-            # send_message_to_admin_telegram(basket, order)
+            # send_to_telegram_order_message(basket, order)
 
             # Clear basket session data
             try:
@@ -127,6 +127,7 @@ def create_order_items(basket, order):
         ordered_product.price = item['price']
         ordered_product.quantity = item['qty']
         ordered_product.is_ordered = True
+        ordered_product.user_email = order.email
         ordered_product.save()
 
 

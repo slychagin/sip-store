@@ -11,7 +11,7 @@ from django.views.generic.edit import ModelFormMixin
 
 from blog.forms import CommentForm
 from blog.models import Post, BlogCategory, PostComment
-from telebot.telegram import send_moderate_comment_message
+from telebot.telegram import send_to_telegram_moderate_comment_message
 
 
 class BlogPageView(ListView):
@@ -114,7 +114,7 @@ class PostDetailView(ModelFormMixin, DetailView):
         resp = {'success': True}
 
         # Send message to telegram
-        send_moderate_comment_message()
+        send_to_telegram_moderate_comment_message()
 
         # Count comments and save in session. If user write > 30 comments at 2 week,
         # then forbid writing until the next session refresh

@@ -19,14 +19,16 @@ class OrderItemInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('order_number', 'customer_name', 'phone', 'email', 'order_total', 'created')
     search_fields = ('order_number', 'customer_name', 'phone', 'email', 'order_total')
+    list_filter = ('order_number', 'customer_name', 'phone', 'email',)
     list_per_page = 50
     list_max_show_all = 100
     inlines = [OrderItemInline]
 
 
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('product', 'order')
-    search_fields = ('product', 'order')
+    list_display = ('product', 'order', 'user_email')
+    search_fields = ('product', 'order', 'user_email')
+    list_filter = ('product', 'order', 'user_email')
     list_per_page = 50
     list_max_show_all = 100
 

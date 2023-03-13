@@ -3,7 +3,7 @@ import json
 from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import Http404, HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.context_processors import csrf
 from django.urls import reverse
@@ -11,8 +11,13 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import ModelFormMixin
 
 from category.models import Category
+from orders.models import OrderItem
 from store.forms import ReviewRatingForm
-from store.models import Product, ProductGallery, ProductInfo
+from store.models import Product, ProductGallery, ProductInfo, ReviewRating
+from telebot.telegram import (
+    send_to_telegram_moderate_new_review_message,
+    send_to_telegram_moderate_updated_review_message
+)
 
 
 class StorePageView(ListView):
@@ -98,11 +103,13 @@ class ProductDetailView(ModelFormMixin, DetailView):
         videos = [i for i in product_gallery if i.video != '']
 
         related_products = Product.related_products.through.objects.filter(from_product_id=self.single_product.id)
+        reviews = ReviewRating.objects.filter(product=self.get_object(), is_moderated=True)
 
         context['single_product'] = self.single_product
         context['images'] = images
         context['videos'] = videos
         context['related_products'] = [item.to_product for item in related_products]
+        context['reviews'] = reviews
         context['form'] = ReviewRatingForm()
 
         try:
@@ -129,73 +136,51 @@ class ProductDetailView(ModelFormMixin, DetailView):
 
     def form_valid(self, form):
         """
-        Save entered data to data base and send message
-        to admin telegram for moderate review
+        Checks if the user has bought the given product.
+        If yes, it saves the review in the database,
+        if it is a new review, and overwrites it if there was already.
         """
-        # Save data
         product = self.get_object()
-        review_form = form.save(commit=False)
-        review_form.product = product
-        review_form.ip = self.request.META.get('REMOTE_ADDR')
-        form.save()
-        resp = {'success': True}
 
-        # Send message to telegram
-        # send_moderate_review_message()
+        # Check the user
+        email = form.cleaned_data['email']
+        ordered_products = [item.product for item in OrderItem.objects.filter(user_email=email)]
 
-        return HttpResponse(json.dumps(resp), content_type='application/json')
+        if product not in ordered_products:
+            resp = {'info': True}
+            return HttpResponse(json.dumps(resp), content_type='application/json')
+        else:
+            try:
+                # Update exists review
+                review = ReviewRating.objects.get(product=product, email=email)
+                review.is_moderated = False
+                form = ReviewRatingForm(self.request.POST, instance=review)
+                form.save()
+                resp = {'update': True}
 
+                # Send message to telegram
+                send_to_telegram_moderate_updated_review_message()
 
+                return HttpResponse(json.dumps(resp), content_type='application/json')
 
+            except ObjectDoesNotExist:
+                # Save new review
+                review_form = form.save(commit=False)
+                review_form.product = product
+                review_form.ip = self.request.META.get('REMOTE_ADDR')
+                form.save()
+                resp = {'success': True}
 
+                # Send message to telegram
+                send_to_telegram_moderate_new_review_message()
 
-
-
-
+                return HttpResponse(json.dumps(resp), content_type='application/json')
 
     def get_success_url(self):
-        return reverse('product_details', kwargs={
-            'category__slug': self.kwargs['category_slug'],
-            'slug': self.kwargs['product_slug']
-        })
-
-
-# class ProductDetailView(DetailView):
-#     """Render a single product details page"""
-#     template_name = 'store/product_details.html'
-#
-#     def __init__(self, **kwargs):
-#         super().__init__(**kwargs)
-#         self.category_slug = None
-#         self.product_slug = None
-#         self.single_product = None
-#
-#     def get_object(self, **kwargs):
-#         """Return single product by category and product slugs"""
-#         try:
-#             self.single_product = Product.objects.get(
-#                 category__slug=self.kwargs['category_slug'],
-#                 slug=self.kwargs['product_slug']
-#             )
-#         except ObjectDoesNotExist:
-#             raise Http404('Сторінку не знайдено')
-#
-#         return self.single_product
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         product_gallery = ProductGallery.objects.filter(product_id=self.single_product.id)
-#         images = [i for i in product_gallery if i.image != '']
-#         videos = [i for i in product_gallery if i.video != '']
-#
-#         related_products = Product.related_products.through.objects.filter(from_product_id=self.single_product.id)
-#
-#         context['single_product'] = self.single_product
-#         context['images'] = images
-#         context['videos'] = videos
-#         context['related_products'] = [item.to_product for item in related_products]
-#         context['info'] = ProductInfo.objects.all()[0].description
-#         return context
+        return HttpResponseRedirect(reverse('product_details', args=[
+            self.kwargs['category_slug'],
+            self.kwargs['product_slug']
+        ]))
 
 
 class SearchListView(ListView):

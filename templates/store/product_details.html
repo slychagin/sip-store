@@ -1,5 +1,6 @@
 {% extends 'sip/base.html' %}
 {% load static %}
+{% load get_range %}
 {% load embed_video_tags %}
 {% load crispy_forms_tags %}
 {% block content %}
@@ -75,20 +76,20 @@
                     <div class="product_d_right">
                             <h1>{{ single_product.product_name }}</h1>
 
-
-
                             <div class="product_ratting">
-                                <ul>
-                                   <li><a href="#"><i class="icon-star"></i></a></li>
-                                   <li><a href="#"><i class="icon-star"></i></a></li>
-                                   <li><a href="#"><i class="icon-star"></i></a></li>
-                                   <li><a href="#"><i class="icon-star"></i></a></li>
-                                   <li><a href="#"><i class="icon-star"></i></a></li>
-                                   <li class="review"><a href="#"> (customer review ) </a></li>
-                                </ul>
+                                <div class="rating-group">
+                                    {% if single_product.average_review_rating|floatformat:"0" == single_product.average_review_rating|floatformat %}
+                                        {% for i in single_product.average_review_rating|get_range %}
+                                        <label aria-label="1 star" class="rating__label small_star"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for i in single_product.average_review_rating|get_range %}
+                                        <label aria-label="1 star" class="rating__label small_star"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        {% endfor %}
+                                        <label aria-label="0.5 stars" class="rating__label small_star small_star--half"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                    {% endif %}
+                                </div>
                             </div>
-
-
 
                             <div class="price_box">
                                 <span class="current_price">{{ single_product.price }} ₴</span>
@@ -189,7 +190,7 @@
                                      <a data-toggle="tab" href="#sheet" role="tab" aria-controls="sheet" aria-selected="false">Специфікація</a>
                                 </li>
                                 <li>
-                                   <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Коментари (!count!)</a>
+                                   <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Коментари ({{ reviews|length }})</a>
                                 </li>
                             </ul>
                         </div>
@@ -206,32 +207,33 @@
                                 </div>
                             </div>
 
-
-
-
-
-
-
-
                             <div class="tab-pane fade" id="reviews" role="tabpanel" >
                                 <div class="reviews_wrapper">
+
+                                    {% for review in reviews %}
                                     <div class="reviews_comment_box">
                                         <div class="comment_text">
                                             <div class="reviews_meta">
                                                 <div class="star_rating">
-                                                    <ul>
-                                                        <li><a href="#"><i class="icon-star"></i></a></li>
-                                                       <li><a href="#"><i class="icon-star"></i></a></li>
-                                                       <li><a href="#"><i class="icon-star"></i></a></li>
-                                                       <li><a href="#"><i class="icon-star"></i></a></li>
-                                                       <li><a href="#"><i class="icon-star"></i></a></li>
-                                                    </ul>
+                                                    <div class="rating-group">
+                                                        {% if review.rating|floatformat:"0" == review.rating|floatformat %}
+                                                            {% for i in review.rating|get_range %}
+                                                            <label aria-label="1 star" class="rating__label small_star"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            {% for i in review.rating|get_range %}
+                                                            <label aria-label="1 star" class="rating__label small_star"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                            {% endfor %}
+                                                            <label aria-label="0.5 stars" class="rating__label small_star small_star--half"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
-                                                <p><strong>admin </strong>- September 12, 2018</p>
-                                                <span>roadthemes</span>
+                                                <p><strong>{{ review.name }}</strong> - {{ review.modified_date }}</p>
+                                                <span>{{ review.review }}</span>
                                             </div>
                                         </div>
                                     </div>
+                                    {% endfor %}
 
                                     <div id="alert-rating-success"></div>
 
@@ -242,15 +244,6 @@
 
                                     <div class="product_ratting mb-10" id="rating-stars">
                                        <h3>Ваш рейтинг</h3>
-<!--                                        <ul>-->
-<!--                                           <li><a href="#"><i class="fa fa-star checked"></i></a></li>-->
-<!--                                           <li><a href="#"><i class="fa fa-star checked"></i></a></li>-->
-<!--                                           <li><a href="#"><i class="fa fa-star checked"></i></a></li>-->
-<!--                                           <li><a href="#"><i class="fa fa-star"></i></a></li>-->
-<!--                                           <li><a href="#"><i class="fa fa-star"></i></a></li>-->
-<!--                                        </ul>-->
-
-
                                             <div class="rating-group">
                                                 <input class="rating__input rating__input--none" checked name="rating" id="rating-0" value="0" type="radio">
                                                 <label aria-label="0 stars" class="rating__label" for="rating-0">&nbsp;</label>
@@ -276,50 +269,16 @@
                                                 <input class="rating__input" name="rating" id="rating-50" value="5" type="radio">
                                             </div>
 
-
-                                        <div id="alert-prod-rating"></div>
-
+                                            <div id="alert-prod-rating"></div>
 
                                     </div>
 
-
                                         {% crispy form %}
 
-
-<!--                                    <div class="product_review_form">-->
-<!--                                        <form action="#">-->
-<!--                                            <div class="row">-->
-<!--                                                <div class="col-12">-->
-<!--                                                    <label for="review_comment">Ваш відгук</label>-->
-<!--                                                    <textarea name="comment" id="review_comment" ></textarea>-->
-<!--                                                </div>-->
-<!--                                                <div class="col-lg-6 col-md-6">-->
-<!--                                                    <label for="author">Ім'я</label>-->
-<!--                                                    <input id="author" type="text">-->
-<!--                                                </div>-->
-<!--                                                <div class="col-lg-6 col-md-6">-->
-<!--                                                    <label for="email">Email</label>-->
-<!--                                                    <input id="email" type="text">-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                            <button type="submit">Відправити</button>-->
-<!--                                         </form>-->
-<!--                                    </div>-->
-
-
+                                    <div id="alert-prod-info"></div>
 
                                 </div>
                             </div>
-
-
-
-
-
-
-
-
-
-
                         </div>
                     </div>
                 </div>

@@ -67,6 +67,7 @@ class OrderItem(models.Model):
     price = models.IntegerField(verbose_name=_('ціна товару'))
     quantity = models.PositiveIntegerField(default=1, verbose_name=_('кількість'))
     is_ordered = models.BooleanField(default=False, verbose_name=_('замовлено'))
+    user_email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
     updated = models.DateTimeField(auto_now=True, verbose_name=_('дата оновлення'))
 

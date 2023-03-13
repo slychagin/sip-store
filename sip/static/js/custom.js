@@ -82,7 +82,6 @@ $(document).on('click', '#ajax_review', function (e){
   document.getElementById('rating').value = rating;
   var form_id = $('#review-rating-form');
 
-
   $.ajax({
       type: 'POST',
       data: form_id.serialize(),
@@ -93,13 +92,29 @@ $(document).on('click', '#ajax_review', function (e){
       success: function (data) {
 
         var success = data['success']
+        var info = data['info']
+        var update = data['update']
+
         if (success) {
             form_id.trigger("reset");
             form_id.replaceWith(data['html']);
             $("#review_form_title").hide();
             $("#rating-stars").hide();
-            handleAlerts('alert-rating-success', 'success',
+            handleReviewAlerts('alert-rating-success', 'success',
             "Дякуємо за Ваш відгук!<br/>Він з'явиться одразу після модерації." );
+        } else if (info) {
+            form_id.trigger("reset");
+            form_id.replaceWith(data['html']);
+            $("#review_form_title").hide();
+            $("#rating-stars").hide();
+            fixAlerts('alert-prod-info', 'danger', 'Щоб залишити відгук,<br/>вам потрібно купити даний продукт.');
+        } else if (update) {
+            form_id.trigger("reset");
+            form_id.replaceWith(data['html']);
+            $("#review_form_title").hide();
+            $("#rating-stars").hide();
+            handleReviewAlerts('alert-rating-success', 'success',
+            "Ваш відгук було оновлено!<br/>Він з'явиться одразу після модерації." );
         } else {
             form_id.replaceWith(data['html']);
             if (rating == 0) {
@@ -151,15 +166,27 @@ function fixAlerts(alertId, type, text) {
 };
 
 
+/*--- Show temporary flash message ---*/
+function handleReviewAlerts(alertId, type, text) {
+  const alertBox = document.getElementById(alertId);
+  alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
+                              ${text}
+                            </div>`
+  setTimeout(()=>{
+      alertBox.innerHTML = ''
+  }, 9000)
+};
 
 
-/*---Fade message---*/
+
+
+///*---Fade message---*/
 //setTimeout(function(){
 //    $('#messages-list').fadeOut('slow')
 //}, 3000)
-
-
-/*---Fade out message alerts---*/
+//
+//
+///*---Fade out message alerts---*/
 //function fade_alerts() {
 //    alerts = document.getElementsByClassName("alert msg");
 //        var i = alerts.length;

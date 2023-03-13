@@ -54,8 +54,6 @@ class CommentForm(forms.ModelForm):
             )
         )
 
-
-
     def clean_content(self):
         """Validate content field by length (not greater 1000 sings)"""
         content = self.cleaned_data['content']

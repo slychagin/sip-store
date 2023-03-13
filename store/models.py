@@ -1,4 +1,6 @@
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Avg
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from embed_video.fields import EmbedVideoField
@@ -47,6 +49,18 @@ class Product(models.Model):
         """Get product url to go to product detail page"""
         return reverse('product_details', args=[self.category.slug, self.slug])
 
+    def average_review_rating(self):
+        """Calculate average review rating for particular product"""
+        reviews = ReviewRating.objects.filter(product=self, is_moderated=True).aggregate(average=Avg('rating'))
+        avg = 0
+        if reviews['average'] is not None:
+            avg = round(float(reviews['average']), 2)
+            if (avg - int(avg)) >= 0.5:
+                avg = int(avg) + 0.5
+            else:
+                avg = float(int(avg))
+        return avg
+
 
 def count_products(basket):
     """Save qty to product count orders"""
@@ -83,10 +97,23 @@ class ProductInfo(models.Model):
         return 'Інформація щодо товару'
 
 
+def validate_rating(value):
+    """
+    Check rating that in should be from 0.5 to 5.0
+    with step 0.5
+    """
+    rating_list = [x / 10.0 for x in range(5, 55, 5)]
+    if value not in rating_list:
+        raise ValidationError(
+            _('Рейтинг повинен входити до діапазону від 0,5 до 5,0 з кроком 0,5')
+        )
+
+
 class ReviewRating(models.Model):
+    """Create ReviewRating model in the database"""
     objects = models.Manager()
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('товар'))
-    rating = models.FloatField(verbose_name=_('рейтинг'))
+    rating = models.FloatField(validators=[validate_rating], verbose_name=_('рейтинг'))
     review = models.TextField(max_length=500, verbose_name=_('відгук'))
     name = models.CharField(max_length=80, verbose_name=_("ім'я"))
     email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
@@ -102,3 +129,5 @@ class ReviewRating(models.Model):
 
     def __str__(self):
         return f'{self.product.product_name}'
+
+

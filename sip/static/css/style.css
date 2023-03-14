@@ -3884,7 +3884,7 @@ textarea:-ms-input-placeholder {
 }
 
 .social_wrapper a {
-  text-align: center;
+ text-align: center;
   width: 38px;
   height: 38px;
   float: left;
@@ -3895,6 +3895,9 @@ textarea:-ms-input-placeholder {
   padding: 6px;
   color: #222222;
 }
+.share_post {
+    display: flex;
+}
 
 .youtube a:hover {
   background: #c4302b;
@@ -3902,8 +3905,12 @@ textarea:-ms-input-placeholder {
 }
 
 .instagram a:hover {
-  background: #e4405f;
-  color: #fff;
+    color: #fff;
+    background: #f09433;
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
 }
 
 .facebook a:hover {
@@ -5591,9 +5598,12 @@ textarea:-ms-input-placeholder {
   margin-bottom: 0;
 }
 .widgets_container.contact_us > p.footer_desc {
-
-  margin-bottom: 22px;
+ margin-bottom: 22px;
 }
+.footer_desc {
+    display: inline-block;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .widgets_container.contact_us > p.footer_desc {
     margin-bottom: 16px;
@@ -10375,7 +10385,7 @@ textarea:-ms-input-placeholder {
 .entry_content {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
 }
 @media only screen and (max-width: 767px) {
   .entry_content {
@@ -12446,6 +12456,14 @@ color: red;
   border-color: #D63142;
   color: #D63142;
 }
+
+.not-visible {
+    display: none;
+}
+
+
+
+
 
 
 

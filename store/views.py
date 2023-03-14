@@ -3,13 +3,14 @@ import json
 from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.context_processors import csrf
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import ModelFormMixin
 
+from blog.views import convert_to_localtime
 from category.models import Category
 from orders.models import OrderItem
 from store.forms import ReviewRatingForm
@@ -159,7 +160,7 @@ class ProductDetailView(ModelFormMixin, DetailView):
                 resp = {'update': True}
 
                 # Send message to telegram
-                send_to_telegram_moderate_updated_review_message()
+                # send_to_telegram_moderate_updated_review_message()
 
                 return HttpResponse(json.dumps(resp), content_type='application/json')
 
@@ -172,7 +173,7 @@ class ProductDetailView(ModelFormMixin, DetailView):
                 resp = {'success': True}
 
                 # Send message to telegram
-                send_to_telegram_moderate_new_review_message()
+                # send_to_telegram_moderate_new_review_message()
 
                 return HttpResponse(json.dumps(resp), content_type='application/json')
 
@@ -207,3 +208,22 @@ class SearchListView(ListView):
         context['products'] = self.products
         context['product_count'] = self.product_count
         return context
+
+
+def load_more_reviews(request):
+    if request.POST.get('action') == 'POST':
+        product_id = int(request.POST.get('product_id'))
+        visible_reviews = int(request.POST.get('visible_reviews'))
+
+        upper = visible_reviews
+        lower = upper - 3
+
+        product = get_object_or_404(Product, id=product_id)
+        reviews = list(ReviewRating.objects.filter(product=product, is_moderated=True)[3:].values()[lower:upper])
+        for item in reviews:
+            item['modified_date'] = convert_to_localtime(item['modified_date'])
+
+        reviews_size = len(ReviewRating.objects.filter(product=product, is_moderated=True)[3:])
+        max_size = True if upper >= reviews_size else False
+
+        return JsonResponse({'data': reviews, 'max': max_size}, safe=False)

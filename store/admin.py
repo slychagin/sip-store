@@ -62,7 +62,7 @@ class ReviewRatingAdmin(admin.ModelAdmin):
     list_display = ('product', 'rating', 'name', 'email', 'created_date', 'modified_date', 'is_moderated')
     list_display_links = ('product', 'rating', 'name')
     search_fields = ('product', 'rating', 'name', 'email', 'review', 'product__product_name')
-    list_filter = ('is_moderated', 'product', 'rating', 'modified_date')
+    list_filter = ('is_moderated', 'product', 'rating', 'email', 'modified_date')
     list_editable = ('is_moderated',)
     list_per_page = 50
     list_max_show_all = 100

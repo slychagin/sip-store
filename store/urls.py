@@ -15,5 +15,6 @@ urlpatterns = [
         views.ProductDetailView.as_view(),
         name='product_details'
     ),
-    path('search/', views.SearchListView.as_view(), name='search')
+    path('search/', views.SearchListView.as_view(), name='search'),
+    path('load-more/', views.load_more_reviews, name='load_more_reviews'),
 ]

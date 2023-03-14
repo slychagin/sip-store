@@ -207,33 +207,16 @@
                                 </div>
                             </div>
 
+
+
+
+
+
+
+
                             <div class="tab-pane fade" id="reviews" role="tabpanel" >
                                 <div class="reviews_wrapper">
 
-                                    {% for review in reviews %}
-                                    <div class="reviews_comment_box">
-                                        <div class="comment_text">
-                                            <div class="reviews_meta">
-                                                <div class="star_rating">
-                                                    <div class="rating-group">
-                                                        {% if review.rating|floatformat:"0" == review.rating|floatformat %}
-                                                            {% for i in review.rating|get_range %}
-                                                            <label aria-label="1 star" class="rating__label small_star"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            {% for i in review.rating|get_range %}
-                                                            <label aria-label="1 star" class="rating__label small_star"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                                            {% endfor %}
-                                                            <label aria-label="0.5 stars" class="rating__label small_star small_star--half"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                                <p><strong>{{ review.name }}</strong> - {{ review.modified_date }}</p>
-                                                <span>{{ review.review }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
 
                                     <div id="alert-rating-success"></div>
 
@@ -270,12 +253,54 @@
                                             </div>
 
                                             <div id="alert-prod-rating"></div>
-
                                     </div>
 
                                         {% crispy form %}
 
                                     <div id="alert-prod-info"></div>
+                                    <br>
+
+                                    {% for review in reviews|slice:3 %}
+                                    <div class="reviews_comment_box">
+                                        <div class="comment_text">
+                                            <div class="reviews_meta">
+                                                <div class="star_rating">
+                                                    <div class="rating-group">
+
+                                                        {% if review.rating|floatformat:"0" == review.rating|floatformat %}
+                                                            {% for i in review.rating|get_range %}
+                                                            <label aria-label="1 star" class="rating__label small_star"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            {% for i in review.rating|get_range %}
+                                                            <label aria-label="1 star" class="rating__label small_star"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                            {% endfor %}
+                                                            <label aria-label="0.5 stars" class="rating__label small_star small_star--half"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                        {% endif %}
+
+                                                    </div>
+                                                </div>
+                                                <p><strong>{{ review.name }}</strong> - {{ review.modified_date }}</p>
+                                                <span>{{ review.review }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                <div id="reviews-box"></div>
+
+                                <div id="spinner-reviews-box" class="not-visible">
+                                    <div class="spinner-border text-secondary" role="status"></div>
+                                </div>
+
+                                {% if reviews|length > 3 %}
+                                <div id="loading-reviews-box">
+                                    <button type="button" class="btn btn-outline-warning"
+                                            id="show-more-reviews" value="{{ single_product.id }}">
+                                        Більше відгуків
+                                    </button>
+                                </div>
+                                {% endif %}
 
                                 </div>
                             </div>

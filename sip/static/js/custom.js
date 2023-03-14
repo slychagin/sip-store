@@ -58,12 +58,20 @@ $(document).on('click', '#ajax_comment', function (e){
 
       success: function (data) {
         var success = data['success']
+        var update = data['update']
+
         if (success) {
             form_id.trigger("reset");
             form_id.replaceWith(data['html']);
             $("#comment-form-title").hide();
             handleAlerts('alert-prod-details', 'success',
             "Дякуємо за Ваш коментар!<br/>Він з'явиться одразу після модерації." );
+        } else if (update) {
+            form_id.trigger("reset");
+            form_id.replaceWith(data['html']);
+            $("#comment-form-title").hide();
+            handleAlerts('alert-prod-details', 'success',
+            "Ваш коментар було оновлено!<br/>Він з'явиться одразу після модерації." );
         } else {
             form_id.replaceWith(data['html']);
         }
@@ -131,21 +139,6 @@ $(document).on('click', '#ajax_review', function (e){
 });
 
 
-/*---Show/hide post comments---*/
-function showHideComments() {
-  var commentBlock = document.getElementById("comment-box-full");
-  var showBtn = document.getElementById("show-button")
-
-  if (commentBlock.style.display === "none") {
-    commentBlock.style.display = "block";
-    showBtn.innerHTML = "Менше коментарів";
-  } else {
-    commentBlock.style.display = "none";
-    showBtn.innerHTML = "Більше коментарів";
-  }
-}
-
-
 /*--- Show temporary flash message ---*/
 function handleAlerts(alertId, type, text) {
   const alertBox = document.getElementById(alertId);
@@ -154,7 +147,7 @@ function handleAlerts(alertId, type, text) {
                             </div>`
   setTimeout(()=>{
       alertBox.innerHTML = ''
-  }, 3000)
+  }, 9000)
 };
 
 /*--- Show standing flash message ---*/
@@ -176,6 +169,209 @@ function handleReviewAlerts(alertId, type, text) {
       alertBox.innerHTML = ''
   }, 9000)
 };
+
+
+///*--- Show more comments ---*/
+$(document).ready(function() {
+    let visible = 0
+    $('#show-more-comments').on('click', function (){
+
+    const commentBox = document.getElementById('comment-box')
+    const spinnerBox = document.getElementById('spinner-comments-box')
+    const loadBtn = document.getElementById('show-more-comments')
+    const loadBox = document.getElementById('loading-comments-box')
+
+    let postId = $('#show-more-comments').val();
+
+    visible += 3
+
+        $.ajax({
+        url: load_more_comments,
+        type: 'POST',
+        data: {
+              post_id: postId,
+              visible_comments: visible,
+              csrfmiddlewaretoken: window.CSRF_TOKEN,
+              action: 'POST'
+        },
+        dataType: 'json',
+
+        success: function(response){
+            maxSize = response.max
+            const data = response.data
+            spinnerBox.classList.remove('not-visible')
+            setTimeout(()=>{
+                spinnerBox.classList.add('not-visible')
+                data.map(comment=>{
+                    commentBox.innerHTML += `
+                    <div class="comment_list">
+                        <div class="comment_content">
+                            <div class="comment_meta">
+                                <h5>${comment.name}</h5>
+                                <span>${comment.modified_date}</span>
+                            </div>
+                            <p>${comment.content}</p>
+                        </div>
+                    </div>`
+                })
+                if(maxSize){
+                    loadBox.innerHTML = '<br><h4>Більше немає коментарів</h4>'
+                }
+            }, 500)
+          },
+            error: function(error){
+                handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
+            }
+        });
+    });
+});
+
+
+/*--- Show more reviews ---*/
+$(document).ready(function() {
+    let visible = 0
+    $('#show-more-reviews').on('click', function (){
+
+    const reviewsBox = document.getElementById('reviews-box')
+    const spinnerBox = document.getElementById('spinner-reviews-box')
+    const loadBtn = document.getElementById('show-more-reviews')
+    const loadBox = document.getElementById('loading-reviews-box')
+
+    let productId = $('#show-more-reviews').val();
+
+    visible += 3
+
+        $.ajax({
+        url: load_more_reviews,
+        type: 'POST',
+        data: {
+              product_id: productId,
+              visible_reviews: visible,
+              csrfmiddlewaretoken: window.CSRF_TOKEN,
+              action: 'POST'
+        },
+        dataType: 'json',
+
+        success: function(response){
+            maxSize = response.max
+            const data = response.data
+            spinnerBox.classList.remove('not-visible')
+            setTimeout(()=>{
+                spinnerBox.classList.add('not-visible')
+                data.map(review=>{
+                    let stars = ``
+                    let hole_star = `<label aria-label="1 star" class="rating__label small_star">
+                                    <i class="rating__icon rating__icon--star fa fa-star"></i></label>`
+                    let half_star = `<label aria-label="0.5 stars" class="rating__label small_star small_star--half">
+                                    <i class="rating__icon rating__icon--star fa fa-star-half"></i></label>`
+
+                    if(Math.trunc(review.rating) == review.rating) {
+                        stars = hole_star.repeat(review.rating);
+                    } else {
+                        stars = hole_star.repeat(Math.trunc(review.rating)) + half_star;
+                    }
+
+                    reviewsBox.innerHTML += `
+                    <div class="reviews_comment_box">
+                        <div class="comment_text">
+                            <div class="reviews_meta">
+                                <div class="star_rating">
+                                    <div class="rating-group">`
+
+                                    + stars +
+
+                                 `</div>
+                                </div>
+                                <p><strong>${review.name}</strong> - ${review.modified_date}</p>
+                                <span>${review.review}</span>
+                            </div>
+                        </div>
+                    </div>`
+                })
+                if(maxSize){
+                    loadBox.innerHTML = '<br><h4>Більше немає відгуків</h4>'
+                }
+            }, 500)
+          },
+            error: function(error){
+                handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
+            }
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+///*--- Show more reviews ---*/
+//$(document).ready(function() {
+//    let visible = 0
+//    $('#show-more-reviews').on('click', function (){
+//
+//    const reviewsBox = document.getElementById('reviews-box')
+//    const spinnerBox = document.getElementById('spinner-reviews-box')
+//    const loadBtn = document.getElementById('show-more-reviews')
+//    const loadBox = document.getElementById('loading-reviews-box')
+//
+//    let productId = $('#show-more-reviews').val();
+//
+//    visible += 3
+//
+//        $.ajax({
+//        url: load_more_reviews,
+//        type: 'POST',
+//        data: {
+//              product_id: productId,
+//              visible_reviews: visible,
+//              csrfmiddlewaretoken: window.CSRF_TOKEN,
+//              action: 'POST'
+//        },
+//        dataType: 'json',
+//
+//        success: function(response){
+//            console.log(response.data)
+//            maxSize = response.max
+//            const data = response.data
+//            spinnerBox.classList.remove('not-visible')
+//            setTimeout(()=>{
+//                spinnerBox.classList.add('not-visible')
+//                data.map(review=>{
+//                    console.log(review.id)
+//                    reviewsBox.innerHTML += `
+//                    <div class="reviews_comment_box">
+//                        <div class="comment_text">
+//                            <div class="reviews_meta">
+//                                <p><strong>${review.name}</strong> - ${review.modified_date}</p>
+//                                <span>${review.review}</span>
+//                            </div>
+//                        </div>
+//                    </div>`
+//                })
+//                if(maxSize){
+//                    console.log('done')
+//                    loadBox.innerHTML = '<br><h4>Більше немає відгуків</h4>'
+//                }
+//            }, 500)
+//          },
+//            error: function(error){
+//                handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
+//            }
+//        });
+//    });
+//});
+
+
+
+
+
+
+
+
 
 
 

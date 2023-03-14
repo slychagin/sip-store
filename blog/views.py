@@ -1,17 +1,23 @@
 import json
 
+import pytz
 from crispy_forms.utils import render_crispy_form
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.context_processors import csrf
 from django.urls import reverse
+from django.utils import timezone, formats
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import ModelFormMixin
 
 from blog.forms import CommentForm
 from blog.models import Post, BlogCategory, PostComment
-from telebot.telegram import send_to_telegram_moderate_comment_message
+from telebot.telegram import (
+    send_to_telegram_moderate_updated_comment_message,
+    send_to_telegram_moderate_new_comment_message
+)
 
 
 class BlogPageView(ListView):
@@ -52,8 +58,6 @@ class PostDetailView(ModelFormMixin, DetailView):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.post_comments = None
-        self.session = None
         self.object = None
         self.category_slug = None
         self.post_id = None
@@ -70,20 +74,11 @@ class PostDetailView(ModelFormMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # Create session for count user post comments
-        self.session = self.request.session
-        post_comments = self.session.get('post_comments')
-        if 'post_comments' not in self.request.session:
-            post_comments = self.session['post_comments'] = str(0)
-        self.post_comments = post_comments
-
         related_posts = Post.related_posts.through.objects.filter(from_post_id=self.single_post.id)
         context['single_post'] = self.single_post
         context['related_posts'] = [item.to_post for item in related_posts]
         context['comments'] = PostComment.objects.filter(post=self.single_post, is_moderated=True)
         context['form'] = CommentForm()
-        context['comment_count'] = int(self.request.session['post_comments'])
         return context
 
     def post(self, request, *args, **kwargs):
@@ -91,6 +86,7 @@ class PostDetailView(ModelFormMixin, DetailView):
         if is_ajax:
             form = self.get_form()
             self.object = self.get_object()
+
             if form.is_valid():
                 return self.form_valid(form)
             else:
@@ -103,31 +99,42 @@ class PostDetailView(ModelFormMixin, DetailView):
 
     def form_valid(self, form):
         """
-        Save entered data to data base and send message
-        to admin telegram for moderate comment
+        Save a comment in the database, if it is a new review,
+        and overwrites it if there was already.
         """
-        # Save data
         post = self.get_object()
-        comment_form = form.save(commit=False)
-        comment_form.post = post
-        form.save()
-        resp = {'success': True}
+        email = form.cleaned_data['email']
 
-        # Send message to telegram
-        send_to_telegram_moderate_comment_message()
+        try:
+            # Update exists comment
+            comment = PostComment.objects.get(post=post, email=email)
+            comment.is_moderated = False
+            form = CommentForm(self.request.POST, instance=comment)
+            form.save()
+            resp = {'update': True}
 
-        # Count comments and save in session. If user write > 30 comments at 2 week,
-        # then forbid writing until the next session refresh
-        comments_count = int(self.request.session['post_comments']) + 1
-        self.request.session['post_comments'] = str(comments_count)
+            # Send message to telegram
+            # send_to_telegram_moderate_updated_comment_message()
 
-        return HttpResponse(json.dumps(resp), content_type='application/json')
+            return HttpResponse(json.dumps(resp), content_type='application/json')
+
+        except ObjectDoesNotExist:
+            # Save new comment
+            comment_form = form.save(commit=False)
+            comment_form.post = post
+            form.save()
+            resp = {'success': True}
+
+            # Send message to telegram
+            # send_to_telegram_moderate_new_comment_message()
+
+            return HttpResponse(json.dumps(resp), content_type='application/json')
 
     def get_success_url(self):
-        return reverse('post_details', kwargs={
-            'slug': self.object.post.post_category.slug,
-            'pk': self.object.post.pk
-        })
+        return HttpResponseRedirect(reverse('post_details', args=[
+            self.kwargs['slug'],
+            self.kwargs['pk']
+        ]))
 
 
 class SearchListView(ListView):
@@ -147,3 +154,30 @@ class SearchListView(ListView):
                                         Q(description__icontains=keyword) |
                                         Q(quote__icontains=keyword))
         return self.posts
+
+
+def convert_to_localtime(utctime):
+    """Convert UTC datetime format to local with Django project format"""
+    utc_date = utctime.replace(tzinfo=pytz.UTC)
+    local_date = utc_date.astimezone(timezone.get_current_timezone())
+    return formats.date_format(local_date, "DATETIME_FORMAT")
+
+
+def load_more_comments(request):
+    """Pass to ajax reviews for load by press Show more button"""
+    if request.POST.get('action') == 'POST':
+        post_id = int(request.POST.get('post_id'))
+        visible_comments = int(request.POST.get('visible_comments'))
+
+        upper = visible_comments
+        lower = upper - 3
+
+        post = get_object_or_404(Post, id=post_id)
+        comments = list(PostComment.objects.filter(post=post, is_moderated=True)[3:].values()[lower:upper])
+        for item in comments:
+            item['modified_date'] = convert_to_localtime(item['modified_date'])
+
+        comments_size = len(PostComment.objects.filter(post=post, is_moderated=True)[3:])
+        max_size = True if upper >= comments_size else False
+
+        return JsonResponse({'data': comments, 'max': max_size}, safe=False)

@@ -66,7 +66,7 @@
                                             {% endif %}
                                         {% endfor %}
                                     </div>
-                                      <div class="social_wrapper">
+                                      <div class="social_wrapper share_post">
                                               <p>Поділитись цим постом:</p>
                                               <div class="instagram">
                                                 <a href="#"><i class="fa fa-instagram"></i></a>
@@ -111,55 +111,46 @@
                    </div>
                     {% endif %}
 
+                    <div class="comments_form">
+                        <h3 id="comment-form-title">Залиште свій коментар</h3>
+                    </div>
+                        {% crispy form %}
+                    <div id="alert-prod-details"></div>
+
+                    <br>
+                    <br>
+
                     <div class="comments_box">
                         <h3>Коментари ({{ comments|length }})</h3>
+
                         {% for comment in comments|slice:3 %}
                         <div class="comment_list">
                             <div class="comment_content">
                                 <div class="comment_meta">
                                     <h5>{{ comment.name }}</h5>
-                                    <span>{{ comment.created_date }}</span>
+                                    <span>{{ comment.modified_date }}</span>
                                 </div>
                                 <p>{{ comment.content }}</p>
                             </div>
                         </div>
                         {% endfor %}
 
-                        <div id="comment-box-full" style="display:none;">
-                            {% for comment in comments|slice:"3:" %}
-                            <div class="comment_list">
-                                <div class="comment_content">
-                                    <div class="comment_meta">
-                                        <h5>{{ comment.name }}</h5>
-                                        <span>{{ comment.created_date }}</span>
-                                    </div>
-                                    <p>{{ comment.content }}</p>
-                                </div>
-                            </div>
-                            {% endfor %}
-                            <br>
+                        <div id="comment-box"></div>
+
+                        <div id="spinner-comments-box" class="not-visible">
+                            <div class="spinner-border text-secondary" role="status"></div>
                         </div>
 
                         {% if comments|length > 3 %}
-                        <button type="button" class="btn btn-outline-warning"
-                                onclick="showHideComments()" id="show-button">
-                            Більше коментарів
-                        </button>
+                        <div id="loading-comments-box">
+                            <button type="button" class="btn btn-outline-warning"
+                                    id="show-more-comments" value="{{ single_post.id }}">
+                                Більше коментарів
+                            </button>
+                        </div>
                         {% endif %}
+
                     </div>
-
-                        {% if comment_count > 20 and not user.is_authenticated %}
-                            <div class="comments_form">
-                                <h3 style="color: #fc8a35;">Нажаль ви перевисили ліміт в 20 коментарів на два тижні.</h3>
-                            </div>
-                        {% else %}
-                            <div class="comments_form">
-                                <h3 id="comment-form-title">Залиште свій коментар</h3>
-                            </div>
-                                {% crispy form %}
-                        {% endif %}
-
-                    <div id="alert-prod-details"></div>
                 </div>
                 <!--blog grid area start-->
             </div>
@@ -170,6 +161,9 @@
     </div>
 </div>
 <!--blog section area end-->
+
+<!--fix flash alert in bottom of the screen-->
+<div class="alert-box-home" id="alert-home"></div>
 
 
 {% endblock %}

@@ -118,8 +118,8 @@ def send_to_telegram_order_message(basket, order):
         pass
 
 
-def send_to_telegram_moderate_comment_message():
-    """Create thread for sending message to telegram with new comment"""
+def send_to_telegram_moderate_new_comment_message():
+    """Create thread for sending message to telegram for moderate a new comment"""
     try:
         # Get Telegram Bot settings from the database
         tg_settings = TelegramSettings.objects.filter(available=True)[0]
@@ -132,6 +132,31 @@ def send_to_telegram_moderate_comment_message():
         query = api + token + method
 
         message = f"На сайті новий коментар до посту чекає на модерацію!"
+
+        thread = threading.Thread(
+            target=telegram_sender,
+            args=(query, chat_id, message)
+        )
+        thread.start()
+
+    except ObjectDoesNotExist:
+        pass
+
+
+def send_to_telegram_moderate_updated_comment_message():
+    """Create thread for sending message to telegram for moderate an updated comment"""
+    try:
+        # Get Telegram Bot settings from the database
+        tg_settings = TelegramSettings.objects.filter(available=True)[0]
+        api = str(tg_settings.tg_api)
+        token = str(tg_settings.tg_token)
+        chat_id = str(tg_settings.tg_chat)
+        method = '/sendMessage'
+
+        # Create query for Telegram
+        query = api + token + method
+
+        message = f"На сайті було оновлено коментар до посту. Чекає на модерацію!"
 
         thread = threading.Thread(
             target=telegram_sender,

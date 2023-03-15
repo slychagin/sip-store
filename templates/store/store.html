@@ -36,9 +36,9 @@
                         <form action="{% url 'store' %}" method="GET">
                             <select class="select_option" name="orderby" onchange="this.form.submit()">
                                 <option selected value="id">Сортувати</option>
-                                <option value="id">За замовчуванням</option>
-                                <option value="popular">За популярністю</option>
-                                <option value="newest">За останніми</option>
+                                <option value="id">за замовчуванням</option>
+                                <option value="popular">за популярністю</option>
+                                <option value="by_rating">за рейтингом</option>
                                 <option value="low-price">від дешевих до дорогих</option>
                                 <option value="high-price">від дорогих до дешевих</option>
                             </select>

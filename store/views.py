@@ -27,16 +27,25 @@ class StorePageView(ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
-        queryset = Product.objects.all().filter(is_available=True)
+        total_queryset = Product.objects.filter(is_available=True)
         ordering = self.get_ordering()
-        queryset = queryset.order_by(ordering)
+
+        if ordering == 'rating':
+            prod_list = sorted(
+                [(product, product.average_review_rating()) for product in total_queryset],
+                key=lambda x: x[1],
+                reverse=True
+            )
+            queryset = [product[0] for product in prod_list]
+        else:
+            queryset = total_queryset.order_by(ordering)
         return queryset
 
     def get_ordering(self):
         sort_dict = {
             'id': 'id',
             'popular': '-count_orders',
-            'newest': '-created_date',
+            'by_rating': 'rating',
             'low-price': 'price',
             'high-price': '-price'
         }
@@ -49,7 +58,7 @@ class StorePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['product_count'] = context['products'].count()
+        context['product_count'] = len(context['products'])
         return context
 
 

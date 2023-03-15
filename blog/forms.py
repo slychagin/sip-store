@@ -2,6 +2,7 @@ from crispy_forms.bootstrap import FormActions
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit
 from django import forms
+from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _
 
 from blog.models import Post, PostComment
@@ -10,8 +11,9 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class PostAdminForm(forms.ModelForm):
+    """Connect content field to CKEditor"""
     description = forms.CharField(
-        label='Контент',
+        label=_('Контент'),
         widget=CKEditorUploadingWidget()
     )
 
@@ -20,7 +22,7 @@ class PostAdminForm(forms.ModelForm):
         fields = '__all__'
 
 
-class CommentForm(forms.ModelForm):
+class PostCommentForm(forms.ModelForm):
     """Create a new comment form"""
 
     class Meta:
@@ -31,9 +33,12 @@ class CommentForm(forms.ModelForm):
             'email': _('Email'),
             'content': _('Коментар')
         }
+        widgets = {
+            'content': Textarea(attrs={'rows': 5}),
+        }
 
     def __init__(self, *args, **kwargs):
-        super(CommentForm, self).__init__(*args, **kwargs)
+        super(PostCommentForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs['title'] = 'Заповніть це поле'
 
@@ -62,3 +67,25 @@ class CommentForm(forms.ModelForm):
             raise forms.ValidationError(_('Коментар не повинен бути більш ніж 1000 знаків.'))
 
         return content
+
+
+class PostCommentAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = PostComment
+        fields = '__all__'
+
+    def clean(self):
+        """Rase error if administrator entered comment for post
+        in admin panel with not unique email
+        """
+        cleaned_data = super(PostCommentAdminForm, self).clean()
+        email = cleaned_data['email']
+        post = cleaned_data['post']
+
+        email_list = [post.email for post in PostComment.objects.filter(post=post)]
+
+        if email in email_list and self.instance.pk is None:
+            raise forms.ValidationError('Коментар з таким email до даного посту вже існує.')
+
+        return cleaned_data

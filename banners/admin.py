@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
+from banners.forms import MainBannerAdminForm
 from banners.models import (
     WeekOfferBanner,
     MainBanner,
@@ -19,8 +20,10 @@ class MainBannerAdmin(admin.ModelAdmin):
     def thumbnail(self, obj):
         return format_html(f'<img src="{obj.image.url}" width="100"">')
 
+    form = MainBannerAdminForm
     thumbnail.short_description = _('фото')
-    list_display = ('title', 'banner_url', 'thumbnail')
+    list_display = ('thumbnail', 'banner_url', 'modified_date')
+    list_display_links = ('thumbnail', 'banner_url')
 
 
 class TwoBannersAdmin(admin.ModelAdmin):

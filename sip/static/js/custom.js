@@ -64,13 +64,13 @@ $(document).on('click', '#ajax_comment', function (e){
             form_id.trigger("reset");
             form_id.replaceWith(data['html']);
             $("#comment-form-title").hide();
-            handleAlerts('alert-prod-details', 'success',
+            handleCommentAlerts('alert-prod-details', 'success',
             "Дякуємо за Ваш коментар!<br/>Він з'явиться одразу після модерації." );
         } else if (update) {
             form_id.trigger("reset");
             form_id.replaceWith(data['html']);
             $("#comment-form-title").hide();
-            handleAlerts('alert-prod-details', 'success',
+            handleCommentAlerts('alert-prod-details', 'success',
             "Ваш коментар було оновлено!<br/>Він з'явиться одразу після модерації." );
         } else {
             form_id.replaceWith(data['html']);
@@ -139,7 +139,7 @@ $(document).on('click', '#ajax_review', function (e){
 });
 
 
-/*--- Show temporary flash message ---*/
+/*--- Show temporary flash message with 3 seconds timeout ---*/
 function handleAlerts(alertId, type, text) {
   const alertBox = document.getElementById(alertId);
   alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
@@ -147,7 +147,7 @@ function handleAlerts(alertId, type, text) {
                             </div>`
   setTimeout(()=>{
       alertBox.innerHTML = ''
-  }, 9000)
+  }, 3000)
 };
 
 /*--- Show standing flash message ---*/
@@ -159,7 +159,19 @@ function fixAlerts(alertId, type, text) {
 };
 
 
-/*--- Show temporary flash message ---*/
+/*--- Show temporary flash message with 9 seconds timeout for post comments ---*/
+function handleCommentAlerts(alertId, type, text) {
+  const alertBox = document.getElementById(alertId);
+  alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
+                              ${text}
+                            </div>`
+  setTimeout(()=>{
+      alertBox.innerHTML = ''
+  }, 9000)
+};
+
+
+/*--- Show temporary flash message with 9 seconds timeout for product reviews ---*/
 function handleReviewAlerts(alertId, type, text) {
   const alertBox = document.getElementById(alertId);
   alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
@@ -183,7 +195,7 @@ $(document).ready(function() {
 
     let postId = $('#show-more-comments').val();
 
-    visible += 3
+    visible += 10
 
         $.ajax({
         url: load_more_comments,
@@ -239,7 +251,7 @@ $(document).ready(function() {
 
     let productId = $('#show-more-reviews').val();
 
-    visible += 3
+    visible += 10
 
         $.ajax({
         url: load_more_reviews,
@@ -301,71 +313,11 @@ $(document).ready(function() {
 });
 
 
-
-
-
-
-
-
-
-///*--- Show more reviews ---*/
-//$(document).ready(function() {
-//    let visible = 0
-//    $('#show-more-reviews').on('click', function (){
-//
-//    const reviewsBox = document.getElementById('reviews-box')
-//    const spinnerBox = document.getElementById('spinner-reviews-box')
-//    const loadBtn = document.getElementById('show-more-reviews')
-//    const loadBox = document.getElementById('loading-reviews-box')
-//
-//    let productId = $('#show-more-reviews').val();
-//
-//    visible += 3
-//
-//        $.ajax({
-//        url: load_more_reviews,
-//        type: 'POST',
-//        data: {
-//              product_id: productId,
-//              visible_reviews: visible,
-//              csrfmiddlewaretoken: window.CSRF_TOKEN,
-//              action: 'POST'
-//        },
-//        dataType: 'json',
-//
-//        success: function(response){
-//            console.log(response.data)
-//            maxSize = response.max
-//            const data = response.data
-//            spinnerBox.classList.remove('not-visible')
-//            setTimeout(()=>{
-//                spinnerBox.classList.add('not-visible')
-//                data.map(review=>{
-//                    console.log(review.id)
-//                    reviewsBox.innerHTML += `
-//                    <div class="reviews_comment_box">
-//                        <div class="comment_text">
-//                            <div class="reviews_meta">
-//                                <p><strong>${review.name}</strong> - ${review.modified_date}</p>
-//                                <span>${review.review}</span>
-//                            </div>
-//                        </div>
-//                    </div>`
-//                })
-//                if(maxSize){
-//                    console.log('done')
-//                    loadBox.innerHTML = '<br><h4>Більше немає відгуків</h4>'
-//                }
-//            }, 500)
-//          },
-//            error: function(error){
-//                handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
-//            }
-//        });
-//    });
-//});
-
-
+/*--- Link to review tab by pressing rating stars in product details ---*/
+$('.link-to-reviews').click(function(){
+    $('html, body').animate({ scrollTop:$("#reviews-tab").offset().top}, 500);
+    document.getElementById("reviews-tab").click();
+});
 
 
 

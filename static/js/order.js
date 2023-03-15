@@ -17,7 +17,13 @@ $(document).on('change', '#delivery-method', function (e){
     room.style.display = 'none';
     post.removeAttribute("hidden");
     post.style.display = 'block';
-  } else if (method == 'COURIER') {
+  } else if (method == 'COURIER_CHERKASY') {
+    city.style.display = 'block';
+    street.style.display = 'block';
+    house.style.display = 'block';
+    room.style.display = 'block';
+    post.style.display = 'none';
+  } else {
     city.style.display = 'block';
     street.style.display = 'block';
     house.style.display = 'block';
@@ -41,14 +47,21 @@ $(document).on('change', '#delivery-method', function (e){
             $('#room').val('-');
             $('#post-city').val('');
             $('#post-terminal').val('');
-        } else if (method == 'COURIER') {
+        } else if (method == 'COURIER_CHERKASY') {
             $('#post-city').val('-');
             $('#post-terminal').val('-');
             $('#city').val('');
             $('#street').val('');
             $('#house').val('');
             $('#room').val('');
-  }
+        } else {
+            $('#post-city').val('-');
+            $('#post-terminal').val('-');
+            $('#city').val('');
+            $('#street').val('');
+            $('#house').val('');
+            $('#room').val('');
+        }
       },
       error: function(xhr, errmsg, err) {}
   });

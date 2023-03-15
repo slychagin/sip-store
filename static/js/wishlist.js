@@ -1,4 +1,4 @@
-/*---Add or delete product to the wishlist after press heart button---*/
+/*---Add or delete product to the wishlist after press HEART button---*/
 $(document).on('click', '.wishlist-button', function (e){
   e.preventDefault();
   var prodid = $(this).data('index');
@@ -44,6 +44,7 @@ $(document).on('click', '#wishlist-add-button', function (e){
   });
 });
 
+/*--- Change button name when product was added to wishlist ---*/
 function toggleText(button_id) {
    var wishBtn = document.getElementById(button_id);
    if (wishBtn.firstChild.data == "+ Додати до обраного")

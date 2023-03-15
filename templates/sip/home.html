@@ -14,8 +14,8 @@
           <div class="single_slider d-flex align-items-center"
             data-bgimg="{{ banner.image.url }}">
             <div class="slider_content slider_c_three">
-              <h1>{{ banner.title }}</h1>
-              <p>{{ banner.description }}</p>
+              <h1>{{ banner.title|safe }}</h1>
+              <p>{{ banner.description|safe }}</p>
               <a href="{{ banner.banner_url }}">Дізнатися більше</a>
             </div>
           </div>

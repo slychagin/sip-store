@@ -28,8 +28,7 @@
     24. modal css here
     25. new home page css here
 -----------------------------------------------------------------------------------*/
-@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
-</style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 * {
   box-sizing: border-box;
@@ -61,7 +60,7 @@ body {
   font-style: normal;
   font-weight: 400;
   visibility: visible;
-  font-family: 'Sofia Sans', sans-serif;
+  font-family: 'Rubik', sans-serif;
   color: #222222;
   letter-spacing: 0.01em;
 }
@@ -861,7 +860,7 @@ textarea:-ms-input-placeholder {
 
 .social {
   text-align: left;
-  margin-top: 45px;
+  margin-top: 30px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .header_social {
@@ -883,7 +882,7 @@ textarea:-ms-input-placeholder {
   margin-right: 0;
 }
 .social ul li a {
-  font-size: 16px;
+  font-size: 20px;
 }
 .social ul li a:hover {
   color: #f2812b;
@@ -1318,12 +1317,13 @@ textarea:-ms-input-placeholder {
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .header_right_info {
-    justify-content: center;
+    justify-content: flex-end;
   }
 }
 @media only screen and (max-width: 767px) {
   .header_right_info {
-    justify-content: center;
+    justify-content: flex-end;
+    padding-right: 40px;
   }
 }
 
@@ -1501,7 +1501,7 @@ textarea:-ms-input-placeholder {
 .menu_position {
   position: relative;
   margin-left: -10px;
-  width: 650px;
+  width: 670px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -1548,7 +1548,7 @@ textarea:-ms-input-placeholder {
 }
 .main_menu nav > ul > li > a {
   display: block;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 50px;
   text-transform: none;
   font-weight: 500;
@@ -1897,7 +1897,7 @@ textarea:-ms-input-placeholder {
 .categories_menu_toggle > ul > li ul.categories_mega_menu > li > a {
   line-height: 30px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: none;
   display: block;
   padding: 0px 15px 0px 15px;
@@ -2114,6 +2114,7 @@ textarea:-ms-input-placeholder {
 .call-support {
   text-align: right;
   width: 277px;
+
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .call-support {
@@ -2125,28 +2126,29 @@ textarea:-ms-input-placeholder {
 @media only screen and (max-width: 767px) {
   .call-support {
     display: none;
-    text-align: right;
+    text-align: center;
     margin-bottom: 22px;
   }
 }
 .call-support p {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 18px;
   display: inline-block;
   position: relative;
+
 }
 .call-support p::before {
   content: "";
   position: absolute;
-  background: url("../img/icon/icon-phone.png") no-repeat 0 0;
-  width: 32px;
-  height: 32px;
+
   display: inline-block;
   left: -41px;
 }
 .call-support p a {
   display: block;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 500;
+
 }
 .call-support p a:hover {
   color: #fc8a35;
@@ -3502,7 +3504,7 @@ textarea:-ms-input-placeholder {
 .section_title p {
   font-size: 15px;
   line-height: 24px;
-  font-family: "Playfair Display", serif;
+  font-family: 'Rubik', sans-serif;
   font-style: italic;
   margin-bottom: 2px;
 }
@@ -3695,7 +3697,7 @@ textarea:-ms-input-placeholder {
 }
 .product_content h4 {
   font-size: 15px;
-  line-height: 15px;
+  line-height: 20px;
   font-weight: 400;
   text-transform: none;
   margin-bottom: 16px;
@@ -3709,12 +3711,17 @@ textarea:-ms-input-placeholder {
   color: #fc8a35;
 }
 .product_content p {
-  font-size: 12px;
-  line-height: 12px;
+  font-size: 14px;
+  line-height: 14px;
+  opacity: .6;
   margin-bottom: 0;
 }
 .product_content p a:hover {
   color: #fc8a35;
+}
+
+.unit_price {
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .price_box {
@@ -3737,7 +3744,7 @@ textarea:-ms-input-placeholder {
 .price_box span.current_price {
   font-weight: 500;
   font-size: 17px;
-  color: #fc8a35;
+  color: #222222;
 }
 @media only screen and (max-width: 767px) {
   .price_box span.current_price {
@@ -3867,6 +3874,60 @@ textarea:-ms-input-placeholder {
     padding: 0;
   }
 }
+
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
+.social_wrapper {
+  font-weight: 400;
+  font-size: 14px;
+  color: #222222;
+}
+
+.social_wrapper a {
+ text-align: center;
+  width: 38px;
+  height: 38px;
+  float: left;
+  background: #e6e6e6;
+  border: 1px solid #f6f6f6;
+  border-radius: 100%;
+  margin: 0 15px 15px 0px;
+  padding: 6px;
+  color: #222222;
+}
+.share_post {
+    display: flex;
+}
+
+.youtube a:hover {
+  background: #c4302b;
+  color: #fff;
+}
+
+.instagram a:hover {
+    color: #fff;
+    background: #f09433;
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+}
+
+.facebook a:hover {
+  background: #3b5998;
+  color: #fff;
+}
+
+.telegram a:hover {
+  background: #249bd7;
+  color: #fff;
+}
+
+.whatsapp a:hover {
+  background: #50b154;
+  color: #fff;
+}
+
 
 .single_countdown {
   display: inline-block;
@@ -5254,7 +5315,8 @@ textarea:-ms-input-placeholder {
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .shipping_area {
-    padding: 68px 0 37px;
+    padding: 68px 37px ;
+    margin-bottom: 0px;
   }
 }
 @media only screen and (max-width: 767px) {
@@ -5536,8 +5598,12 @@ textarea:-ms-input-placeholder {
   margin-bottom: 0;
 }
 .widgets_container.contact_us > p.footer_desc {
-  margin-bottom: 22px;
+ margin-bottom: 22px;
 }
+.footer_desc {
+    display: inline-block;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .widgets_container.contact_us > p.footer_desc {
     margin-bottom: 16px;
@@ -5561,21 +5627,42 @@ textarea:-ms-input-placeholder {
 }
 
 .footer_logo {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   max-width: 250px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .footer_logo {
+
     margin-bottom: 18px;
     max-width: 250px;
   }
 }
 @media only screen and (max-width: 767px) {
   .footer_logo {
-    margin-bottom: 18px;
-    max-width: 250px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    max-width: 200px;
   }
 }
+
+.burger_logo {
+  margin-bottom: 30px;
+  max-width: 200px;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .burger_logo {
+    margin-bottom: 18px;
+    max-width: 200px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .burger_logo {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    max-width: 200px;
+  }
+}
+
 
 .footer_menu ul li a {
   display: block;
@@ -5601,7 +5688,7 @@ textarea:-ms-input-placeholder {
 .widget_newsletter p {
   font-size: 14px;
   line-height: 22px;
-  padding-right: 100px;
+  padding-right: 0px;
   margin-bottom: 22px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -7045,7 +7132,7 @@ textarea:-ms-input-placeholder {
   width: 100%;
   border: 1px solid #ededed;
   position: relative;
-  margin-left: 21px;
+  margin-left: 0px;
   padding: 12px;
   border-radius: 3px;
 }
@@ -7983,7 +8070,7 @@ textarea:-ms-input-placeholder {
 }
 .checkout_form .nice-select ul.list {
   width: 100%;
-  height: 100px;
+  height: 130px;
   overflow: auto;
 }
 .checkout_form .nice-select::after {
@@ -10274,12 +10361,12 @@ textarea:-ms-input-placeholder {
   background: #e6e6e6;
   border-radius: 100%;
   display: inline-block;
-  font-size: 12px;
-  height: 26px;
-  line-height: 28px;
+  font-size: 16px;
+  height: 40px;
+  line-height: 40px;
   margin-right: 5px;
   text-align: center;
-  width: 26px;
+  width: 40px;
 }
 .blog_details .social_sharing ul li a:hover {
   color: #ffffff;
@@ -10298,7 +10385,7 @@ textarea:-ms-input-placeholder {
 .entry_content {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
 }
 @media only screen and (max-width: 767px) {
   .entry_content {
@@ -10356,7 +10443,6 @@ textarea:-ms-input-placeholder {
   }
 }
 .comment_list .comment_content {
-  margin-left: 70px;
   position: relative;
   border: 1px solid #ebebeb;
   border-radius: 3px;
@@ -10364,7 +10450,7 @@ textarea:-ms-input-placeholder {
 }
 @media only screen and (max-width: 767px) {
   .comment_list .comment_content {
-    margin-left: 55px;
+    margin-left: 0px;
   }
 }
 .comment_list .comment_content h5 {
@@ -10386,6 +10472,26 @@ textarea:-ms-input-placeholder {
 .comment_list .comment_content p {
   margin-bottom: 0;
   font-size: 14px;
+}
+.btn-outline-warning {
+  display: inline-block;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 22px;
+  text-transform: uppercase;
+  font-size: 13px;
+  border-radius: 3px;
+  color: #fc8a35;
+  border-color: #fc8a35;
+  font-weight: 500;
+  box-shadow:none !important;
+  outline:0px !important;
+}
+
+.btn-outline-warning:hover {
+  background: #fc8a35;
+  border-color: #fc8a35;
+  color: #ffffff;
 }
 
 .comment_reply {
@@ -10475,7 +10581,39 @@ textarea:-ms-input-placeholder {
     padding: 0 10px;
   }
 }
-
+.comment_button {
+  border: none;
+  line-height: 36px;
+  background: #222222;
+  font-weight: 500;
+  box-shadow: none;
+  color: #ffffff;
+  display: inline-block;
+  min-height: 45px;
+  max-width: 200px;
+  line-height: 45px;
+  padding: 0 22px;
+  text-transform: uppercase;
+  font-size: 13px;
+  border-radius: 3px;
+}
+.comment_button:hover {
+  background: #fc8a35;
+}
+@media only screen and (max-width: 767px) {
+  .comment_button {
+    line-height: 38px;
+    height: 38px;
+    padding: 0 10px;
+    min-height: 30px;
+  }
+}
+.review_button {
+    max-width: 170px;
+    border-radius: 6px;
+    padding: 0px 10px;
+    line-height: 25px;
+}
 .comment_list.list_two {
   padding-left: 50px;
 }
@@ -10563,6 +10701,8 @@ textarea:-ms-input-placeholder {
 }
 
 /*blog details css end*/
+
+
 /*  24. modal css here */
 .modal-dialog.modal-dialog-centered {
   min-width: 1100px;
@@ -10610,6 +10750,10 @@ textarea:-ms-input-placeholder {
   font-weight: 600;
   margin-bottom: 14px;
   line-height: 26px;
+}
+
+.title_url:hover {
+    color: #fc8a35;
 }
 
 .modal_social h2 {
@@ -10798,12 +10942,58 @@ textarea:-ms-input-placeholder {
     margin-bottom: 14px;
   }
 }
+
 .modal-content button.close:hover {
   color: #fc8a35;
 }
 .modal-content button.close span {
   display: block;
 }
+
+.modal_info {
+margin: 0 auto;
+width: 50%;
+padding: 45px 35px 35px;
+border-radius: 0px;
+}
+
+@media only screen and (max-width: 767px) {
+ .modal_info {
+margin: 0 auto;
+width: 100%;
+padding: 35px 30px 30px;
+border-radius: 0px;
+}
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .modal-dialog.modal-dialog-centered {
+    margin: 0 auto;
+    width: 100%;
+    padding: 35px 30px 30px;
+    border-radius: 0px;
+  }
+}
+
+ .modal-content button.close-info {
+    left: 90%;
+    width: 32px;
+    height: 32px;
+    line-height: 35px;
+    top: 10px;
+    margin-bottom: 14px;
+  }
+
+@media only screen and (max-width: 767px) {
+.modal-content button.close-info {
+    left: 87%;
+    width: 32px;
+    height: 32px;
+    line-height: 35px;
+    top: 10px;
+    margin-bottom: 14px;
+  }
+  }
 
 .modal_add_to_cart.mb-15 {
   margin-bottom: 23px;
@@ -10848,6 +11038,8 @@ textarea:-ms-input-placeholder {
 }
 
 /*modal css end*/
+
+
 /*  23. newsletter popup css here */
 .newletter-popup {
   background: #fff;
@@ -11985,7 +12177,7 @@ textarea:-ms-input-placeholder {
 
 /* CUSTOM CSS STYLES */
 
-
+/* Plus minus buttons */
 .quantity_main_btn {
   margin: 20px 0px 20px 0px;
   display: -webkit-box;
@@ -12039,6 +12231,7 @@ textarea:-ms-input-placeholder {
     border: 2px solid;
     border-radius: 40px;
     margin-left: 15px;
+    color: rgb(252, 138, 53, 0.5);
 }
 .gg-info::after,
 .gg-info::before {
@@ -12049,7 +12242,18 @@ textarea:-ms-input-placeholder {
     border-radius: 3px;
     width: 2px;
     background: currentColor;
-    left: 7px
+    left: 7px;
+    color: rgb(252, 138, 53, 0.5);
+}
+/*#BCBCBC*/
+.gg-info:hover {
+    color: #fc8a35;
+}
+.gg-info:hover::before {
+    color: #fc8a35;
+}
+.gg-info:hover::after {
+    color: #fc8a35;
 }
 .gg-info::after {
     bottom: 2px;
@@ -12162,6 +12366,103 @@ textarea:-ms-input-placeholder {
     transform: translate(-50%, 0);
     z-index:99;
 }
+
+
+/* Rating stars */
+
+/* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */
+.rating-group {
+display: inline-flex;
+}
+
+/* make hover effect work properly in IE */
+.rating__icon {
+pointer-events: none;
+}
+
+/* hide radio inputs */
+.rating__input {
+position: absolute !important;
+left: -9999px !important;
+}
+
+/* set icon padding and size */
+.rating__label {
+cursor: pointer;
+/* if you change the left/right padding, update the margin-right property of .rating__label--half as well. */
+padding: 0 0.1em;
+font-size: 1.5rem;
+}
+
+.small_star {
+    font-size: 1rem;
+}
+
+.small_star--half {
+    padding-right: 0;
+    z-index: 2;
+}
+
+/* add padding and positioning to half star labels */
+.rating__label--half {
+padding-right: 0;
+margin-right: -0.6em;
+z-index: 2;
+}
+
+/* set default star color */
+.rating__icon--star {
+color: #FC8A35;
+}
+
+/* set color of none icon when unchecked */
+.rating__icon--none {
+color: #eee;
+}
+
+/* if none icon is checked, make it red */
+.rating__input--none:checked + .rating__label .rating__icon--none {
+color: red;
+}
+
+/* if any input is checked, make its following siblings grey */
+.rating__input:checked ~ .rating__label .rating__icon--star {
+color: #ddd;
+}
+
+/* make all stars orange on rating group hover */
+.rating-group:hover .rating__label .rating__icon--star,
+.rating-group:hover .rating__label--half .rating__icon--star {
+color: orange;
+}
+
+/* make hovered input's following siblings grey on hover */
+.rating__input:hover ~ .rating__label .rating__icon--star,
+.rating__input:hover ~ .rating__label--half .rating__icon--star {
+color: #ddd;
+}
+
+/* make none icon grey on rating group hover */
+.rating-group:hover .rating__input--none:not(:hover) + .rating__label .rating__icon--none {
+ color: #eee;
+}
+
+/* make none icon red on hover */
+.rating__input--none:hover + .rating__label .rating__icon--none {
+color: red;
+}
+
+.alert-rating {
+  border-color: #D63142;
+  color: #D63142;
+}
+
+.not-visible {
+    display: none;
+}
+
+
+
 
 
 

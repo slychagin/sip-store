@@ -108,15 +108,16 @@ $(document).on('click', '.button-minus', function (e){
               document.getElementById('total').innerHTML = json.total;
               $(".shopping_cart_area").load(location.href + " .shopping_cart_area");
               document.getElementById('cart_icon_count').innerHTML = json.qty;
-              if (json.qty === 0) {
-                window.location.reload();
-            }
-            }
+                  if (json.qty === 0) {
+                    window.location.reload();
+                }
+            } else {
             document.getElementById(prodid + 'item-qty').value = json.item_qty;
             document.getElementById(prodid + 'item_total').innerHTML = json.item_total_price +  ' ₴';
             document.getElementById('cart_icon_count').innerHTML = json.qty;
             document.getElementById('total').innerHTML = json.total;
             document.getElementById('total-with-discount').innerHTML = json.total;
+            }
           },
           error: function(xhr, errmsg, err) {}
       });
@@ -168,15 +169,30 @@ $(document).on('click', '.quick-show-button', function (e){
       success: function (json) {
         document.getElementById('quick-add-button').value = prodid;
         document.getElementById('quick_title').innerHTML = json.title;
+        document.getElementById('title_url').href = json.product_url;
         document.getElementById('quick_new_price').innerHTML = json.price;
+        document.getElementById('unit_price').innerHTML = json.price + ' ' + json.unit;
         document.getElementById('quick_description').innerHTML = json.description;
-        document.getElementById('quick_img').src = json.image;
+        document.getElementById('quick_main').src = json.image_main;
+        document.getElementById('quick_main_link').src = json.image_main;
+        document.getElementById('quick_img1').src = json.img1;
+        document.getElementById('quick_img1_link').src = json.img1;
+        document.getElementById('quick_img2').src = json.img2;
+        document.getElementById('quick_img2_link').src = json.img2;
+
+        document.getElementById('quick_video').href = json.video1;
+        document.getElementById('quick_video').target = json.target;
+
+        document.getElementById('quick_main_href').href = json.product_url;
+        document.getElementById('quick_img1_href').href = json.product_url;
+        document.getElementById('quick_img2_href').href = json.product_url;
 
         if (json.old_price) {
             document.getElementById('quick_old_price').innerHTML = json.old_price + ' ₴';
         } else {
         document.getElementById('quick_old_price').innerHTML = json.old_price;
         };
+
       },
       error: function(xhr, errmsg, err) {}
   });

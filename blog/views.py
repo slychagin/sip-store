@@ -12,7 +12,7 @@ from django.utils import timezone, formats
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import ModelFormMixin
 
-from blog.forms import CommentForm
+from blog.forms import PostCommentForm
 from blog.models import Post, BlogCategory, PostComment
 from telebot.telegram import (
     send_to_telegram_moderate_updated_comment_message,
@@ -54,7 +54,7 @@ class PostsByCategoryListView(ListView):
 class PostDetailView(ModelFormMixin, DetailView):
     """Render a single post details page with PostComment form"""
     template_name = 'blog/post_details.html'
-    form_class = CommentForm
+    form_class = PostCommentForm
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -78,7 +78,7 @@ class PostDetailView(ModelFormMixin, DetailView):
         context['single_post'] = self.single_post
         context['related_posts'] = [item.to_post for item in related_posts]
         context['comments'] = PostComment.objects.filter(post=self.single_post, is_moderated=True)
-        context['form'] = CommentForm()
+        context['form'] = PostCommentForm()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -109,12 +109,12 @@ class PostDetailView(ModelFormMixin, DetailView):
             # Update exists comment
             comment = PostComment.objects.get(post=post, email=email)
             comment.is_moderated = False
-            form = CommentForm(self.request.POST, instance=comment)
+            form = PostCommentForm(self.request.POST, instance=comment)
             form.save()
             resp = {'update': True}
 
             # Send message to telegram
-            # send_to_telegram_moderate_updated_comment_message()
+            send_to_telegram_moderate_updated_comment_message()
 
             return HttpResponse(json.dumps(resp), content_type='application/json')
 
@@ -126,7 +126,7 @@ class PostDetailView(ModelFormMixin, DetailView):
             resp = {'success': True}
 
             # Send message to telegram
-            # send_to_telegram_moderate_new_comment_message()
+            send_to_telegram_moderate_new_comment_message()
 
             return HttpResponse(json.dumps(resp), content_type='application/json')
 
@@ -170,7 +170,7 @@ def load_more_comments(request):
         visible_comments = int(request.POST.get('visible_comments'))
 
         upper = visible_comments
-        lower = upper - 3
+        lower = upper - 10
 
         post = get_object_or_404(Post, id=post_id)
         comments = list(PostComment.objects.filter(post=post, is_moderated=True)[3:].values()[lower:upper])

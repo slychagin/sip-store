@@ -160,7 +160,7 @@ class ProductDetailView(ModelFormMixin, DetailView):
                 resp = {'update': True}
 
                 # Send message to telegram
-                # send_to_telegram_moderate_updated_review_message()
+                send_to_telegram_moderate_updated_review_message()
 
                 return HttpResponse(json.dumps(resp), content_type='application/json')
 
@@ -173,7 +173,7 @@ class ProductDetailView(ModelFormMixin, DetailView):
                 resp = {'success': True}
 
                 # Send message to telegram
-                # send_to_telegram_moderate_new_review_message()
+                send_to_telegram_moderate_new_review_message()
 
                 return HttpResponse(json.dumps(resp), content_type='application/json')
 
@@ -216,7 +216,7 @@ def load_more_reviews(request):
         visible_reviews = int(request.POST.get('visible_reviews'))
 
         upper = visible_reviews
-        lower = upper - 3
+        lower = upper - 10
 
         product = get_object_or_404(Product, id=product_id)
         reviews = list(ReviewRating.objects.filter(product=product, is_moderated=True)[3:].values()[lower:upper])

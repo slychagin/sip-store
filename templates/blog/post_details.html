@@ -111,14 +111,6 @@
                    </div>
                     {% endif %}
 
-                    <div class="comments_form">
-                        <h3 id="comment-form-title">Залиште свій коментар</h3>
-                    </div>
-                        {% crispy form %}
-                    <div id="alert-prod-details"></div>
-
-                    <br>
-                    <br>
 
                     <div class="comments_box">
                         <h3>Коментари ({{ comments|length }})</h3>
@@ -151,6 +143,14 @@
                         {% endif %}
 
                     </div>
+
+
+                    <div class="comments_form">
+                        <h3 id="comment-form-title">Залиште свій коментар</h3>
+                    </div>
+                        {% crispy form %}
+                    <div id="alert-prod-details"></div>
+
                 </div>
                 <!--blog grid area start-->
             </div>

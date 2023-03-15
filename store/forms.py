@@ -2,6 +2,7 @@ from crispy_forms.bootstrap import FormActions
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit, Field
 from django import forms
+from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _
 
 from store.models import ProductGallery, Product, ReviewRating
@@ -74,6 +75,9 @@ class ReviewRatingForm(forms.ModelForm):
             'name': _("Ім'я"),
             'email': _('Email')
         }
+        widgets = {
+            'review': Textarea(attrs={'rows': 5}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(ReviewRatingForm, self).__init__(*args, **kwargs)
@@ -107,3 +111,25 @@ class ReviewRatingForm(forms.ModelForm):
             raise forms.ValidationError(_('Будь ласка, встановіть рейтинг'))
 
         return rating
+
+
+class ReviewRatingAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = ReviewRating
+        fields = '__all__'
+
+    def clean(self):
+        """Rase error if administrator entered review for product
+        in admin panel with not unique email
+        """
+        cleaned_data = super(ReviewRatingAdminForm, self).clean()
+        email = cleaned_data['email']
+        product = cleaned_data['product']
+
+        email_list = [review.email for review in ReviewRating.objects.filter(product=product)]
+
+        if email in email_list and self.instance.pk is None:
+            raise forms.ValidationError('Відгук з таким email по даному товару вже існує.')
+
+        return cleaned_data

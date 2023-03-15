@@ -92,10 +92,10 @@ class OrderFormView(View):
             save_customer(order)
 
             # # Send an email with order details to the customer's email
-            # send_email_to_customer(basket, order)
-            #
+            send_email_to_customer(basket, order)
+
             # # Send message with order details to admin Telegram chat
-            # send_to_telegram_order_message(basket, order)
+            send_to_telegram_order_message(basket, order)
 
             # Clear basket session data
             try:

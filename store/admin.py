@@ -6,7 +6,7 @@ from embed_video.admin import AdminVideoMixin
 from store.forms import (
     ProductGalleryForm,
     ProductAdminForm,
-    ProductInfoAdminForm
+    ProductInfoAdminForm, ReviewRatingAdminForm
 )
 from store.models import (
     Product,
@@ -59,6 +59,7 @@ class ProductInfoAdmin(admin.ModelAdmin):
 
 
 class ReviewRatingAdmin(admin.ModelAdmin):
+    form = ReviewRatingAdminForm
     list_display = ('product', 'rating', 'name', 'email', 'created_date', 'modified_date', 'is_moderated')
     list_display_links = ('product', 'rating', 'name')
     search_fields = ('product', 'rating', 'name', 'email', 'review', 'product__product_name')

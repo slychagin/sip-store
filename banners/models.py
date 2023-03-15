@@ -28,20 +28,24 @@ class MainBanner(models.Model):
     description = models.CharField(max_length=255, blank=True, verbose_name=_('опис'))
     image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'))
     banner_url = models.URLField(max_length=255, verbose_name=_('URL банера'))
+    created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
+    modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата коригування'))
 
     class Meta:
         verbose_name = _('головний банер')
         verbose_name_plural = _('головні банери')
+        ordering = ('-modified_date',)
 
     def __str__(self):
-        return self.title
+        return str(_('Банер'))
 
 
 class TwoBanners(models.Model):
     """Create TwoBanners model in the database"""
     objects = models.Manager()
     title = models.CharField(max_length=100, blank=True, verbose_name=_('заголовок'))
-    image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'))
+    image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'),
+                              help_text=_('розмір фото 561х190'))
     banner_url = models.URLField(max_length=255, verbose_name=_('URL банера'))
 
     class Meta:
@@ -70,7 +74,8 @@ class FooterBanner(models.Model):
     """Create FooterBanner model in the database"""
     objects = models.Manager()
 
-    image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'))
+    image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'),
+                              help_text=_('розмір фото 1146х240'))
     banner_url = models.URLField(max_length=255, verbose_name=_('URL банера'))
 
     class Meta:

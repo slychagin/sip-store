@@ -57,9 +57,9 @@ class ProductGalleryForm(forms.ModelForm):
         video = cleaned_data['video']
 
         if not image and not video:
-            raise forms.ValidationError('Треба ввести або фото або відео!')
+            raise forms.ValidationError(_('Треба ввести або фото або відео!'))
         if image and video:
-            raise forms.ValidationError('Введіть щось одне - або фото або відео!')
+            raise forms.ValidationError(_('Введіть щось одне - або фото або відео!'))
 
         return cleaned_data
 
@@ -130,6 +130,24 @@ class ReviewRatingAdminForm(forms.ModelForm):
         email_list = [review.email for review in ReviewRating.objects.filter(product=product)]
 
         if email in email_list and self.instance.pk is None:
-            raise forms.ValidationError('Відгук з таким email по даному товару вже існує.')
+            raise forms.ValidationError(_('Відгук з таким email по даному товару вже існує.'))
 
         return cleaned_data
+
+
+class ProductsSortForm(forms.Form):
+    """Sorting products by selected option in the Store page"""
+    CHOICES = (
+        (DEFAULT := 'id', _('сортувати')),
+        (ID := 'id', _('за замовчуванням')),
+        (POPULAR := '-count_orders', _('за популярністю')),
+        (BY_RATING := 'rating', _('за рейтингом')),
+        (LOW_PRICE := 'price', _('від дешевих до дорогих')),
+        (HIGH_PRICE := '-price', _('від дорогих до дешевих'))
+    )
+    ordering = forms.ChoiceField(choices=CHOICES, label='')
+
+    def __init__(self, *args, **kwargs):
+        super(ProductsSortForm, self).__init__(*args, **kwargs)
+        self.fields['ordering'].widget.attrs['class'] = 'select_option'
+        self.fields['ordering'].widget.attrs['onchange'] = 'this.form.submit()'

@@ -241,9 +241,14 @@
                     {% for category in category_links %}
                     <li class="menu_item_children"><a href="{{ category.get_url }}">{{ category.category_name }}<i class="fa fa-angle-right"></i></a>
                       <ul class="categories_mega_menu">
+                        {% if product_links|get_index:forloop.counter0  %}
                             {% for product in product_links|get_index:forloop.counter0 %}
-                            <li><a href="{{ product.get_url }}">{{ product }}</a></li>
+                                <li><a href="{{ product.get_url }}">{{ product }}</a></li>
                             {% endfor %}
+                        {% else %}
+                            <li>Категорія у розробці</li>
+                        {% endif %}
+
                       </ul>
                     </li>
                     {% endfor %}

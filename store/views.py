@@ -13,7 +13,7 @@ from django.views.generic.edit import ModelFormMixin
 from blog.views import convert_to_localtime
 from category.models import Category
 from orders.models import OrderItem
-from store.forms import ReviewRatingForm
+from store.forms import ReviewRatingForm, ProductsSortForm
 from store.models import Product, ProductGallery, ProductInfo, ReviewRating
 from telebot.telegram import (
     send_to_telegram_moderate_new_review_message,
@@ -42,23 +42,15 @@ class StorePageView(ListView):
         return queryset
 
     def get_ordering(self):
-        sort_dict = {
-            'id': 'id',
-            'popular': '-count_orders',
-            'by_rating': 'rating',
-            'low-price': 'price',
-            'high-price': '-price'
-        }
-        if self.request.GET.get('orderby'):
-            ordering = self.request.GET.get('orderby')
-            ordering = sort_dict.get(ordering)
-        else:
-            ordering = sort_dict.get('id')
+        ordering = self.request.GET.get('ordering', None)
+        if ordering is None:
+            ordering = 'id'
         return ordering
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['product_count'] = len(context['products'])
+        context['form'] = ProductsSortForm()
         return context
 
 

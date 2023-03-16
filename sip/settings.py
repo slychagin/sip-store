@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'phonenumber_field',
     'bootstrap_datepicker_plus',
+    'django_social_share',
     'embed_video',
     'benefits',
     'banners',

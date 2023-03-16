@@ -1,4 +1,5 @@
 {% load static %}
+{% load social_share %}
 
 <!-- modal area start-->
     <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
@@ -145,22 +146,20 @@
 
                     <div id="alert-pop-up"></div>
 
+
                     <div class="social_wrapper">
                           <p>Поділитись цим товаром:</p>
-                          <div class="instagram">
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                          </div>
                           <div class="facebook">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            {% post_to_facebook object_or_url %}
                           </div>
                           <div class="telegram">
-                            <a href="#"><i class="fa fa-paper-plane"></i></a>
+                            {% post_to_telegram "Сіль і Пательня" object_or_url %}
                           </div>
                           <div class="whatsapp">
-                            <a href="#"><i class="fa fa-whatsapp"></i></a>
+                            {% post_to_whatsapp object_or_url %}
                           </div>
-                          <div class="youtube">
-                            <a href="#"><i class="fa fa-youtube"></i></a>
+                          <div class="instagram">
+                            <a  href="https://instagram.com/sil_i_patelnya?igshid=ZDdkNTZiNTM=" target="_blank"><i class="fa fa-instagram"></i></a>
                           </div>
                     </div>
                   </div>

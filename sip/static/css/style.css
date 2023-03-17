@@ -8283,6 +8283,10 @@ textarea:-ms-input-placeholder {
     margin-top: 60px;
   }
 }
+.delete-wishlist-button {
+    background-color: #fc8a35 !important;
+    color: #ffffff !important;
+}
 
 /*wishlist css end*/
 /* 15. contact page css here */

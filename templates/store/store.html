@@ -98,23 +98,23 @@
                                                 <span class="lnr lnr-magnifier"></span>
                                             </a>
                                         </li>
+
                                         <li class="wishlist">
                                             {% if product.id in wish_products %}
                                               <a
                                                 type="button"
-                                                class="wishlist-button"
+                                                class="delete-wishlist-button"
                                                 data-index="{{ product.id }}"
-                                                data-tippy="У обране"
+                                                data-tippy="Видалити з обраного"
                                                 data-tippy-placement="top"
                                                 data-tippy-arrow="true"
                                                 data-tippy-inertia="true"
-                                                style="background: #fc8a35;"
-                                                ><span style="color: #ffffff;" class="lnr lnr-heart"></span
+                                                ><span class="lnr lnr-heart"></span
                                               ></a>
                                               {% else %}
                                               <a
                                                 type="button"
-                                                class="wishlist-button"
+                                                class="add-wishlist-button"
                                                 data-index="{{ product.id }}"
                                                 data-tippy="У обране"
                                                 data-tippy-placement="top"
@@ -153,7 +153,7 @@
 
                                 </div>
                                 <div class="product_desc">
-                                    <p>{{ product.description }}</p>
+                                    <p>{{ product.description|safe }}</p>
                                 </div>
                                 <div class="action_links list_action_right">
                                     <ul>
@@ -173,22 +173,36 @@
                                               data-tippy-placement="top"
                                               data-tippy-arrow="true"
                                               data-tippy-inertia="true"
+                                              data-tippy-trigger="mouseenter"
                                               data-bs-toggle="modal"
                                               data-bs-target="#modal_box" >
                                               <span class="lnr lnr-magnifier"></span>
                                             </a>
                                         </li>
                                         <li class="wishlist">
-                                            <a
-                                              type="button"
-                                              class="wishlist-button"
-                                              data-index="{{ product.id }}"
-                                              data-tippy="У обране"
-                                              data-tippy-placement="top"
-                                              data-tippy-arrow="true"
-                                              data-tippy-inertia="true">
-                                              <span class="lnr lnr-heart"></span>
-                                            </a>
+                                             {% if product.id in wish_products %}
+                                              <a
+                                                type="button"
+                                                class="delete-wishlist-button"
+                                                data-index="{{ product.id }}"
+                                                data-tippy="Видалити з обраного"
+                                                data-tippy-placement="top"
+                                                data-tippy-arrow="true"
+                                                data-tippy-inertia="true"
+                                                ><span class="lnr lnr-heart"></span
+                                              ></a>
+                                              {% else %}
+                                              <a
+                                                type="button"
+                                                class="add-wishlist-button"
+                                                data-index="{{ product.id }}"
+                                                data-tippy="У обране"
+                                                data-tippy-placement="top"
+                                                data-tippy-arrow="true"
+                                                data-tippy-inertia="true"
+                                                ><span class="lnr lnr-heart"></span
+                                              ></a>
+                                              {% endif %}
                                         </li>
                                     </ul>
                                 </div>

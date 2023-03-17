@@ -26,7 +26,7 @@ class Basket:
                 'price': str(product.price),
                 'qty': int(entered_quantity)
             }
-        self.save_session_data()
+        self.save()
 
     def __iter__(self):
         """Iterate all items from basket"""
@@ -73,21 +73,21 @@ class Basket:
         """Increase quantity by one after press plus button in the session data"""
         product_id = str(product)
         self.basket[product_id]['qty'] += 1
-        self.save_session_data()
+        self.save()
 
     def subtract_quantity(self, product):
         """Decrease quantity by one after press minus button in the session data"""
         product_id = str(product)
         self.basket[product_id]['qty'] -= 1
-        self.save_session_data()
+        self.save()
 
     def delete(self, product):
         """Delete product from session data"""
         product_id = str(product)
         if product_id in self.basket:
             del self.basket[product_id]
-            self.save_session_data()
+            self.save()
 
-    def save_session_data(self):
+    def save(self):
         """Save changes in session"""
         self.session.modified = True

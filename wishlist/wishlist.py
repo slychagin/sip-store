@@ -12,17 +12,22 @@ class Wishlist:
             wishlist = self.session['wishlist'] = {}
         self.wishlist = wishlist
 
-    def add_to_wishlist(self, product):
-        """Add and update data to the session"""
+    def add_wishlist(self, product):
+        """Add and update data to the session after adding product"""
         product_id = str(product.id)
 
-        if product_id in self.wishlist:
-            del self.wishlist[product_id]
-        else:
+        if product_id not in self.wishlist:
             self.wishlist[product_id] = {
                 'product_id': str(product.id),
             }
-        self.save_session_data()
+        self.save()
+
+    def delete_wishlist(self, product):
+        """Delete product from wishlist"""
+        product_id = str(product)
+        if product_id in self.wishlist:
+            del self.wishlist[product_id]
+        self.save()
 
     def __iter__(self):
         """Iterate all items from wishlist"""
@@ -40,13 +45,6 @@ class Wishlist:
         """Count the product quantity in the wishlist"""
         return sum(1 for _ in self.wishlist.keys())
 
-    def delete_from_wishlist(self, product):
-        """Delete product from wishlist"""
-        product_id = str(product)
-        if product_id in self.wishlist:
-            del self.wishlist[product_id]
-            self.save_session_data()
-
-    def save_session_data(self):
+    def save(self):
         """Save changes in session"""
         self.session.modified = True

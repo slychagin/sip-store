@@ -141,19 +141,19 @@
 
                             <div id="alert-prod-details"></div>
 
-                            <div class="product_d_action" id="product_d_action">
+                        <div class="product_d_action" id="product_d_action">
                                <ul>
-                                   {% if single_product.id not in wish_products %}
+                                   {% if single_product.id in wish_products %}
                                    <li>
-                                       <a type="button" class="wishlist-add-button" id="wishlist-add-button"
+                                       <a type="button" class="del-wish-btn" id="del-wish-btn"
                                           data-index="{{ single_product.id }}" onClick="toggleText(this.id);"
-                                          >+ Додати до обраного</a>
+                                          >- Видалити з обраного</a>
                                    </li>
                                    {% else %}
                                    <li>
-                                       <a type="button" class="wishlist-add-button" id="wishlist-add-button"
+                                       <a type="button" class="add-wish-btn" id="add-wish-btn"
                                           data-index="{{ single_product.id }}" onClick="toggleText(this.id);"
-                                          >- Видалити з обраного</a>
+                                          >+ Додати до обраного</a>
                                    </li>
                                  {% endif %}
                                </ul>
@@ -384,27 +384,26 @@
                                            <li class="wishlist">
                                             {% if product.id in wish_products %}
                                             <a
-                                              type="button"
-                                              class="wishlist-button"
-                                              data-index="{{ product.id }}"
-                                              data-tippy="У обране"
-                                              data-tippy-placement="top"
-                                              data-tippy-arrow="true"
-                                              data-tippy-inertia="true"
-                                              style="background: #fc8a35;"
-                                              ><span style="color: #ffffff;" class="lnr lnr-heart"></span
-                                            ></a>
-                                            {% else %}
-                                            <a
-                                              type="button"
-                                              class="wishlist-button"
-                                              data-index="{{ product.id }}"
-                                              data-tippy="У обране"
-                                              data-tippy-placement="top"
-                                              data-tippy-arrow="true"
-                                              data-tippy-inertia="true"
-                                              ><span class="lnr lnr-heart"></span
-                                            ></a>
+                                                type="button"
+                                                class="delete-wishlist-button"
+                                                data-index="{{ product.id }}"
+                                                data-tippy="Видалити з обраного"
+                                                data-tippy-placement="top"
+                                                data-tippy-arrow="true"
+                                                data-tippy-inertia="true"
+                                                ><span class="lnr lnr-heart"></span
+                                              ></a>
+                                              {% else %}
+                                              <a
+                                                type="button"
+                                                class="add-wishlist-button"
+                                                data-index="{{ product.id }}"
+                                                data-tippy="У обране"
+                                                data-tippy-placement="top"
+                                                data-tippy-arrow="true"
+                                                data-tippy-inertia="true"
+                                                ><span class="lnr lnr-heart"></span
+                                              ></a>
                                             {% endif %}
                                           </li>
                                         </ul>

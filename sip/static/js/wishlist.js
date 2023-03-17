@@ -1,7 +1,8 @@
 /*---Add product to the wishlist after press HEART button---*/
-$(document).on('click', '.wishlist-button', function (e){
+$(document).on('click', '.add-wishlist-button', function (e){
   e.preventDefault();
   var prodid = $(this).data('index');
+  var heartBtn = $('.add-wishlist-button[data-index="'+ prodid +'"]');
 
   $.ajax({
       type: 'POST',
@@ -13,7 +14,9 @@ $(document).on('click', '.wishlist-button', function (e){
       },
       success: function (json) {
         document.getElementById('wishlist_icon_count').innerHTML = json.qty;
-        handleAlerts('alert-home', 'success', 'Додано до обраного');
+        heartBtn.addClass('delete-wishlist-button');
+        heartBtn.removeClass('add-wishlist-button');
+//        handleAlerts('alert-home', 'success', 'Додано до обраного');
       },
       error: function(xhr, errmsg, err) {
         handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
@@ -23,67 +26,37 @@ $(document).on('click', '.wishlist-button', function (e){
 
 
 /*---Delete product from the wishlist after press HEART button---*/
-//$(document).on('click', '.delete-from-wishlist', function (e){
-//  e.preventDefault();
-//  var prodid = $(this).data('index');
-//
-//  $.ajax({
-//      type: 'POST',
-//      url: add_wishlist,
-//      data: {
-//          product_id: prodid,
-//          csrfmiddlewaretoken: window.CSRF_TOKEN,
-//          action: 'POST'
-//      },
-//      success: function (json) {
-//        document.getElementById('wishlist_icon_count').innerHTML = json.qty;
-//        handleAlerts('alert-home', 'success', 'Додано до обраного');
-//      },
-//      error: function(xhr, errmsg, err) {
-//        handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
-//      }
-//  });
-//});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*---Add product to the wishlist after press button in product details---*/
-$(document).on('click', '#wishlist-add-button', function (e){
+$(document).on('click', '.delete-wishlist-button', function (e){
   e.preventDefault();
   var prodid = $(this).data('index');
+  var heartBtn = $('.delete-wishlist-button[data-index="'+ prodid +'"]');
+
+  $.ajax({
+      type: 'POST',
+      url: wishlist_delete,
+      data: {
+          product_id: prodid,
+          csrfmiddlewaretoken: window.CSRF_TOKEN,
+          action: 'POST'
+      },
+      success: function (json) {
+        document.getElementById('wishlist_icon_count').innerHTML = json.qty;
+        heartBtn.removeClass('delete-wishlist-button');
+        heartBtn.addClass('add-wishlist-button');
+//        handleAlerts('alert-home', 'success', 'Видалено з обраного');
+      },
+      error: function(xhr, errmsg, err) {
+        handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
+      }
+  });
+});
+
+
+/*--- Add product to the wishlist after press Add/Delete button in product details ---*/
+$(document).on('click', '.add-wish-btn', function (e){
+  e.preventDefault();
+  var prodid = $(this).data('index');
+  var element = $('.add-wish-btn[data-index="'+ prodid +'"]');
 
   $.ajax({
       type: 'POST',
@@ -95,12 +68,41 @@ $(document).on('click', '#wishlist-add-button', function (e){
       },
       success: function (json) {
         document.getElementById('wishlist_icon_count').innerHTML = json.qty;
+        element.addClass('del-wish-btn');
+        element.removeClass('add-wish-btn');
       },
       error: function(xhr, errmsg, err) {
-        handleAlerts('alert-prod-details', 'danger', 'ой... щось пішло не так');
+        handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
       }
   });
 });
+
+
+/*---Delete product from the wishlist after press Add/Delete button in product details ---*/
+$(document).on('click', '.del-wish-btn', function (e){
+  e.preventDefault();
+  var prodid = $(this).data('index');
+  var element = $('.del-wish-btn[data-index="'+ prodid +'"]');
+
+  $.ajax({
+      type: 'POST',
+      url: wishlist_delete,
+      data: {
+          product_id: prodid,
+          csrfmiddlewaretoken: window.CSRF_TOKEN,
+          action: 'POST'
+      },
+      success: function (json) {
+        document.getElementById('wishlist_icon_count').innerHTML = json.qty;
+        element.addClass('add-wish-btn');
+        element.removeClass('del-wish-btn');
+      },
+      error: function(xhr, errmsg, err) {
+        handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
+      }
+  });
+});
+
 
 /*--- Change button name when product was added to wishlist ---*/
 function toggleText(button_id) {

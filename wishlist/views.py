@@ -1,13 +1,19 @@
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
+from django.views.generic import TemplateView
 
 from store.models import Product
 from wishlist.wishlist import Wishlist
 
 
-def wishlist_page(request):
+class WishlistPageView(TemplateView):
     """Render Wishlist page"""
-    return render(request, 'store/wishlist.html', {'wishlist': Wishlist(request)})
+    template_name = 'store/wishlist.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['wishlist'] = Wishlist(self.request)
+        return context
 
 
 def add_wishlist(request):

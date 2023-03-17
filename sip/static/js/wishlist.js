@@ -1,4 +1,4 @@
-/*---Add or delete product to the wishlist after press HEART button---*/
+/*---Add product to the wishlist after press HEART button---*/
 $(document).on('click', '.wishlist-button', function (e){
   e.preventDefault();
   var prodid = $(this).data('index');
@@ -20,6 +20,64 @@ $(document).on('click', '.wishlist-button', function (e){
       }
   });
 });
+
+
+/*---Delete product from the wishlist after press HEART button---*/
+//$(document).on('click', '.delete-from-wishlist', function (e){
+//  e.preventDefault();
+//  var prodid = $(this).data('index');
+//
+//  $.ajax({
+//      type: 'POST',
+//      url: add_wishlist,
+//      data: {
+//          product_id: prodid,
+//          csrfmiddlewaretoken: window.CSRF_TOKEN,
+//          action: 'POST'
+//      },
+//      success: function (json) {
+//        document.getElementById('wishlist_icon_count').innerHTML = json.qty;
+//        handleAlerts('alert-home', 'success', 'Додано до обраного');
+//      },
+//      error: function(xhr, errmsg, err) {
+//        handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
+//      }
+//  });
+//});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*---Add product to the wishlist after press button in product details---*/

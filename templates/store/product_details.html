@@ -130,10 +130,10 @@
                                 <p>{{ single_product.short_description|safe }}</p>
                             </div>
 
-                           <div class="quantity_main_btn">
-                                   <button class="quantity_btn_1 bg-c" type="button" onclick="decrementProdDetail()">-</button>
+                           <div class="quantity_main_btn" id="prod_detail_quantity">
+                                   <button class="quantity_btn_1 bg-c" type="button"  id="decrementProdDetail">-</button>
                                    <input type="number" min="1" max="100" value="1" readonly class="raz" id="qty" name="quantity">
-                                   <button class="quantity_btn_1 bg-c" type="button" onclick="incrementProdDetail()">+</button>
+                                    <button class="quantity_btn_1 bg-c" type="button" id="incrementProdDetail">+</button>
                                <div class="product_variant quantity">
                                     <button class="button" type="button" id="add-button" value="{{ single_product.id }}">В кошик</button>
                                </div>
@@ -308,9 +308,6 @@
 
                                     <div id="alert-prod-info"></div>
 
-
-
-
                                 </div>
                             </div>
                         </div>
@@ -367,6 +364,9 @@
                                                    <span class="lnr lnr-cart"></span>
                                                </a>
                                            </li>
+                                            <li class="spinner-cart-box not-visible" data-index="{{ product.id }}">
+                                                <div class="spinner-border" role="status"></div>
+                                            </li>
                                            <li class="quick_button">
                                                <a
                                                   type="button"

@@ -1,41 +1,23 @@
-/*---Add product to the cart after press Add button in product details page---*/
-$(document).on('click', '#add-button', function (e){
-  e.preventDefault();
-  var prodid = $('#add-button').val();
-
-  $.ajax({
-      type: 'POST',
-      url: add_cart,
-      data: {
-          product_id: prodid,
-          quantity: $('#qty').val(),
-          csrfmiddlewaretoken: window.CSRF_TOKEN,
-          action: 'POST'
-      },
-      success: function (json) {
-        document.getElementById('cart_icon_count').innerHTML = json.qty;
-        handleAlerts('alert-prod-details', 'success', 'Додано до кошику');
-      },
-      error: function(xhr, errmsg, err) {
-        handleAlerts('alert-prod-details', 'danger', 'ой... щось пішло не так');
-      }
-  });
-});
-
 /*---Delete product from the basket---*/
 $(document).on('click', '.delete-button', function (e){
   e.preventDefault();
-  var prodid = $(this).data('index');
+  var prodId = $(this).data('index');
+  var spinnerBox = $(`#${prodId}spinner-cart-box`);
+
+  spinnerBox.removeClass('not-visible');
+  
   $.ajax({
       type: 'POST',
       url: cart_delete,
       data: {
-          product_id: prodid,
+          product_id: prodId,
           csrfmiddlewaretoken: window.CSRF_TOKEN,
           action: 'POST'
       },
       success: function (json) {
-        $('.product-item[data-index="'+ prodid +'"]').remove();
+        setTimeout(()=>{
+            $('.product-item[data-index="'+ prodId +'"]').remove();
+         }, 500);
         document.getElementById('total').innerHTML = json.total;
         document.getElementById('cart_icon_count').innerHTML = json.qty;
         if (json.qty === 0) {
@@ -49,17 +31,17 @@ $(document).on('click', '.delete-button', function (e){
 /*---Delete product from the mini cart by press delete icon---*/
 $(document).on('click', '.delete-icon', function (e){
     e.preventDefault();
-    var prodid = $(this).data('index');
+    var prodId = $(this).data('index');
     $.ajax({
         type: 'POST',
         url: mini_cart_delete,
         data: {
-            product_id: prodid,
+            product_id: prodId,
             csrfmiddlewaretoken: window.CSRF_TOKEN,
             action: 'POST'
         },
         success: function (json) {
-          $('.cart_item[data-index="'+ prodid +'"]').remove();
+          $('.cart_item[data-index="'+ prodId +'"]').remove();
           document.getElementById('mini-cart-total').innerHTML = json.mini_cart_total;
           document.getElementById('cart_icon_count').innerHTML = json.qty;
         },
@@ -67,44 +49,66 @@ $(document).on('click', '.delete-icon', function (e){
     });
 });
 
+
 /*---Add quantity by press plus button in the cart page---*/
 $(document).on('click', '.button-plus', function (e){
       e.preventDefault();
-      var prodid = $(this).data('index');
+      var prodId = $(this).data('index');
+      var qtyCartDiv = $(`#${prodId}quantity-cart`);
+      var inputQty = $(`#${prodId}item-qty`).val();
+      var maxQty = $(`#${prodId}item-qty`).attr('max') - 1;
+
+      $(this).prop('disabled', true);
+      qtyCartDiv.fadeOut(300);
+
       $.ajax({
           type: 'POST',
           url: plus_quantity,
           data: {
-              product_id: prodid,
+              product_id: prodId,
               csrfmiddlewaretoken: window.CSRF_TOKEN,
               action: 'POST'
           },
           success: function (json) {
-            document.getElementById(prodid + 'item-qty').value = json.item_qty;
-            document.getElementById(prodid + 'item_total').innerHTML = json.item_total_price + ' ₴';
+            document.getElementById(prodId + 'item-qty').value = json.item_qty;
+            document.getElementById(prodId + 'item_total').innerHTML = json.item_total_price + ' ₴';
             document.getElementById('cart_icon_count').innerHTML = json.qty;
             document.getElementById('total').innerHTML = json.total;
             document.getElementById('total-with-discount').innerHTML = json.total;
           },
           error: function(xhr, errmsg, err) {}
       });
+
+      setTimeout(()=>{
+        if (inputQty >= maxQty){
+            $(this).prop('disabled', true);
+        } else {
+            $(this).prop('disabled', false);
+        }
+      }, 600);
+      qtyCartDiv.fadeIn(300);
   });
 
 /*---Subtract quantity in the cart by press minus button---*/
 $(document).on('click', '.button-minus', function (e){
       e.preventDefault();
-      var prodid = $(this).data('index');
+      var prodId = $(this).data('index');
+      var qtyCartDiv = $(`#${prodId}quantity-cart`);
+
+      $(this).prop('disabled', true);
+      qtyCartDiv.fadeOut(300);
+
       $.ajax({
           type: 'POST',
           url: minus_quantity,
           data: {
-              product_id: prodid,
+              product_id: prodId,
               csrfmiddlewaretoken: window.CSRF_TOKEN,
               action: 'POST'
           },
           success: function (json) {
             if (json.item_qty < 1) {
-              $('.product-item[data-index="'+ prodid +'"]').remove();
+              $('.product-item[data-index="'+ prodId +'"]').remove();
               document.getElementById('total').innerHTML = json.total;
               $(".shopping_cart_area").load(location.href + " .shopping_cart_area");
               document.getElementById('cart_icon_count').innerHTML = json.qty;
@@ -112,8 +116,8 @@ $(document).on('click', '.button-minus', function (e){
                     window.location.reload();
                 }
             } else {
-            document.getElementById(prodid + 'item-qty').value = json.item_qty;
-            document.getElementById(prodid + 'item_total').innerHTML = json.item_total_price +  ' ₴';
+            document.getElementById(prodId + 'item-qty').value = json.item_qty;
+            document.getElementById(prodId + 'item_total').innerHTML = json.item_total_price +  ' ₴';
             document.getElementById('cart_icon_count').innerHTML = json.qty;
             document.getElementById('total').innerHTML = json.total;
             document.getElementById('total-with-discount').innerHTML = json.total;
@@ -121,6 +125,11 @@ $(document).on('click', '.button-minus', function (e){
           },
           error: function(xhr, errmsg, err) {}
       });
+
+      setTimeout(()=>{
+        $(this).prop('disabled', false);
+      }, 600);
+      qtyCartDiv.fadeIn(300);
   });
 
 /*---Refresh mini cart by press cart icon---*/
@@ -129,16 +138,26 @@ $("#mini-cart").click(function () {
     $("#mini-cart-total").load(location.href + " #mini-cart-total");
 });
 
-/*---Add product to the cart after press action link in the Home page add to cart---*/
+/*---Add product to the cart after press ACTION LINK BASKET add to cart---*/
 $(document).on('click', '.quick-add-button', function (e){
       e.preventDefault();
-      var prodid = $(this).data('index');
+      var prodId = $(this).data('index');
+//      var basketLi = $('.add_to_cart[data-index="'+ prodId +'"]');
+      var quickBasketBtn = $('.quick-add-button[data-index="'+ prodId +'"]');
+      var spinner = $('.spinner-cart-box[data-index="'+ prodId +'"]');
+
+      quickBasketBtn.prop("disabled", true);
+      spinner.removeClass('not-visible');
+      setTimeout(()=>{
+          spinner.addClass('not-visible');
+          quickBasketBtn.prop("disabled", false);
+      }, 600)
 
       $.ajax({
           type: 'POST',
           url: add_cart,
           data: {
-              product_id: prodid,
+              product_id: prodId,
               quantity: 1,
               csrfmiddlewaretoken: window.CSRF_TOKEN,
               action: 'POST'
@@ -156,18 +175,18 @@ $(document).on('click', '.quick-add-button', function (e){
 /*---Open product popup card after press action link quick show product details---*/
 $(document).on('click', '.quick-show-button', function (e){
   e.preventDefault();
-  var prodid = $(this).data('index');
+  var prodId = $(this).data('index');
 
   $.ajax({
       type: 'POST',
       url: get_single_product,
       data: {
-          product_id: prodid,
+          product_id: prodId,
           csrfmiddlewaretoken: window.CSRF_TOKEN,
           action: 'POST'
       },
       success: function (json) {
-        document.getElementById('quick-add-button').value = prodid;
+        document.getElementById('quick-add-button').value = prodId;
         document.getElementById('quick_title').innerHTML = json.title;
         document.getElementById('title_url').href = json.product_url;
         document.getElementById('quick_new_price').innerHTML = json.price;
@@ -198,41 +217,26 @@ $(document).on('click', '.quick-show-button', function (e){
   });
 });
 
-/*---Add product to the cart after press quick add button in product quick show popup---*/
-$(document).on('click', '#quick-add-button', function (e){
-  e.preventDefault();
-  var prodid = $('#quick-add-button').val();
-
-  $.ajax({
-      type: 'POST',
-      url: add_cart,
-      data: {
-          product_id: prodid,
-          quantity: $('#qty-quick-popup').val(),
-          csrfmiddlewaretoken: window.CSRF_TOKEN,
-          action: 'POST'
-      },
-      success: function (json) {
-        document.getElementById('cart_icon_count').innerHTML = json.qty;
-        handleAlerts('alert-pop-up', 'success', 'Додано до кошику');
-      },
-      error: function(xhr, errmsg, err) {
-        handleAlerts('alert-pop-up', 'danger', 'ой... щось пішло не так');
-      }
-  });
-});
-
 
 /*---Add product to the cart after press TO CART В ПРОПОЗИЦІЇ ТИЖНЯ---*/
-$(document).on('click', '.quick-add-button', function (e){
+$(document).on('click', '.quick-add-button-offer-banner', function (e){
       e.preventDefault();
-      var prodid = $(this).data('index');
+      var prodId = $(this).data('index');
+      var bannerAddDiv = $('.addto_cart_btn[data-index="'+ prodId +'"]');
+      var weekOfferAddBtn = $('#week-offer-button[data-index="'+ prodId +'"]')
+
+      weekOfferAddBtn.prop("disabled", true);
+      bannerAddDiv.fadeOut(300);
+      setTimeout(()=>{
+          weekOfferAddBtn.prop("disabled", false);
+      }, 600)
+      bannerAddDiv.fadeIn(300);
 
       $.ajax({
           type: 'POST',
           url: add_cart,
           data: {
-              product_id: prodid,
+              product_id: prodId,
               quantity: 1,
               csrfmiddlewaretoken: window.CSRF_TOKEN,
               action: 'POST'

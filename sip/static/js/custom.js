@@ -1,19 +1,175 @@
 /*---Increment or decrement product quantity in product details---*/
-function incrementProdDetail() {
-      document.getElementById('qty').stepUp();
-   }
-function decrementProdDetail() {
-  document.getElementById('qty').stepDown();
-};
+const plusBtn = $('#incrementProdDetail');
+const minusBtn = $('#decrementProdDetail');
+const addBtn = $('#add-button');
+const qty = $('#qty');
+const qtyDiv = $("#prod_detail_quantity");
+const min = parseInt(qty.attr('min'));
+const max = parseInt(qty.attr('max'));
+
+/*---Decrement---*/
+$(document).ready(function(){
+    minusBtn.click(function(){
+        plusBtn.prop("disabled", false);
+
+        if (qty.val() == min) {
+            minusBtn.prop("disabled", true);
+        } else {
+            minusBtn.prop("disabled", true);
+            qtyDiv.fadeOut(300);
+
+            setTimeout(()=>{
+                qty.val(function(i, oldVal) {return --oldVal});
+                minusBtn.prop("disabled", false)
+        }, 600)
+
+            qtyDiv.fadeIn(300);
+        }
+	});
+});
+
+
+/*---Increment---*/
+$(document).ready(function(){
+    plusBtn.click(function(){
+         minusBtn.prop("disabled", false);
+
+        if (qty.val() >= max) {
+            plusBtn.prop("disabled", true);
+        } else {
+            plusBtn.prop("disabled", true);
+            qtyDiv.fadeOut(300);
+
+            setTimeout(()=>{
+                qty.val(function(i, oldVal) {return ++oldVal});
+                plusBtn.prop("disabled", false)
+        }, 600)
+
+            qtyDiv.fadeIn(300);
+        }
+	});
+});
+
+
+/*---Add product to the cart after press Add button in product details page---*/
+$(document).on('click', '#add-button', function (e){
+  e.preventDefault();
+  var prodId = $('#add-button').val();
+
+  addBtn.prop("disabled", true);
+  qtyDiv.fadeOut(300);
+
+  setTimeout(()=>{
+        addBtn.prop("disabled", false);
+  }, 600)
+
+  qtyDiv.fadeIn(300);
+
+  $.ajax({
+      type: 'POST',
+      url: add_cart,
+      data: {
+          product_id: prodId,
+          quantity: $('#qty').val(),
+          csrfmiddlewaretoken: window.CSRF_TOKEN,
+          action: 'POST'
+      },
+      success: function (json) {
+        document.getElementById('cart_icon_count').innerHTML = json.qty;
+        handleAlerts('alert-prod-details', 'success', 'Додано до кошику');
+      },
+      error: function(xhr, errmsg, err) {
+        handleAlerts('alert-prod-details', 'danger', 'ой... щось пішло не так');
+      }
+  });
+});
+
 
 
 /*---Increment or decrement product quantity in product quick show popup---*/
-function incrementQuickPopup() {
-      document.getElementById('qty-quick-popup').stepUp();
-   }
-function decrementQuickPopup() {
-  document.getElementById('qty-quick-popup').stepDown();
-};
+const plusBtnPopup = $('#incrementQuickPopup');
+const minusBtnPopup = $('#decrementQuickPopup');
+const addBtnPopup = $('#quick-add-button');
+const qtyPopup = $('#qty-quick-popup');
+const qtyDivPopup = $("#modal-add-to-cart");
+const minPopup = parseInt(qtyPopup.attr('min'));
+const maxPopup = parseInt(qtyPopup.attr('max'));
+
+/*---Decrement---*/
+$(document).ready(function(){
+    minusBtnPopup.click(function(){
+        if (qtyPopup.val() == minPopup) {
+            minusBtnPopup.prop("disabled", true);
+        } else {
+            minusBtnPopup.prop("disabled", true);
+            qtyDivPopup.fadeOut(300);
+
+            setTimeout(()=>{
+                qtyPopup.val(function(i, oldVal) {return --oldVal});
+                minusBtnPopup.prop("disabled", false)
+        }, 600)
+
+            qtyDivPopup.fadeIn(300);
+        }
+	});
+});
+
+
+/*---Increment---*/
+$(document).ready(function(){
+    plusBtnPopup.click(function(){
+         minusBtnPopup.prop("disabled", false);
+
+        if (qtyPopup.val() >= max) {
+            plusBtnPopup.prop("disabled", true);
+        } else {
+            plusBtnPopup.prop("disabled", true);
+            qtyDivPopup.fadeOut(300);
+
+            setTimeout(()=>{
+                qtyPopup.val(function(i, oldVal) {return ++oldVal});
+                plusBtnPopup.prop("disabled", false)
+        }, 600)
+
+            qtyDivPopup.fadeIn(300);
+        }
+	});
+});
+
+
+/*---Add product to the cart after press quick add button in product quick show popup---*/
+$(document).on('click', '#quick-add-button', function (e){
+  e.preventDefault();
+  var prodId = $('#quick-add-button').val();
+
+  addBtnPopup.prop("disabled", true);
+  qtyDivPopup.fadeOut(300);
+
+  setTimeout(()=>{
+        addBtnPopup.prop("disabled", false);
+  }, 600)
+
+  qtyDivPopup.fadeIn(300);
+
+  $.ajax({
+      type: 'POST',
+      url: add_cart,
+      data: {
+          product_id: prodId,
+          quantity: $('#qty-quick-popup').val(),
+          csrfmiddlewaretoken: window.CSRF_TOKEN,
+          action: 'POST'
+      },
+      success: function (json) {
+        document.getElementById('cart_icon_count').innerHTML = json.qty;
+        handleAlerts('alert-pop-up', 'success', 'Додано до кошику');
+      },
+      error: function(xhr, errmsg, err) {
+        handleAlerts('alert-pop-up', 'danger', 'ой... щось пішло не так');
+      }
+  });
+});
+
 
 
 /*---Subscribe user---*/
@@ -138,52 +294,7 @@ $(document).on('click', '#ajax_review', function (e){
   });
 });
 
-
-/*--- Show temporary flash message with 3 seconds timeout ---*/
-function handleAlerts(alertId, type, text) {
-  const alertBox = document.getElementById(alertId);
-  alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
-                              ${text}
-                            </div>`
-  setTimeout(()=>{
-      alertBox.innerHTML = ''
-  }, 3000)
-};
-
-/*--- Show standing flash message ---*/
-function fixAlerts(alertId, type, text) {
-  const alertBox = document.getElementById(alertId);
-  alertBox.innerHTML = `<div class="alert alert-${type} alert-rating" role="alert">
-                              ${text}
-                            </div>`
-};
-
-
-/*--- Show temporary flash message with 9 seconds timeout for post comments ---*/
-function handleCommentAlerts(alertId, type, text) {
-  const alertBox = document.getElementById(alertId);
-  alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
-                              ${text}
-                            </div>`
-  setTimeout(()=>{
-      alertBox.innerHTML = ''
-  }, 9000)
-};
-
-
-/*--- Show temporary flash message with 9 seconds timeout for product reviews ---*/
-function handleReviewAlerts(alertId, type, text) {
-  const alertBox = document.getElementById(alertId);
-  alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
-                              ${text}
-                            </div>`
-  setTimeout(()=>{
-      alertBox.innerHTML = ''
-  }, 9000)
-};
-
-
-///*--- Show more comments ---*/
+/*--- Show more comments ---*/
 $(document).ready(function() {
     let visible = 0
     $('#show-more-comments').on('click', function (){
@@ -320,34 +431,45 @@ $('.link-to-reviews').click(function(){
 });
 
 
+/*--- Show temporary flash message with 3 seconds timeout ---*/
+function handleAlerts(alertId, type, text) {
+  const alertBox = document.getElementById(alertId);
+  alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
+                              ${text}
+                            </div>`
+  setTimeout(()=>{
+      alertBox.innerHTML = ''
+  }, 3000)
+};
+
+/*--- Show standing flash message ---*/
+function fixAlerts(alertId, type, text) {
+  const alertBox = document.getElementById(alertId);
+  alertBox.innerHTML = `<div class="alert alert-${type} alert-rating" role="alert">
+                              ${text}
+                            </div>`
+};
 
 
+/*--- Show temporary flash message with 9 seconds timeout for post comments ---*/
+function handleCommentAlerts(alertId, type, text) {
+  const alertBox = document.getElementById(alertId);
+  alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
+                              ${text}
+                            </div>`
+  setTimeout(()=>{
+      alertBox.innerHTML = ''
+  }, 9000)
+};
 
 
-
-
-
-
-///*---Fade message---*/
-//setTimeout(function(){
-//    $('#messages-list').fadeOut('slow')
-//}, 3000)
-//
-//
-///*---Fade out message alerts---*/
-//function fade_alerts() {
-//    alerts = document.getElementsByClassName("alert msg");
-//        var i = alerts.length;
-//        for (let elem of alerts) {
-//            i--;
-//            time = 3250+(1000*i);
-//            setTimeout(function() {
-//                $(elem).fadeOut("slow");
-//            }, time);
-//        }
-//}
-//
-//// call fade out after DOMContentLoaded
-//window.addEventListener('DOMContentLoaded', (event) => {
-//    fade_alerts();
-//});
+/*--- Show temporary flash message with 9 seconds timeout for product reviews ---*/
+function handleReviewAlerts(alertId, type, text) {
+  const alertBox = document.getElementById(alertId);
+  alertBox.innerHTML = `<div class="alert alert-${type}" role="alert">
+                              ${text}
+                            </div>`
+  setTimeout(()=>{
+      alertBox.innerHTML = ''
+  }, 9000)
+};

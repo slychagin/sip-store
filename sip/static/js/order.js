@@ -2,7 +2,7 @@
 $(document).on('change', '#delivery-method', function (e){
   e.preventDefault();
 
-  let method = $('#delivery-method option:selected').val()
+  let method = $('#delivery-method option:selected').val();
 
   let city = document.getElementById('city-address');
   let street = document.getElementById('street-address');

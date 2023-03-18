@@ -1,22 +1,22 @@
 /*---Add product to the wishlist after press HEART button---*/
 $(document).on('click', '.add-wishlist-button', function (e){
   e.preventDefault();
-  var prodid = $(this).data('index');
-  var heartBtn = $('.add-wishlist-button[data-index="'+ prodid +'"]');
+  var prodId = $(this).data('index');
+  var heartBtn = $('.add-wishlist-button[data-index="'+ prodId +'"]');
 
   $.ajax({
       type: 'POST',
       url: add_wishlist,
       data: {
-          product_id: prodid,
+          product_id: prodId,
           csrfmiddlewaretoken: window.CSRF_TOKEN,
           action: 'POST'
       },
       success: function (json) {
         document.getElementById('wishlist_icon_count').innerHTML = json.qty;
-        heartBtn.addClass('delete-wishlist-button');
         heartBtn.removeClass('add-wishlist-button');
-//        handleAlerts('alert-home', 'success', 'Додано до обраного');
+        heartBtn.addClass('delete-wishlist-button');
+        handleAlerts('alert-home', 'success', 'Додано до обраного');
       },
       error: function(xhr, errmsg, err) {
         handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
@@ -28,14 +28,14 @@ $(document).on('click', '.add-wishlist-button', function (e){
 /*---Delete product from the wishlist after press HEART button---*/
 $(document).on('click', '.delete-wishlist-button', function (e){
   e.preventDefault();
-  var prodid = $(this).data('index');
-  var heartBtn = $('.delete-wishlist-button[data-index="'+ prodid +'"]');
+  var prodId = $(this).data('index');
+  var heartBtn = $('.delete-wishlist-button[data-index="'+ prodId +'"]');
 
   $.ajax({
       type: 'POST',
       url: wishlist_delete,
       data: {
-          product_id: prodid,
+          product_id: prodId,
           csrfmiddlewaretoken: window.CSRF_TOKEN,
           action: 'POST'
       },
@@ -43,7 +43,7 @@ $(document).on('click', '.delete-wishlist-button', function (e){
         document.getElementById('wishlist_icon_count').innerHTML = json.qty;
         heartBtn.removeClass('delete-wishlist-button');
         heartBtn.addClass('add-wishlist-button');
-//        handleAlerts('alert-home', 'success', 'Видалено з обраного');
+        handleAlerts('alert-home', 'success', 'Видалено з обраного');
       },
       error: function(xhr, errmsg, err) {
         handleAlerts('alert-home', 'danger', 'ой... щось пішло не так');
@@ -52,17 +52,17 @@ $(document).on('click', '.delete-wishlist-button', function (e){
 });
 
 
-/*--- Add product to the wishlist after press Add/Delete button in product details ---*/
+/*--- Add product to the wishlist after press ADD/DELETE button in product details ---*/
 $(document).on('click', '.add-wish-btn', function (e){
   e.preventDefault();
-  var prodid = $(this).data('index');
-  var element = $('.add-wish-btn[data-index="'+ prodid +'"]');
+  var prodId = $(this).data('index');
+  var element = $('.add-wish-btn[data-index="'+ prodId +'"]');
 
   $.ajax({
       type: 'POST',
       url: add_wishlist,
       data: {
-          product_id: prodid,
+          product_id: prodId,
           csrfmiddlewaretoken: window.CSRF_TOKEN,
           action: 'POST'
       },
@@ -78,17 +78,17 @@ $(document).on('click', '.add-wish-btn', function (e){
 });
 
 
-/*---Delete product from the wishlist after press Add/Delete button in product details ---*/
+/*---Delete product from the wishlist after press ADD/DELETE button in product details ---*/
 $(document).on('click', '.del-wish-btn', function (e){
   e.preventDefault();
-  var prodid = $(this).data('index');
-  var element = $('.del-wish-btn[data-index="'+ prodid +'"]');
+  var prodId = $(this).data('index');
+  var element = $('.del-wish-btn[data-index="'+ prodId +'"]');
 
   $.ajax({
       type: 'POST',
       url: wishlist_delete,
       data: {
-          product_id: prodid,
+          product_id: prodId,
           csrfmiddlewaretoken: window.CSRF_TOKEN,
           action: 'POST'
       },
@@ -104,7 +104,7 @@ $(document).on('click', '.del-wish-btn', function (e){
 });
 
 
-/*--- Change button name when product was added to wishlist ---*/
+/*--- Change button name in product details when product was added to wishlist ---*/
 function toggleText(button_id) {
    var wishBtn = document.getElementById(button_id);
    if (wishBtn.firstChild.data == "+ Додати до обраного")
@@ -120,16 +120,25 @@ function toggleText(button_id) {
 }
 
 
-/*---Add product to the cart after press Add button in the wishlist---*/
+/*---Add product to the cart after press ADD button in the wishlist---*/
 $(document).on('click', '#wish-add-button', function (e){
   e.preventDefault();
-  var prodid = $(this).data('index');
+  var prodId = $(this).data('index');
+  var wishAddDiv = $(`#${prodId}wish-add-cart`);
+  var wishAddBtn = $('#wish-add-button[data-index="'+ prodId +'"]')
+
+  wishAddBtn.prop("disabled", true);
+  wishAddDiv.fadeOut(300);
+  setTimeout(()=>{
+        wishAddBtn.prop("disabled", false);
+  }, 600)
+  wishAddDiv.fadeIn(300);
 
   $.ajax({
       type: 'POST',
       url: add_cart,
       data: {
-          product_id: prodid,
+          product_id: prodId,
           quantity: 1,
           csrfmiddlewaretoken: window.CSRF_TOKEN,
           action: 'POST'
@@ -139,7 +148,7 @@ $(document).on('click', '#wish-add-button', function (e){
         handleAlerts('alert-wish', 'success', 'Додано до кошику');
       },
       error: function(xhr, errmsg, err) {
-        andleAlerts('alert-wish', 'danger', 'ой... щось пішло не так');
+        handleAlerts('alert-wish', 'danger', 'ой... щось пішло не так');
       }
   });
 });
@@ -148,17 +157,23 @@ $(document).on('click', '#wish-add-button', function (e){
 /*---Delete product from the wishlist by press X icon---*/
 $(document).on('click', '#wish-delete-button', function (e){
   e.preventDefault();
-  var prodid = $(this).data('index');
+  var prodId = $(this).data('index');
+  var spinnerBox = $(`#${prodId}spinner-wish-box`);
+
+  spinnerBox.removeClass('not-visible');
+  
   $.ajax({
       type: 'POST',
       url: wishlist_delete,
       data: {
-          product_id: prodid,
+          product_id: prodId,
           csrfmiddlewaretoken: window.CSRF_TOKEN,
           action: 'POST'
       },
       success: function (json) {
-        $('.product-wishlist-item[data-index="'+ prodid +'"]').remove();
+      setTimeout(()=>{
+        $('.product-wishlist-item[data-index="'+ prodId +'"]').remove();
+        }, 500);
         document.getElementById('wishlist_icon_count').innerHTML = json.qty;
       },
       error: function(xhr, errmsg, err) {}

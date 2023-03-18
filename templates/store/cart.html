@@ -59,7 +59,12 @@
                                     {% for item in basket %}
                                     {% with product=item.product %}
                                         <tr data-index="{{ product.id }}" class="product-item">
-                                           <td class="product_remove"><a type="button" id="delete-button" class="delete-button" data-index="{{ product.id }}"><i class="fa fa-trash-o"></i></a></td>
+                                           <td class="product_remove">
+                                               <div id="{{ product.id }}spinner-cart-box" class="not-visible">
+                                                   <div class="spinner-border" role="status"></div>
+                                               </div>
+                                               <a type="button" id="delete-button" class="delete-button" data-index="{{ product.id }}"><i class="fa fa-trash-o"></i></a>
+                                           </td>
                                             <td class="product_thumb"><a href="{{ product.get_url }}">
                                                 <img src="{{ product.product_image.url }}" alt="Зображення товару"></a>
                                             </td>
@@ -67,13 +72,12 @@
                                             <td class="product-price">{{ product.price }} ₴</td>
 
                                             <td class="product_quantity">
-                                                <div class="quantity_cart_btn">
-                                                   <button class="quantity_btn_cart bg-c button-minus" type="button" id="button-minus"
+                                                <div class="quantity_cart_btn" id="{{ product.id }}quantity-cart">
+                                                   <button class="quantity_btn_cart bg-c button-minus" type="button" id="{{ product.id }}button-minus"
                                                    data-index="{{ product.id }}">-</button>
                                                    <input type="number" min="1" max="100" value="{{ item.qty }}" id="{{ product.id }}item-qty" readonly class="raz input-quantity">
                                                     <button class="quantity_btn_cart bg-c button-plus" type="button" id="{{ product.id }}button-plus"
                                                    data-index="{{ product.id }}">+</button>
-
                                                </div>
                                             </td>
 

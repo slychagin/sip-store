@@ -61,6 +61,9 @@
                                     {% with product=item.product %}
                                         <tr data-index="{{ product.id }}" class="product-wishlist-item">
                                            <td class="product_remove">
+                                               <div id="{{ product.id }}spinner-wish-box" class="not-visible">
+                                                   <div class="spinner-border" role="status"></div>
+                                               </div>
                                                <a type="button" id="wish-delete-button" data-index="{{ product.id }}">X</a>
                                            </td>
                                             <td class="product_thumb"><a href="{{ product.get_url }}">
@@ -70,13 +73,17 @@
                                             <td class="product-price">{{ product.price }} ₴</td>
                                             <td class="product_quantity">У наявності</td>
                                             <td class="product_total">
-                                                <a type="button" id="wish-add-button" data-index="{{ product.id }}">В кошик</a>
+                                                <div id="{{ product.id }}wish-add-cart">
+                                                    <a type="button" id="wish-add-button" data-index="{{ product.id }}">В кошик</a>
+                                                </div>
                                             </td>
                                         </tr>
+
                                     {% endwith %}
                                     {% endfor %}
 
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -87,4 +94,7 @@
     </div>
     <!--wishlist area end -->
 {% endif %}
+<!--fix flash alert in bottom of the screen-->
+<div class="alert-box-home" id="alert-wish"></div>
+
 {% endblock %}

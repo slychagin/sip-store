@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="action_links">
                                     <ul>
-                                        <li class="add_to_cart">
+                                        <li>
                                             <a
                                               type="button"
                                               class="quick-add-button"
@@ -82,6 +82,9 @@
                                             >
                                               <span class="lnr lnr-cart"></span>
                                             </a>
+                                        </li>
+                                        <li class="spinner-cart-box not-visible" data-index="{{ product.id }}">
+                                            <div class="spinner-border" role="status"></div>
                                         </li>
                                         <li class="quick_button">
                                             <a
@@ -163,6 +166,9 @@
                                               class="quick-add-button"
                                               data-index="{{ product.id }}">В кошик
                                             </a>
+                                        </li>
+                                        <li class="spinner-cart-box not-visible" data-index="{{ product.id }}">
+                                            <div class="spinner-border big-spinner" role="status"></div>
                                         </li>
                                         <li class="quick_button">
                                             <a

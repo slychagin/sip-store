@@ -138,12 +138,12 @@ class ReviewRatingAdminForm(forms.ModelForm):
 class ProductsSortForm(forms.Form):
     """Sorting products by selected option in the Store page"""
     CHOICES = (
-        (DEFAULT := 'id', _('сортувати')),
-        (ID := 'id', _('за замовчуванням')),
-        (POPULAR := '-count_orders', _('за популярністю')),
-        (BY_RATING := 'rating', _('за рейтингом')),
-        (LOW_PRICE := 'price', _('від дешевих до дорогих')),
-        (HIGH_PRICE := '-price', _('від дорогих до дешевих'))
+        ('id', _('сортувати')),
+        ('pk', _('за замовчуванням')),
+        ('-count_orders', _('за популярністю')),
+        ('rating', _('за рейтингом')),
+        ('price', _('від дешевих до дорогих')),
+        ('-price', _('від дорогих до дешевих'))
     )
     ordering = forms.ChoiceField(choices=CHOICES, label='')
 

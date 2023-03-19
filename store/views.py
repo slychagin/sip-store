@@ -49,8 +49,9 @@ class StorePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        ordering = self.request.GET.get('ordering', None)
         context['product_count'] = len(context['products'])
-        context['form'] = ProductsSortForm()
+        context['form'] = ProductsSortForm(initial={'ordering': f'{ordering}'})
         return context
 
 

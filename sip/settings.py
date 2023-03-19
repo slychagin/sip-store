@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'category',
     'ckeditor',
     'ckeditor_uploader',
+    'contacts',
     'orders',
     'store',
     'sales',
@@ -187,6 +188,9 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
+
+# Google API key for Google Maps
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 
 
 # WSGI + Nginx settings for embed_video

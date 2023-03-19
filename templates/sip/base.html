@@ -9,11 +9,7 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Favicon -->
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="{% static 'img/favicon.ico' %}"
-    />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}"/>
 
     <!-- CSS
     ========================= -->
@@ -109,6 +105,10 @@
     <script src="{% static 'js/tippy-bundle.umd.js' %}"></script>
     <!-- Plugins JS -->
     <script src="{% static 'js/plugins.js' %}"></script>
+    <!-- Map JS -->
+    <script src="{% static 'js/map.js' %}"></script>
+
+
 
     <!-- Main JS -->
     <script src="{% static 'js/main.js' %}"></script>
@@ -159,6 +159,32 @@
 
     <!-- Load datetime picker -->
     {{ form.media }}
+
+
+
+
+
+    <!-- Google Maps -->
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHIxv8jIqJOoWO-XS7j-g43uKKFC-bi2I&callback=initMap&language=uk&region=UA">
+    </script>
+
+    <script>
+        var map;
+        function setMarker(lat, long) {
+            var latlng = {lat: lat, lng: long}
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map
+            });
+        }
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 53.132330, lng: 23.159630},
+                zoom: 12
+            });
+        }
+    </script>
 
   </body>
   </html>

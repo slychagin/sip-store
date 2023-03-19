@@ -58,6 +58,7 @@
 
                                     {% for item in basket %}
                                     {% with product=item.product %}
+                                    {% if product.is_available %}
                                         <tr data-index="{{ product.id }}" class="product-item">
                                            <td class="product_remove">
                                                <div id="{{ product.id }}spinner-cart-box" class="not-visible">
@@ -83,6 +84,7 @@
 
                                             <td class="product_total" id="{{ product.id }}item_total">{{ item.total_price }} ₴</td>
                                         </tr>
+                                    {% endif %}
                                     {% endwith %}
                                     {% endfor %}
 

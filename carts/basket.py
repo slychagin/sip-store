@@ -1,9 +1,10 @@
 import copy
 
+from django.shortcuts import get_object_or_404
+
 from store.models import Product
 
 
-# TODO: Надо сделать, чтобы товары не отображались при переключении статуса товара в "недоступный"
 class Basket:
     """A base Basket class"""
 
@@ -13,6 +14,11 @@ class Basket:
         if 'basket' not in request.session:
             basket = self.session['basket'] = {}
         self.basket = basket
+
+        # Update prices in case they have changed
+        products = [get_object_or_404(Product, id=item) for item in self.basket]
+        for product in products:
+            self.basket[str(product.id)]['price'] = product.price
 
     def add(self, product, entered_quantity):
         """Add and update data to the session"""

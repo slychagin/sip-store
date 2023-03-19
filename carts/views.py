@@ -7,9 +7,6 @@ from carts.models import Coupon
 from store.models import Product
 
 
-# TODO: Если товары находятся в корзине и при этом обновились цены, то сумма не пересчитывается по новым ценам
-
-
 class CartPageView(TemplateView):
     """Render Cart page"""
     template_name = 'store/cart.html'
@@ -37,8 +34,6 @@ def add_cart(request):
 
 def plus_quantity(request):
     """Increase quantity by one after press plus button"""
-    # TODO: Сделать ограничение по количеству (не более 99)
-
     basket = Basket(request)
     if request.method == 'POST':
         product_id = int(request.POST.get('product_id'))

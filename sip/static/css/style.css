@@ -5468,12 +5468,21 @@ textarea:-ms-input-placeholder {
   text-align: center;
   background: #f8f8f8;
   position: relative;
-  margin-top: 50px;
-  padding: 70px 20px 80px;
+  margin-top: 0;
+  padding: 20px 20px 20px;
+  border: 1px solid #ededed;
 }
-
-.testimonial_content {
+@media only screen and (max-width: 767px) {
+  .single_testimonial {
   text-align: center;
+  background: #f8f8f8;
+  position: relative;
+  margin-top: 0px;
+  padding: 0px 20px 20px;
+}
+}
+.testimonial_content {
+  text-align: left;
 }
 .testimonial_content > p {
   font-size: 14px;
@@ -5493,7 +5502,11 @@ textarea:-ms-input-placeholder {
   display: inline-block;
 }
 .testimonial_content > a:hover {
-  color: #cf1f1f;
+  color: #fc8a35;
+}
+
+.sale_point_phone:hover {
+  color: #fc8a35;
 }
 
 .testimonial_icon_img {

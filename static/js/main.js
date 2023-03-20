@@ -8,7 +8,7 @@
 		$('[data-bgimg]').each(function () {
 			var bgImgUrl = $(this).data('bgimg');
 			$(this).css({
-				'background-image': 'url(' + bgImgUrl + ')', // + meaning concat
+				'background-image': 'url(' + bgImgUrl + ')',
 			});
 		});
     }

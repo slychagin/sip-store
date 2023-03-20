@@ -33,21 +33,25 @@
 <div class="contact_area">
     <div class="container">
         <div class="row">
+
             <div class="col-lg-6 col-md-6">
+
                <div class="contact_message content">
-                    <h3>contact us</h3>
-                     <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram anteposuerit litterarum formas human. qui sequitur mutationem consuetudium lectorum. Mirum est notare quam</p>
+                    <h3>Наші контакти</h3>
+                     <p>Claritas est etiam processus dynamicus</p>
                     <ul>
-                        <li><i class="fa fa-fax"></i>  Address : No 40 Baria Sreet 133/2 NewYork City</li>
+                        <li><i class="fa fa-fax"></i>  19702, вул.Шевченка 153, м.Золотоноша, Черкаська область</li>
                         <li><i class="fa fa-phone"></i> <a href="#">Infor@roadthemes.com</a></li>
                         <li><i class="fa fa-envelope-o"></i><a href="tel:0(1234)567890">0(1234) 567 890</a>  </li>
                     </ul>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6">
-               <div class="contact_message form">
+
+                <br>
+                <br>
+
+                <div class="contact_message form">
                     <h3>Tell us your project</h3>
-                    <form id="contact-form" method="POST"  action="assets/mail.php">
+                    <form id="contact-form" method="POST">
                         <p>
                            <label> Your Name (required)</label>
                             <input name="name" placeholder="Name *" type="text">
@@ -67,13 +71,60 @@
                         <button type="submit"> Send</button>
                         <p class="form-messege"></p>
                     </form>
+                </div>
 
+                <br>
+                <br>
+
+            </div>
+
+
+            <div class="col-lg-6 col-md-6">
+                <h3 style="margin-bottom: 1.5rem;
+                font-size: 21px;
+                font-weight: 500;
+                line-height: 20px;
+                margin-bottom: 20px;">
+                    Наші точки продажу
+                </h3>
+
+                <div style="overflow-y: auto; max-height: 828px;">
+                    {% for point in sale_points %}
+                    <div class="testimonial_area testimonial_about">
+                        <div class="testimonial_container">
+                            <div class="single_testimonial">
+<!--                                {% if point.image %}-->
+<!--                                <div class="testimonial_thumb">-->
+<!--                                    <a href="#"><img src="{{ point.image.url }}" alt="Точка продажу"></a>-->
+<!--                                </div>-->
+<!--                                {% endif %}-->
+                                <div class="testimonial_content">
+                                    <h5><b>{{ point.name }}</b></h5>
+                                    <p><i class="fa fa-map-marker"></i> {{ point.city }}, {{ point.street }}, {{point.house}} {{point.corpus}}</p>
+                                    <p><i class="fa fa-phone"></i>
+                                        <a href="tel:{{ point.mobile_phone }}" class="sale_point_phone">{{ point.mobile_phone }}</a>
+                                    </p>
+                                    <p><i class="fa fa-clock-o"></i> {{ point.schedule }}</p>
+                                    <p><i class="fa fa-envelope-o"></i> {{ point.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    {% endfor %}
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 
 <!--contact area end-->
+
+<!-- Google Maps -->
+<script
+   src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&v=weekly&language=uk&region=UA"
+   defer
+></script>
 
 {% endblock %}

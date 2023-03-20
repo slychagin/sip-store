@@ -28,6 +28,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['main_banner'] = MainBanner.objects.all()
         context['benefits'] = Benefits.objects.all()
         context['bestsellers'] = BestSellers.objects.\
             filter(product_1__is_available=True).\
@@ -50,7 +51,6 @@ class HomePageView(TemplateView):
         context['partners'] = Partners.objects.all()
         context['week_offer_banners'] = WeekOfferBanner.objects.\
             filter(product__is_available=True)
-        context['main_banner'] = MainBanner.objects.all()
         context['two_banners'] = TwoBanners.objects.all()
         context['offer_single_banner'] = OfferSingleBanner.objects.all()
         context['footer_banner'] = FooterBanner.objects.all()

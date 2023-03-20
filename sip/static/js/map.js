@@ -1,164 +1,44 @@
-//function initMap() {
-//    var mapProp = {
-//
-//    }
-//}
-//
-
-//var myCenter=new google.maps.LatLng(40.7065983,-74.0107104);
-//    function initMap()
-//    {
-//        var mapProp = {
-//            center:myCenter,
-//            scrollwheel: false,
-//            zoom:11,
-//            mapTypeId:google.maps.MapTypeId.ROADMAP
-//        };
-//        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-//        var marker=new google.maps.Marker({
-//            position:myCenter,
-//            map: map,
-//        });
-//
-//		var styles =  [
-//			{
-//				"stylers": [
-//					{
-//						"hue": "#C70909"
-//					},
-//					{
-//						"saturation": 10
-//					}
-//				]
-//			},
-//			{
-//				"featureType": "water",
-//				"stylers": [
-//					{
-//						"color": "#effefd"
-//					}
-//				]
-//			},
-//			{
-//				"featureType": "all",
-//				"elementType": "labels",
-//				"stylers": [
-//					{
-//						"visibility": "off"
-//					}
-//				]
-//			},
-//			{
-//				"featureType": "administrative",
-//				"elementType": "labels",
-//				"stylers": [
-//					{
-//						"visibility": "on"
-//					}
-//				]
-//			},
-//			{
-//				"featureType": "road",
-//				"elementType": "all",
-//				"stylers": [
-//					{
-//						"visibility": "off"
-//					}
-//				]
-//			},
-//			{
-//				"featureType": "transit",
-//				"elementType": "all",
-//				"stylers": [
-//					{
-//						"visibility": "off"
-//					}
-//				]
-//			}
-//		];
-//
-//        map.setOptions({styles: styles});
-//        marker.setMap(map);
-//    }
-//google.maps.event.addDomListener(window, 'load', initMap);
+/*--- Get data from server to show markers (sale points) ---*/
+$(document).ready(function(){
+$.ajax({
+      url: map_data,
+      method: 'GET',
+      success: function (data) {
+          initMap(data);
+      }
+  });
+});
 
 
+/*--- Initiates Google Map in the contacts page, and enables to specify parameters ---*/
+function initMap(data) {
 
+       const map = new google.maps.Map(document.getElementById('googleMap'), {
+          zoom: 10,
+          center: {lat: 49.56455965000153, lng: 32.04540037731745},
+       });
 
-//var myCenter=new google.maps.LatLng(40.7065983,-74.0107104);
-//    function initialize()
-//    {
-//        var mapProp = {
-//            center:myCenter,
-//            scrollwheel: false,
-//            zoom:11,
-//            mapTypeId:google.maps.MapTypeId.ROADMAP
-//        };
-//        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-//        var marker=new google.maps.Marker({
-//            position:myCenter,
-//            map: map,
-//        });
-//
-//		var styles =  [
-//			{
-//				"stylers": [
-//					{
-//						"hue": "#C70909"
-//					},
-//					{
-//						"saturation": 10
-//					}
-//				]
-//			},
-//			{
-//				"featureType": "water",
-//				"stylers": [
-//					{
-//						"color": "#effefd"
-//					}
-//				]
-//			},
-//			{
-//				"featureType": "all",
-//				"elementType": "labels",
-//				"stylers": [
-//					{
-//						"visibility": "off"
-//					}
-//				]
-//			},
-//			{
-//				"featureType": "administrative",
-//				"elementType": "labels",
-//				"stylers": [
-//					{
-//						"visibility": "on"
-//					}
-//				]
-//			},
-//			{
-//				"featureType": "road",
-//				"elementType": "all",
-//				"stylers": [
-//					{
-//						"visibility": "off"
-//					}
-//				]
-//			},
-//			{
-//				"featureType": "transit",
-//				"elementType": "all",
-//				"stylers": [
-//					{
-//						"visibility": "off"
-//					}
-//				]
-//			}
-//		];
-//
-//        map.setOptions({styles: styles});
-//        marker.setMap(map);
-//    }
-//google.maps.event.addDomListener(window, 'load', initialize);
+       var info = new google.maps.InfoWindow({
+        content: 'Точка'
+       });
 
+       var markers = data?.map((i) => {
+            var marker = new google.maps.Marker({
+                position: { lat: parseFloat(i.latitude), lng: parseFloat(i.longitude)},
+                map: map,
+            });
+
+            var info = new google.maps.InfoWindow({
+                content:
+                `<h4>${i.name}</h4>
+                 <p>${i.city}, ${i.street}, ${i.house} ${i.corpus}</p>
+                 <p>${i.schedule}</p>
+                `
+            });
+            marker.addListener('click', function() {
+                info.open(map, marker);
+            })
+
+        });
+     }
+window.initMap = initMap;

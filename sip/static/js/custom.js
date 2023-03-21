@@ -424,6 +424,37 @@ $(document).ready(function() {
 });
 
 
+/*--- Handle Contact form ---*/
+$(document).on('click', '#ajax_contact', function (e){
+  e.preventDefault();
+  var form_id = $('#contact-form');
+
+  $.ajax({
+      type: 'POST',
+      data: form_id.serialize(),
+      dataType: 'json',
+      header: window.CSRF_TOKEN,
+
+      success: function (data) {
+        var success = data['success']
+
+        if (success) {
+            form_id.trigger("reset");
+            form_id.replaceWith(data['html']);
+            $("#contact-form-title").hide();
+            handleCommentAlerts('alert-contact-form', 'success',
+            "Дякуємо за Ваші побажання!<br/>Ми обов'язково їх врахуємо." );
+        } else {
+            form_id.replaceWith(data['html']);
+        }
+      },
+      error: function(xhr, errmsg, err) {
+        handleAlerts('alert-contact-form', 'danger', 'ой... щось пішло не так');
+      }
+  });
+});
+
+
 /*--- Link to review tab by pressing rating stars in product details ---*/
 $('.link-to-reviews').click(function(){
     $('html, body').animate({ scrollTop:$("#reviews-tab").offset().top}, 500);

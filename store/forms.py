@@ -136,7 +136,10 @@ class ReviewRatingAdminForm(forms.ModelForm):
 
 
 class ProductsSortForm(forms.Form):
-    """Sorting products by selected option in the Store page"""
+    """
+    Create form with select widget for sorting
+    products by selected option in the Store page
+    """
     CHOICES = (
         ('id', _('сортувати')),
         ('pk', _('за замовчуванням')),

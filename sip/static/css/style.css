@@ -5478,7 +5478,7 @@ textarea:-ms-input-placeholder {
   background: #f8f8f8;
   position: relative;
   margin-top: 0px;
-  padding: 0px 20px 20px;
+  padding: 20px 20px 20px;
 }
 }
 .testimonial_content {
@@ -8393,6 +8393,9 @@ textarea:-ms-input-placeholder {
 .contact_message button:hover {
   background: #fc8a35;
 }
+.contact_message.content {
+    margin-bottom: 70px;
+  }
 @media only screen and (max-width: 767px) {
   .contact_message.content {
     margin-bottom: 52px;
@@ -8835,7 +8838,7 @@ textarea:-ms-input-placeholder {
 }
 @media only screen and (max-width: 767px) {
   .testimonial_about {
-    margin-top: 43px;
+    margin-top: 0;
   }
 }
 .testimonial_about .testimonial_content p {
@@ -12486,4 +12489,35 @@ color: red;
 .big-spinner {
  width: 2rem;
  height: 2rem;
+}
+
+
+/* Contact button */
+.contact_button {
+  border: none !important;
+  line-height: 36px;
+  background: #222222 !important;
+  font-weight: 500;
+  box-shadow: none;
+  color: #ffffff !important;
+  display: inline-block;
+  min-height: 45px;
+  max-width: 130px;
+  line-height: 45px;
+  padding: 0 22px;
+  text-transform: uppercase;
+  font-size: 13px;
+  border-radius: 3px;
+}
+.contact_button:hover {
+  background: #fc8a35 !important;
+}
+@media only screen and (max-width: 767px) {
+  .contact_button {
+    line-height: 38px;
+    height: 38px;
+    padding: 0 10px;
+    min-height: 30px;
+    margin-bottom: 50px;
+  }
 }

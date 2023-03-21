@@ -3,6 +3,58 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<!--Get data from server to show markers (sale points)-->
+<!--Initiates Google Map in the contacts page, and enables to specify parameters-->
+<script>
+$(document).ready(function(){
+$.ajax({
+      url: map_data,
+      method: 'GET',
+      success: function (data) {
+          initMap(data);
+      }
+  });
+});
+
+
+function initMap(data) {
+
+       if (window.innerWidth < 767) {
+            var mapZoom = 9;
+        } else {
+            var mapZoom = 10;
+        }
+
+       const map = new google.maps.Map(document.getElementById('googleMap'), {
+          zoom: mapZoom,
+          center: {lat: 49.56455965000153, lng: 32.04540037731745},
+       });
+
+       var markers = data?.map((i) => {
+            var marker = new google.maps.Marker({
+                position: { lat: parseFloat(i.latitude), lng: parseFloat(i.longitude)},
+                map: map,
+            });
+
+            var info = new google.maps.InfoWindow({
+                content:
+                `<h4>${i.name}</h4>
+                 <p>${i.city}, ${i.street}, ${i.house} ${i.corpus}</p>
+                 <p>${i.schedule}</p>
+                `
+            });
+            marker.addListener('click', function() {
+                info.open(map, marker);
+            })
+
+        });
+     }
+window.initMap = initMap;
+</script>
+
+
 <!--background banner area start-->
 {% if background_banner %}
     {% if background_banner.banner_url %}
@@ -33,51 +85,22 @@
 <div class="contact_area">
     <div class="container">
         <div class="row">
-
             <div class="col-lg-6 col-md-6">
-
                <div class="contact_message content">
                     <h3>Наші контакти</h3>
-                     <p>Claritas est etiam processus dynamicus</p>
                     <ul>
-                        <li><i class="fa fa-fax"></i>  19702, вул.Шевченка 153, м.Золотоноша, Черкаська область</li>
-                        <li><i class="fa fa-phone"></i> <a href="#">Infor@roadthemes.com</a></li>
-                        <li><i class="fa fa-envelope-o"></i><a href="tel:0(1234)567890">0(1234) 567 890</a>  </li>
+                        <li><i class="fa fa-map-marker" style="font-size:20px"></i>  19702, вул.Шевченка 153, м.Золотоноша, Черкаська область</li>
+                        <li><i class="fa fa-envelope-o"></i><a href="#">sil.patelnya@gmail.com</a></li>
+                        <li><i class="fa fa-phone"></i><a href="tel:+38 (093) 490-15-75">+38 (093) 490-15-75</a>  </li>
                     </ul>
                 </div>
 
-                <br>
-                <br>
-
-                <div class="contact_message form">
-                    <h3>Tell us your project</h3>
-                    <form id="contact-form" method="POST">
-                        <p>
-                           <label> Your Name (required)</label>
-                            <input name="name" placeholder="Name *" type="text">
-                        </p>
-                        <p>
-                           <label>  Your Email (required)</label>
-                            <input name="email" placeholder="Email *" type="email">
-                        </p>
-                        <p>
-                           <label>  Subject</label>
-                            <input name="subject" placeholder="Subject *" type="text">
-                        </p>
-                        <div class="contact_textarea">
-                            <label>  Your Message</label>
-                            <textarea placeholder="Message *" name="message"  class="form-control2" ></textarea>
-                        </div>
-                        <button type="submit"> Send</button>
-                        <p class="form-messege"></p>
-                    </form>
+                <div class="contact_message">
+                    <h3 id="contact-form-title">Напишіть нам Ваші побажання</h3>
+                    <div id="alert-contact-form"></div>
+                        {% crispy form %}
                 </div>
-
-                <br>
-                <br>
-
             </div>
-
 
             <div class="col-lg-6 col-md-6">
                 <h3 style="margin-bottom: 1.5rem;
@@ -88,16 +111,11 @@
                     Наші точки продажу
                 </h3>
 
-                <div style="overflow-y: auto; max-height: 828px;">
+                <div style="overflow-y: auto; max-height: 738px;">
                     {% for point in sale_points %}
                     <div class="testimonial_area testimonial_about">
                         <div class="testimonial_container">
                             <div class="single_testimonial">
-<!--                                {% if point.image %}-->
-<!--                                <div class="testimonial_thumb">-->
-<!--                                    <a href="#"><img src="{{ point.image.url }}" alt="Точка продажу"></a>-->
-<!--                                </div>-->
-<!--                                {% endif %}-->
                                 <div class="testimonial_content">
                                     <h5><b>{{ point.name }}</b></h5>
                                     <p><i class="fa fa-map-marker"></i> {{ point.city }}, {{ point.street }}, {{point.house}} {{point.corpus}}</p>
@@ -118,13 +136,12 @@
         </div>
     </div>
 </div>
-
 <!--contact area end-->
 
-<!-- Google Maps -->
+<!-- Google Maps-->
 <script
    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&v=weekly&language=uk&region=UA"
-   defer
+   defer async
 ></script>
 
 {% endblock %}

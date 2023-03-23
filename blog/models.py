@@ -54,7 +54,7 @@ class Post(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата змін'))
     post_category = models.ForeignKey(BlogCategory, related_name='post', on_delete=models.CASCADE, verbose_name=_('категорія'))
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True, verbose_name=_('теги'))
     related_posts_title = models.CharField(max_length=255, blank='Схожі пости', verbose_name=_('заголовок до схожих постів'))
     related_posts = models.ManyToManyField('self', related_name='+', symmetrical=False, blank=True, verbose_name=_('схожі пости'))
 
@@ -70,10 +70,12 @@ class Post(models.Model):
         """Get blog url to go to blog details page"""
         return reverse('post_details', args=[self.post_category.slug, self.pk])
 
+    @property
     def post_created_date(self):
         """Get just date from created date (without time)"""
         return self.created_date.date()
 
+    @property
     def recent_created_date(self):
         """Modified created date to format dd/mm/yyyy"""
         return self.created_date.date().strftime('%d/%m/%Y')

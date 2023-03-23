@@ -9,7 +9,8 @@ from store.models import Product
 class TestCartPageView(TestCase):
     """Tests CartPageView"""
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         """Create category, product and user objects"""
         User.objects.create(username='admin')
         Category.objects.create(category_name='chicken', slug='chicken')
@@ -25,10 +26,19 @@ class TestCartPageView(TestCase):
             product_name='amazing chicken', slug='amazing-chicken',
             price='120', product_image='good chicken', category_id=1
         )
+
+    def setUp(self):
+        """Add created in setUpTestData products to the basket"""
         self.client.post(
-            reverse('add_cart'), {'product_id': 1, 'quantity': 1, 'action': 'POST'}, xhr=True)
+            reverse('add_cart'),
+            {'product_id': 1, 'quantity': 1, 'action': 'POST'},
+            xhr=True
+        )
         self.client.post(
-            reverse('add_cart'), {'product_id': 2, 'quantity': 2, 'action': 'POST'}, xhr=True)
+            reverse('add_cart'),
+            {'product_id': 2, 'quantity': 2, 'action': 'POST'},
+            xhr=True
+        )
 
     def test_cart_url(self):
         """Test cart page response status"""

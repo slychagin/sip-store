@@ -87,14 +87,14 @@ class ProductGallery(models.Model):
 class ProductInfo(models.Model):
     """Create ProductInfo model in the database"""
     objects = models.Manager()
-    description = models.TextField(blank=True, verbose_name=_('инфо'))
+    description = models.TextField(blank=True, verbose_name=_('інфо'))
 
     class Meta:
-        verbose_name = _('инфо про товар')
-        verbose_name_plural = _('инфо')
+        verbose_name = _('інфо про товар')
+        verbose_name_plural = _('інфо')
 
     def __str__(self):
-        return 'Інформація щодо товару'
+        return str(_('Інформація щодо товару'))
 
 
 def validate_rating(value):

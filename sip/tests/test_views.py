@@ -2,6 +2,7 @@ from importlib import import_module
 
 from django.conf import settings
 from django.http import HttpRequest
+from django.shortcuts import render
 from django.test import (
     TestCase,
     Client,
@@ -19,14 +20,14 @@ class HomePageTest(TestCase):
 
     def setUp(self):
         """Create category and product objects"""
-        self.c = Client()
+        self.client = Client()
         self.factory = RequestFactory()
         self.view = HomePageView()
 
-        self.category_data = Category.objects.create(category_name='chicken', slug='chicken')
-        self.product_data = Product.objects.create(
+        self.category = Category.objects.create(category_name='chicken', slug='chicken')
+        self.product = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price='120', product_image='good chicken', category_id=1
+            price='120', product_image='good chicken', category=self.category
         )
 
     def test_context_data_set_in_context(self):
@@ -36,40 +37,62 @@ class HomePageTest(TestCase):
 
         context = self.view.get_context_data()
         context_list = [
-            'benefits', 'bestsellers', 'new_products', 'popular_left',
-            'popular_center', 'popular_right', 'partners', 'week_offer_banners'
-                        ]
+            'main_banner', 'benefits', 'bestsellers', 'new_products', 'popular_left',
+            'popular_center', 'popular_right', 'partners', 'week_offer_banners',
+            'two_banners', 'offer_single_banner', 'footer_banner'
+        ]
         for item in context_list:
             self.assertIn(item, context)
 
     def test_url_allowed_hosts(self):
         """Test allowed hosts"""
-        response = self.c.get('/', HTTP_HOST='noaddress.com')
+        response = self.client.get('/', HTTP_HOST='noaddress.com')
         self.assertEqual(response.status_code, 400)
-        response = self.c.get('/', HTTP_HOST='my-domain.com')
+        response = self.client.get('/', HTTP_HOST='my-domain.com')
         self.assertEqual(response.status_code, 200)
 
     def test_category_url(self):
         """Test allowed category url"""
-        response = self.c.get(reverse('products_by_category', args=['chicken']))
+        response = self.client.get(reverse('products_by_category', args=['chicken']))
         self.assertEqual(response.status_code, 200)
 
     def test_product_detail_url(self):
         """Test allowed product detail url"""
-        response = self.c.get(reverse('product_details', args=['chicken', 'fitness-chicken']))
+        response = self.client.get(reverse('product_details', args=['chicken', 'fitness-chicken']))
         self.assertEqual(response.status_code, 200)
+
+    # def test_template(self):
+    #     """Test which template used"""
+    #     self.assertTemplateUsed(self.response, 'home.html')
 
 # TODO: AttributeError: 'NoneType' object has no attribute 'lower'
 
     # def test_homepage_html(self):
     #     """Test homepage html"""
-    #     request = HttpRequest()
-    #     engine = import_module(settings.SESSION_ENGINE)
-    #     request.session = engine.SessionStore()
-    #     self.view.setup(request)
-    #     response = self.view.dispatch(request)
+    #     request = self.client.get('/')
+    #     # engine = import_module(settings.SESSION_ENGINE)
+    #     # request.session = engine.SessionStore()
+    #     response = self.view.setup(request)
+    #     # response = self.view.dispatch(request)
     #     html = response.render().content.decode('utf8')
+    #     print(html)
+
+        #
+        # self.assertIn('<title>Сіль і Пательня</title>', html)
+        # self.assertTrue(html.startswith('\n\n<!DOCTYPE html>'))
+        # self.assertEqual(response.status_code, 200)
+
+    # def test_homepage_html(self):
+    #     """Test homepage html"""
+    #     request = HttpRequest()
+    #     # engine = import_module(settings.SESSION_ENGINE)
+    #     # request.session = engine.SessionStore()
+    #     self.view.setup(request)
+    #     # response = self.view.dispatch(request)
+    #     # html = response.render().content.decode('utf8')
     #
-    #     self.assertIn('<title>Сіль і Пательня</title>', html)
-    #     self.assertTrue(html.startswith('\n\n<!DOCTYPE html>'))
-    #     self.assertEqual(response.status_code, 200)
+    #     #
+    #     # self.assertIn('<title>Сіль і Пательня</title>', html)
+    #     # self.assertTrue(html.startswith('\n\n<!DOCTYPE html>'))
+    #     # self.assertEqual(response.status_code, 200)
+

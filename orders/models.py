@@ -27,21 +27,16 @@ class Order(models.Model):
     customer_name = models.CharField(max_length=100, verbose_name=_('ПІБ'))
     phone = PhoneNumberField(validators=[phone_number_regex], max_length=16, verbose_name=_('телефон'))
     email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
-
     city = models.CharField(max_length=50, verbose_name=_('місто'))
     street = models.CharField(max_length=50, verbose_name=_('вулиця'))
     house = models.CharField(max_length=10, verbose_name=_('будинок'))
     room = models.CharField(max_length=10, blank=True, verbose_name=_('квартира'))
-
     new_post_city = models.CharField(max_length=100, default='-', verbose_name=_('Місто Нової Пошти'))
     new_post_office = models.CharField(max_length=200, default='-', verbose_name=_('Відділення Нової Пошти'))
-
     delivery_date = models.DateField(blank=True, null=True, verbose_name=_('бажана дата доставки'))
     delivery_time = models.TimeField(blank=True, null=True, verbose_name=_('час доставки'))
-
     delivery_method = models.CharField(max_length=50, choices=DELIVERY_METHOD_CHOICES, default=COURIER1, verbose_name=_('спосіб доставки'))
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD_CHOICES, default=CASH, verbose_name=_('спосіб оплати'))
-
     order_note = models.TextField(max_length=255, blank=True, verbose_name=_('примітка до замовлення'))
     order_total = models.IntegerField(verbose_name=_('усього зі знижкою'))
     discount = models.IntegerField(verbose_name=_('знижка'))

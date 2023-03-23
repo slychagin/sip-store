@@ -6,9 +6,10 @@ from benefits.models import Benefits, Partners
 class BenefitsModelTest(TestCase):
     """Testing Benefits model"""
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         """Create Benefits object"""
-        self.benefits_data = Benefits.objects.create(
+        cls.benefits_data = Benefits.objects.create(
             title='title', description='description', image='image'
         )
 
@@ -22,43 +23,35 @@ class BenefitsModelTest(TestCase):
         data = self.benefits_data
         self.assertEqual(str(data), 'title')
 
-    def test_benefits_title_label(self):
-        """Test Benefits title verbose name"""
+    def test_benefits_fields_max_length(self):
+        """Test benefits fields max length"""
         data = self.benefits_data
-        field_label = data._meta.get_field('title').verbose_name
-        self.assertEqual(field_label, 'Заголовок')
+        title_max_length = data._meta.get_field('title').max_length
+        description_max_length = data._meta.get_field('description').max_length
 
-    def test_benefits_description_label(self):
-        """Test benefits description verbose name"""
-        data = self.benefits_data
-        field_label = data._meta.get_field('description').verbose_name
-        self.assertEqual(field_label, 'Опис')
+        self.assertEqual(title_max_length, 100)
+        self.assertEqual(description_max_length, 255)
 
-    def test_benefits_image_label(self):
-        """Test benefits image verbose name"""
+    def test_benefits_fields_label(self):
+        """Test Benefits fields verbose name"""
         data = self.benefits_data
-        field_label = data._meta.get_field('image').verbose_name
-        self.assertEqual(field_label, 'Фото переваги')
 
-    def test_benefits_title_max_length(self):
-        """Test benefits title max length"""
-        data = self.benefits_data
-        max_length = data._meta.get_field('title').max_length
-        self.assertEqual(max_length, 100)
+        title = data._meta.get_field('title').verbose_name
+        description = data._meta.get_field('description').verbose_name
+        image = data._meta.get_field('image').verbose_name
 
-    def test_benefits_description_max_length(self):
-        """Test benefits description max length"""
-        data = self.benefits_data
-        max_length = data._meta.get_field('description').max_length
-        self.assertEqual(max_length, 255)
+        self.assertEqual(title, 'заголовок')
+        self.assertEqual(description, 'опис')
+        self.assertEqual(image, 'фото переваги')
 
 
 class PartnersModelTest(TestCase):
     """Testing Partners model"""
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         """Create Partners object"""
-        self.partners_data = Partners.objects.create(title='title', image='image')
+        cls.partners_data = Partners.objects.create(title='title', image='image')
 
     def test_partners_model_entry(self):
         """Test Partners model data insertion/types/field attributes"""
@@ -66,24 +59,21 @@ class PartnersModelTest(TestCase):
         self.assertTrue(isinstance(data, Partners))
 
     def test_partners_model_name(self):
-        """Test Partners name"""
+        """Test Partners object name"""
         data = self.partners_data
         self.assertEqual(str(data), 'title')
 
-    def test_partners_title_label(self):
-        """Test Partners title verbose name"""
+    def test_partners_fields_max_length(self):
+        """Test partners fields max length"""
         data = self.partners_data
-        field_label = data._meta.get_field('title').verbose_name
-        self.assertEqual(field_label, 'Найменування партнеру')
+        title_max_length = data._meta.get_field('title').max_length
+        self.assertEqual(title_max_length, 100)
 
-    def test_partners_image_label(self):
-        """Test Partners image verbose name"""
+    def test_partners_fields_label(self):
+        """Test Partners fields verbose name"""
         data = self.partners_data
-        field_label = data._meta.get_field('image').verbose_name
-        self.assertEqual(field_label, 'Фото партнера')
+        title = data._meta.get_field('title').verbose_name
+        image = data._meta.get_field('image').verbose_name
 
-    def test_partners_title_max_length(self):
-        """Test partners title max length"""
-        data = self.partners_data
-        max_length = data._meta.get_field('title').max_length
-        self.assertEqual(max_length, 100)
+        self.assertEqual(title, 'найменування партнеру')
+        self.assertEqual(image, 'фото партнера')

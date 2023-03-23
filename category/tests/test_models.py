@@ -6,9 +6,10 @@ from category.models import Category
 class CategoryModelTest(TestCase):
     """Testing Category model"""
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         """Create Category object"""
-        self.category_data = Category.objects.create(category_name='chicken', slug='chicken')
+        cls.category_data = Category.objects.create(category_name='chicken', slug='chicken')
 
     def test_category_model_entry(self):
         """Test Category model data insertion/types/field attributes"""
@@ -18,45 +19,32 @@ class CategoryModelTest(TestCase):
     def test_category_model_name(self):
         """Test Category name"""
         data = self.category_data
-        self.assertEqual('chicken', str(data))
+        self.assertEqual(str(data), 'chicken')
 
-    def test_category_name_label(self):
-        """Test Category verbose name"""
-        data = self.category_data
-        field_label = data._meta.get_field('category_name').verbose_name
-        self.assertEqual(field_label, 'Найменування категорії')
-
-    def test_category_description_label(self):
-        """Test Category description verbose name"""
-        data = self.category_data
-        field_label = data._meta.get_field('description').verbose_name
-        self.assertEqual(field_label, 'Опис')
-
-    def test_category_image_label(self):
-        """Test Category image verbose name"""
-        data = self.category_data
-        field_label = data._meta.get_field('category_image').verbose_name
-        self.assertEqual(field_label, 'Фото категорії')
-
-    def test_category_name_max_length(self):
-        """Test category name max length"""
-        data = self.category_data
-        max_length = data._meta.get_field('category_name').max_length
-        self.assertEqual(max_length, 100)
-
-    def test_category_slug_max_length(self):
-        """Test category slug max length"""
-        data = self.category_data
-        max_length = data._meta.get_field('slug').max_length
-        self.assertEqual(max_length, 100)
-
-    def test_object_name_is_category_name(self):
-        """Test object name"""
-        data = self.category_data
-        expected_object_name = f'{data.category_name}'
-        self.assertEqual(expected_object_name, str(data))
-
-    def test_get_url(self):
+    def test_get_absolute_url(self):
         """Test absolute url for category object"""
         data = self.category_data
         self.assertEqual(data.get_url(), '/store/category/chicken/')
+
+    def test_category_fields_max_length(self):
+        """Test category fields max length"""
+        data = self.category_data
+        category_name_max_length = data._meta.get_field('category_name').max_length
+        slug_max_length = data._meta.get_field('slug').max_length
+
+        self.assertEqual(category_name_max_length, 100)
+        self.assertEqual(slug_max_length, 255)
+
+    def test_category_fields_label(self):
+        """Test Category fields verbose name"""
+        data = self.category_data
+
+        category_name = data._meta.get_field('category_name').verbose_name
+        slug = data._meta.get_field('slug').verbose_name
+        description = data._meta.get_field('description').verbose_name
+        category_image = data._meta.get_field('category_image').verbose_name
+
+        self.assertEqual(category_name, 'найменування категорії')
+        self.assertEqual(slug, 'написання в URL')
+        self.assertEqual(description, 'опис')
+        self.assertEqual(category_image, 'фото категорії')

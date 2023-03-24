@@ -26,19 +26,23 @@ class StorePageView(ListView):
     template_name = 'store/store.html'
     context_object_name = 'products'
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.object_list = Product.objects.filter(is_available=True)
+
     def get_queryset(self):
-        total_queryset = Product.objects.filter(is_available=True)
+        queryset = self.object_list
         ordering = self.get_ordering()
 
         if ordering == 'rating':
             prod_list = sorted(
-                [(product, product.average_review_rating()) for product in total_queryset],
+                [(product, product.average_review_rating()) for product in queryset],
                 key=lambda x: x[1],
                 reverse=True
             )
             queryset = [product[0] for product in prod_list]
         else:
-            queryset = total_queryset.order_by(ordering)
+            queryset = queryset.order_by(ordering)
         return queryset
 
     def get_ordering(self):
@@ -50,7 +54,7 @@ class StorePageView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ordering = self.request.GET.get('ordering', None)
-        context['product_count'] = len(context['products'])
+        context['product_count'] = 0 if self.object_list is None else len(context['products'])
         context['form'] = ProductsSortForm(initial={'ordering': f'{ordering}'})
         return context
 
@@ -64,17 +68,19 @@ class ProductsByCategoryListView(ListView):
         self.products = None
         self.categories = None
         self.category_slug = None
+        self.object_list = Product.objects.filter(category=self.categories, is_available=True)
 
     def get_queryset(self):
         """Return products by category"""
         self.categories = get_object_or_404(Category, slug=self.kwargs['category_slug'])
         self.products = Product.objects.filter(category=self.categories, is_available=True)
-        return self.products
+        self.object_list = self.products
+        return self.object_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = self.products
-        context['product_count'] = self.products.count()
+        context['products'] = self.object_list
+        context['product_count'] = 0 if self.object_list is None else self.object_list.count()
         return context
 
 

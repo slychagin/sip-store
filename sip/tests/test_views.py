@@ -1,8 +1,6 @@
 from importlib import import_module
 
 from django.conf import settings
-from django.http import HttpRequest
-from django.shortcuts import render
 from django.test import (
     TestCase,
     Client,
@@ -34,13 +32,14 @@ class HomePageTest(TestCase):
         """Tests HomePageView by setting contex data in context"""
         request = self.factory.get('/')
         self.view.setup(request)
-
         context = self.view.get_context_data()
+
         context_list = [
             'main_banner', 'benefits', 'bestsellers', 'new_products', 'popular_left',
             'popular_center', 'popular_right', 'partners', 'week_offer_banners',
             'two_banners', 'offer_single_banner', 'footer_banner'
         ]
+
         for item in context_list:
             self.assertIn(item, context)
 
@@ -61,38 +60,15 @@ class HomePageTest(TestCase):
         response = self.client.get(reverse('product_details', args=['chicken', 'fitness-chicken']))
         self.assertEqual(response.status_code, 200)
 
-    # def test_template(self):
-    #     """Test which template used"""
-    #     self.assertTemplateUsed(self.response, 'home.html')
+    def test_homepage_html(self):
+        """Test homepage html"""
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore()
+        self.view.setup(request)
+        response = self.view.dispatch(request)
+        html = response.render().content.decode('utf-8')
 
-# TODO: AttributeError: 'NoneType' object has no attribute 'lower'
-
-    # def test_homepage_html(self):
-    #     """Test homepage html"""
-    #     request = self.client.get('/')
-    #     # engine = import_module(settings.SESSION_ENGINE)
-    #     # request.session = engine.SessionStore()
-    #     response = self.view.setup(request)
-    #     # response = self.view.dispatch(request)
-    #     html = response.render().content.decode('utf8')
-    #     print(html)
-
-        #
-        # self.assertIn('<title>Сіль і Пательня</title>', html)
-        # self.assertTrue(html.startswith('\n\n<!DOCTYPE html>'))
-        # self.assertEqual(response.status_code, 200)
-
-    # def test_homepage_html(self):
-    #     """Test homepage html"""
-    #     request = HttpRequest()
-    #     # engine = import_module(settings.SESSION_ENGINE)
-    #     # request.session = engine.SessionStore()
-    #     self.view.setup(request)
-    #     # response = self.view.dispatch(request)
-    #     # html = response.render().content.decode('utf8')
-    #
-    #     #
-    #     # self.assertIn('<title>Сіль і Пательня</title>', html)
-    #     # self.assertTrue(html.startswith('\n\n<!DOCTYPE html>'))
-    #     # self.assertEqual(response.status_code, 200)
-
+        self.assertIn('<title>Сіль і Пательня</title>', html)
+        self.assertTrue(html.startswith('\n\n<!DOCTYPE html>'))
+        self.assertEqual(response.status_code, 200)

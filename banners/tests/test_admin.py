@@ -24,6 +24,7 @@ class BannersAdminTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """Create category, product and banners app objects"""
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',

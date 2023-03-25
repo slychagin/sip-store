@@ -28,7 +28,7 @@ class BasketTest(TestCase):
         )
 
     def setUp(self):
-        """Add created in setUpTestData products to the basket"""
+        """Create request and session"""
         self.request = self.factory
         self.engine = import_module(settings.SESSION_ENGINE)
         self.session = self.request.session = self.engine.SessionStore()

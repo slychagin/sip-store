@@ -28,6 +28,10 @@ class BlogPageView(ListView):
     context_object_name = 'posts'
     paginate_by = 9
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.object_list = self.queryset
+
 
 class PostsByCategoryListView(ListView):
     """Rendering posts by category in the blog page"""
@@ -164,7 +168,7 @@ def convert_to_localtime(utctime):
 
 
 def load_more_comments(request):
-    """Pass to ajax reviews for load by press Show more button"""
+    """Pass to ajax comments for load by press Show more button"""
     if request.POST.get('action') == 'POST':
         post_id = int(request.POST.get('post_id'))
         visible_comments = int(request.POST.get('visible_comments'))

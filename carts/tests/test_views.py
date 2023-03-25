@@ -1,7 +1,12 @@
+from importlib import import_module
+
+from django.conf import settings
 from django.contrib.auth.models import User
-from django.test import TestCase, Client
+from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse
 
+from carts.basket import Basket
+from carts.views import CartPageView
 from category.models import Category
 from store.models import Product
 
@@ -13,6 +18,9 @@ class CartPageViewTest(TestCase):
     def setUpTestData(cls):
         """Create category, product and user objects"""
         cls.client = Client()
+        cls.factory = RequestFactory()
+        cls.view = CartPageView()
+
         User.objects.create(username='admin')
         category = Category.objects.create(category_name='chicken', slug='chicken')
         cls.product_1 = Product.objects.create(
@@ -37,10 +45,44 @@ class CartPageViewTest(TestCase):
             xhr=True
         )
 
-    def test_cart_url(self):
-        """Test cart page response status"""
+    def test_cart_page_view_url_exists_at_desired_location(self):
+        """Tests that cart page view url exists at desired location"""
+        response = self.client.get('/cart/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_cart_page_view_url_accessible_by_name(self):
+        """Tests cart view url accessible by name"""
         response = self.client.get(reverse('cart'))
         self.assertEqual(response.status_code, 200)
+
+    def test_cart_page_view_uses_correct_template(self):
+        """Tests cart view uses correct template"""
+        response = self.client.get(reverse('cart'))
+        self.assertTemplateUsed(response, 'store/cart.html')
+
+    def test_cart_page_html(self):
+        """Test CartPage html"""
+        request = self.factory.get('/cart/')
+        engine = import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore()
+        self.view.setup(request)
+        response = self.view.dispatch(request)
+        html = response.render().content.decode('utf-8')
+
+        self.assertIn(str(self.product_1), html)
+        self.assertIn(str(self.product_2), html)
+        self.assertTrue(html.startswith('\n\n<!DOCTYPE html>'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_cart_page_view_context(self):
+        """Tests CartPageView context"""
+        request = self.factory.get('/cart/')
+        engine = import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore()
+        self.view.setup(request)
+        context = self.view.get_context_data()
+
+        self.assertIn('basket', context)
 
     def test_cart_add(self):
         """Test adding items to the cart"""

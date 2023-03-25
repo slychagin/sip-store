@@ -1,7 +1,6 @@
 import threading
 
 import requests
-from django.core.exceptions import ObjectDoesNotExist
 
 from orders.forms import OrderForm
 from telebot.models import TelegramSettings
@@ -21,7 +20,7 @@ def get_telegram_settings():
         query = api + token + method
 
         return {'chat_id': chat_id, 'query': query}
-    except ObjectDoesNotExist:
+    except IndexError:
         pass
 
 
@@ -54,9 +53,7 @@ def send_to_telegram_order_message(basket, order):
 
     # Get order details
     details = ''
-    for idx, item in enumerate(basket):
-        if idx == len([i for i in basket]):
-            details += f"{item['product']}  x  {item['qty']}"
+    for item in basket:
         details += f"{item['product']}  x  {item['qty']}\n"
 
     if order.delivery_method == 'COURIER_CHERKASY' or order.delivery_method == 'COURIER_ZOLOTONOSHA':
@@ -175,16 +172,6 @@ def send_to_telegram_moderate_updated_review_message():
 def telegram_sender(query, chat_id, message):
     """Send a message with order details to the admin telegram chat"""
     try:
-        send_request = requests.post(query, data={
-            'chat_id': chat_id,
-            'text': message
-        })
+        requests.post(query, data={'chat_id': chat_id, 'text': message})
     except:
         pass
-    finally:
-        if send_request.status_code != 200:
-            print('Ошибка отправки!')
-        elif send_request.status_code == 500:
-            print('Ошибка 500')
-        else:
-            pass

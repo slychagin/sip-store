@@ -21,7 +21,7 @@ class WeekOfferBannerModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price='100', product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category_id=category.id
         )
         cls.week_offer_banner = WeekOfferBanner.objects.create(
             title='banner', product_id=product.id, image_active='product_active', image='product'
@@ -69,7 +69,7 @@ class MainBannerModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price='100', product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category_id=category.id
         )
         cls.main_banner = MainBanner.objects.create(
             image='image', banner_url=product.get_url()
@@ -124,7 +124,7 @@ class TwoBannersModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price='100', product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category_id=category.id
         )
         cls.two_banners = TwoBanners.objects.create(
             title='SuperBanner', image='image', banner_url=product.get_url()
@@ -171,7 +171,7 @@ class OfferSingleBannerModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price='100', product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category_id=category.id
         )
         cls.offer_single_banner = OfferSingleBanner.objects.create(
             image='image', banner_url=product.get_url()
@@ -214,7 +214,7 @@ class FooterBannerModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price='100', product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category_id=category.id
         )
         cls.footer_banner = FooterBanner.objects.create(
             image='image', banner_url=product.get_url()
@@ -257,7 +257,7 @@ class BackgroundBannerModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price='100', product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category_id=category.id
         )
         cls.background_banner = BackgroundBanner.objects.create(
             image='image', banner_url=product.get_url()

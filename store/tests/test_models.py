@@ -24,15 +24,15 @@ class ProductModelTest(TestCase):
         category = Category.objects.create(category_name='chicken', slug='chicken')
         cls.product_1 = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price='120', product_image='good chicken', category_id=category.id
+            price=120, product_image='good chicken', category_id=category.id
         )
         cls.product_2 = Product.objects.create(
             product_name='beacon', slug='beacon',
-            price='220', product_image='beacon', category_id=category.id
+            price=220, product_image='beacon', category_id=category.id
         )
         cls.product_3 = Product.objects.create(
             product_name='pork', slug='pork',
-            price='320', product_image='pork', category_id=category.id
+            price=320, product_image='pork', category_id=category.id
         )
 
     def test_product_model_entry(self):
@@ -149,11 +149,11 @@ class CountProductsTest(TestCase):
         User.objects.create(username='admin')
         category = Category.objects.create(category_name='chicken', slug='chicken')
         self.product_1 = Product.objects.create(
-            product_name='chicken', slug='chicken', price='100',
+            product_name='chicken', slug='chicken', price=100,
             product_image='good chicken', category_id=category.id
         )
         self.product_2 = Product.objects.create(
-            product_name='pork', slug='pork', price='200',
+            product_name='pork', slug='pork', price=200,
             product_image='good pork', category_id=category.id
         )
 
@@ -191,7 +191,7 @@ class ProductGalleryModelTest(TestCase):
         """Create Product object"""
         category = Category.objects.create(category_name='chicken', slug='chicken')
         product = Product.objects.create(
-            product_name='pork', slug='pork', price='100',
+            product_name='pork', slug='pork', price=100,
             product_image='good pork', category_id=category.id
         )
         cls.product_gallery = ProductGallery.objects.create(product_id=product.id)
@@ -258,7 +258,7 @@ class ReviewRatingModelTest(TestCase):
         """Create ReviewRating object"""
         self.category = Category.objects.create(category_name='chicken', slug='chicken')
         self.product = Product.objects.create(
-            product_name='pork', slug='pork', price='100',
+            product_name='pork', slug='pork', price=100,
             product_image='good pork', category_id=self.category.id
         )
         self.review_rating = ReviewRating.objects.create(

@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse
 
-from carts.basket import Basket
 from carts.views import CartPageView
 from category.models import Category
 from store.models import Product
@@ -25,11 +24,11 @@ class CartPageViewTest(TestCase):
         category = Category.objects.create(category_name='chicken', slug='chicken')
         cls.product_1 = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price='120', product_image='good chicken', category=category
+            price=120, product_image='good chicken', category=category
         )
         cls.product_2 = Product.objects.create(
             product_name='good chicken', slug='good-chicken',
-            price='120', product_image='good chicken', category=category
+            price=120, product_image='good chicken', category=category
         )
 
     def setUp(self):

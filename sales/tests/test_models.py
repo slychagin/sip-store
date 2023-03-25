@@ -53,7 +53,7 @@ class BestSellersModelTest(TestCase):
         for n in range(2):
             Product.objects.create(
                 product_name=f'fitness chicken{n}', slug=f'fitness-chicken{n}',
-                price='120', product_image='good chicken', category_id=category.id
+                price=120, product_image='good chicken', category_id=category.id
             )
         products = Product.objects.all()
 
@@ -87,7 +87,7 @@ class NewProductsModelTest(TestCase):
         for n in range(2):
             Product.objects.create(
                 product_name=f'fitness chicken{n}', slug=f'fitness-chicken{n}',
-                price='120', product_image='good chicken', category_id=category.id
+                price=120, product_image='good chicken', category_id=category.id
             )
         products = Product.objects.all()
 
@@ -124,7 +124,7 @@ class MostPopularLeftModelTest(TestCase):
         for n in range(3):
             Product.objects.create(
                 product_name=f'fitness chicken{n}', slug=f'fitness-chicken{n}',
-                price='120', product_image='good chicken', category_id=category.id
+                price=120, product_image='good chicken', category_id=category.id
             )
         products = Product.objects.all()
 
@@ -163,7 +163,7 @@ class MostPopularCenterModelTest(TestCase):
         for n in range(3):
             Product.objects.create(
                 product_name=f'fitness chicken{n}', slug=f'fitness-chicken{n}',
-                price='120', product_image='good chicken', category_id=category.id
+                price=120, product_image='good chicken', category_id=category.id
             )
         products = Product.objects.all()
 
@@ -202,7 +202,7 @@ class MostPopularRightModelTest(TestCase):
         for n in range(3):
             Product.objects.create(
                 product_name=f'fitness chicken{n}', slug=f'fitness-chicken{n}',
-                price='120', product_image='good chicken', category_id=category.id
+                price=120, product_image='good chicken', category_id=category.id
             )
         products = Product.objects.all()
 

@@ -25,7 +25,7 @@ class HomePageTest(TestCase):
         self.category = Category.objects.create(category_name='chicken', slug='chicken')
         self.product = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price='120', product_image='good chicken', category=self.category
+            price=120, product_image='good chicken', category=self.category
         )
 
     def test_context_data_set_in_context(self):

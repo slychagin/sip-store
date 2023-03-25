@@ -138,7 +138,7 @@ class OrderItemModelTest(TestCase):
         """Create OrderItem object"""
         category = Category.objects.create(category_name='chicken', slug='chicken')
         product = Product.objects.create(
-            product_name='chicken', slug='chicken', price='100',
+            product_name='chicken', slug='chicken', price=100,
             product_image='good chicken', category=category
         )
         order = Order.objects.create(

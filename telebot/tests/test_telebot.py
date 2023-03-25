@@ -55,11 +55,11 @@ class TelegramBotTest(TestCase):
         category = Category.objects.create(category_name='chicken', slug='chicken')
         cls.product_1 = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price='100', product_image='good chicken', category=category
+            price=100, product_image='good chicken', category=category
         )
         cls.product_2 = Product.objects.create(
             product_name='super chicken', slug='super-chicken',
-            price='200', product_image='good chicken', category=category
+            price=200, product_image='good chicken', category=category
         )
 
     def setUp(self):

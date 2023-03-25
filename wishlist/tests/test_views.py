@@ -24,7 +24,7 @@ class WishlistPageViewTest(TestCase):
         category = Category.objects.create(category_name='chicken', slug='chicken')
         cls.product = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price='100', product_image='good chicken', category=category
+            price=100, product_image='good chicken', category=category
         )
 
     def setUp(self):

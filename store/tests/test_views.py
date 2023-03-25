@@ -26,7 +26,7 @@ class StorePageViewTest(TestCase):
         self.category = Category.objects.create(category_name='chicken', slug='chicken')
         self.product = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price='120', product_image='good chicken', category=self.category
+            price=120, product_image='good chicken', category=self.category
         )
 
     def test_store_page_view_url_exists_at_desired_location(self):
@@ -80,7 +80,7 @@ class ProductsByCategoryListViewTest(TestCase):
         self.category = Category.objects.create(category_name='chicken', slug='chicken')
         self.product = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price='120', product_image='good chicken', category=self.category
+            price=120, product_image='good chicken', category=self.category
         )
 
     def test_products_by_category_list_view_url_exists_at_desired_location(self):
@@ -132,7 +132,7 @@ class ProductDetailViewTest(TestCase):
         self.category = Category.objects.create(category_name='chicken', slug='chicken')
         self.product = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price='120', product_image='good chicken', category=self.category
+            price=120, product_image='good chicken', category=self.category
         )
 
     def test_product_detail_view_url_exists_at_desired_location(self):

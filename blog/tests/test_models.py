@@ -67,7 +67,7 @@ class TagModelTest(TestCase):
         """Create Tag object"""
         category = Category.objects.create(category_name='chicken', slug='chicken')
         product = Product.objects.create(
-            product_name='pork', slug='pork', price='100',
+            product_name='pork', slug='pork', price=100,
             product_image='good pork', category_id=category.id
         )
         cls.tag = Tag.objects.create(name='fresh', product=product)

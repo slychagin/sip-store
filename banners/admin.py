@@ -8,7 +8,8 @@ from banners.models import (
     MainBanner,
     TwoBanners,
     OfferSingleBanner,
-    FooterBanner, BackgroundBanner
+    FooterBanner,
+    BackgroundBanner
 )
 
 

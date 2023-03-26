@@ -51,7 +51,10 @@ class ProductGalleryForm(forms.ModelForm):
         fields = '__all__'
 
     def clean(self):
-        """Rase error if administrator entered image and video"""
+        """
+        Rase error if administrator entered image and video together
+        or not entered both
+        """
         cleaned_data = super(ProductGalleryForm, self).clean()
         image = cleaned_data['image']
         video = cleaned_data['video']

@@ -134,12 +134,6 @@ class PostDetailView(ModelFormMixin, DetailView):
 
             return HttpResponse(json.dumps(resp), content_type='application/json')
 
-    def get_success_url(self):
-        return HttpResponseRedirect(reverse('post_details', args=[
-            self.kwargs['slug'],
-            self.kwargs['pk']
-        ]))
-
 
 class SearchListView(ListView):
     """Find posts by keyword"""
@@ -148,16 +142,16 @@ class SearchListView(ListView):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.posts = None
+        self.object_list = None
 
     def get_queryset(self):
         if 'keyword' in self.request.GET:
             keyword = self.request.GET['keyword']
-            self.posts = Post.objects.order_by(
+            self.object_list = Post.objects.order_by(
                 '-created_date').filter(Q(title__icontains=keyword) |
                                         Q(description__icontains=keyword) |
                                         Q(quote__icontains=keyword))
-        return self.posts
+        return self.object_list
 
 
 def convert_to_localtime(utctime):

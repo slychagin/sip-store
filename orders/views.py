@@ -3,19 +3,24 @@ from datetime import datetime
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 
 from carts.basket import Basket
 from orders.forms import OrderForm
-from orders.models import Order, NewPostTerminals, OrderItem, save_customer, ThanksPage
+from orders.models import (
+    Order,
+    NewPostTerminals,
+    OrderItem,
+    save_customer,
+    ThanksPage
+)
 
 from orders.send_email import send_email_to_customer
 from store.models import count_products
 from telebot.telegram import send_to_telegram_order_message
 
 
-class OrderFormView(View):
+class OrderFormView(FormView):
     """Rendering Order form in the order page"""
     template_name = 'orders/order.html'
     form_class = OrderForm
@@ -107,6 +112,7 @@ class OrderFormView(View):
             return HttpResponseRedirect(reverse('thanks'))
 
         else:
+
             if basket.get_total_price() == 0:
                 return redirect('store')
 

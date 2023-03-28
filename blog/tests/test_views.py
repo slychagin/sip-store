@@ -1,4 +1,5 @@
 from importlib import import_module
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.test import (
@@ -9,12 +10,13 @@ from django.test import (
 from django.urls import reverse
 
 from blog.forms import PostCommentForm
-from blog.models import BlogCategory, Post
+from blog.models import BlogCategory, Post, PostComment
 from blog.views import (
     BlogPageView,
     PostsByCategoryListView,
-    PostDetailView
+    PostDetailView, SearchListView
 )
+from telebot.models import TelegramSettings
 
 
 class BlogPageViewTest(TestCase):
@@ -163,9 +165,20 @@ class PostDetailViewTest(TestCase):
         self.factory = RequestFactory()
         self.view = PostDetailView()
 
-        self.blog_category = BlogCategory.objects.create(category_name='fresh posts', slug='fresh-posts')
+        # Create category and post
+        self.blog_category = BlogCategory.objects.create(
+            category_name='fresh posts', slug='fresh-posts'
+        )
         self.post = Post.objects.create(
-            title='Post 1', post_image='image', mini_image='image', post_category=self.blog_category
+            title='Post 1', post_image='image', mini_image='image',
+            post_category=self.blog_category
+        )
+
+        # Create telegram settings in the database
+        TelegramSettings.objects.create(
+            tg_token='token12345',
+            tg_chat='123456',
+            tg_api='telegram_api_key'
         )
 
     def test_post_detail_view_url_exists_at_desired_location(self):
@@ -221,3 +234,300 @@ class PostDetailViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 404)
 
+    def test_post_detail_view_post_method_with_invalid_form(self):
+        """
+        Tests post method. Check PostCommentForm. Show form errors.
+        """
+        data = {
+            'name': 'Sergio',
+            'email': '',
+            'content': 'Lorem ipsum dolor sit amet'
+        }
+
+        response = self.client.post(
+            reverse('post_details', args=[self.blog_category.slug, self.post.id]),
+            data=urlencode(data),
+            xhr=True,
+            content_type='application/x-www-form-urlencoded',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['success'], False)
+        self.assertFormError(response, 'form', 'email', "Це поле обов'язкове.")
+
+    def test_post_method_with_valid_form_new_comment(self):
+        """
+        Tests post method. Check PostCommentForm. If the user
+        not leave comment for this post than create and
+        save in the database new comment.
+        """
+        data = {
+            'name': 'Sergio',
+            'email': 'email@gmail.com',
+            'content': 'Lorem ipsum dolor sit amet'
+        }
+
+        response = self.client.post(
+            reverse('post_details', args=[self.blog_category.slug, self.post.id]),
+            data=urlencode(data),
+            xhr=True,
+            content_type='application/x-www-form-urlencoded',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+
+        comment = PostComment.objects.get(post=self.post, email=data['email'])
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {'success': True})
+        self.assertTrue(comment)
+
+    def test_post_method_with_valid_form_update_comment(self):
+        """
+        Tests post method. Check PostCommentForm. If the user
+        leave comment for this post than update comment.
+        """
+        data = {
+            'name': 'Sergio',
+            'email': 'email@gmail.com',
+            'content': 'Awsome post!'
+        }
+
+        # Create a comment to emulate the comment update script
+        PostComment.objects.create(
+            post=self.post, name='Sergio', email='email@gmail.com', content='Bad post!'
+        )
+
+        response = self.client.post(
+            reverse('post_details', args=[self.blog_category.slug, self.post.id]),
+            data=urlencode(data),
+            xhr=True,
+            content_type='application/x-www-form-urlencoded',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        )
+
+        comments = PostComment.objects.filter(post=self.post, email=data['email'])
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {'update': True})
+        self.assertEqual(len(comments), 1)
+        self.assertEqual(comments[0].name, 'Sergio')
+        self.assertEqual(comments[0].email, 'email@gmail.com')
+        self.assertEqual(comments[0].content, 'Awsome post!')
+
+
+class SearchListViewTest(TestCase):
+    """Tests SearchListView"""
+
+    @classmethod
+    def setUpTestData(cls):
+        """Create client, category and post objects"""
+        cls.client = Client()
+        cls.factory = RequestFactory()
+        cls.view = SearchListView()
+
+        # Create category and post
+        cls.category = BlogCategory.objects.create(
+            category_name='fresh posts', slug='fresh-posts'
+        )
+        category_id = BlogCategory.objects.get(category_name='fresh posts').id
+        cls.post_1 = Post.objects.create(
+            title='Post about chicken', post_image='image1', mini_image='image4',
+            description='Good morning!', quote='Beautiful day!', post_category_id=category_id
+        )
+        cls.post_2 = Post.objects.create(
+            title='Post about pork', post_image='image2', mini_image='image5',
+            description='Good afternoon!', quote='Wonderful day!', post_category_id=category_id
+        )
+        cls.post_3 = Post.objects.create(
+            title='Post about ham', post_image='image3', mini_image='image6',
+            description='Good evening!', quote='Awsome day!', post_category_id=category_id
+        )
+
+    def test_search_list_view_url_exists_at_desired_location(self):
+        """Tests that search list view url exists at desired location"""
+        response = self.client.get('/blog/search-post/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_search_list_view_url_accessible_by_name(self):
+        """Tests search list view url accessible by name"""
+        response = self.client.get(reverse('search_post'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_search_list_view_uses_correct_template(self):
+        """Tests search list view uses correct template"""
+        response = self.client.get(reverse('search_post'))
+        self.assertTemplateUsed(response, 'blog/blog.html')
+
+    def test_search_list_view_html(self):
+        """Test SearchListView html"""
+        request = self.factory.get('/blog/search-post/')
+        engine = import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore()
+        self.view.setup(request)
+        response = self.view.dispatch(request)
+        html = response.render().content.decode('utf-8')
+
+        self.assertIn(str(self.category), html)
+        self.assertIn(str(self.post_1), html)
+        self.assertIn(str(self.post_2), html)
+        self.assertIn(str(self.post_3), html)
+        self.assertTrue(html.startswith('\n\n<!DOCTYPE html>'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_context_with_empty_search_string(self):
+        """Tests SearchListView context with empty search string"""
+        request = self.factory.get('/blog/search-post/')
+        self.view.setup(request)
+        context = self.view.get_context_data()
+        self.assertTrue(context['posts'] is None)
+
+    def test_context_with_unique_post_title_in_search_string(self):
+        """
+        Tests SearchListView context with unique word in post title
+        that was entered in search string
+        """
+        request = self.factory.get('/blog/search-post/?keyword=chicken')
+        self.view.setup(request)
+        self.view.get_queryset()
+        context = self.view.get_context_data()
+
+        self.assertEqual(len(context['posts']), 1)
+        self.assertIn(self.post_1, context['posts'])
+
+    def test_context_with_unique_description_in_search_string(self):
+        """
+        Tests SearchListView context with unique word in post
+        description that was entered in search string
+        """
+        request = self.factory.get('/blog/search-post/?keyword=afternoon')
+        self.view.setup(request)
+        self.view.get_queryset()
+        context = self.view.get_context_data()
+
+        self.assertEqual(len(context['posts']), 1)
+        self.assertIn(self.post_2, context['posts'])
+
+    def test_context_with_unique_quote_in_search_string(self):
+        """
+        Tests SearchListView context with unique word in post
+        quote that was entered in search string
+        """
+        request = self.factory.get('/blog/search-post/?keyword=wonderful')
+        self.view.setup(request)
+        self.view.get_queryset()
+        context = self.view.get_context_data()
+
+        self.assertEqual(len(context['posts']), 1)
+        self.assertIn(self.post_2, context['posts'])
+
+    def test_context_with_recurring_title_in_search_string(self):
+        """
+        Tests SearchListView context with recurring word in post title
+        that was entered in search string
+        """
+        request = self.factory.get('/blog/search-post/?keyword=post')
+        self.view.setup(request)
+        self.view.get_queryset()
+        context = self.view.get_context_data()
+
+        self.assertEqual(len(context['posts']), 3)
+        self.assertIn(self.post_1, context['posts'])
+        self.assertIn(self.post_2, context['posts'])
+        self.assertIn(self.post_3, context['posts'])
+
+    def test_context_with_recurring_description_in_search_string(self):
+        """
+        Tests SearchListView context with recurring word in post
+        description that was entered in search string
+        """
+        request = self.factory.get('/blog/search-post/?keyword=good')
+        self.view.setup(request)
+        self.view.get_queryset()
+        context = self.view.get_context_data()
+
+        self.assertEqual(len(context['posts']), 3)
+        self.assertIn(self.post_1, context['posts'])
+        self.assertIn(self.post_2, context['posts'])
+        self.assertIn(self.post_3, context['posts'])
+
+    def test_context_with_recurring_quote_in_search_string(self):
+        """
+        Tests SearchListView context with recurring word in post quote
+        that was entered in search string
+        """
+        request = self.factory.get('/blog/search-post/?keyword=day')
+        self.view.setup(request)
+        self.view.get_queryset()
+        context = self.view.get_context_data()
+
+        self.assertEqual(len(context['posts']), 3)
+        self.assertIn(self.post_1, context['posts'])
+        self.assertIn(self.post_2, context['posts'])
+        self.assertIn(self.post_3, context['posts'])
+
+
+# class ConvertToLocaltimeTest(TestCase):
+#     """Tests convert to localtime function"""
+#
+#     def test_convert_to_localtime(self):
+#         """Test convert to localtime function"""
+#         # After the page loads, three reviews are displayed. Hidden 17 reviews.
+#         # Press button "show more reviews" (show next 10 reviews, left 7 reviews)
+#         response = self.client.post(
+#             reverse('load_more_reviews'),
+#             {'product_id': self.product.id, 'visible_reviews': 10, 'action': 'POST'},
+#             xhr=True
+#         )
+#         self.assertEqual(len(response.json()['data']), 10)
+#
+#         # Press button "show more reviews" one more (show next 7 reviews, left 0 reviews)
+#         response = self.client.post(
+#             reverse('load_more_reviews'),
+#             {'product_id': self.product.id, 'visible_reviews': 20, 'action': 'POST'},
+#             xhr=True
+#         )
+#         self.assertEqual(len(response.json()['data']), 7)
+
+
+class LoadMoreCommentsTest(TestCase):
+    """Tests load more comments function"""
+
+    def setUp(self):
+        """Create category, products and reviews objects"""
+        self.client = Client()
+        self.category = BlogCategory.objects.create(
+            category_name='fresh posts', slug='fresh-posts'
+        )
+        self.post = Post.objects.create(
+            title='Post about chicken', post_image='image1', mini_image='image4',
+            description='Good morning!', quote='Beautiful day!', post_category=self.category
+        )
+
+        # Create 20 comments for product (3 comments are shown immediately
+        # when the page is loaded and then, by pressing a button,
+        # it shows 10 comments, press one more - 7 reviews)
+        for i in range(20):
+            PostComment.objects.create(
+                post=self.post, name='Sergio', email=f'mail{i}@gmail.com',
+                content='This is a good post!', is_moderated=True
+            )
+
+    def test_load_more_comments(self):
+        """Test load more comments function"""
+        # After the page loads, three comments are displayed. Hidden 17 comments.
+        # Press button "show more comments" (show next 10 comments, left 7 comments)
+        response = self.client.post(
+            reverse('load_more_comments'),
+            {'post_id': self.post.id, 'visible_comments': 10, 'action': 'POST'},
+            xhr=True
+        )
+        self.assertEqual(len(response.json()['data']), 10)
+
+        # Press button "show more comments" one more (show next 7 comments, left 0 comments)
+        response = self.client.post(
+            reverse('load_more_comments'),
+            {'post_id': self.post.id, 'visible_comments': 20, 'action': 'POST'},
+            xhr=True
+        )
+        self.assertEqual(len(response.json()['data']), 7)

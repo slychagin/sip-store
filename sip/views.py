@@ -111,3 +111,5 @@ def subscribe(request):
                 data.save()
                 response = JsonResponse({'success': 'Ви підписані!'})
                 return response
+            response = JsonResponse({'success': 'Ви вже підписувались.'})
+            return response

@@ -200,7 +200,7 @@ class ProductDetailViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'store/product_details.html')
 
-    def test_product_detail_view(self):
+    def test_product_detail_view_html(self):
         """Test product detail class-based view"""
         request = self.factory.get('/store/chicken/fitness-chicken/')
         self.view.setup(request)
@@ -473,9 +473,9 @@ class LoadMoreReviewsTest(TestCase):
             price=100, product_image='good chicken', category=self.category
         )
 
-        # Create 12 reviews for product (3 reviews are shown immediately
+        # Create 20 reviews for product (3 reviews are shown immediately
         # when the page is loaded and then, by pressing a button,
-        # it shows 10 reviews each)
+        # it shows 10 reviews, press one more - 7 reviews)
         for i in range(20):
             ReviewRating.objects.create(
                 product=self.product, rating=5.0, review='A good product!',
@@ -500,14 +500,3 @@ class LoadMoreReviewsTest(TestCase):
             xhr=True
         )
         self.assertEqual(len(response.json()['data']), 7)
-
-
-
-
-
-
-
-
-
-
-

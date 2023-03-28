@@ -1,6 +1,9 @@
+import os
 from importlib import import_module
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import (
     TestCase,
     Client,
@@ -8,9 +11,11 @@ from django.test import (
 )
 from django.urls import reverse
 
+from orders.models import Subscribers
+from sip.settings import BASE_DIR
 from sip.views import HomePageView
 from category.models import Category
-from store.models import Product
+from store.models import Product, ProductGallery
 
 
 class HomePageTest(TestCase):
@@ -72,3 +77,107 @@ class HomePageTest(TestCase):
         self.assertIn('<title>Сіль і Пательня</title>', html)
         self.assertTrue(html.startswith('\n\n<!DOCTYPE html>'))
         self.assertEqual(response.status_code, 200)
+
+
+class GetSingleProductTest(TestCase):
+    """Tests get single product function"""
+
+    def setUp(self):
+        """Create category, products and product gallery objects"""
+        self.client = Client()
+
+        # Create category and products
+        self.category = Category.objects.create(category_name='chicken', slug='chicken')
+        self.product_1 = Product.objects.create(
+            product_name='fitness chicken', slug='fitness-chicken',
+            price=100, product_image='good chicken', category=self.category
+        )
+        self.product_2 = Product.objects.create(
+            product_name='pork', slug='pork',
+            price=200, product_image='good pork', category=self.category
+        )
+
+        # Create image for product gallery
+        self.image_file = open(
+            os.path.join(BASE_DIR, 'static/img/paypal.jpg'), "rb"
+        )
+        self.image = SimpleUploadedFile(self.image_file.name, self.image_file.read())
+
+        # Product gallery objects
+        # With video
+        self.product_gallery_1 = ProductGallery.objects.create(
+            product=self.product_1,
+            image=self.image,
+            video='https://www.youtube.com'
+        )
+        # Without video
+        self.product_gallery_2 = ProductGallery.objects.create(
+            product=self.product_2,
+            image=self.image,
+            video=''
+        )
+
+    def test_get_single_product(self):
+        """Test get single product function"""
+        # After press quick show button get data from database and throw ajax
+        # show this data in product details popup window
+
+        # With video
+        response = self.client.post(
+            reverse('get_single_product'),
+            {'product_id': self.product_1.id, 'action': 'POST'},
+            xhr=True
+        )
+
+        self.assertEqual(response.json()['title'], self.product_1.product_name)
+        self.assertEqual(response.json()['price'], self.product_1.price)
+        self.assertEqual(response.json()['product_url'], self.product_1.get_url())
+        self.assertEqual(response.json()['image_main'], self.product_1.product_image.url)
+        self.assertEqual(response.json()['target'], '_blank')
+
+        # Without video
+        response = self.client.post(
+            reverse('get_single_product'),
+            {'product_id': self.product_2.id, 'action': 'POST'},
+            xhr=True
+        )
+
+        self.assertEqual(response.json()['video1'], self.product_2.get_url())
+        self.assertEqual(response.json()['target'], '_self')
+
+
+class SubscribeTest(TestCase):
+    """Tests subscribe function"""
+
+    def setUp(self):
+        """Create email object"""
+        self.client = Client()
+        self.subscriber = Subscribers.objects.create(email='sergio@gmail.com')
+
+    def test_subscribe_function(self):
+        """Test subscribe function"""
+
+        # Enter no valid email
+        response = self.client.post(
+            reverse('subscribe'),
+            {'email': 'email', 'action': 'POST'},
+            xhr=True
+        )
+        self.assertRaises(ValidationError)
+        self.assertEqual(response.json()['error'], 'Введіть коректну email адресу')
+
+        # Enter valid existing email
+        response = self.client.post(
+            reverse('subscribe'),
+            {'email': 'sergio@gmail.com', 'action': 'POST'},
+            xhr=True
+        )
+        self.assertEqual(response.json()['success'], 'Ви вже підписувались.')
+
+        # Enter valid not existing email
+        response = self.client.post(
+            reverse('subscribe'),
+            {'email': 'mail@gmail.com', 'action': 'POST'},
+            xhr=True
+        )
+        self.assertEqual(response.json()['success'], 'Ви підписані!')

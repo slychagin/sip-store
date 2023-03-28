@@ -1,10 +1,16 @@
+from datetime import date
 from importlib import import_module
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.test import TestCase, Client, RequestFactory
+from django.test import (
+    TestCase,
+    Client,
+    RequestFactory
+)
 from django.urls import reverse
 
+from carts.models import Coupon
 from carts.views import CartPageView
 from category.models import Category
 from store.models import Product
@@ -29,6 +35,9 @@ class CartPageViewTest(TestCase):
         cls.product_2 = Product.objects.create(
             product_name='good chicken', slug='good-chicken',
             price=120, product_image='good chicken', category=category
+        )
+        cls.coupon = Coupon.objects.create(
+            coupon_kod='AAA', discount=20, validity=date.today()
         )
 
     def setUp(self):
@@ -148,3 +157,34 @@ class CartPageViewTest(TestCase):
             xhr=True
         )
         self.assertEqual(response.json(), {'qty': 2, 'mini_cart_total': 240})
+
+    def test_get_coupon(self):
+        """Tests checking valid or invalid coupon"""
+        total_without_coupon = self.product_1.price * 1 + self.product_2.price * 2
+        cart_discount = int(20 * total_without_coupon / 100)
+        total = total_without_coupon - cart_discount
+
+        # Test valid coupon
+        response = self.client.post(
+            reverse('get_coupon'),
+            {'coupon': 'aaa', 'action': 'POST'},
+            xhr=True
+        )
+
+        self.assertEqual(response.json(), {
+            'cart_discount': cart_discount,
+            'total': total,
+            'coupon_discount': 20
+        })
+
+        # Test invalid coupon
+        response = self.client.post(
+            reverse('get_coupon'),
+            {'coupon': 'bbb', 'action': 'POST'},
+            xhr=True
+        )
+
+        self.assertEqual(response.json(), {
+            'cart_discount': 0,
+            'total': total_without_coupon
+        })

@@ -3,10 +3,9 @@ import json
 from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.context_processors import csrf
-from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import ModelFormMixin
 
@@ -128,6 +127,11 @@ class ProductDetailView(ModelFormMixin, DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        """
+        Check review ReviewRatingForm without reload page and
+        render page with errors if form invalid or save form data
+        to the database if form valid
+        """
         is_ajax = request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
         if is_ajax:
             form = self.get_form()
@@ -185,40 +189,38 @@ class ProductDetailView(ModelFormMixin, DetailView):
 
                 return HttpResponse(json.dumps(resp), content_type='application/json')
 
-    def get_success_url(self):
-        return HttpResponseRedirect(reverse('product_details', args=[
-            self.kwargs['category_slug'],
-            self.kwargs['product_slug']
-        ]))
-
 
 class SearchListView(ListView):
     """Find products by keyword"""
-
     template_name = 'store/store.html'
+    context_object_name = 'products'
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.products = None
+        self.object_list = None
         self.product_count = 0
 
     def get_queryset(self):
         if 'keyword' in self.request.GET:
             keyword = self.request.GET['keyword']
-            self.products = Product.objects.order_by(
+            self.object_list = Product.objects.order_by(
                 '-created_date').filter(Q(product_name__icontains=keyword) |
                                         Q(description__icontains=keyword))
-            self.product_count = self.products.count()
-        return self.products
+            self.product_count = self.object_list.count()
+        return self.object_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = self.products
         context['product_count'] = self.product_count
         return context
 
 
 def load_more_reviews(request):
+    """
+    3 reviews are shown immediately when the page
+    is loaded and then, by pressing a button,
+    it shows 10 reviews each
+    """
     if request.POST.get('action') == 'POST':
         product_id = int(request.POST.get('product_id'))
         visible_reviews = int(request.POST.get('visible_reviews'))

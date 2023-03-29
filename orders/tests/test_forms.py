@@ -1,5 +1,12 @@
+import time
+
 from django import forms
 from django.test import TestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+
+from selenium.webdriver import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.webdriver import WebDriver
 
 from orders.forms import OrderForm
 
@@ -67,3 +74,46 @@ class OrderFormTest(TestCase):
             'discount': 20
         })
         self.assertTrue(form.is_valid())
+
+
+class OrderFormSeleniumTest(StaticLiveServerTestCase):
+    """Test Order Form by Selenium"""
+    selenium = None
+
+    @classmethod
+    def setUpClass(cls):
+        """Setup Firefox webdriver"""
+        super().setUpClass()
+        cls.selenium = WebDriver()
+        cls.selenium.implicitly_wait(5)
+
+    @classmethod
+    def tearDownClass(cls):
+        """Shutdown webdriver"""
+        cls.selenium.quit()
+        super().tearDownClass()
+
+    def test_order_form_by_selenium(self):
+        """Emulate filling and submit order form by user"""
+        self.selenium.get(f'{self.live_server_url}/order/')
+        time.sleep(1)
+
+        customer_name_input = self.selenium.find_element(By.NAME, 'customer_name')
+        phone_input = self.selenium.find_element(By.NAME, 'phone')
+        email_input = self.selenium.find_element(By.NAME, 'email')
+        city_input = self.selenium.find_element(By.NAME, 'city')
+        street_input = self.selenium.find_element(By.NAME, 'street')
+        house_input = self.selenium.find_element(By.NAME, 'house')
+
+        time.sleep(5)
+
+        submit = self.selenium.find_element(By.ID, 'order-btn')
+
+        customer_name_input.send_keys('Sergio')
+        phone_input.send_keys('+38(099)777-77-77')
+        email_input.send_keys('email@gmail.com')
+        city_input.send_keys('Boston')
+        street_input.send_keys('st. Street')
+        house_input.send_keys('25')
+
+        submit.send_keys(Keys.RETURN)

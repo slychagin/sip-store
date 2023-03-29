@@ -1,12 +1,24 @@
 import os
+import time
 
 from django import forms
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+
+from selenium.webdriver import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.webdriver import WebDriver
 
 from category.models import Category
+from orders.models import Order, OrderItem
 from sip.settings import BASE_DIR
-from store.forms import ProductGalleryForm, ReviewRatingForm, ReviewRatingAdminForm, ProductsSortForm
+from store.forms import (
+    ProductGalleryForm,
+    ReviewRatingForm,
+    ReviewRatingAdminForm,
+    ProductsSortForm
+)
 from store.models import Product, ReviewRating
 
 
@@ -20,10 +32,10 @@ class ProductGalleryFormTest(TestCase):
             product_name='fitness chicken', slug='fitness-chicken',
             price=120, product_image='good chicken', category=self.category
         )
-        self.image_file = open(
-            os.path.join(BASE_DIR, 'static/img/paypal.jpg'), "rb"
-        )
-        self.image = SimpleUploadedFile(self.image_file.name, self.image_file.read())
+
+        # Open image file for testing ProductGallery
+        with open(os.path.join(BASE_DIR, 'sip/static/img/paypal.jpg'), "rb") as image_file:
+            self.image = SimpleUploadedFile(image_file.name, image_file.read())
 
     def test_clean_image_video_not_entered(self):
         """
@@ -179,3 +191,67 @@ class ProductsSortFormTest(TestCase):
 
         for choice in choices:
             self.assertIn(choice, form_choices)
+
+
+class ReviewRatingFormSeleniumTest(StaticLiveServerTestCase):
+    """Test ReviewRatingForm by Selenium"""
+    selenium = None
+
+    def setUp(self):
+        """Create category, product, order and order item objects"""
+        self.category = Category.objects.create(category_name='chicken', slug='chicken')
+        self.product = Product.objects.create(
+            product_name='fitness chicken', slug='fitness-chicken',
+            price=200, product_image='good chicken', category=self.category
+        )
+        self.order = Order.objects.create(
+            order_number='200', customer_name='Sergio', phone='+38(099)777-77-77',
+            email='email@gmail.com', city='Boston', street='st. Street',
+            house='12', order_total=200, discount=50
+        )
+        self.order_item = OrderItem.objects.create(
+            order=self.order, product=self.product, price=self.product.price,
+            is_ordered=True, user_email='email@gmail.com'
+        )
+
+    @classmethod
+    def setUpClass(cls):
+        """Setup Firefox webdriver"""
+        super().setUpClass()
+        cls.selenium = WebDriver()
+        cls.selenium.implicitly_wait(5)
+
+    @classmethod
+    def tearDownClass(cls):
+        """Shutdown webdriver"""
+        cls.selenium.quit()
+        super().tearDownClass()
+
+    def test_review_rating_form_by_selenium(self):
+        """Emulate filling and submit ReviewRatingForm by user"""
+        self.selenium.get(
+            f'{self.live_server_url}/store/category/{self.category.slug}/{self.product.slug}/'
+        )
+        time.sleep(2)
+
+        self.selenium.find_element(By.ID, 'reviews-tab').click()
+        time.sleep(1)
+
+        star_radio_button = self.selenium.find_element(By.CSS_SELECTOR, "input[type='radio'][value='3']")
+        review_input = self.selenium.find_element(By.NAME, 'review')
+        name_input = self.selenium.find_element(By.NAME, 'name')
+        email_input = self.selenium.find_element(By.NAME, 'email')
+        time.sleep(2)
+
+        submit = self.selenium.find_element(By.ID, 'ajax_review')
+
+        self.selenium.execute_script("$(arguments[0]).click();", star_radio_button)
+        review_input.send_keys('Super post!')
+        name_input.send_keys('Sergio')
+        email_input.send_keys('email@gmail.com')
+
+        submit.send_keys(Keys.RETURN)
+        time.sleep(2)
+
+        new_review = ReviewRating.objects.all()[0]
+        self.assertTrue(new_review)

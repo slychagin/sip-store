@@ -1,5 +1,12 @@
+import time
+
 from django import forms
 from django.test import TestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+
+from selenium.webdriver import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.webdriver import WebDriver
 
 from blog.forms import PostCommentForm, PostCommentAdminForm
 from blog.models import BlogCategory, Post, PostComment
@@ -113,3 +120,53 @@ class PostCommentAdminFormTest(TestCase):
             'content': 'New comment!'
         })
         self.assertTrue(form.is_valid())
+
+
+class PostCommentFormSeleniumTest(StaticLiveServerTestCase):
+    """Test PostCommentForm by Selenium"""
+    selenium = None
+
+    def setUp(self):
+        """Create blog category and post objects"""
+        self.blog_category = BlogCategory.objects.create(
+            category_name='fresh', slug='fresh'
+        )
+        self.post = Post.objects.create(
+            title='Post 1', post_image='image',
+            mini_image='image', post_category=self.blog_category
+        )
+
+    @classmethod
+    def setUpClass(cls):
+        """Setup Firefox webdriver"""
+        super().setUpClass()
+        cls.selenium = WebDriver()
+        cls.selenium.implicitly_wait(5)
+
+    @classmethod
+    def tearDownClass(cls):
+        """Shutdown webdriver"""
+        cls.selenium.quit()
+        super().tearDownClass()
+
+    def test_post_comment_form_by_selenium(self):
+        """Emulate filling and submit post form by user"""
+        self.selenium.get(f'{self.live_server_url}/blog/category/{self.blog_category.slug}/{self.post.id}/')
+        time.sleep(2)
+
+        name_input = self.selenium.find_element(By.NAME, 'name')
+        email_input = self.selenium.find_element(By.NAME, 'email')
+        content_input = self.selenium.find_element(By.NAME, 'content')
+        time.sleep(2)
+
+        submit = self.selenium.find_element(By.ID, 'ajax_comment')
+
+        name_input.send_keys('Sergio')
+        email_input.send_keys('super@gmail.com')
+        content_input.send_keys('Super post!')
+
+        submit.send_keys(Keys.RETURN)
+        time.sleep(2)
+
+        new_comment = PostComment.objects.all()[0]
+        self.assertTrue(new_comment)

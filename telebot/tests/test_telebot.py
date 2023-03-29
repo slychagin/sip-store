@@ -3,7 +3,11 @@ from datetime import date
 from importlib import import_module
 
 from django.conf import settings
-from django.test import TestCase, Client, RequestFactory
+from django.test import (
+    TestCase,
+    Client,
+    RequestFactory
+)
 
 from carts.basket import Basket
 from category.models import Category

@@ -2,7 +2,11 @@ from importlib import import_module
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.test import TestCase, Client, RequestFactory
+from django.test import (
+    TestCase,
+    Client,
+    RequestFactory
+)
 from django.urls import reverse
 
 from category.models import Category

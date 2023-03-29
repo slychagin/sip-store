@@ -110,7 +110,7 @@ class ContactsViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['success'], False)
-        self.assertFormError(response, 'form', 'message', "Це поле обов'язкове.")
+        self.assertFormError(response.context['form'], 'message', "Це поле обов'язкове.")
 
 
 class MapDataTest(TestCase):

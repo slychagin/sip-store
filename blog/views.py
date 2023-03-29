@@ -4,10 +4,9 @@ import pytz
 from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.context_processors import csrf
-from django.urls import reverse
 from django.utils import timezone, formats
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import ModelFormMixin

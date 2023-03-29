@@ -254,7 +254,7 @@ class PostDetailViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['success'], False)
-        self.assertFormError(response, 'form', 'email', "Це поле обов'язкове.")
+        self.assertFormError(response.context['form'], 'email', "Це поле обов'язкове.")
 
     def test_post_method_with_valid_form_new_comment(self):
         """

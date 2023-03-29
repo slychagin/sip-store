@@ -97,11 +97,9 @@ class GetSingleProductTest(TestCase):
             price=200, product_image='good pork', category=self.category
         )
 
-        # Create image for product gallery
-        self.image_file = open(
-            os.path.join(BASE_DIR, 'static/img/paypal.jpg'), "rb"
-        )
-        self.image = SimpleUploadedFile(self.image_file.name, self.image_file.read())
+        # Open image file for testing ProductGallery
+        with open(os.path.join(BASE_DIR, 'sip/static/img/paypal.jpg'), "rb") as image_file:
+            self.image = SimpleUploadedFile(image_file.name, image_file.read())
 
         # Product gallery objects
         # With video

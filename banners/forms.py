@@ -8,14 +8,8 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 class MainBannerAdminForm(forms.ModelForm):
     """Connect content title and description fields to CKEditor"""
-    title = forms.CharField(
-        label=_('Заголовок'),
-        widget=CKEditorUploadingWidget()
-    )
-    description = forms.CharField(
-        label=_('Опис'),
-        widget=CKEditorUploadingWidget()
-    )
+    title = forms.CharField(label=_('Заголовок'), widget=CKEditorUploadingWidget())
+    description = forms.CharField(label=_('Опис'), widget=CKEditorUploadingWidget())
 
     class Meta:
         model = MainBanner

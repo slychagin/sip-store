@@ -1,15 +1,22 @@
 import time
 
 from django import forms
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.webdriver import WebDriver
 
-from blog.forms import PostCommentForm, PostCommentAdminForm
-from blog.models import BlogCategory, Post, PostComment
+from blog.forms import (
+    PostCommentForm,
+    PostCommentAdminForm
+)
+from blog.models import (
+    BlogCategory,
+    Post,
+    PostComment
+)
 
 
 class PostCommentFormTest(TestCase):
@@ -41,6 +48,7 @@ class PostCommentFormTest(TestCase):
 
     def test_form_clean_content_greater_1000_sings(self):
         """Tests content validation field by length"""
+        # Text length - 1009 sings
         text = """
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla egestas elit turpis,
             sit amet luctus nisl suscipit ac. Donec non purus eu arcu sodales sodales ac eu leo.
@@ -53,8 +61,7 @@ class PostCommentFormTest(TestCase):
             luctus enim, dapibus tempor tortor vulputate vel. Donec eu commodo ante.
             Vestibulum sagittis, neque sed dignissim maximus, dui neque facilisis velit,
             in laoreet est risus a sapien. Vivamus at elit id augue congue accumsan quis
-            nec nibh. Sed sed mollis turpis. Phasellus feugiat justo dui, malesuada posuere
-            ligula porta nec. Vivamus condimentum elit justo quam.
+            nec nibh.
         """
 
         form = PostCommentForm(data={
@@ -122,6 +129,7 @@ class PostCommentAdminFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
 
+@tag('selenium')
 class PostCommentFormSeleniumTest(StaticLiveServerTestCase):
     """Test PostCommentForm by Selenium"""
     selenium = None

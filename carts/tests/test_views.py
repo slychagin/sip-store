@@ -2,7 +2,6 @@ from datetime import date
 from importlib import import_module
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.test import (
     TestCase,
     Client,
@@ -21,12 +20,11 @@ class CartPageViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        """Create category, product and user objects"""
+        """Create category, product and coupon objects"""
         cls.client = Client()
         cls.factory = RequestFactory()
         cls.view = CartPageView()
 
-        User.objects.create(username='admin')
         category = Category.objects.create(category_name='chicken', slug='chicken')
         cls.product_1 = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
@@ -100,6 +98,7 @@ class CartPageViewTest(TestCase):
             xhr=True
         )
         self.assertEqual(response.json(), {'qty': 4})
+
         response = self.client.post(
             reverse('add_cart'),
             {'product_id': self.product_2.id, 'quantity': 1, 'action': 'POST'},
@@ -139,6 +138,8 @@ class CartPageViewTest(TestCase):
             response.json(),
             {'qty': 2, 'total': 240, 'item_qty': 1, 'item_total_price': 120}
         )
+
+        # Check if quantity < 1
         response = self.client.post(
             reverse('minus_quantity'),
             {'product_id': self.product_2.id, 'action': 'POST'},
@@ -170,7 +171,6 @@ class CartPageViewTest(TestCase):
             {'coupon': 'aaa', 'action': 'POST'},
             xhr=True
         )
-
         self.assertEqual(response.json(), {
             'cart_discount': cart_discount,
             'total': total,
@@ -183,7 +183,6 @@ class CartPageViewTest(TestCase):
             {'coupon': 'bbb', 'action': 'POST'},
             xhr=True
         )
-
         self.assertEqual(response.json(), {
             'cart_discount': 0,
             'total': total_without_coupon

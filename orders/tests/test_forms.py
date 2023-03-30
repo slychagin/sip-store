@@ -1,7 +1,7 @@
 import time
 
 from django import forms
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 from selenium.webdriver import Keys
@@ -14,26 +14,57 @@ from orders.forms import OrderForm
 class OrderFormTest(TestCase):
     """Tests OrderForm"""
 
+    @classmethod
+    def setUpTestData(cls):
+        """Create OrderForm"""
+        cls.form = OrderForm()
+
     def test_form_fields_label(self):
-        """Tests all labels in PostCommentForm"""
-        form = OrderForm()
-        self.assertTrue(form.fields['customer_name'].label is None or form.fields['customer_name'].label == 'ПІБ ')
-        self.assertTrue(form.fields['phone'].label is None or form.fields['phone'].label == 'Телефон ')
-        self.assertTrue(form.fields['email'].label is None or form.fields['email'].label == 'Email ')
-        self.assertTrue(form.fields['city'].label is None or form.fields['city'].label == 'Місто ')
-        self.assertTrue(form.fields['street'].label is None or form.fields['street'].label == 'Вулиця ')
-        self.assertTrue(form.fields['house'].label is None or form.fields['house'].label == 'Будинок ')
-        self.assertTrue(form.fields['room'].label is None or form.fields['room'].label == 'Квартира')
-        self.assertTrue(form.fields['new_post_city'].label is None or form.fields['new_post_city'].label == 'Виберіть місто доставки ')
-        self.assertTrue(form.fields['new_post_office'].label is None or form.fields['new_post_office'].label == 'Виберiть вiддiлення ')
+        """Tests all labels in OrderForm"""
+        self.assertTrue(
+            self.form.fields['customer_name'].label is None
+            or self.form.fields['customer_name'].label == 'ПІБ '
+        )
+        self.assertTrue(
+            self.form.fields['phone'].label is None
+            or self.form.fields['phone'].label == 'Телефон '
+        )
+        self.assertTrue(
+            self.form.fields['email'].label is None
+            or self.form.fields['email'].label == 'Email '
+        )
+        self.assertTrue(
+            self.form.fields['city'].label is None
+            or self.form.fields['city'].label == 'Місто '
+        )
+        self.assertTrue(
+            self.form.fields['street'].label is None
+            or self.form.fields['street'].label == 'Вулиця '
+        )
+        self.assertTrue(
+            self.form.fields['house'].label is None
+            or self.form.fields['house'].label == 'Будинок '
+        )
+        self.assertTrue(
+            self.form.fields['room'].label is None
+            or self.form.fields['room'].label == 'Квартира'
+        )
+        self.assertTrue(
+            self.form.fields['new_post_city'].label is None
+            or self.form.fields['new_post_city'].label == 'Виберіть місто доставки '
+        )
+        self.assertTrue(
+            self.form.fields['new_post_office'].label is None
+            or self.form.fields['new_post_office'].label == 'Виберiть вiддiлення '
+        )
 
     def test_form_fields_title(self):
         """Tests all form fields titles"""
-        form = OrderForm()
-        for field in form.fields:
+        for field in self.form.fields:
             self.assertEqual(
-                form.fields[field].widget.attrs['title'],
-                'Заповніть це поле')
+                self.form.fields[field].widget.attrs['title'],
+                'Заповніть це поле'
+            )
 
     def test_clean_customer_name(self):
         """
@@ -55,9 +86,7 @@ class OrderFormTest(TestCase):
         self.assertRaises(forms.ValidationError)
 
     def test_valid_form(self):
-        """
-        Tests that form is valid
-        """
+        """Tests that form is valid"""
         form = OrderForm(data={
             'order_number': '500',
             'customer_name': 'Sergio',
@@ -76,6 +105,7 @@ class OrderFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
 
+@tag('selenium')
 class OrderFormSeleniumTest(StaticLiveServerTestCase):
     """Test Order Form by Selenium"""
     selenium = None

@@ -7,6 +7,7 @@ from store.models import Product
 class BlockTitle(models.Model):
     """Create block titles for sales blocks"""
     objects = models.Manager()
+
     title = models.CharField(max_length=100, verbose_name=_('назва блоку'))
 
     class Meta:
@@ -20,11 +21,17 @@ class BlockTitle(models.Model):
 class BestSellers(models.Model):
     """Create BestSellers model in the database"""
     objects = models.Manager()
+
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
-    product_1 = models.ForeignKey(Product, related_name='product_1', on_delete=models.CASCADE, verbose_name=_('товар 1'))
+    product_1 = models.ForeignKey(
+        Product, related_name='product_1', on_delete=models.CASCADE, verbose_name=_('товар 1')
+    )
     image_prod1_active = models.ImageField(upload_to='photos/bestsellers', verbose_name=_('фото 1 (активне)'))
     image_prod1 = models.ImageField(upload_to='photos/bestsellers', verbose_name=_('фото 2'))
-    product_2 = models.ForeignKey(Product,  related_name='product_2', on_delete=models.CASCADE, verbose_name=_('товар 2'))
+
+    product_2 = models.ForeignKey(
+        Product, related_name='product_2', on_delete=models.CASCADE, verbose_name=_('товар 2')
+    )
     image_prod2_active = models.ImageField(upload_to='photos/bestsellers', verbose_name=_('фото 1 (активне)'))
     image_prod2 = models.ImageField(upload_to='photos/bestsellers', verbose_name=_('фото 2'))
 
@@ -39,11 +46,17 @@ class BestSellers(models.Model):
 class NewProducts(models.Model):
     """Create NewProducts model in the database"""
     objects = models.Manager()
+
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
-    product_1 = models.ForeignKey(Product, related_name='new_product_1', on_delete=models.CASCADE, verbose_name=_('товар 1'))
+    product_1 = models.ForeignKey(
+        Product, related_name='new_product_1', on_delete=models.CASCADE, verbose_name=_('товар 1')
+    )
     image_prod1_active = models.ImageField(upload_to='photos/new_products', verbose_name=_('фото 1 (активне)'))
     image_prod1 = models.ImageField(upload_to='photos/new_products', verbose_name=_('фото 2'))
-    product_2 = models.ForeignKey(Product,  related_name='new_product_2', on_delete=models.CASCADE, verbose_name=_('товар 2'))
+
+    product_2 = models.ForeignKey(
+        Product, related_name='new_product_2', on_delete=models.CASCADE, verbose_name=_('товар 2')
+    )
     image_prod2_active = models.ImageField(upload_to='photos/new_products', verbose_name=_('фото 1 (активне)'))
     image_prod2 = models.ImageField(upload_to='photos/new_products', verbose_name=_('фото 2'))
 
@@ -61,15 +74,21 @@ class MostPopularLeft(models.Model):
 
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
 
-    product_1 = models.ForeignKey(Product, related_name='pop_product_1', on_delete=models.CASCADE, verbose_name=_('товар 1'))
+    product_1 = models.ForeignKey(
+        Product, related_name='pop_product_1', on_delete=models.CASCADE, verbose_name=_('товар 1')
+    )
     image_prod1_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod1 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 
-    product_2 = models.ForeignKey(Product,  related_name='pop_product_2', on_delete=models.CASCADE, verbose_name=_('товар 2'))
+    product_2 = models.ForeignKey(
+        Product, related_name='pop_product_2', on_delete=models.CASCADE, verbose_name=_('товар 2')
+    )
     image_prod2_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod2 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 
-    product_3 = models.ForeignKey(Product, related_name='pop_product_3', on_delete=models.CASCADE, verbose_name=_('товар 3'))
+    product_3 = models.ForeignKey(
+        Product, related_name='pop_product_3', on_delete=models.CASCADE, verbose_name=_('товар 3')
+    )
     image_prod3_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod3 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 
@@ -87,15 +106,21 @@ class MostPopularCenter(models.Model):
 
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
 
-    product_1 = models.ForeignKey(Product, related_name='pop_center_product_1', on_delete=models.CASCADE, verbose_name=_('товар 1'))
+    product_1 = models.ForeignKey(
+        Product, related_name='pop_center_product_1', on_delete=models.CASCADE, verbose_name=_('товар 1')
+    )
     image_prod1_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod1 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 
-    product_2 = models.ForeignKey(Product,  related_name='pop_center_product_2', on_delete=models.CASCADE, verbose_name=_('товар 2'))
+    product_2 = models.ForeignKey(
+        Product, related_name='pop_center_product_2', on_delete=models.CASCADE, verbose_name=_('товар 2')
+    )
     image_prod2_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod2 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 
-    product_3 = models.ForeignKey(Product, related_name='pop_center_product_3', on_delete=models.CASCADE, verbose_name=_('товар 3'))
+    product_3 = models.ForeignKey(
+        Product, related_name='pop_center_product_3', on_delete=models.CASCADE, verbose_name=_('товар 3')
+    )
     image_prod3_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod3 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 
@@ -113,15 +138,21 @@ class MostPopularRight(models.Model):
 
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
 
-    product_1 = models.ForeignKey(Product, related_name='pop_right_product_1', on_delete=models.CASCADE, verbose_name=_('товар 1'))
+    product_1 = models.ForeignKey(
+        Product, related_name='pop_right_product_1', on_delete=models.CASCADE, verbose_name=_('товар 1')
+    )
     image_prod1_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod1 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 
-    product_2 = models.ForeignKey(Product,  related_name='pop_right_product_2', on_delete=models.CASCADE, verbose_name=_('товар 2'))
+    product_2 = models.ForeignKey(
+        Product, related_name='pop_right_product_2', on_delete=models.CASCADE, verbose_name=_('товар 2')
+    )
     image_prod2_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod2 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 
-    product_3 = models.ForeignKey(Product, related_name='pop_right_product_3', on_delete=models.CASCADE, verbose_name=_('товар 3'))
+    product_3 = models.ForeignKey(
+        Product, related_name='pop_right_product_3', on_delete=models.CASCADE, verbose_name=_('товар 3')
+    )
     image_prod3_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod3 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 

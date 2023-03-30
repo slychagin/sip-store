@@ -31,5 +31,3 @@ class CouponAdminForm(forms.ModelForm):
             raise forms.ValidationError('Введіть знижку від 1 до 100 відсотків')
 
         return cleaned_data
-
-

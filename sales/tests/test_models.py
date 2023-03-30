@@ -20,25 +20,24 @@ class BlockTitleModelTest(TestCase):
         cls.block_title = BlockTitle.objects.create(title='bestsellers')
 
     def test_block_title_model_entry(self):
-        """Test BlockTitle model data insertion/types/field attributes"""
-        data = self.block_title
-        self.assertTrue(isinstance(data, BlockTitle))
+        """
+        Test that created BlockTitle object is
+        instance of BlockTitle model
+        """
+        self.assertTrue(isinstance(self.block_title, BlockTitle))
 
     def test_block_title_model_name(self):
         """Tests BlockTitle name"""
-        data = self.block_title
-        self.assertEqual(str(data), 'bestsellers')
+        self.assertEqual(str(self.block_title), 'bestsellers')
 
     def test_block_title_label(self):
         """Test BlockTitle title verbose name"""
-        data = self.block_title
-        field_label = data._meta.get_field('title').verbose_name
+        field_label = self.block_title._meta.get_field('title').verbose_name
         self.assertEqual(field_label, 'назва блоку')
 
     def test_block_title_max_length(self):
         """Test BlockTitle title max length"""
-        data = self.block_title
-        max_length = data._meta.get_field('title').max_length
+        max_length = self.block_title._meta.get_field('title').max_length
         self.assertEqual(max_length, 100)
 
 
@@ -53,27 +52,30 @@ class BestSellersModelTest(TestCase):
         for n in range(2):
             Product.objects.create(
                 product_name=f'fitness chicken{n}', slug=f'fitness-chicken{n}',
-                price=120, product_image='good chicken', category_id=category.id
+                price=120, product_image='good chicken', category=category
             )
         products = Product.objects.all()
 
         block_title = BlockTitle.objects.create(title='bestsellers')
         cls.best_seller = BestSellers.objects.create(
-            title_id=block_title.id, product_1_id=products[0].id,
+            title=block_title, product_1=products[0],
             image_prod1_active='image1_active', image_prod1='image1',
-            product_2_id=products[1].id, image_prod2_active='image2_active',
+            product_2=products[1], image_prod2_active='image2_active',
             image_prod2='image2'
         )
 
     def test_bestsellers_model_entry(self):
-        """Test BestSellers model data insertion/types/field attributes"""
-        data = self.best_seller
-        self.assertTrue(isinstance(data, BestSellers))
+        """
+        Test that created BestSellers object is
+        instance of BestSellers model
+        """
+        self.assertTrue(isinstance(self.best_seller, BestSellers))
 
     def test_bestsellers_model_name(self):
         """Tests BestSellers name"""
-        data = self.best_seller
-        self.assertEqual(str(data), f'Секція: {self.best_seller.product_1}, {self.best_seller.product_2}')
+        self.assertEqual(
+            str(self.best_seller), f'Секція: {self.best_seller.product_1}, {self.best_seller.product_2}'
+        )
 
 
 class NewProductsModelTest(TestCase):
@@ -87,29 +89,27 @@ class NewProductsModelTest(TestCase):
         for n in range(2):
             Product.objects.create(
                 product_name=f'fitness chicken{n}', slug=f'fitness-chicken{n}',
-                price=120, product_image='good chicken', category_id=category.id
+                price=120, product_image='good chicken', category=category
             )
         products = Product.objects.all()
 
         block_title = BlockTitle.objects.create(title='new products')
         cls.new_product = NewProducts.objects.create(
-            title_id=block_title.id, product_1_id=products[0].id, image_prod1_active='image1_active',
-            image_prod1='image1', product_2_id=products[1].id, image_prod2_active='image2_active', image_prod2='image2'
+            title=block_title, product_1=products[0], image_prod1_active='image1_active',
+            image_prod1='image1', product_2=products[1], image_prod2_active='image2_active', image_prod2='image2'
         )
 
     def test_new_products_model_entry(self):
-        """Test NewProducts model data insertion/types/field attributes"""
-        data = self.new_product
-        self.assertTrue(isinstance(data, NewProducts))
+        """
+        Test that created NewProducts object is
+        instance of NewProducts model
+        """
+        self.assertTrue(isinstance(self.new_product, NewProducts))
 
     def test_new_products_model_name(self):
         """Tests NewProducts name"""
-        data = self.new_product
         self.assertEqual(
-            str(data),
-            f'Секція: '
-            f'{self.new_product.product_1}, '
-            f'{self.new_product.product_2}'
+            str(self.new_product), f'Секція: {self.new_product.product_1}, {self.new_product.product_2}'
         )
 
 
@@ -124,27 +124,28 @@ class MostPopularLeftModelTest(TestCase):
         for n in range(3):
             Product.objects.create(
                 product_name=f'fitness chicken{n}', slug=f'fitness-chicken{n}',
-                price=120, product_image='good chicken', category_id=category.id
+                price=120, product_image='good chicken', category=category
             )
         products = Product.objects.all()
 
         block_title = BlockTitle.objects.create(title='most popular products')
         cls.most_popular_left = MostPopularLeft.objects.create(
-            title_id=block_title.id, product_1_id=products[0].id, image_prod1_active='image1_active',
-            image_prod1='image1', product_2_id=products[1].id, image_prod2_active='image2_active', image_prod2='image2',
-            product_3_id=products[2].id, image_prod3_active='image3_active', image_prod3='image3'
+            title=block_title, product_1=products[0], image_prod1_active='image1_active',
+            image_prod1='image1', product_2=products[1], image_prod2_active='image2_active', image_prod2='image2',
+            product_3=products[2], image_prod3_active='image3_active', image_prod3='image3'
         )
 
     def test_most_popular_left_model_entry(self):
-        """Test MostPopularLeft model data insertion/types/field attributes"""
-        data = self.most_popular_left
-        self.assertTrue(isinstance(data, MostPopularLeft))
+        """
+        Test that created MostPopularLeft object is
+        instance of MostPopularLeft model
+        """
+        self.assertTrue(isinstance(self.most_popular_left, MostPopularLeft))
 
     def test_most_popular_left_model_name(self):
         """Tests MostPopularLeft name"""
-        data = self.most_popular_left
         self.assertEqual(
-            str(data),
+            str(self.most_popular_left),
             f'Секція: '
             f'{self.most_popular_left.product_1}, '
             f'{self.most_popular_left.product_2}, '
@@ -163,27 +164,28 @@ class MostPopularCenterModelTest(TestCase):
         for n in range(3):
             Product.objects.create(
                 product_name=f'fitness chicken{n}', slug=f'fitness-chicken{n}',
-                price=120, product_image='good chicken', category_id=category.id
+                price=120, product_image='good chicken', category=category
             )
         products = Product.objects.all()
 
         block_title = BlockTitle.objects.create(title='most popular products')
         cls.most_popular_center = MostPopularCenter.objects.create(
-            title_id=block_title.id, product_1_id=products[0].id, image_prod1_active='image1_active',
-            image_prod1='image1', product_2_id=products[1].id, image_prod2_active='image2_active', image_prod2='image2',
-            product_3_id=products[2].id, image_prod3_active='image3_active', image_prod3='image3'
+            title=block_title, product_1=products[0], image_prod1_active='image1_active',
+            image_prod1='image1', product_2=products[1], image_prod2_active='image2_active', image_prod2='image2',
+            product_3=products[2], image_prod3_active='image3_active', image_prod3='image3'
         )
 
     def test_most_popular_center_model_entry(self):
-        """Test MostPopularCenter model data insertion/types/field attributes"""
-        data = self.most_popular_center
-        self.assertTrue(isinstance(data, MostPopularCenter))
+        """
+        Test that created MostPopularCenter object is
+        instance of MostPopularCenter model
+        """
+        self.assertTrue(isinstance(self.most_popular_center, MostPopularCenter))
 
     def test_most_popular_center_model_name(self):
         """Tests MostPopularCenter name"""
-        data = self.most_popular_center
         self.assertEqual(
-            str(data),
+            str(self.most_popular_center),
             f'Секція: '
             f'{self.most_popular_center.product_1}, '
             f'{self.most_popular_center.product_2}, '
@@ -202,27 +204,28 @@ class MostPopularRightModelTest(TestCase):
         for n in range(3):
             Product.objects.create(
                 product_name=f'fitness chicken{n}', slug=f'fitness-chicken{n}',
-                price=120, product_image='good chicken', category_id=category.id
+                price=120, product_image='good chicken', category=category
             )
         products = Product.objects.all()
 
         block_title = BlockTitle.objects.create(title='most popular products')
         cls.most_popular_right = MostPopularRight.objects.create(
-            title_id=block_title.id, product_1_id=products[0].id, image_prod1_active='image1_active',
-            image_prod1='image1', product_2_id=products[1].id, image_prod2_active='image2_active', image_prod2='image2',
-            product_3_id=products[2].id, image_prod3_active='image3_active', image_prod3='image3'
+            title=block_title, product_1=products[0], image_prod1_active='image1_active',
+            image_prod1='image1', product_2=products[1], image_prod2_active='image2_active', image_prod2='image2',
+            product_3=products[2], image_prod3_active='image3_active', image_prod3='image3'
         )
 
     def test_most_popular_right_model_entry(self):
-        """Test MostPopularRight model data insertion/types/field attributes"""
-        data = self.most_popular_right
-        self.assertTrue(isinstance(data, MostPopularRight))
+        """
+        Test that created MostPopularRight object is
+        instance of MostPopularRight model
+        """
+        self.assertTrue(isinstance(self.most_popular_right, MostPopularRight))
 
     def test_most_popular_right_model_name(self):
         """Tests MostPopularRight name"""
-        data = self.most_popular_right
         self.assertEqual(
-            str(data),
+            str(self.most_popular_right),
             f'Секція: {self.most_popular_right.product_1}, '
             f'{self.most_popular_right.product_2}, '
             f'{self.most_popular_right.product_3}'

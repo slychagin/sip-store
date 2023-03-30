@@ -29,9 +29,9 @@ class TelegramBotTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        """Create telegram settings data, order and basket"""
-        cls.factory = RequestFactory()
+        """Create telegram settings data, orders and products"""
         cls.client = Client()
+        cls.factory = RequestFactory()
 
         # Create telegram settings in the database
         cls.tg_settings_object = TelegramSettings.objects.create(
@@ -67,7 +67,7 @@ class TelegramBotTest(TestCase):
         )
 
     def setUp(self):
-        """Add created in setUpTestData products to the basket"""
+        """Set communication method"""
         self.order_1.communication_method = 'PHONE'
         self.order_1.save()
         self.order_2.communication_method = 'TELEGRAM'
@@ -101,18 +101,22 @@ class TelegramBotTest(TestCase):
         send_to_telegram_order_message(basket, self.order_1)
         send_to_telegram_order_message(basket, self.order_2)
 
-    def test_send_to_telegram_moderate_new_comment_message(self):
+    @staticmethod
+    def test_send_to_telegram_moderate_new_comment_message():
         """Tests sending to telegram moderate new comment message"""
         send_to_telegram_moderate_new_comment_message()
 
-    def test_send_to_telegram_moderate_updated_comment_message(self):
+    @staticmethod
+    def test_send_to_telegram_moderate_updated_comment_message():
         """Tests sending to telegram moderate updated comment message"""
         send_to_telegram_moderate_updated_comment_message()
 
-    def test_send_to_telegram_moderate_new_review_message(self):
+    @staticmethod
+    def test_send_to_telegram_moderate_new_review_message():
         """Tests sending to telegram moderate new review message"""
         send_to_telegram_moderate_new_review_message()
 
-    def test_send_to_telegram_moderate_updated_review_message(self):
+    @staticmethod
+    def test_send_to_telegram_moderate_updated_review_message():
         """Tests sending to telegram moderate updated review message"""
         send_to_telegram_moderate_updated_review_message()

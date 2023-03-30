@@ -1,13 +1,13 @@
 from importlib import import_module
 from urllib.parse import urlencode
 
+from django.urls import reverse
 from django.conf import settings
 from django.test import (
     TestCase,
     Client,
     RequestFactory
 )
-from django.urls import reverse
 
 from category.models import Category
 from orders.models import Order, OrderItem
@@ -16,7 +16,8 @@ from store.models import Product, ReviewRating
 from store.views import (
     StorePageView,
     ProductsByCategoryListView,
-    ProductDetailView, SearchListView
+    ProductDetailView,
+    SearchListView
 )
 from telebot.models import TelegramSettings
 
@@ -191,12 +192,16 @@ class ProductDetailViewTest(TestCase):
 
     def test_product_details_view_url_accessible_by_name(self):
         """Tests product details view url accessible by name"""
-        response = self.client.get(reverse('product_details', args=['chicken', 'fitness-chicken']))
+        response = self.client.get(
+            reverse('product_details', args=['chicken', 'fitness-chicken'])
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_product_details_view_uses_correct_template(self):
         """Tests product details view uses correct template"""
-        response = self.client.get(reverse('product_details', args=['chicken', 'fitness-chicken']))
+        response = self.client.get(
+            reverse('product_details', args=['chicken', 'fitness-chicken'])
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'store/product_details.html')
 
@@ -204,7 +209,9 @@ class ProductDetailViewTest(TestCase):
         """Test product detail class-based view"""
         request = self.factory.get('/store/chicken/fitness-chicken/')
         self.view.setup(request)
-        response = self.client.get(reverse('product_details', args=['chicken', 'fitness-chicken']))
+        response = self.client.get(
+            reverse('product_details', args=['chicken', 'fitness-chicken'])
+        )
         html = response.content.decode('utf8')
 
         self.assertIn(str(self.category), html)
@@ -225,7 +232,9 @@ class ProductDetailViewTest(TestCase):
         """Test render 404 page if requested product does not exists"""
         request = self.factory.get('/store/not-found/not-found/')
         self.view.setup(request)
-        response = self.client.get(reverse('product_details', args=['chicken', 'fitness-chicken-not-found']))
+        response = self.client.get(
+            reverse('product_details', args=['chicken', 'fitness-chicken-not-found'])
+        )
         self.assertEqual(response.status_code, 404)
 
     def test_product_detail_view_post_method_with_invalid_form(self):

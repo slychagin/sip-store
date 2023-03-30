@@ -58,7 +58,7 @@ class HomePageView(TemplateView):
 
 
 def get_single_product(request):
-    """Return single product data by id to use in product quick show"""
+    """Return single product data by id to use in product quick show popup"""
     if request.method == 'POST':
         product_id = int(request.POST.get('product_id'))
         product = Product.objects.get(id=product_id)

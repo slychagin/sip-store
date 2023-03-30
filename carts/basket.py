@@ -61,37 +61,32 @@ class Basket:
         """Saves the discount if a coupon has been applied"""
         self.session['discount'] = int(discount)
 
-    def get_item_quantity(self, product):
+    def get_item_quantity(self, product_id):
         """Get quantity of current item by product id"""
-        product_id = str(product)
-        item_qty = self.basket[product_id]['qty']
+        item_qty = self.basket[str(product_id)]['qty']
         return item_qty
 
-    def get_sub_total(self, product):
+    def get_sub_total(self, product_id):
         """Get total price of current item"""
-        product_id = str(product)
-        item_qty = int(self.basket[product_id]['qty'])
-        item_sub_total = int(self.basket[product_id]['price'])
+        item_qty = int(self.basket[str(product_id)]['qty'])
+        item_sub_total = int(self.basket[str(product_id)]['price'])
         sub_total = item_qty * item_sub_total
         return sub_total
 
-    def add_quantity(self, product):
+    def add_quantity(self, product_id):
         """Increase quantity by one after press plus button in the session data"""
-        product_id = str(product)
-        self.basket[product_id]['qty'] += 1
+        self.basket[str(product_id)]['qty'] += 1
         self.save()
 
-    def subtract_quantity(self, product):
+    def subtract_quantity(self, product_id):
         """Decrease quantity by one after press minus button in the session data"""
-        product_id = str(product)
-        self.basket[product_id]['qty'] -= 1
+        self.basket[str(product_id)]['qty'] -= 1
         self.save()
 
-    def delete(self, product):
+    def delete(self, product_id):
         """Delete product from session data"""
-        product_id = str(product)
-        if product_id in self.basket:
-            del self.basket[product_id]
+        if str(product_id) in self.basket:
+            del self.basket[str(product_id)]
             self.save()
 
     def save(self):

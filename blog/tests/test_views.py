@@ -326,7 +326,7 @@ class SearchListViewTest(TestCase):
         cls.factory = RequestFactory()
         cls.view = SearchListView()
 
-        # Create category and post
+        # Create category and posts
         cls.category = BlogCategory.objects.create(
             category_name='fresh posts', slug='fresh-posts'
         )
@@ -465,29 +465,6 @@ class SearchListViewTest(TestCase):
         self.assertIn(self.post_1, context['posts'])
         self.assertIn(self.post_2, context['posts'])
         self.assertIn(self.post_3, context['posts'])
-
-
-# class ConvertToLocaltimeTest(TestCase):
-#     """Tests convert to localtime function"""
-#
-#     def test_convert_to_localtime(self):
-#         """Test convert to localtime function"""
-#         # After the page loads, three reviews are displayed. Hidden 17 reviews.
-#         # Press button "show more reviews" (show next 10 reviews, left 7 reviews)
-#         response = self.client.post(
-#             reverse('load_more_reviews'),
-#             {'product_id': self.product.id, 'visible_reviews': 10, 'action': 'POST'},
-#             xhr=True
-#         )
-#         self.assertEqual(len(response.json()['data']), 10)
-#
-#         # Press button "show more reviews" one more (show next 7 reviews, left 0 reviews)
-#         response = self.client.post(
-#             reverse('load_more_reviews'),
-#             {'product_id': self.product.id, 'visible_reviews': 20, 'action': 'POST'},
-#             xhr=True
-#         )
-#         self.assertEqual(len(response.json()['data']), 7)
 
 
 class LoadMoreCommentsTest(TestCase):

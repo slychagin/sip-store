@@ -4,7 +4,7 @@ from benefits.models import Benefits, Partners
 
 
 class BenefitsModelTest(TestCase):
-    """Testing Benefits model"""
+    """Tests the Benefits model"""
 
     @classmethod
     def setUpTestData(cls):
@@ -14,14 +14,15 @@ class BenefitsModelTest(TestCase):
         )
 
     def test_benefits_model_entry(self):
-        """Test Benefits model data insertion/types/field attributes"""
-        data = self.benefits_data
-        self.assertTrue(isinstance(data, Benefits))
+        """
+        Test that created benefits object is
+        instance of Benefit model
+        """
+        self.assertTrue(isinstance(self.benefits_data, Benefits))
 
     def test_benefits_model_name(self):
         """Test Benefits name"""
-        data = self.benefits_data
-        self.assertEqual(str(data), 'title')
+        self.assertEqual(str(self.benefits_data), 'title')
 
     def test_benefits_fields_max_length(self):
         """Test benefits fields max length"""
@@ -54,14 +55,15 @@ class PartnersModelTest(TestCase):
         cls.partners_data = Partners.objects.create(title='title', image='image')
 
     def test_partners_model_entry(self):
-        """Test Partners model data insertion/types/field attributes"""
-        data = self.partners_data
-        self.assertTrue(isinstance(data, Partners))
+        """
+        Test that created partners object is
+        instance of Partner model
+        """
+        self.assertTrue(isinstance(self.partners_data, Partners))
 
     def test_partners_model_name(self):
         """Test Partners object name"""
-        data = self.partners_data
-        self.assertEqual(str(data), 'title')
+        self.assertEqual(str(self.partners_data), 'title')
 
     def test_partners_fields_max_length(self):
         """Test partners fields max length"""
@@ -75,5 +77,5 @@ class PartnersModelTest(TestCase):
         title = data._meta.get_field('title').verbose_name
         image = data._meta.get_field('image').verbose_name
 
-        self.assertEqual(title, 'найменування партнеру')
+        self.assertEqual(title, 'найменування партнера')
         self.assertEqual(image, 'фото партнера')

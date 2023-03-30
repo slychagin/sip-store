@@ -22,11 +22,10 @@ class Wishlist:
             }
         self.save()
 
-    def delete_wishlist(self, product):
+    def delete_wishlist(self, product_id):
         """Delete product from wishlist"""
-        product_id = str(product)
-        if product_id in self.wishlist:
-            del self.wishlist[product_id]
+        if str(product_id) in self.wishlist:
+            del self.wishlist[str(product_id)]
         self.save()
 
     def __iter__(self):

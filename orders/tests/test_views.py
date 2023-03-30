@@ -3,13 +3,13 @@ from datetime import date
 from importlib import import_module
 
 from django.conf import settings
+from django.urls import reverse
 from django.test import override_settings
 from django.test import (
     TestCase,
     Client,
     RequestFactory
 )
-from django.urls import reverse
 
 from carts.models import Coupon
 from category.models import Category
@@ -197,9 +197,7 @@ class OrderFormViewTest(TestCase):
 
     @override_settings(EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend')
     def test_post_method_with_valid_form_with_discount(self):
-        """
-        Tests post method with valid form.
-        """
+        """Tests post method with valid form"""
         # Set discount
         self.client.post(
             reverse('get_coupon'),
@@ -238,9 +236,7 @@ class OrderFormViewTest(TestCase):
 
     @override_settings(EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend')
     def test_post_method_with_valid_form_without_discount(self):
-        """
-        Tests post method with valid form.
-        """
+        """Tests post method with valid form"""
         self.order_message.delete()
         request = self.factory.get('/order/')
         request.session = self.engine.SessionStore()

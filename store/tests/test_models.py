@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.test.client import RequestFactory
 from django.test import TestCase
@@ -24,31 +23,34 @@ class ProductModelTest(TestCase):
         category = Category.objects.create(category_name='chicken', slug='chicken')
         cls.product_1 = Product.objects.create(
             product_name='fitness chicken', slug='fitness-chicken',
-            price=120, product_image='good chicken', category_id=category.id
+            price=120, product_image='good chicken', category=category
         )
         cls.product_2 = Product.objects.create(
             product_name='beacon', slug='beacon',
-            price=220, product_image='beacon', category_id=category.id
+            price=220, product_image='beacon', category=category
         )
         cls.product_3 = Product.objects.create(
             product_name='pork', slug='pork',
-            price=320, product_image='pork', category_id=category.id
+            price=320, product_image='pork', category=category
         )
 
     def test_product_model_entry(self):
-        """Test Product model data insertion/types/field attributes"""
-        data = self.product_1
-        self.assertTrue(isinstance(data, Product))
+        """
+        Test that created Product object is
+        instance of Product model
+        """
+        self.assertTrue(isinstance(self.product_1, Product))
 
     def test_product_model_name(self):
         """Tests Product name"""
-        data = self.product_1
-        self.assertEqual(str(data), 'fitness chicken')
+        self.assertEqual(str(self.product_1), 'fitness chicken')
 
     def test_get_url(self):
         """Test absolute url for product object"""
-        data = self.product_1
-        self.assertEqual(data.get_url(), '/store/category/chicken/fitness-chicken/')
+        self.assertEqual(
+            self.product_1.get_url(),
+            '/store/category/chicken/fitness-chicken/'
+        )
 
     def test_average_review_rating(self):
         """Test calculating average review rating"""
@@ -83,6 +85,7 @@ class ProductModelTest(TestCase):
         slug_max_length = data._meta.get_field('slug').max_length
         unit_max_length = data._meta.get_field('unit').max_length
         related_products_title_max_length = data._meta.get_field('related_products_title').max_length
+
         self.assertEqual(product_name_max_length, 255)
         self.assertEqual(slug_max_length, 255)
         self.assertEqual(unit_max_length, 50)
@@ -90,8 +93,7 @@ class ProductModelTest(TestCase):
 
     def test_product_price_is_integer(self):
         """Test product price"""
-        data = self.product_1
-        product_price = data._meta.get_field('price')
+        product_price = self.product_1._meta.get_field('price')
         self.assertTrue(type(product_price), int)
 
     def test_product_labels(self):
@@ -146,18 +148,17 @@ class CountProductsTest(TestCase):
 
     def setUp(self):
         """Add created in setUpTestData products to the basket"""
-        User.objects.create(username='admin')
+        self.factory = RequestFactory()
+
         category = Category.objects.create(category_name='chicken', slug='chicken')
         self.product_1 = Product.objects.create(
             product_name='chicken', slug='chicken', price=100,
-            product_image='good chicken', category_id=category.id
+            product_image='good chicken', category=category
         )
         self.product_2 = Product.objects.create(
             product_name='pork', slug='pork', price=200,
-            product_image='good pork', category_id=category.id
+            product_image='good pork', category=category
         )
-
-        self.factory = RequestFactory()
 
         self.client.post(
             reverse('add_cart'),
@@ -192,24 +193,24 @@ class ProductGalleryModelTest(TestCase):
         category = Category.objects.create(category_name='chicken', slug='chicken')
         product = Product.objects.create(
             product_name='pork', slug='pork', price=100,
-            product_image='good pork', category_id=category.id
+            product_image='good pork', category=category
         )
-        cls.product_gallery = ProductGallery.objects.create(product_id=product.id)
+        cls.product_gallery = ProductGallery.objects.create(product=product)
 
     def test_product_gallery_entry(self):
-        """Test ProductGallery model data insertion/types/field attributes"""
-        data = self.product_gallery
-        self.assertTrue(isinstance(data, ProductGallery))
+        """
+        Test that created ProductGallery object is
+        instance of ProductGallery model
+        """
+        self.assertTrue(isinstance(self.product_gallery, ProductGallery))
 
     def test_product_gallery_model_name(self):
         """Tests ProductGallery object name"""
-        data = self.product_gallery
-        self.assertEqual(str(data), 'pork')
+        self.assertEqual(str(self.product_gallery), 'pork')
 
     def test_product_gallery_fields_max_length(self):
         """Test ProductGallery fields max length"""
-        data = self.product_gallery
-        image_max_length = data._meta.get_field('image').max_length
+        image_max_length = self.product_gallery._meta.get_field('image').max_length
         self.assertEqual(image_max_length, 255)
 
     def test_product_gallery_labels(self):
@@ -234,20 +235,19 @@ class ProductInfoModelTest(TestCase):
         cls.product_info = ProductInfo.objects.create()
 
     def test_product_info_entry(self):
-        """Test ProductInfo model data insertion/types/field attributes"""
-        data = self.product_info
-        self.assertTrue(isinstance(data, ProductInfo))
+        """
+        Test that created ProductInfo object is
+        instance of ProductInfo model
+        """
+        self.assertTrue(isinstance(self.product_info, ProductInfo))
 
     def test_product_info_model_name(self):
         """Tests ProductInfo object name"""
-        data = self.product_info
-        self.assertEqual(str(data), 'Інформація щодо товару')
+        self.assertEqual(str(self.product_info), 'Інформація щодо товару')
 
     def test_product_info_labels(self):
         """Test ProductInfo verbose names"""
-        data = self.product_info
-        description = data._meta.get_field('description').verbose_name
-
+        description = self.product_info._meta.get_field('description').verbose_name
         self.assertEqual(description, 'інфо')
 
 
@@ -259,38 +259,38 @@ class ReviewRatingModelTest(TestCase):
         self.category = Category.objects.create(category_name='chicken', slug='chicken')
         self.product = Product.objects.create(
             product_name='pork', slug='pork', price=100,
-            product_image='good pork', category_id=self.category.id
+            product_image='good pork', category=self.category
         )
         self.review_rating = ReviewRating.objects.create(
-            product_id=self.product.id, rating=4.5, review='A good product!',
+            product=self.product, rating=4.5, review='A good product!',
             name='Serhio', email='gmail@gmail.com'
         )
 
     def test_review_rating_entry(self):
-        """Test ReviewRating model data insertion/types/field attributes"""
-        data = self.review_rating
-        self.assertTrue(isinstance(data, ReviewRating))
+        """
+        Test that created ReviewRating object is
+        instance of ReviewRating model
+        """
+        self.assertTrue(isinstance(self.review_rating, ReviewRating))
 
     def test_review_rating_model_name(self):
         """Test ReviewRating object name"""
-        data = self.review_rating
-        self.assertEqual(str(data), 'pork')
+        self.assertEqual(str(self.review_rating), 'pork')
 
     def test_rating_validation(self):
         """
-        Check rating that in should be from 0.5 to 5.0
-        with step 0.5
+        Check rating that in should be from 0.5 to 5.0 with step 0.5
         """
         rating_1 = ReviewRating.objects.create(
-            product_id=self.product.id, rating=0, review='A good product!',
+            product=self.product, rating=0, review='A good product!',
             name='Serhio', email='gmail@gmail.com'
         )
         rating_2 = ReviewRating.objects.create(
-            product_id=self.product.id, rating=5.5, review='A good product!',
+            product=self.product, rating=5.5, review='A good product!',
             name='Serhio', email='gmail@gmail.com'
         )
         rating_3 = ReviewRating.objects.create(
-            product_id=self.product.id, rating=3.3, review='A good product!',
+            product=self.product, rating=3.3, review='A good product!',
             name='Serhio', email='gmail@gmail.com'
         )
         self.assertRaises(ValidationError, rating_1.full_clean)

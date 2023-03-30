@@ -20,7 +20,7 @@ from store.models import Product
 
 
 class BannersAdminTest(TestCase):
-    """Tests thumbnail format functions in Banners admin"""
+    """Tests get thumbnail functions in Banners app admin"""
 
     @classmethod
     def setUpTestData(cls):
@@ -28,7 +28,7 @@ class BannersAdminTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price=100, product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category=category
         )
         cls.img_html_tag_100 = '<img src="/media/image" width="100"">'
         cls.img_html_tag_120 = '<img src="/media/image" width="120" height="20"">'

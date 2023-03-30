@@ -8,20 +8,21 @@ class TelegramSettingsModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        """Create ProductInfo object"""
+        """Create TelegramSettings object"""
         cls.telegram_settings = TelegramSettings.objects.create(
             tg_token='bgjdlkjfbfbnf', tg_chat='41215151', tg_api='123.123.12.12'
         )
 
     def test_telegram_settings_entry(self):
-        """Test TelegramSettings model data insertion/types/field attributes"""
-        data = self.telegram_settings
-        self.assertTrue(isinstance(data, TelegramSettings))
+        """
+        Test that created TelegramSettings object is
+        instance of TelegramSettings model
+        """
+        self.assertTrue(isinstance(self.telegram_settings, TelegramSettings))
 
     def test_telegram_settings_model_name(self):
         """Tests TelegramSettings object name"""
-        data = self.telegram_settings
-        self.assertEqual(str(data), '41215151')
+        self.assertEqual(str(self.telegram_settings), '41215151')
 
     def test_telegram_settings_max_length(self):
         """Test TelegramSettings fields max length"""

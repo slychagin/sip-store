@@ -36,7 +36,7 @@ def wishlist_delete(request):
     if request.POST.get('action') == 'POST':
         product_id = int(request.POST.get('product_id'))
 
-        wishlist.delete_wishlist(product=product_id)
+        wishlist.delete_wishlist(product_id)
 
         wishlist_qty = wishlist.__len__()
         response = JsonResponse({'qty': wishlist_qty})

@@ -17,7 +17,6 @@ from contacts.views import ContactsView
 
 class ContactsViewTest(TestCase):
     """Tests ContactsView"""
-
     @classmethod
     def setUpTestData(cls):
         """Create sale point object"""
@@ -25,7 +24,7 @@ class ContactsViewTest(TestCase):
         SalePoint.objects.create(name='Sale point 2')
 
     def setUp(self):
-        """Create view, client and request"""
+        """Create view, client and request factory"""
         self.client = Client()
         self.factory = RequestFactory()
         self.view = ContactsView()
@@ -115,7 +114,6 @@ class ContactsViewTest(TestCase):
 
 class MapDataTest(TestCase):
     """Tests data from database about sale points"""
-
     @classmethod
     def setUpTestData(cls):
         """Create sale point objects"""

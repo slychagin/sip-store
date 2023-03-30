@@ -19,7 +19,10 @@ class SalePoint(models.Model):
     email = models.EmailField(max_length=100, blank=True, verbose_name=_('E-mail'))
     schedule = models.CharField(max_length=200, blank=True, verbose_name=_('графік роботи'))
     image = models.ImageField(upload_to='photos/sale_points', blank=True, verbose_name=_('фото'))
-    is_opened = models.BooleanField(default=True, verbose_name=_('працює'), help_text=_('Зняти помітку, якщо точка зачинилась або тимчасово не працює.'))
+    is_opened = models.BooleanField(
+        default=True, verbose_name=_('працює'),
+        help_text=_('Зняти помітку, якщо точка зачинилась або тимчасово не працює.')
+    )
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('дата замовлення'))
     updated = models.DateTimeField(auto_now=True, verbose_name=_('дата коригування'))
 

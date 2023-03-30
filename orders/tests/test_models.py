@@ -30,14 +30,14 @@ class OrderModelTest(TestCase):
         )
 
     def test_order_entry(self):
-        """Test Order model data insertion/types/field attributes"""
-        data = self.order
-        self.assertTrue(isinstance(data, Order))
+        """
+        Test that created order object is instance of Order model
+        """
+        self.assertTrue(isinstance(self.order, Order))
 
     def test_order_model_name(self):
         """Tests Order object name"""
-        data = self.order
-        self.assertEqual(str(data), f'№ 2000 від {date.today().strftime("%d.%m.%Y")}')
+        self.assertEqual(str(self.order), f'№ 2000 від {date.today().strftime("%d.%m.%Y")}')
 
     def test_phone_number_validation(self):
         """Check phone format by RegexValidator"""
@@ -46,7 +46,6 @@ class OrderModelTest(TestCase):
             email='email@gmail.com', city='Черкаси', street='вул. Шевченка', house='7',
             order_total=500, discount=100
         )
-
         self.assertRaises(ValidationError, order.full_clean)
 
     def test_order_fields_max_length(self):
@@ -151,20 +150,19 @@ class OrderItemModelTest(TestCase):
         )
 
     def test_order_item_entry(self):
-        """Test OrderItem model data insertion/types/field attributes"""
-        data = self.order_item
-        self.assertTrue(isinstance(data, OrderItem))
+        """
+        Test that created order item object is
+        instance of OrderItem model
+        """
+        self.assertTrue(isinstance(self.order_item, OrderItem))
 
     def test_order_item_model_name(self):
         """Tests OrderItem object name"""
-        data = self.order_item
-        self.assertEqual(str(data), 'chicken')
+        self.assertEqual(str(self.order_item), 'chicken')
 
     def test_order_item_fields_max_length(self):
         """Test OrderItem fields max length"""
-        data = self.order_item
-        user_email_max_length = data._meta.get_field('user_email').max_length
-
+        user_email_max_length = self.order_item._meta.get_field('user_email').max_length
         self.assertEqual(user_email_max_length, 100)
 
     def test_order_item_labels(self):
@@ -201,14 +199,15 @@ class NewPostTerminalsModelTest(TestCase):
         )
 
     def test_new_post_terminal_entry(self):
-        """Test NewPostTerminals model data insertion/types/field attributes"""
-        data = self.new_post_terminal
-        self.assertTrue(isinstance(data, NewPostTerminals))
+        """
+        Test that created new post terminal object is
+        instance of NewPostTerminals model
+        """
+        self.assertTrue(isinstance(self.new_post_terminal, NewPostTerminals))
 
     def test_new_post_terminal_model_name(self):
         """Tests NewPostTerminals object name"""
-        data = self.new_post_terminal
-        self.assertEqual(str(data), 'Черкаси, Відділення №1')
+        self.assertEqual(str(self.new_post_terminal), 'Черкаси, Відділення №1')
 
     def test_new_post_terminal_fields_max_length(self):
         """Test NewPostTerminals fields max length"""
@@ -231,21 +230,21 @@ class CustomersModelTest(TestCase):
         )
 
     def test_customers_entry(self):
-        """Test Customers model data insertion/types/field attributes"""
-        data = self.customer
-        self.assertTrue(isinstance(data, Customers))
+        """
+        Test that created customer object is
+        instance of 'Customers' model
+        """
+        self.assertTrue(isinstance(self.customer, Customers))
 
     def test_customers_model_name(self):
         """Tests Customers object name"""
-        data = self.customer
-        self.assertEqual(str(data), 'Serhio')
+        self.assertEqual(str(self.customer), 'Serhio')
 
     def test_phone_number_validation(self):
         """Check phone format by RegexValidator"""
         customer = Customers.objects.create(
             customer_name='Serhio', phone='099-777-77-77', email='email@gmail.com'
         )
-
         self.assertRaises(ValidationError, customer.full_clean)
 
     def test_customers_fields_max_length(self):
@@ -313,25 +312,24 @@ class SubscribersTest(TestCase):
         )
 
     def test_subscribers_entry(self):
-        """Test Subscribers model data insertion/types/field attributes"""
-        data = self.subscribers
-        self.assertTrue(isinstance(data, Subscribers))
+        """
+        Test that created subscribers object is
+        instance of 'Subscribers' model
+        """
+        self.assertTrue(isinstance(self.subscribers, Subscribers))
 
     def test_subscribers_model_name(self):
         """Tests Subscribers object name"""
-        data = self.subscribers
-        self.assertEqual(str(data), 'email@gmail.com')
+        self.assertEqual(str(self.subscribers), 'email@gmail.com')
 
     def test_subscribers_fields_max_length(self):
         """Test Subscribers fields max length"""
-        data = self.subscribers
-        email_max_length = data._meta.get_field('email').max_length
+        email_max_length = self.subscribers._meta.get_field('email').max_length
         self.assertEqual(email_max_length, 100)
 
     def test_subscribers_labels(self):
         """Test Subscribers verbose names"""
-        data = self.subscribers
-        email = data._meta.get_field('email').verbose_name
+        email = self.subscribers._meta.get_field('email').verbose_name
         self.assertEqual(email, 'E-mail')
 
 
@@ -342,17 +340,21 @@ class OrderMessageTest(TestCase):
         """Create OrderMessage object"""
         self.order_message = OrderMessage.objects.create()
 
-    def test_subscribers_entry(self):
-        """Test OrderMessage model data insertion/types/field attributes"""
-        data = self.order_message
-        self.assertTrue(isinstance(data, OrderMessage))
+    def test_order_message_entry(self):
+        """
+        Test that created OrderMessage object is
+        instance of OrderMessage model
+        """
+        self.assertTrue(isinstance(self.order_message, OrderMessage))
 
-    def test_subscribers_model_name(self):
+    def test_order_message_model_name(self):
         """Tests OrderMessage object name"""
-        data = self.order_message
-        self.assertEqual(str(data), 'Повідомлення покупцям на email після замовлення')
+        self.assertEqual(
+            str(self.order_message),
+            'Повідомлення покупцям на email після замовлення'
+        )
 
-    def test_subscribers_labels(self):
+    def test_order_message_labels(self):
         """Test OrderMessage verbose names"""
         data = self.order_message
         text_1 = data._meta.get_field('text_1').verbose_name
@@ -370,17 +372,17 @@ class ThanksPageTest(TestCase):
         self.thanks_page = ThanksPage.objects.create()
 
     def test_thanks_page_entry(self):
-        """Test ThanksPage model data insertion/types/field attributes"""
-        data = self.thanks_page
-        self.assertTrue(isinstance(data, ThanksPage))
+        """
+        Test that created ThanksPage object is
+        instance of ThanksPage model
+        """
+        self.assertTrue(isinstance(self.thanks_page, ThanksPage))
 
     def test_thanks_page_model_name(self):
         """Tests ThanksPage object name"""
-        data = self.thanks_page
-        self.assertEqual(str(data), 'Сторінка подяки')
+        self.assertEqual(str(self.thanks_page), 'Сторінка подяки')
 
     def test_thanks_page_labels(self):
         """Test ThanksPage verbose names"""
-        data = self.thanks_page
-        text = data._meta.get_field('text').verbose_name
+        text = self.thanks_page._meta.get_field('text').verbose_name
         self.assertEqual(text, 'текст до сторінки подяки')

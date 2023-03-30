@@ -1,5 +1,6 @@
 from importlib import import_module
 
+from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import (
@@ -7,7 +8,6 @@ from django.test import (
     Client,
     RequestFactory
 )
-from django.urls import reverse
 
 from category.models import Category
 from store.models import Product

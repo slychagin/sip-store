@@ -6,7 +6,8 @@ from embed_video.admin import AdminVideoMixin
 from store.forms import (
     ProductGalleryForm,
     ProductAdminForm,
-    ProductInfoAdminForm, ReviewRatingAdminForm
+    ProductInfoAdminForm,
+    ReviewRatingAdminForm
 )
 from store.models import (
     Product,

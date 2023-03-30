@@ -12,14 +12,15 @@ class SalePointModelTest(TestCase):
         cls.sale_point = SalePoint.objects.create(name='Sale Point')
 
     def test_sale_point_entry(self):
-        """Test SalePoint model data insertion/types/field attributes"""
-        data = self.sale_point
-        self.assertTrue(isinstance(data, SalePoint))
+        """
+        Test that created sale point object is
+        instance of SalePoint model
+        """
+        self.assertTrue(isinstance(self.sale_point, SalePoint))
 
     def test_sale_point_model_name(self):
         """Tests SalePoint object name"""
-        data = self.sale_point
-        self.assertEqual(str(data), 'Sale Point')
+        self.assertEqual(str(self.sale_point), 'Sale Point')
 
     def test_sale_point_max_length(self):
         """Test SalePoint fields max length"""
@@ -38,7 +39,6 @@ class SalePointModelTest(TestCase):
         schedule_max_length = data._meta.get_field('schedule').max_length
 
         self.assertEqual(name_max_length, 200)
-
         self.assertEqual(city_max_length, 100)
         self.assertEqual(street_max_length, 100)
         self.assertEqual(house_max_length, 10)

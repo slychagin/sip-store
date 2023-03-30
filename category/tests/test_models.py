@@ -12,19 +12,19 @@ class CategoryModelTest(TestCase):
         cls.category_data = Category.objects.create(category_name='chicken', slug='chicken')
 
     def test_category_model_entry(self):
-        """Test Category model data insertion/types/field attributes"""
-        data = self.category_data
-        self.assertTrue(isinstance(data, Category))
+        """
+        Test that created category object is
+        instance of Category model
+        """
+        self.assertTrue(isinstance(self.category_data, Category))
 
     def test_category_model_name(self):
         """Test Category name"""
-        data = self.category_data
-        self.assertEqual(str(data), 'chicken')
+        self.assertEqual(str(self.category_data), 'chicken')
 
     def test_get_absolute_url(self):
         """Test absolute url for category object"""
-        data = self.category_data
-        self.assertEqual(data.get_url(), '/store/category/chicken/')
+        self.assertEqual(self.category_data.get_url(), '/store/category/chicken/')
 
     def test_category_fields_max_length(self):
         """Test category fields max length"""

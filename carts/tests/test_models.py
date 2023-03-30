@@ -16,14 +16,15 @@ class CouponModelTest(TestCase):
         )
 
     def test_coupon_entry(self):
-        """Test Coupon model data insertion/types/field attributes"""
-        data = self.coupon
-        self.assertTrue(isinstance(data, Coupon))
+        """
+        Test that created coupon object is
+        instance of Coupon model
+        """
+        self.assertTrue(isinstance(self.coupon, Coupon))
 
     def test_coupon_model_name(self):
         """Tests Coupon object name"""
-        data = self.coupon
-        self.assertEqual(str(data), 'aaa')
+        self.assertEqual(str(self.coupon), 'aaa')
 
     def test_coupon_fields_max_length(self):
         """Test Coupon fields max length"""

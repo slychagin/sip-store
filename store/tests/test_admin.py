@@ -15,7 +15,7 @@ class ProductGalleryAdminTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price=100, product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category=category
         )
 
         cls.product_gallery_with_image = ProductGallery.objects.create(

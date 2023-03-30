@@ -2,6 +2,7 @@ import os
 from importlib import import_module
 
 from django.conf import settings
+from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import (
@@ -9,7 +10,6 @@ from django.test import (
     Client,
     RequestFactory
 )
-from django.urls import reverse
 
 from orders.models import Subscribers
 from sip.settings import BASE_DIR
@@ -57,12 +57,16 @@ class HomePageTest(TestCase):
 
     def test_category_url(self):
         """Test allowed category url"""
-        response = self.client.get(reverse('products_by_category', args=['chicken']))
+        response = self.client.get(
+            reverse('products_by_category', args=['chicken'])
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_product_detail_url(self):
         """Test allowed product detail url"""
-        response = self.client.get(reverse('product_details', args=['chicken', 'fitness-chicken']))
+        response = self.client.get(
+            reverse('product_details', args=['chicken', 'fitness-chicken'])
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_homepage_html(self):
@@ -126,7 +130,6 @@ class GetSingleProductTest(TestCase):
             {'product_id': self.product_1.id, 'action': 'POST'},
             xhr=True
         )
-
         self.assertEqual(response.json()['title'], self.product_1.product_name)
         self.assertEqual(response.json()['price'], self.product_1.price)
         self.assertEqual(response.json()['product_url'], self.product_1.get_url())
@@ -139,7 +142,6 @@ class GetSingleProductTest(TestCase):
             {'product_id': self.product_2.id, 'action': 'POST'},
             xhr=True
         )
-
         self.assertEqual(response.json()['video1'], self.product_2.get_url())
         self.assertEqual(response.json()['target'], '_self')
 

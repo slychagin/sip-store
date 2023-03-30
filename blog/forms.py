@@ -1,13 +1,13 @@
-from crispy_forms.bootstrap import FormActions
 from crispy_forms.helper import FormHelper
+from crispy_forms.bootstrap import FormActions
 from crispy_forms.layout import Layout, Row, Column, Submit
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
 from django import forms
 from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _
 
 from blog.models import Post, PostComment
-
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class PostAdminForm(forms.ModelForm):
@@ -45,9 +45,7 @@ class PostCommentForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_id = 'post-comment-form'
-        self.helper.attrs = {
-            'novalidate': ''
-        }
+        self.helper.attrs = {'novalidate': ''}
         self.helper.layout = Layout(
             Row(
                 Column('name', ),
@@ -70,13 +68,15 @@ class PostCommentForm(forms.ModelForm):
 
 
 class PostCommentAdminForm(forms.ModelForm):
+    """Create comment form in admin panel"""
 
     class Meta:
         model = PostComment
         fields = '__all__'
 
     def clean(self):
-        """Rase error if administrator entered comment for post
+        """
+        Rase error if administrator entered comment for post
         in admin panel with not unique email
         """
         cleaned_data = super(PostCommentAdminForm, self).clean()

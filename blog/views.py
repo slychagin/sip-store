@@ -85,10 +85,14 @@ class PostDetailView(ModelFormMixin, DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        """
+        Processing the form through ajax. If the form is valid,
+        then it calls the valid form processing method,
+        if not, it displays errors using Crispy forms
+        """
         is_ajax = request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
         if is_ajax:
             form = self.get_form()
-            self.object = self.get_object()
 
             if form.is_valid():
                 return self.form_valid(form)
@@ -102,7 +106,7 @@ class PostDetailView(ModelFormMixin, DetailView):
 
     def form_valid(self, form):
         """
-        Save a comment in the database, if it is a new review,
+        Save a comment in the database, if it is a new,
         and overwrites it if there was already.
         """
         post = self.get_object()
@@ -116,7 +120,7 @@ class PostDetailView(ModelFormMixin, DetailView):
             form.save()
             resp = {'update': True}
 
-            # Send message to telegram
+            # Send a message about the need to moderate a comment in Telegram
             send_to_telegram_moderate_updated_comment_message()
 
             return HttpResponse(json.dumps(resp), content_type='application/json')
@@ -128,14 +132,14 @@ class PostDetailView(ModelFormMixin, DetailView):
             form.save()
             resp = {'success': True}
 
-            # Send message to telegram
+            # Send a message about the need to moderate a comment in Telegram
             send_to_telegram_moderate_new_comment_message()
 
             return HttpResponse(json.dumps(resp), content_type='application/json')
 
 
 class SearchListView(ListView):
-    """Find posts by keyword"""
+    """Find posts by entered keyword in search string"""
     template_name = 'blog/blog.html'
     context_object_name = 'posts'
 
@@ -144,6 +148,7 @@ class SearchListView(ListView):
         self.object_list = None
 
     def get_queryset(self):
+        """Filter posts by keyword"""
         if 'keyword' in self.request.GET:
             keyword = self.request.GET['keyword']
             self.object_list = Post.objects.order_by(
@@ -170,6 +175,8 @@ def load_more_comments(request):
         lower = upper - 10
 
         post = get_object_or_404(Post, id=post_id)
+
+        # Take comments starting from the fourth, since three are displayed immediately after page loading
         comments = list(PostComment.objects.filter(post=post, is_moderated=True)[3:].values()[lower:upper])
         for item in comments:
             item['modified_date'] = convert_to_localtime(item['modified_date'])

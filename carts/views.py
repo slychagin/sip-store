@@ -18,7 +18,10 @@ class CartPageView(TemplateView):
 
 
 def add_cart(request):
-    """Add the particular product with entered quantity to the cart by product id"""
+    """
+    Add the particular product with entered
+    quantity to the cart by product id
+    """
     basket = Basket(request)
     if request.POST.get('action') == 'POST':
         product_id = int(request.POST.get('product_id'))
@@ -37,12 +40,13 @@ def plus_quantity(request):
     basket = Basket(request)
     if request.method == 'POST':
         product_id = int(request.POST.get('product_id'))
-        basket.add_quantity(product=product_id)
+        basket.add_quantity(product_id)
 
         basket_qty = basket.__len__()
         basket_total = basket.get_total_price()
-        item_quantity = basket.get_item_quantity(product=product_id)
+        item_quantity = basket.get_item_quantity(product_id)
         item_total_price = basket.get_sub_total(product_id)
+
         response = JsonResponse({
             'qty': basket_qty,
             'total': basket_total,
@@ -57,15 +61,15 @@ def minus_quantity(request):
     basket = Basket(request)
     if request.method == 'POST':
         product_id = int(request.POST.get('product_id'))
-        basket.subtract_quantity(product=product_id)
+        basket.subtract_quantity(product_id)
 
         basket_qty = basket.__len__()
         basket_total = basket.get_total_price()
-        item_quantity = basket.get_item_quantity(product=product_id)
+        item_quantity = basket.get_item_quantity(product_id)
         item_total_price = basket.get_sub_total(product_id)
 
         if item_quantity < 1:
-            basket.delete(product=product_id)
+            basket.delete(product_id)
 
         response = JsonResponse({
             'qty': basket_qty,
@@ -81,7 +85,7 @@ def cart_delete(request):
     basket = Basket(request)
     if request.POST.get('action') == 'POST':
         product_id = int(request.POST.get('product_id'))
-        basket.delete(product=product_id)
+        basket.delete(product_id)
         basket_qty = basket.__len__()
         basket_total = basket.get_total_price()
         response = JsonResponse({'qty': basket_qty, 'total': basket_total})
@@ -93,7 +97,7 @@ def mini_cart_delete(request):
     basket = Basket(request)
     if request.POST.get('action') == 'POST':
         product_id = int(request.POST.get('product_id'))
-        basket.delete(product=product_id)
+        basket.delete(product_id)
         basket_qty = basket.__len__()
         mini_cart_total = basket.get_total_price()
         response = JsonResponse({

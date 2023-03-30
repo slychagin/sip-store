@@ -1,8 +1,8 @@
 import json
 
+from django.db.models import Q
 from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.context_processors import csrf
@@ -12,8 +12,16 @@ from django.views.generic.edit import ModelFormMixin
 from blog.views import convert_to_localtime
 from category.models import Category
 from orders.models import OrderItem
-from store.forms import ReviewRatingForm, ProductsSortForm
-from store.models import Product, ProductGallery, ProductInfo, ReviewRating
+from store.forms import (
+    ReviewRatingForm,
+    ProductsSortForm
+)
+from store.models import (
+    Product,
+    ProductGallery,
+    ProductInfo,
+    ReviewRating
+)
 from telebot.telegram import (
     send_to_telegram_moderate_new_review_message,
     send_to_telegram_moderate_updated_review_message
@@ -135,7 +143,6 @@ class ProductDetailView(ModelFormMixin, DetailView):
         is_ajax = request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
         if is_ajax:
             form = self.get_form()
-            self.object = self.get_object()
 
             if form.is_valid():
                 return self.form_valid(form)

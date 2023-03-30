@@ -5,8 +5,9 @@ from store.models import Product
 
 
 class WeekOfferBanner(models.Model):
-    """Create Week Offer model for left banner"""
+    """Create Week Offer Banner model for left banner in the database"""
     objects = models.Manager()
+
     title = models.CharField(max_length=100, blank=True, verbose_name=_('назва банера'))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('товар'))
     image_active = models.ImageField(upload_to='photos/banners', verbose_name=_('фото 1 (активне)'))
@@ -22,8 +23,9 @@ class WeekOfferBanner(models.Model):
 
 
 class MainBanner(models.Model):
-    """Create Main Banner in the Home page"""
+    """Create Main Banner model in the database"""
     objects = models.Manager()
+
     title = models.CharField(max_length=200, blank=True, verbose_name=_('заголовок'))
     description = models.CharField(max_length=255, blank=True, verbose_name=_('опис'))
     image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'))
@@ -43,9 +45,9 @@ class MainBanner(models.Model):
 class TwoBanners(models.Model):
     """Create TwoBanners model in the database"""
     objects = models.Manager()
+
     title = models.CharField(max_length=100, blank=True, verbose_name=_('заголовок'))
-    image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'),
-                              help_text=_('розмір фото 561х190'))
+    image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'), help_text=_('розмір фото 561х190'))
     banner_url = models.URLField(max_length=255, verbose_name=_('URL банера'))
 
     class Meta:
@@ -59,6 +61,7 @@ class TwoBanners(models.Model):
 class OfferSingleBanner(models.Model):
     """Create OfferSingleBanner model in the database"""
     objects = models.Manager()
+
     image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'))
     banner_url = models.URLField(max_length=255, verbose_name=_('URL банера'))
 
@@ -74,8 +77,7 @@ class FooterBanner(models.Model):
     """Create FooterBanner model in the database"""
     objects = models.Manager()
 
-    image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'),
-                              help_text=_('розмір фото 1146х240'))
+    image = models.ImageField(upload_to='photos/banners', verbose_name=_('фото'), help_text=_('розмір фото 1146х240'))
     banner_url = models.URLField(max_length=255, verbose_name=_('URL банера'))
 
     class Meta:

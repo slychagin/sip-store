@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class TelegramSettings(models.Model):
+    """Create TelegramSettings model in the database"""
     objects = models.Manager()
 
     tg_token = models.CharField(max_length=100, verbose_name=_('токен'))

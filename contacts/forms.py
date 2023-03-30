@@ -26,9 +26,7 @@ class ContactForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_id = 'contact-form'
-        self.helper.attrs = {
-            'novalidate': ''
-        }
+        self.helper.attrs = {'novalidate': ''}
         self.helper.layout = Layout(
             'name',
             'email',

@@ -13,29 +13,30 @@ from store.models import Product
 
 
 class WeekOfferBannerModelTest(TestCase):
-    """Tests WeekOfferBanner model"""
+    """Tests the WeekOfferBanner model"""
 
     @classmethod
     def setUpTestData(cls):
-        """Create WeekOfferBanner object"""
+        """Create category, product and WeekOfferBanner objects"""
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price=100, product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category=category
         )
         cls.week_offer_banner = WeekOfferBanner.objects.create(
-            title='banner', product_id=product.id, image_active='product_active', image='product'
+            title='banner', product=product, image_active='product_active', image='product'
         )
 
     def test_week_offer_banner_model_entry(self):
-        """Test WeekOfferBanner model banner insertion/types/field attributes"""
-        data = self.week_offer_banner
-        self.assertTrue(isinstance(data, WeekOfferBanner))
+        """
+        Test that created week_offer_banner object is
+        instance of WeekOfferBanner model banner
+        """
+        self.assertTrue(isinstance(self.week_offer_banner, WeekOfferBanner))
 
     def test_week_offer_banner_model_name(self):
         """Tests WeekOfferBanner object name"""
-        data = self.week_offer_banner
-        self.assertEqual(str(data), 'banner')
+        self.assertEqual(str(self.week_offer_banner), 'banner')
 
     def test_week_offer_banner_fields_max_length(self):
         """Test WeekOfferBanner fields max length"""
@@ -69,21 +70,20 @@ class MainBannerModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price=100, product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category=category
         )
-        cls.main_banner = MainBanner.objects.create(
-            image='image', banner_url=product.get_url()
-        )
+        cls.main_banner = MainBanner.objects.create(image='image', banner_url=product.get_url())
 
     def test_main_banner_model_entry(self):
-        """Test MainBanner model banner insertion/types/field attributes"""
-        data = self.main_banner
-        self.assertTrue(isinstance(data, MainBanner))
+        """
+        Test that created main_banner object is
+        instance of MainBanner model banner
+        """
+        self.assertTrue(isinstance(self.main_banner, MainBanner))
 
     def test_main_banner_model_name(self):
         """Tests MainBanner object name"""
-        data = self.main_banner
-        self.assertEqual(str(data), 'Банер')
+        self.assertEqual(str(self.main_banner), 'Банер')
 
     def test_main_banner_fields_max_length(self):
         """Test MainBanner fields max length"""
@@ -124,21 +124,22 @@ class TwoBannersModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price=100, product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category=category
         )
         cls.two_banners = TwoBanners.objects.create(
             title='SuperBanner', image='image', banner_url=product.get_url()
         )
 
     def test_two_banners_model_entry(self):
-        """Test TwoBanners model banner insertion/types/field attributes"""
-        data = self.two_banners
-        self.assertTrue(isinstance(data, TwoBanners))
+        """
+        Test that created two_banner object is
+        instance of TwoBanners model banner
+        """
+        self.assertTrue(isinstance(self.two_banners, TwoBanners))
 
     def test_two_banners_model_name(self):
         """Tests TwoBanners object name"""
-        data = self.two_banners
-        self.assertEqual(str(data), 'SuperBanner')
+        self.assertEqual(str(self.two_banners), 'SuperBanner')
 
     def test_two_banners_fields_max_length(self):
         """Test TwoBanners fields max length"""
@@ -171,21 +172,22 @@ class OfferSingleBannerModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price=100, product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category=category
         )
         cls.offer_single_banner = OfferSingleBanner.objects.create(
             image='image', banner_url=product.get_url()
         )
 
     def test_offer_single_banner_model_entry(self):
-        """Test OfferSingleBanner model banner insertion/types/field attributes"""
-        data = self.offer_single_banner
-        self.assertTrue(isinstance(data, OfferSingleBanner))
+        """
+        Test that created offer_single_banner object is
+        instance of OfferSingleBanner model banner
+        """
+        self.assertTrue(isinstance(self.offer_single_banner, OfferSingleBanner))
 
     def test_offer_single_banner_model_name(self):
         """Tests OfferSingleBanner object name"""
-        data = self.offer_single_banner
-        self.assertEqual(str(data), 'Одиночний банер зліва')
+        self.assertEqual(str(self.offer_single_banner), 'Одиночний банер зліва')
 
     def test_offer_single_banner_fields_max_length(self):
         """Test OfferSingleBanner fields max length"""
@@ -214,21 +216,22 @@ class FooterBannerModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price=100, product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category=category
         )
         cls.footer_banner = FooterBanner.objects.create(
             image='image', banner_url=product.get_url()
         )
 
     def test_footer_banner_model_entry(self):
-        """Test FooterBanner model banner insertion/types/field attributes"""
-        data = self.footer_banner
-        self.assertTrue(isinstance(data, FooterBanner))
+        """
+        Test that created footer_banner object is
+        instance of FooterBanner model banner
+        """
+        self.assertTrue(isinstance(self.footer_banner, FooterBanner))
 
     def test_footer_banner_model_name(self):
         """Tests FooterBanner object name"""
-        data = self.footer_banner
-        self.assertEqual(str(data), 'Футер банер')
+        self.assertEqual(str(self.footer_banner), 'Футер банер')
 
     def test_footer_banner_fields_max_length(self):
         """Test FooterBanner fields max length"""
@@ -257,21 +260,22 @@ class BackgroundBannerModelTest(TestCase):
         category = Category.objects.create(category_name='pork', slug='pork')
         product = Product.objects.create(
             product_name='chicken', slug='chicken',
-            price=100, product_image='good chicken', category_id=category.id
+            price=100, product_image='good chicken', category=category
         )
         cls.background_banner = BackgroundBanner.objects.create(
             image='image', banner_url=product.get_url()
         )
 
     def test_background_banner_model_entry(self):
-        """Test BackgroundBanner model banner insertion/types/field attributes"""
-        data = self.background_banner
-        self.assertTrue(isinstance(data, BackgroundBanner))
+        """
+        Test that created background_banner object is
+        instance of BackgroundBanner model banner
+        """
+        self.assertTrue(isinstance(self.background_banner, BackgroundBanner))
 
     def test_background_banner_model_name(self):
         """Tests BackgroundBanner object name"""
-        data = self.background_banner
-        self.assertEqual(str(data), 'Фоновий банер')
+        self.assertEqual(str(self.background_banner), 'Фоновий банер')
 
     def test_background_banner_fields_max_length(self):
         """Test BackgroundBanner fields max length"""

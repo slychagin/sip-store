@@ -1,7 +1,7 @@
 import json
 
-from crispy_forms.utils import render_crispy_form
 from django.conf import settings
+from crispy_forms.utils import render_crispy_form
 from django.http import JsonResponse, HttpResponse
 from django.template.context_processors import csrf
 from django.views.generic import TemplateView

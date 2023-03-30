@@ -8,9 +8,13 @@ from store.models import Product
 class BlogCategory(models.Model):
     """Create BlogCategory in the database"""
     objects = models.Manager()
+
     category_name = models.CharField(max_length=100, unique=True, verbose_name=_('найменування категорії'))
-    slug = models.SlugField(max_length=100, unique=True, verbose_name=_('написання в URL'), help_text=_('заповнюється автоматично, коли вносишь назву'))
-    description = models.TextField(blank=True, verbose_name=_('Опис'))
+    slug = models.SlugField(
+        max_length=100, unique=True, verbose_name=_('написання в URL'),
+        help_text=_('заповнюється автоматично, коли вносишь назву')
+    )
+    description = models.TextField(blank=True, verbose_name=_('опис'))
     category_image = models.ImageField(upload_to='photos/blog', blank=True, verbose_name=_('фото категорії'))
 
     class Meta:
@@ -28,8 +32,11 @@ class BlogCategory(models.Model):
 class Tag(models.Model):
     """Create Tag model in the database"""
     objects = models.Manager()
+
     name = models.CharField(max_length=100, verbose_name=_('назва тегу'))
-    product = models.ForeignKey(Product, related_name='product', on_delete=models.CASCADE, verbose_name=_('продукт'))
+    product = models.ForeignKey(
+        Product, related_name='product', on_delete=models.CASCADE, verbose_name=_('продукт')
+    )
 
     class Meta:
         verbose_name = _('тег')
@@ -43,20 +50,29 @@ class Tag(models.Model):
 class Post(models.Model):
     """Create Post model in the database"""
     objects = models.Manager()
+
     title = models.CharField(max_length=255, verbose_name=_('тема поста'))
     description = models.TextField(blank=True, verbose_name=_('опис поста'))
     quote = models.TextField(blank=True, verbose_name=_('цитата до посту'))
     post_image = models.ImageField(upload_to='photos/blog/images', blank=True, verbose_name=_('фото до посту'))
     mini_image = models.ImageField(upload_to='photos/blog/mini_images', verbose_name=_('міні фото до посту'))
-    banner_url = models.URLField(max_length=255, blank=True, verbose_name=_('URL переходу'),
-                                 help_text=_('Введіть URL куди переходити по кліку на головне фото поста'))
+    banner_url = models.URLField(
+        max_length=255, blank=True, verbose_name=_('URL переходу'),
+        help_text=_('Введіть URL куди переходити по кліку на головне фото поста')
+    )
     is_available = models.BooleanField(default=True, verbose_name=_('доступний'))
     created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата змін'))
-    post_category = models.ForeignKey(BlogCategory, related_name='post', on_delete=models.CASCADE, verbose_name=_('категорія'))
+    post_category = models.ForeignKey(
+        BlogCategory, related_name='post', on_delete=models.CASCADE, verbose_name=_('категорія')
+    )
     tags = models.ManyToManyField(Tag, blank=True, verbose_name=_('теги'))
-    related_posts_title = models.CharField(max_length=255, blank='Схожі пости', verbose_name=_('заголовок до схожих постів'))
-    related_posts = models.ManyToManyField('self', related_name='+', symmetrical=False, blank=True, verbose_name=_('схожі пости'))
+    related_posts_title = models.CharField(
+        max_length=255, blank='Схожі пости', verbose_name=_('заголовок до схожих постів')
+    )
+    related_posts = models.ManyToManyField(
+        'self', related_name='+', symmetrical=False, blank=True, verbose_name=_('схожі пости')
+    )
 
     class Meta:
         verbose_name = _('пост')
@@ -84,6 +100,7 @@ class Post(models.Model):
 class PostComment(models.Model):
     """Create PostComment model in the database"""
     objects = models.Manager()
+
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, verbose_name=_('пост'))
     name = models.CharField(max_length=80, verbose_name=_("ім'я"))
     email = models.EmailField(max_length=100, verbose_name=_('E-mail'))

@@ -1,16 +1,28 @@
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column, Submit, Field
+from crispy_forms.layout import (
+    Layout,
+    Row,
+    Column,
+    Submit,
+    Field
+)
+
 from django import forms
 from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _
 
-from store.models import ProductGallery, Product, ReviewRating
+from store.models import (
+    ProductGallery,
+    Product,
+    ReviewRating
+)
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class ProductAdminForm(forms.ModelForm):
+    """Add CKEditor widget"""
     short_description = forms.CharField(
         required=False,
         label=_('Короткий опис'),
@@ -33,6 +45,7 @@ class ProductAdminForm(forms.ModelForm):
 
 
 class ProductInfoAdminForm(forms.ModelForm):
+    """Add CKEditor widget"""
     description = forms.CharField(
         required=False,
         label=_('Інформація щодо товару'),
@@ -45,7 +58,9 @@ class ProductInfoAdminForm(forms.ModelForm):
 
 
 class ProductGalleryForm(forms.ModelForm):
-    """Validation that prohibit to enter image and video together"""
+    """
+    Validation that prohibit to enter image and video together
+    """
     class Meta:
         model = ProductGallery
         fields = '__all__'
@@ -91,9 +106,7 @@ class ReviewRatingForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_id = 'review-rating-form'
-        self.helper.attrs = {
-            'novalidate': ''
-        }
+        self.helper.attrs = {'novalidate': ''}
         self.helper.layout = Layout(
             Field('rating', type='hidden', id='rating'),
             'review',
@@ -117,6 +130,7 @@ class ReviewRatingForm(forms.ModelForm):
 
 
 class ReviewRatingAdminForm(forms.ModelForm):
+    """Check unique review rating by email"""
 
     class Meta:
         model = ReviewRating

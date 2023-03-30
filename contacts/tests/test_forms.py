@@ -1,6 +1,6 @@
 import time
 
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 from selenium.webdriver import Keys
@@ -12,60 +12,60 @@ from contacts.forms import ContactForm
 
 class ContactFormTest(TestCase):
     """Tests ContactForm"""
+    @classmethod
+    def setUpTestData(cls):
+        """Create contact form"""
+        cls.form = ContactForm()
 
     def test_form_fields_label(self):
         """Tests all labels in ContactForm"""
-        form = ContactForm()
         self.assertTrue(
-            form.fields['name'].label is None
-            or form.fields['name'].label == "Ім'я"
+            self.form.fields['name'].label is None
+            or self.form.fields['name'].label == "Ім'я"
         )
         self.assertTrue(
-            form.fields['email'].label is None
-            or form.fields['email'].label == 'Електронна пошта'
+            self.form.fields['email'].label is None
+            or self.form.fields['email'].label == 'Електронна пошта'
         )
         self.assertTrue(
-            form.fields['title'].label is None
-            or form.fields['title'].label == 'Тема'
+            self.form.fields['title'].label is None
+            or self.form.fields['title'].label == 'Тема'
         )
         self.assertTrue(
-            form.fields['title'].label is None
-            or form.fields['message'].label == 'Повідомлення'
+            self.form.fields['title'].label is None
+            or self.form.fields['message'].label == 'Повідомлення'
         )
 
     def test_form_fields_max_length(self):
         """Tests all fields max length"""
-        form = ContactForm()
-        self.assertEqual(form.fields['name'].max_length, 100)
-        self.assertEqual(form.fields['email'].max_length, 100)
-        self.assertEqual(form.fields['title'].max_length, 200)
+        self.assertEqual(self.form.fields['name'].max_length, 100)
+        self.assertEqual(self.form.fields['email'].max_length, 100)
+        self.assertEqual(self.form.fields['title'].max_length, 200)
 
     def test_form_fields_placeholder(self):
         """Tests all fields placeholders"""
-        form = ContactForm()
         self.assertEqual(
-            form.fields['name'].widget.attrs['placeholder'],
+            self.form.fields['name'].widget.attrs['placeholder'],
             "Введіть Ваше ім'я"
         )
         self.assertEqual(
-            form.fields['email'].widget.attrs['placeholder'],
+            self.form.fields['email'].widget.attrs['placeholder'],
             'Введіть Вашу електронну пошту'
         )
         self.assertEqual(
-            form.fields['title'].widget.attrs['placeholder'],
+            self.form.fields['title'].widget.attrs['placeholder'],
             'Введіть тему повідомлення'
         )
         self.assertEqual(
-            form.fields['message'].widget.attrs['placeholder'],
+            self.form.fields['message'].widget.attrs['placeholder'],
             'Текст повідомлення'
         )
 
     def test_form_fields_title(self):
         """Tests all form fields titles"""
-        form = ContactForm()
-        for field in form.fields:
+        for field in self.form.fields:
             self.assertEqual(
-                form.fields[field].widget.attrs['title'],
+                self.form.fields[field].widget.attrs['title'],
                 'Заповніть це поле')
 
     def test_form_clean_message_greater_2000_sings(self):
@@ -104,7 +104,7 @@ class ContactFormTest(TestCase):
         })
         self.assertFalse(form.is_valid())
 
-    def test_form_clean_message_less_1000_sings(self):
+    def test_form_clean_message_less_2000_sings(self):
         """Tests message validation field by length"""
         text = """
              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla egestas
@@ -120,6 +120,7 @@ class ContactFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
 
+@tag('selenium')
 class ContactFormSeleniumTest(StaticLiveServerTestCase):
     """Test ContactForm by Selenium"""
     selenium = None

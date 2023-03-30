@@ -1,12 +1,20 @@
 import string
 from datetime import date
 
-from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from orders.models import Order, OrderMessage, ThanksPage
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from bootstrap_datepicker_plus.widgets import (
+    DatePickerInput,
+    TimePickerInput
+)
+
+from orders.models import (
+    Order,
+    OrderMessage,
+    ThanksPage
+)
 
 COMMUNICATION_METHOD_CHOICES = (
         (PHONE := 'PHONE', _('Телефон')),

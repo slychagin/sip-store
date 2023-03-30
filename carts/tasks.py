@@ -22,7 +22,7 @@ def check_coupon():
             coupon.save()
 
 
-# TODO: Настроить очистку сеансов с истекшим сроком действия (clearsessions)
+# TODO: Настроить очистку сеансов с истекшим сроком действия (clear sessions)
 
 
 @shared_task

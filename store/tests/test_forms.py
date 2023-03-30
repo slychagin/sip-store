@@ -2,7 +2,7 @@ import os
 import time
 
 from django import forms
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
@@ -84,34 +84,34 @@ class ProductGalleryFormTest(TestCase):
 class ReviewRatingFormTest(TestCase):
     """Tests ReviewRatingForm"""
 
+    def setUp(self):
+        """Create ReviewRatingForm"""
+        self.form = ReviewRatingForm()
+
     def test_form_fields_label(self):
         """Tests all labels in ReviewRatingForm"""
-        form = ReviewRatingForm()
         self.assertTrue(
-            form.fields['name'].label is None
-            or form.fields['name'].label == "Ім'я"
+            self.form.fields['name'].label is None
+            or self.form.fields['name'].label == "Ім'я"
         )
         self.assertTrue(
-            form.fields['email'].label is None
-            or form.fields['email'].label == 'Email'
+            self.form.fields['email'].label is None
+            or self.form.fields['email'].label == 'Email'
         )
         self.assertTrue(
-            form.fields['review'].label is None
-            or form.fields['review'].label == 'Ваш відгук'
+            self.form.fields['review'].label is None
+            or self.form.fields['review'].label == 'Ваш відгук'
         )
 
     def test_form_fields_title(self):
         """Tests all form fields titles"""
-        form = ReviewRatingForm()
-        for field in form.fields:
+        for field in self.form.fields:
             self.assertEqual(
-                form.fields[field].widget.attrs['title'],
+                self.form.fields[field].widget.attrs['title'],
                 'Заповніть це поле')
 
     def test_clean_rating_equal_zero(self):
-        """
-        Tests that rating zero
-        """
+        """Tests when rating zero"""
         form = ReviewRatingForm(data={
             'rating': 0,
             'review': 'Hello!',
@@ -122,9 +122,7 @@ class ReviewRatingFormTest(TestCase):
         self.assertRaises(forms.ValidationError)
 
     def test_clean_rating_not_zero(self):
-        """
-        Tests that rating not zero
-        """
+        """Tests when rating not zero"""
         form = ReviewRatingForm(data={
             'rating': 5.0,
             'review': 'Hello!',
@@ -193,6 +191,7 @@ class ProductsSortFormTest(TestCase):
             self.assertIn(choice, form_choices)
 
 
+@tag('selenium')
 class ReviewRatingFormSeleniumTest(StaticLiveServerTestCase):
     """Test ReviewRatingForm by Selenium"""
     selenium = None

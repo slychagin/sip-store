@@ -26,7 +26,6 @@ class OrderFormView(FormView):
     form_class = OrderForm
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class()
         basket = Basket(request)
 
         try:
@@ -37,7 +36,7 @@ class OrderFormView(FormView):
             total_with_discount = int(basket.get_total_price())
 
         return render(request, self.template_name, {
-            'form': form,
+            'form': self.form_class(),
             'basket': basket,
             'discount': discount,
             'total_with_discount': total_with_discount
@@ -112,7 +111,6 @@ class OrderFormView(FormView):
             return HttpResponseRedirect(reverse('thanks'))
 
         else:
-
             if basket.get_total_price() == 0:
                 return redirect('store')
 
@@ -183,5 +181,3 @@ class ThanksPageView(TemplateView):
             thanks_text = ''
         context['thanks_text'] = thanks_text
         return context
-
-

@@ -1,7 +1,7 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Avg
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from embed_video.fields import EmbedVideoField
 
@@ -11,8 +11,12 @@ from category.models import Category
 class Product(models.Model):
     """Create Product model in the database"""
     objects = models.Manager()
+
     product_name = models.CharField(max_length=255, verbose_name=_('найменування товару'))
-    slug = models.SlugField(max_length=255, unique=True, verbose_name=_('написання в URL'), help_text=_('заповнюється автоматично, коли вносишь назву'))
+    slug = models.SlugField(
+        max_length=255, unique=True, verbose_name=_('написання в URL'),
+        help_text=_('заповнюється автоматично, коли вносишь назву')
+    )
     short_description = models.TextField(blank=True, verbose_name=_('короткий опис'))
     description = models.TextField(blank=True, verbose_name=_('детальний опис'))
     specification = models.TextField(blank=True, verbose_name=_('специфікація'))
@@ -22,8 +26,7 @@ class Product(models.Model):
     unit = models.CharField(max_length=50, default='грн/кг', verbose_name=_('одиниця виміру'))
     product_image = models.ImageField(upload_to='photos/products', verbose_name=_('активне фото'))
     second_image = models.ImageField(
-        upload_to='photos/products',
-        blank=True,
+        upload_to='photos/products', blank=True,
         help_text=_("Необов'язкове (потрібно для супутніх товарів)"),
         verbose_name=_('друге фото')
     )
@@ -33,9 +36,15 @@ class Product(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата змін'))
     count_orders = models.IntegerField(default=0, verbose_name=_('замовлено одиниць'))
-    category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE, verbose_name=_('категорія'))
-    related_products_title = models.CharField(max_length=255, blank='З цим товаром купують', verbose_name=_('заголовок до супутніх товарів'))
-    related_products = models.ManyToManyField('self', related_name='+', symmetrical=False, blank=True, verbose_name=_('супутні товари'))
+    category = models.ForeignKey(
+        Category, related_name='product', on_delete=models.CASCADE, verbose_name=_('категорія')
+    )
+    related_products_title = models.CharField(
+        max_length=255, blank='З цим товаром купують', verbose_name=_('заголовок до супутніх товарів')
+    )
+    related_products = models.ManyToManyField(
+        'self', related_name='+', symmetrical=False, blank=True, verbose_name=_('супутні товари')
+    )
 
     class Meta:
         verbose_name = _('товар')
@@ -71,7 +80,9 @@ def count_products(basket):
 
 
 class ProductGallery(models.Model):
+    """Create ProductGallery model in the database"""
     objects = models.Manager()
+
     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE, verbose_name=_('товар'))
     image = models.ImageField(blank=True, upload_to='photos/gallery', max_length=255, verbose_name=_('фото'))
     video = EmbedVideoField(blank=True, verbose_name=_('відео'), help_text=_('Завантаж URL відео з YouTube'))
@@ -87,6 +98,7 @@ class ProductGallery(models.Model):
 class ProductInfo(models.Model):
     """Create ProductInfo model in the database"""
     objects = models.Manager()
+
     description = models.TextField(blank=True, verbose_name=_('інфо'))
 
     class Meta:
@@ -99,8 +111,7 @@ class ProductInfo(models.Model):
 
 def validate_rating(value):
     """
-    Check rating that in should be from 0.5 to 5.0
-    with step 0.5
+    Check rating that it should be from 0.5 to 5.0 with step 0.5
     """
     rating_list = [x / 10.0 for x in range(5, 55, 5)]
     if value not in rating_list:
@@ -112,6 +123,7 @@ def validate_rating(value):
 class ReviewRating(models.Model):
     """Create ReviewRating model in the database"""
     objects = models.Manager()
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('товар'))
     rating = models.FloatField(validators=[validate_rating], verbose_name=_('рейтинг'))
     review = models.TextField(max_length=500, verbose_name=_('відгук'))
@@ -129,5 +141,3 @@ class ReviewRating(models.Model):
 
     def __str__(self):
         return f'{self.product.product_name}'
-
-

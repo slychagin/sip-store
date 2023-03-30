@@ -13,7 +13,7 @@ from store.models import Product
 
 
 class BlogCategoryModelTest(TestCase):
-    """Testing BlogCategory model"""
+    """Tests BlogCategory model"""
 
     @classmethod
     def setUpTestData(cls):
@@ -21,19 +21,19 @@ class BlogCategoryModelTest(TestCase):
         cls.blog_category = BlogCategory.objects.create(category_name='pork', slug='pork')
 
     def test_blog_category_model_entry(self):
-        """Test BlogCategory model data insertion/types/field attributes"""
-        data = self.blog_category
-        self.assertTrue(isinstance(data, BlogCategory))
+        """
+        Test that created blog category object is
+        instance of BlogCategory model
+        """
+        self.assertTrue(isinstance(self.blog_category, BlogCategory))
 
     def test_blog_category_model_name(self):
         """Test BlogCategory object name"""
-        data = self.blog_category
-        self.assertEqual(str(data), 'pork')
+        self.assertEqual(str(self.blog_category), 'pork')
 
     def test_get_absolute_url(self):
         """Test absolute url for BlogCategory object"""
-        data = self.blog_category
-        self.assertEqual(data.get_url(), '/blog/category/pork/')
+        self.assertEqual(self.blog_category.get_url(), '/blog/category/pork/')
 
     def test_blog_category_fields_max_length(self):
         """Test category fields max length"""
@@ -55,7 +55,7 @@ class BlogCategoryModelTest(TestCase):
 
         self.assertEqual(category_name, 'найменування категорії')
         self.assertEqual(slug, 'написання в URL')
-        self.assertEqual(description, 'Опис')
+        self.assertEqual(description, 'опис')
         self.assertEqual(category_image, 'фото категорії')
 
 
@@ -68,19 +68,19 @@ class TagModelTest(TestCase):
         category = Category.objects.create(category_name='chicken', slug='chicken')
         product = Product.objects.create(
             product_name='pork', slug='pork', price=100,
-            product_image='good pork', category_id=category.id
+            product_image='good pork', category=category
         )
         cls.tag = Tag.objects.create(name='fresh', product=product)
 
     def test_tag_entry(self):
-        """Test Tag model data insertion/types/field attributes"""
-        data = self.tag
-        self.assertTrue(isinstance(data, Tag))
+        """
+        Test that created tag object is instance of Tag model
+        """
+        self.assertTrue(isinstance(self.tag, Tag))
 
     def test_tag_model_name(self):
         """Tests Tag object name"""
-        data = self.tag
-        self.assertEqual(str(data), 'fresh')
+        self.assertEqual(str(self.tag), 'fresh')
 
     def test_tag_fields_max_length(self):
         """Test Tag fields max length"""
@@ -110,19 +110,18 @@ class PostModelTest(TestCase):
         )
 
     def test_post_model_entry(self):
-        """Test Post model data insertion/types/field attributes"""
-        data = self.post
-        self.assertTrue(isinstance(data, Post))
+        """
+        Test that created Post object is instance of Post model
+        """
+        self.assertTrue(isinstance(self.post, Post))
 
     def test_post_model_name(self):
         """Tests Post object name"""
-        data = self.post
-        self.assertEqual(str(data), 'post')
+        self.assertEqual(str(self.post), 'post')
 
     def test_get_url(self):
         """Test absolute url for Post object"""
-        data = self.post
-        self.assertEqual(data.get_url(), f'/blog/category/chicken/{self.post.id}/')
+        self.assertEqual(self.post.get_url(), f'/blog/category/chicken/{self.post.id}/')
 
     def test_post_created_date(self):
         """Test Post object post_created_date"""
@@ -200,14 +199,14 @@ class PostCommentModelTest(TestCase):
         )
 
     def test_post_comment_model_entry(self):
-        """Test PostComment model data insertion/types/field attributes"""
-        data = self.post_comment
-        self.assertTrue(isinstance(data, PostComment))
+        """
+        Test that created PostComment object is instance of PostComment model
+        """
+        self.assertTrue(isinstance(self.post_comment, PostComment))
 
     def test_post_comment_model_name(self):
         """Tests PostComment object name"""
-        data = self.post_comment
-        self.assertEqual(str(data), 'post')
+        self.assertEqual(str(self.post_comment), 'post')
 
     def test_post_comment_fields_max_length(self):
         """Test PostComment fields max length"""

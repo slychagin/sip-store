@@ -176,7 +176,9 @@
                               {% post_to_whatsapp object_or_url %}
                           </div>
                           <div class="instagram">
-                            <a href="https://instagram.com/sil_i_patelnya?igshid=ZDdkNTZiNTM=" target="_blank"><i class="fa fa-instagram"></i></a>
+                            <a href="https://instagram.com/sil_i_patelnya?igshid=ZDdkNTZiNTM=" target="_blank">
+                                <i class="fa fa-instagram"></i>
+                            </a>
                           </div>
                     </div>
 
@@ -196,13 +198,19 @@
                         <div class="product_info_button">
                             <ul class="nav" role="tablist" id="nav-tab">
                                 <li >
-                                    <a class="active" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">Опис</a>
+                                    <a class="active" data-toggle="tab" href="#info"
+                                       role="tab" aria-controls="info" aria-selected="false">Опис
+                                    </a>
                                 </li>
                                 <li>
-                                     <a data-toggle="tab" href="#sheet" role="tab" aria-controls="sheet" aria-selected="false">Специфікація</a>
+                                     <a data-toggle="tab" href="#sheet" role="tab"
+                                        aria-controls="sheet" aria-selected="false">Специфікація
+                                     </a>
                                 </li>
                                 <li>
-                                   <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false" id="reviews-tab">Коментари ({{ reviews|length }})</a>
+                                   <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews"
+                                      aria-selected="false" id="reviews-tab">Коментари ({{ reviews|length }})
+                                   </a>
                                 </li>
                             </ul>
                         </div>
@@ -231,13 +239,19 @@
 
                                                         {% if review.rating|floatformat:"0" == review.rating|floatformat %}
                                                             {% for i in review.rating|get_range %}
-                                                            <label aria-label="1 star" class="rating__label small_star"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                            <label aria-label="1 star" class="rating__label small_star">
+                                                                <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                                            </label>
                                                             {% endfor %}
                                                         {% else %}
                                                             {% for i in review.rating|get_range %}
-                                                            <label aria-label="1 star" class="rating__label small_star"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                            <label aria-label="1 star" class="rating__label small_star">
+                                                                <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                                            </label>
                                                             {% endfor %}
-                                                            <label aria-label="0.5 stars" class="rating__label small_star small_star--half"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                            <label aria-label="0.5 stars" class="rating__label small_star small_star--half">
+                                                                <i class="rating__icon rating__icon--star fa fa-star-half"></i>
+                                                            </label>
                                                         {% endif %}
 
                                                     </div>
@@ -279,25 +293,55 @@
                                             <div class="rating-group">
                                                 <input class="rating__input rating__input--none" checked name="rating" id="rating-0" value="0" type="radio">
                                                 <label aria-label="0 stars" class="rating__label" for="rating-0">&nbsp;</label>
-                                                <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating-05"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating-05">
+                                                    <i class="rating__icon rating__icon--star fa fa-star-half"></i>
+                                                </label>
+
                                                 <input class="rating__input" name="rating" id="rating-05" value="0.5" type="radio">
-                                                <label aria-label="1 star" class="rating__label" for="rating-10"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                <label aria-label="1 star" class="rating__label" for="rating-10">
+                                                    <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                                </label>
+
                                                 <input class="rating__input" name="rating" id="rating-10" value="1" type="radio">
-                                                <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating-15"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating-15">
+                                                    <i class="rating__icon rating__icon--star fa fa-star-half"></i>
+                                                </label>
+
                                                 <input class="rating__input" name="rating" id="rating-15" value="1.5" type="radio">
-                                                <label aria-label="2 stars" class="rating__label" for="rating-20"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                <label aria-label="2 stars" class="rating__label" for="rating-20">
+                                                    <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                                </label>
+
                                                 <input class="rating__input" name="rating" id="rating-20" value="2" type="radio">
-                                                <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating-25"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating-25">
+                                                    <i class="rating__icon rating__icon--star fa fa-star-half"></i>
+                                                </label>
+
                                                 <input class="rating__input" name="rating" id="rating-25" value="2.5" type="radio">
-                                                <label aria-label="3 stars" class="rating__label" for="rating-30"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                <label aria-label="3 stars" class="rating__label" for="rating-30">
+                                                    <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                                </label>
+
                                                 <input class="rating__input" name="rating" id="rating-30" value="3" type="radio">
-                                                <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating-35"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating-35">
+                                                    <i class="rating__icon rating__icon--star fa fa-star-half"></i>
+                                                </label>
+
                                                 <input class="rating__input" name="rating" id="rating-35" value="3.5" type="radio">
-                                                <label aria-label="4 stars" class="rating__label" for="rating-40"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                <label aria-label="4 stars" class="rating__label" for="rating-40">
+                                                    <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                                </label>
+
                                                 <input class="rating__input" name="rating" id="rating-40" value="4" type="radio">
-                                                <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating-45"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                                <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating-45">
+                                                    <i class="rating__icon rating__icon--star fa fa-star-half"></i>
+                                                </label>
+
                                                 <input class="rating__input" name="rating" id="rating-45" value="4.5" type="radio">
-                                                <label aria-label="5 stars" class="rating__label" for="rating-50"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                                <label aria-label="5 stars" class="rating__label" for="rating-50">
+                                                    <i class="rating__icon rating__icon--star fa fa-star"></i>
+                                                </label>
+
                                                 <input class="rating__input" name="rating" id="rating-50" value="5" type="radio">
                                             </div>
 
@@ -337,9 +381,13 @@
                         <article class="single_product">
                             <figure>
                                 <div class="product_thumb">
-                                    <a class="primary_img" href="{{ product.get_url }}"><img src="{{ product.product_image.url }}" alt="Головне фото"></a>
+                                    <a class="primary_img" href="{{ product.get_url }}">
+                                        <img src="{{ product.product_image.url }}" alt="Головне фото">
+                                    </a>
                                     {% if product.second_image %}
-                                    <a class="secondary_img" href="{{ product.get_url }}"><img src="{{ product.second_image.url }}" alt="Друге фото"></a>
+                                    <a class="secondary_img" href="{{ product.get_url }}">
+                                        <img src="{{ product.second_image.url }}" alt="Друге фото">
+                                    </a>
                                     {% endif %}
                                     <div class="label_product">
                                         {% if product.is_sale %}
@@ -410,7 +458,9 @@
                                     </div>
                                 </div>
                                 <figcaption class="product_content">
-                                    <h4 class="product_name"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h4>
+                                    <h4 class="product_name">
+                                        <a href="{{ product.get_url }}">{{ product.product_name }}</a>
+                                    </h4>
                                     <p><a href="{{ product.category.get_url }}">{{ product.category }}</a></p>
                                     <div class="price_box">
                                         <span class="current_price">{{ product.price }} ₴</span>

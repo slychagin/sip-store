@@ -6,19 +6,19 @@
 
 <!--background banner area start-->
 {% if background_banner %}
-    {% if background_banner.banner_url %}
-    <a href="{{ background_banner.banner_url }}">
-        <div class="breadcrumbs_area"
-             style="background: url({{background_banner.image.url}});">
-        </div>
-    </a>
-    {% else %}
-    <a href="{% url 'home' %}">
-        <div class="breadcrumbs_area"
-             style="background: url({{background_banner.image.url}});">
-        </div>
-    </a>
-    {% endif %}
+{% if background_banner.banner_url %}
+<a href="{{ background_banner.banner_url }}">
+    <div class="breadcrumbs_area"
+         style="background: url({{background_banner.image.url}});">
+    </div>
+</a>
+{% else %}
+<a href="{% url 'home' %}">
+    <div class="breadcrumbs_area"
+         style="background: url({{background_banner.image.url}});">
+    </div>
+</a>
+{% endif %}
 {% endif %}
 <!--background banner area end-->
 
@@ -31,21 +31,23 @@
                 <div class="blog_wrapper blog_wrapper_details">
                     <article class="single_blog">
                         <figure>
-                           <div class="post_header">
-                               <h3 class="post_title">{{ single_post.title }}</h3>
+                            <div class="post_header">
+                                <h3 class="post_title">{{ single_post.title }}</h3>
                                 <div class="blog_meta">
-                                   <p>Опубліковано {{ single_post.post_created_date }}</p>
+                                    <p>Опубліковано {{ single_post.post_created_date }}</p>
                                 </div>
                             </div>
                             <div class="blog_thumb">
                                 {% if single_post.banner_url %}
-                               <a href="{{ single_post.banner_url }}"><img src="{{ single_post.post_image.url }}" alt="Зображення до посту"></a>
+                                <a href="{{ single_post.banner_url }}">
+                                    <img src="{{ single_post.post_image.url }}" alt="Зображення до посту">
+                                </a>
                                 {% else %}
                                 <a href="#"><img src="{{ single_post.post_image.url }}" alt="Зображення до посту"></a>
                                 {% endif %}
                             </div>
 
-                           <figcaption class="blog_content">
+                            <figcaption class="blog_content">
                                 <div class="post_content">
                                     {% if single_post.quote %}
                                     <blockquote>
@@ -55,54 +57,58 @@
 
                                     <p>{{ single_post.description|safe }}</p>
                                 </div>
-                               <br>
+                                <br>
                                 <div class="entry_content">
                                     <div class="post_meta">
                                         <span>Теги: </span>
                                         {% for tag in post_tags %}
-                                            {% if forloop.last %}
-                                                <span><a href="{{ tag.product.get_url }}">{{ tag.name|lower }}</a></span>
-                                            {% else %}
-                                                <span><a href="{{ tag.product.get_url }}">{{ tag.name|lower }}</a></span><span>,</span>
-                                            {% endif %}
+                                        {% if forloop.last %}
+                                        <span><a href="{{ tag.product.get_url }}">{{ tag.name|lower }}</a></span>
+                                        {% else %}
+                                        <span><a
+                                                href="{{ tag.product.get_url }}">{{ tag.name|lower }}</a></span><span>,</span>
+                                        {% endif %}
                                         {% endfor %}
                                     </div>
-                                      <div class="social_wrapper share_post">
-                                              <p style="padding-right: 10px; padding-top: 7px;">
-                                                  Поділитись цим постом:
-                                              </p>
-                                              <div class="facebook">
-                                                {% post_to_facebook object_or_url %}
-                                              </div>
-                                              <div class="telegram">
-                                                {% post_to_telegram "Сіль і Пательня: {{single_post.title}}" object_or_url %}
-                                              </div>
-                                              <div class="whatsapp">
-                                                {% post_to_whatsapp object_or_url %}
-                                              </div>
-                                              <div class="instagram">
-                                                <a href="https://instagram.com/sil_i_patelnya?igshid=ZDdkNTZiNTM=" target="_blank"><i class="fa fa-instagram"></i></a>
-                                              </div>
-                                      </div>
+                                    <div class="social_wrapper share_post">
+                                        <p style="padding-right: 10px; padding-top: 7px;">
+                                            Поділитись цим постом:
+                                        </p>
+                                        <div class="facebook">
+                                            {% post_to_facebook object_or_url %}
+                                        </div>
+                                        <div class="telegram">
+                                            {% post_to_telegram "Сіль і Пательня: {{single_post.title}}" object_or_url %}
+                                        </div>
+                                        <div class="whatsapp">
+                                            {% post_to_whatsapp object_or_url %}
+                                        </div>
+                                        <div class="instagram">
+                                            <a href="https://instagram.com/sil_i_patelnya?igshid=ZDdkNTZiNTM="
+                                               target="_blank"><i class="fa fa-instagram"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
-                           </figcaption>
+                            </figcaption>
                         </figure>
                     </article>
 
                     {% if related_posts %}
                     <div class="related_posts">
-                       <h3>{{ single_post.related_posts_title }}</h3>
+                        <h3>{{ single_post.related_posts_title }}</h3>
                         <div class="row">
                             {% for post in related_posts %}
                             <div class="col-lg-4 col-md-4 col-sm-6">
                                 <article class="single_related">
                                     <figure>
                                         <div class="related_thumb">
-                                            <a href="{{ post.get_url }}"><img src="{{ post.mini_image.url }}" alt="Зображення до посту"></a>
+                                            <a href="{{ post.get_url }}">
+                                                <img src="{{ post.mini_image.url }}" alt="Зображення до посту">
+                                            </a>
                                         </div>
                                         <figcaption class="related_content">
-                                           <h4><a href="{{ post.get_url }}">{{ post.title }}</a></h4>
-                                           <div class="blog_meta">
+                                            <h4><a href="{{ post.get_url }}">{{ post.title }}</a></h4>
+                                            <div class="blog_meta">
                                                 <span class="meta_date">{{ post.post_created_date }}</span>
                                             </div>
                                         </figcaption>
@@ -111,9 +117,8 @@
                             </div>
                             {% endfor %}
                         </div>
-                   </div>
+                    </div>
                     {% endif %}
-
 
                     <div class="comments_box">
                         <h3>Коментари ({{ comments|length }})</h3>
@@ -147,19 +152,17 @@
 
                     </div>
 
-
                     <div class="comments_form">
                         <h3 id="comment-form-title">Залиште свій коментар</h3>
                     </div>
-                        {% crispy form %}
+                    {% crispy form %}
                     <div id="alert-prod-details"></div>
 
                 </div>
                 <!--blog grid area start-->
             </div>
-  <!--sidebar-->
-  {% include 'blog/sidebar.html' %}
-
+            <!--sidebar-->
+            {% include 'blog/sidebar.html' %}
         </div>
     </div>
 </div>
@@ -168,6 +171,4 @@
 <!--fix flash alert in bottom of the screen-->
 <div class="alert-box-home" id="alert-home"></div>
 
-
 {% endblock %}
-

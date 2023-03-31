@@ -166,8 +166,6 @@
                             ></a>
                           </div>
                         </div>
-
-
                         <div id="mini">
 
                       {% for item in basket %}
@@ -185,7 +183,9 @@
                             <p>{{ item.qty }} x <span> {{ product.price }} ₴ </span></p>
                           </div>
                           <div class="cart_remove">
-                            <a type="button" id="delete-icon" class="delete-icon" data-index="{{ product.id }}"><i class="icon-x"></i></a>
+                            <a type="button" id="delete-icon" class="delete-icon" data-index="{{ product.id }}">
+                              <i class="icon-x"></i>
+                            </a>
                           </div>
                         </div>
                         {% endwith %}
@@ -239,7 +239,11 @@
                     <li><a href="{% url 'store' %}">Вся продукція</a></li>
 
                     {% for category in category_links %}
-                    <li class="menu_item_children"><a href="{{ category.get_url }}">{{ category.category_name }}<i class="fa fa-angle-right"></i></a>
+                    <li class="menu_item_children">
+                      <a href="{{ category.get_url }}">
+                        {{ category.category_name }}
+                        <i class="fa fa-angle-right"></i>
+                      </a>
                       <ul class="categories_mega_menu">
                         {% if product_links|get_index:forloop.counter0  %}
                             {% for product in product_links|get_index:forloop.counter0 %}
@@ -312,7 +316,6 @@
               </div>
               <!--main menu end-->
 
-
             </div>
             <div class="col-lg-3">
               <div class="call-support">
@@ -329,4 +332,3 @@
 </header>
 </div>
 <!--header area end-->
-

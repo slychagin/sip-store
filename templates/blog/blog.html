@@ -4,113 +4,103 @@
 
 <!--background banner area start-->
 {% if background_banner %}
-    {% if background_banner.banner_url %}
-    <a href="{{ background_banner.banner_url }}">
-        <div class="breadcrumbs_area"
-             style="background: url({{background_banner.image.url}});">
-        </div>
-    </a>
-    {% else %}
-    <a href="{% url 'home' %}">
-        <div class="breadcrumbs_area"
-             style="background: url({{background_banner.image.url}});">
-        </div>
-    </a>
-    {% endif %}
+  {% if background_banner.banner_url %}
+  <a href="{{ background_banner.banner_url }}">
+    <div
+      class="breadcrumbs_area"
+      style="background: url({{background_banner.image.url}});"
+    ></div>
+  </a>
+  {% else %}
+  <a href="{% url 'home' %}">
+    <div
+      class="breadcrumbs_area"
+      style="background: url({{background_banner.image.url}});"
+    ></div>
+  </a>
+  {% endif %}
 {% endif %}
 <!--background banner area end-->
 
 <!--blog area start-->
 <div class="blog_page_section mt-70">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-9 col-md-12">
-                <div class="blog_wrapper">
-                    <div class="row">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9 col-md-12">
+        <div class="blog_wrapper">
+          <div class="row">
 
-                        {% for post in posts %}
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <article class="single_blog">
-                                <figure>
-                                    <div class="blog_thumb">
-                                        <a href="{{ post.get_url }}"><img src="{{ post.mini_image.url }}" alt="Зображення до посту"></a>
-                                    </div>
-                                    <figcaption class="blog_content">
-                                        <h4 class="post_title"><a href="{{ post.get_url }}">{{ post.title }}</a></h4>
-                                        <div class="articles_date">
-                                             <p>{{ post.post_created_date }} | <a href="{% url 'home' %}">Сіль і Пательня</a></p>
-                                        </div>
-                                    </figcaption>
-                                </figure>
-                            </article>
-                        </div>
-                        {% endfor %}
-
+            {% for post in posts %}
+            <div class="col-lg-4 col-md-4 col-sm-6">
+              <article class="single_blog">
+                <figure>
+                  <div class="blog_thumb">
+                    <a href="{{ post.get_url }}"
+                      ><img
+                        src="{{ post.mini_image.url }}"
+                        alt="Зображення до посту"
+                    /></a>
+                  </div>
+                  <figcaption class="blog_content">
+                    <h4 class="post_title">
+                      <a href="{{ post.get_url }}">{{ post.title }}</a>
+                    </h4>
+                    <div class="articles_date">
+                      <p>
+                        {{ post.post_created_date }} | <a href="{% url 'home' %}">Сіль і Пательня</a>
+                      </p>
                     </div>
-                </div>
-            </div>  
+                  </figcaption>
+                </figure>
+              </article>
+            </div>
+            {% endfor %}
 
-<!--sidebar-->
-  {% include 'blog/sidebar.html' %}
-
+          </div>
         </div>
+      </div>
+
+      <!--sidebar-->
+      {% include 'blog/sidebar.html' %}
     </div>
+  </div>
 </div>
 <!--blog area end-->
 
 <!--blog pagination area start-->
 <div class="blog_pagination">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                {% if is_paginated %}
-                <div class="pagination">
-                    <ul>
-                        {% if page_obj.has_previous %}
-                        <li><a href="?page=1"><<</a></li>
-                        <li class="next"><a href="?page={{ page_obj.previous_page_number }}">назад</a></li>
-                        {% endif %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        {% if is_paginated %}
+        <div class="pagination">
+          <ul>
+            {% if page_obj.has_previous %}
+            <li><a href="?page=1"><<</a></li>
+            <li class="next">
+              <a href="?page={{ page_obj.previous_page_number }}">назад</a>
+            </li>
+            {% endif %}
 
-                        {% for i in paginator.page_range %}
-                        {% if page_obj.number == i %}
-                        <li class="current">{{ i }}</li>
-                        {% else %}
-                        <li><a href="?page={{i}}">{{i}}</a></li>
-                        {% endif %}
-                        {% endfor %}
-
-                        {% if page_obj.has_next %}
-                        <li class="next"><a href="?page={{ page_obj.next_page_number }}">далi</a></li>
-                        <li><a href="?page={{ page_obj.paginator.num_pages }}">>></a></li>
-                        {% endif %}
-
-                    </ul>
-                </div>
-                {% endif %}
-            </div>
+            {% for i in paginator.page_range %}
+              {% if page_obj.number == i %}
+              <li class="current">{{ i }}</li>
+              {% else %}
+              <li><a href="?page={{i}}">{{i}}</a></li>
+              {% endif %} {% endfor %}
+              {% if page_obj.has_next %}
+              <li class="next">
+                <a href="?page={{ page_obj.next_page_number }}">далi</a>
+              </li>
+              <li><a href="?page={{ page_obj.paginator.num_pages }}">>></a></li>
+              {% endif %}
+          </ul>
         </div>
+        {% endif %}
+      </div>
     </div>
+  </div>
 </div>
 <!--blog pagination area end-->
-
-<!--&lt;!&ndash;blog pagination area start&ndash;&gt;-->
-<!--<div class="blog_pagination">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-12">-->
-<!--                <div class="pagination">-->
-<!--                    <ul>-->
-<!--                        <li class="current">1</li>-->
-<!--                        <li><a href="#">2</a></li>-->
-<!--                        <li><a href="#">3</a></li>-->
-<!--                        <li class="next"><a href="#">next</a></li>-->
-<!--                        <li><a href="#">>></a></li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<!--&lt;!&ndash;blog pagination area end&ndash;&gt;-->
 
 {% endblock %}

@@ -52,32 +52,33 @@ function initMap(data) {
         });
      }
 window.initMap = initMap;
+
 </script>
 
 
 <!--background banner area start-->
 {% if background_banner %}
-    {% if background_banner.banner_url %}
-    <a href="{{ background_banner.banner_url }}">
-        <div class="breadcrumbs_area"
-             style="background: url({{background_banner.image.url}});">
-        </div>
-    </a>
-    {% else %}
-    <a href="{% url 'home' %}">
-        <div class="breadcrumbs_area"
-             style="background: url({{background_banner.image.url}});">
-        </div>
-    </a>
-    {% endif %}
+{% if background_banner.banner_url %}
+<a href="{{ background_banner.banner_url }}">
+    <div class="breadcrumbs_area"
+         style="background: url({{background_banner.image.url}});">
+    </div>
+</a>
+{% else %}
+<a href="{% url 'home' %}">
+    <div class="breadcrumbs_area"
+         style="background: url({{background_banner.image.url}});">
+    </div>
+</a>
+{% endif %}
 {% endif %}
 <!--background banner area end-->
 
 <!--contact map start-->
 <div class="contact_map mt-70">
-   <div class="map-area">
-      <div id="googleMap"></div>
-   </div>
+    <div class="map-area">
+        <div id="googleMap"></div>
+    </div>
 </div>
 <!--contact map end-->
 
@@ -86,19 +87,21 @@ window.initMap = initMap;
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6">
-               <div class="contact_message content">
+                <div class="contact_message content">
                     <h3>Наші контакти</h3>
                     <ul>
-                        <li><i class="fa fa-map-marker" style="font-size:20px"></i>  19702, вул.Шевченка 153, м.Золотоноша, Черкаська область</li>
+                        <li><i class="fa fa-map-marker" style="font-size:20px"></i> 19702, вул.Шевченка 153,
+                            м.Золотоноша, Черкаська область
+                        </li>
                         <li><i class="fa fa-envelope-o"></i><a href="#">sil.patelnya@gmail.com</a></li>
-                        <li><i class="fa fa-phone"></i><a href="tel:+38 (093) 490-15-75">+38 (093) 490-15-75</a>  </li>
+                        <li><i class="fa fa-phone"></i><a href="tel:+38 (093) 490-15-75">+38 (093) 490-15-75</a></li>
                     </ul>
                 </div>
 
                 <div class="contact_message">
                     <h3 id="contact-form-title">Напишіть нам Ваші побажання</h3>
                     <div id="alert-contact-form"></div>
-                        {% crispy form %}
+                    {% crispy form %}
                 </div>
             </div>
 
@@ -118,9 +121,11 @@ window.initMap = initMap;
                             <div class="single_testimonial">
                                 <div class="testimonial_content">
                                     <h5><b>{{ point.name }}</b></h5>
-                                    <p><i class="fa fa-map-marker"></i> {{ point.city }}, {{ point.street }}, {{point.house}} {{point.corpus}}</p>
+                                    <p><i class="fa fa-map-marker"></i> {{ point.city }}, {{ point.street }},
+                                        {{point.house}} {{point.corpus}}</p>
                                     <p><i class="fa fa-phone"></i>
-                                        <a href="tel:{{ point.mobile_phone }}" class="sale_point_phone">{{ point.mobile_phone }}</a>
+                                        <a href="tel:{{ point.mobile_phone }}" class="sale_point_phone">
+                                            {{ point.mobile_phone }}</a>
                                     </p>
                                     <p><i class="fa fa-clock-o"></i> {{ point.schedule }}</p>
                                     <p><i class="fa fa-envelope-o"></i> {{ point.email }}</p>
@@ -140,8 +145,8 @@ window.initMap = initMap;
 
 <!-- Google Maps-->
 <script
-   src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&v=weekly&language=uk&region=UA"
-   defer async
+        src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&v=weekly&language=uk&region=UA"
+        defer async
 ></script>
 
 {% endblock %}

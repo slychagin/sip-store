@@ -1,9 +1,8 @@
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from banners.models import MainBanner
-
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class MainBannerAdminForm(forms.ModelForm):

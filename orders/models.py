@@ -1,7 +1,6 @@
-from django.db import models
 from django.core.validators import RegexValidator
+from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 from phonenumber_field.modelfields import PhoneNumberField
 
 from store.models import Product
@@ -21,8 +20,6 @@ class Order(models.Model):
     )
 
     phone_number_regex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
-
-    objects = models.Manager()
 
     order_number = models.CharField(max_length=20, verbose_name=_('номер замовлення'))
     customer_name = models.CharField(max_length=100, verbose_name=_('ПІБ'))
@@ -50,6 +47,8 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('дата замовлення'))
     updated = models.DateTimeField(auto_now=True, verbose_name=_('дата коригування'))
 
+    objects = models.Manager()
+
     class Meta:
         verbose_name = _('замовлення')
         verbose_name_plural = _('замовлення')
@@ -61,8 +60,6 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     """Create OrderItem model in the database"""
-    objects = models.Manager()
-
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name=_('замовлення'))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('товар'))
     price = models.IntegerField(verbose_name=_('ціна товару'))
@@ -71,6 +68,8 @@ class OrderItem(models.Model):
     user_email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
     updated = models.DateTimeField(auto_now=True, verbose_name=_('дата оновлення'))
+
+    objects = models.Manager()
 
     def __str__(self):
         return self.product.product_name
@@ -83,10 +82,10 @@ class OrderItem(models.Model):
 
 class NewPostTerminals(models.Model):
     """Create NewPostTerminals model in the database"""
-    objects = models.Manager()
-
     city = models.CharField(max_length=100)
     terminal = models.CharField(max_length=255)
+
+    objects = models.Manager()
 
     def __str__(self):
         return f'{self.city}, {self.terminal}'
@@ -97,14 +96,14 @@ class NewPostTerminals(models.Model):
 
 class Customers(models.Model):
     """Create Customers model in the database"""
-    objects = models.Manager()
-
     phone_number_regex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
 
     customer_name = models.CharField(max_length=100, verbose_name=_('ПІБ'))
     phone = PhoneNumberField(validators=[phone_number_regex], max_length=16, verbose_name=_('телефон'))
     email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
     note = models.TextField(blank=True, verbose_name=_('примітка'))
+
+    objects = models.Manager()
 
     def __str__(self):
         return f'{self.customer_name}'
@@ -128,9 +127,9 @@ def save_customer(order):
 
 class Subscribers(models.Model):
     """Create Subscribers model in the database"""
-    objects = models.Manager()
-
     email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
+
+    objects = models.Manager()
 
     def __str__(self):
         return f'{self.email}'
@@ -142,8 +141,6 @@ class Subscribers(models.Model):
 
 class OrderMessage(models.Model):
     """Create OrderMessage model in the database"""
-    objects = models.Manager()
-
     text_1 = models.TextField(
         blank=True,
         help_text=_('повідомлення між привітанням та деталями замовлення'),
@@ -155,6 +152,8 @@ class OrderMessage(models.Model):
         verbose_name=_('текст після деталей замовлення')
     )
 
+    objects = models.Manager()
+
     class Meta:
         verbose_name = _('повідомлення покупцям')
         verbose_name_plural = _('повідомлення на email')
@@ -165,12 +164,12 @@ class OrderMessage(models.Model):
 
 class ThanksPage(models.Model):
     """Create ThanksPage model in the database"""
-    objects = models.Manager()
-
     text = models.TextField(
         blank=True,
         verbose_name=_('текст до сторінки подяки')
     )
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('сторінка подяки')

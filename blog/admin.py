@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from blog.forms import PostAdminForm, PostCommentAdminForm
-from blog.models import BlogCategory, Post, Tag, PostComment
+from blog.models import BlogCategory, Post, PostComment, Tag
 
 
 class BlogCategoryAdmin(admin.ModelAdmin):

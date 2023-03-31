@@ -1,5 +1,5 @@
-from django.test import TestCase
 from django.contrib.admin.sites import AdminSite
+from django.test import TestCase
 
 from category.models import Category
 from store.admin import ProductGalleryAdmin

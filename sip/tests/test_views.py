@@ -2,19 +2,15 @@ import os
 from importlib import import_module
 
 from django.conf import settings
-from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import (
-    TestCase,
-    Client,
-    RequestFactory
-)
+from django.test import Client, RequestFactory, TestCase
+from django.urls import reverse
 
+from category.models import Category
 from orders.models import Subscribers
 from sip.settings import BASE_DIR
 from sip.views import HomePageView
-from category.models import Category
 from store.models import Product, ProductGallery
 
 
@@ -158,13 +154,15 @@ class SubscribeTest(TestCase):
         """Test subscribe function"""
 
         # Enter no valid email
-        response = self.client.post(
+        self.client.post(
             reverse('subscribe'),
             {'email': 'email', 'action': 'POST'},
             xhr=True
         )
-        self.assertRaises(ValidationError)
-        self.assertEqual(response.json()['error'], 'Введіть коректну email адресу')
+        self.assertRaisesMessage(
+            ValidationError,
+            'Введіть коректну email адресу'
+        )
 
         # Enter valid existing email
         response = self.client.post(

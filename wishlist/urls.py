@@ -2,7 +2,6 @@ from django.urls import path
 
 from wishlist import views
 
-
 urlpatterns = [
     path('', views.WishlistPageView.as_view(), name='wish'),
     path('add-wishlist/', views.add_wishlist, name='add_wishlist'),

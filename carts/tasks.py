@@ -1,8 +1,9 @@
 from datetime import date
-from celery import shared_task
-from carts.models import Coupon
 
+from celery import shared_task
 from django.core import management
+
+from carts.models import Coupon
 
 # TODO: Включить проверку купонов по дате
 

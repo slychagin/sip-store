@@ -1,8 +1,7 @@
-from crispy_forms.helper import FormHelper
-from crispy_forms.bootstrap import FormActions
-from crispy_forms.layout import Layout, Row, Column, Submit
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
-
+from crispy_forms.bootstrap import FormActions
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Column, Layout, Row, Submit
 from django import forms
 from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _

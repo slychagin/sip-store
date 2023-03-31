@@ -6,9 +6,9 @@ from store.models import Product
 
 class BlockTitle(models.Model):
     """Create block titles for sales blocks"""
-    objects = models.Manager()
-
     title = models.CharField(max_length=100, verbose_name=_('назва блоку'))
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('блок')
@@ -20,8 +20,6 @@ class BlockTitle(models.Model):
 
 class BestSellers(models.Model):
     """Create BestSellers model in the database"""
-    objects = models.Manager()
-
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
     product_1 = models.ForeignKey(
         Product, related_name='product_1', on_delete=models.CASCADE, verbose_name=_('товар 1')
@@ -35,6 +33,8 @@ class BestSellers(models.Model):
     image_prod2_active = models.ImageField(upload_to='photos/bestsellers', verbose_name=_('фото 1 (активне)'))
     image_prod2 = models.ImageField(upload_to='photos/bestsellers', verbose_name=_('фото 2'))
 
+    objects = models.Manager()
+
     class Meta:
         verbose_name = _('бестселер')
         verbose_name_plural = _('бестселери')
@@ -45,8 +45,6 @@ class BestSellers(models.Model):
 
 class NewProducts(models.Model):
     """Create NewProducts model in the database"""
-    objects = models.Manager()
-
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
     product_1 = models.ForeignKey(
         Product, related_name='new_product_1', on_delete=models.CASCADE, verbose_name=_('товар 1')
@@ -60,6 +58,8 @@ class NewProducts(models.Model):
     image_prod2_active = models.ImageField(upload_to='photos/new_products', verbose_name=_('фото 1 (активне)'))
     image_prod2 = models.ImageField(upload_to='photos/new_products', verbose_name=_('фото 2'))
 
+    objects = models.Manager()
+
     class Meta:
         verbose_name = _('новинка')
         verbose_name_plural = _('новинки')
@@ -70,8 +70,6 @@ class NewProducts(models.Model):
 
 class MostPopularLeft(models.Model):
     """Create MostPopular model in the database"""
-    objects = models.Manager()
-
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
 
     product_1 = models.ForeignKey(
@@ -92,6 +90,8 @@ class MostPopularLeft(models.Model):
     image_prod3_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod3 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 
+    objects = models.Manager()
+
     class Meta:
         verbose_name = _('популярний (ліворуч)')
         verbose_name_plural = _('популярні (ліворуч)')
@@ -102,8 +102,6 @@ class MostPopularLeft(models.Model):
 
 class MostPopularCenter(models.Model):
     """Create MostPopularCenter model in the database"""
-    objects = models.Manager()
-
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
 
     product_1 = models.ForeignKey(
@@ -124,6 +122,8 @@ class MostPopularCenter(models.Model):
     image_prod3_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod3 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
 
+    objects = models.Manager()
+
     class Meta:
         verbose_name = _('популярний (по центру)')
         verbose_name_plural = _('популярні (по центру)')
@@ -134,8 +134,6 @@ class MostPopularCenter(models.Model):
 
 class MostPopularRight(models.Model):
     """Create MostPopularRight model in the database"""
-    objects = models.Manager()
-
     title = models.ForeignKey(BlockTitle, on_delete=models.SET_NULL, null=True, verbose_name=_('назва блоку'))
 
     product_1 = models.ForeignKey(
@@ -155,6 +153,8 @@ class MostPopularRight(models.Model):
     )
     image_prod3_active = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 1 (активне)'))
     image_prod3 = models.ImageField(upload_to='photos/popular_products', verbose_name=_('фото 2'))
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('популярний (праворуч)')

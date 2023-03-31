@@ -2,20 +2,13 @@ from importlib import import_module
 from urllib.parse import urlencode
 
 from django.conf import settings
-from django.test import (
-    TestCase,
-    Client,
-    RequestFactory
-)
+from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 
 from blog.forms import PostCommentForm
 from blog.models import BlogCategory, Post, PostComment
-from blog.views import (
-    BlogPageView,
-    PostsByCategoryListView,
-    PostDetailView, SearchListView
-)
+from blog.views import (BlogPageView, PostDetailView, PostsByCategoryListView,
+                        SearchListView)
 from telebot.models import TelegramSettings
 
 

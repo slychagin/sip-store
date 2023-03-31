@@ -1,16 +1,16 @@
 from django.core.exceptions import ValidationError
-from django.test.client import RequestFactory
 from django.test import TestCase
+from django.test.client import RequestFactory
 from django.urls import reverse
 
 from carts.basket import Basket
 from category.models import Category
 from store.models import (
     Product,
-    ReviewRating,
-    count_products,
     ProductGallery,
-    ProductInfo
+    ProductInfo,
+    ReviewRating,
+    count_products
 )
 
 
@@ -281,21 +281,29 @@ class ReviewRatingModelTest(TestCase):
         """
         Check rating that in should be from 0.5 to 5.0 with step 0.5
         """
-        rating_1 = ReviewRating.objects.create(
+        ReviewRating.objects.create(
             product=self.product, rating=0, review='A good product!',
             name='Serhio', email='gmail@gmail.com'
         )
-        rating_2 = ReviewRating.objects.create(
+        self.assertRaisesMessage(
+            ValidationError,
+            'Рейтинг повинен входити до діапазону від 0,5 до 5,0 з кроком 0,5')
+
+        ReviewRating.objects.create(
             product=self.product, rating=5.5, review='A good product!',
             name='Serhio', email='gmail@gmail.com'
         )
-        rating_3 = ReviewRating.objects.create(
+        self.assertRaisesMessage(
+            ValidationError,
+            'Рейтинг повинен входити до діапазону від 0,5 до 5,0 з кроком 0,5')
+
+        ReviewRating.objects.create(
             product=self.product, rating=3.3, review='A good product!',
             name='Serhio', email='gmail@gmail.com'
         )
-        self.assertRaises(ValidationError, rating_1.full_clean)
-        self.assertRaises(ValidationError, rating_2.full_clean)
-        self.assertRaises(ValidationError, rating_3.full_clean)
+        self.assertRaisesMessage(
+            ValidationError,
+            'Рейтинг повинен входити до діапазону від 0,5 до 5,0 з кроком 0,5')
 
     def test_review_rating_fields_max_length(self):
         """Test ReviewRating fields max length"""

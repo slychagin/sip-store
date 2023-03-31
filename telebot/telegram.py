@@ -124,7 +124,7 @@ def send_to_telegram_order_message(basket, order):
 def send_to_telegram_moderate_new_comment_message():
     """Create thread for sending message to telegram for moderate a new comment"""
     telegram_settings = get_telegram_settings()
-    message = f"На сайті новий коментар до посту чекає на модерацію!"
+    message = "На сайті новий коментар до посту чекає на модерацію!"
 
     thread = threading.Thread(
         target=telegram_sender,
@@ -136,7 +136,7 @@ def send_to_telegram_moderate_new_comment_message():
 def send_to_telegram_moderate_updated_comment_message():
     """Create thread for sending message to telegram for moderate an updated comment"""
     telegram_settings = get_telegram_settings()
-    message = f"На сайті було оновлено коментар до посту. Чекає на модерацію!"
+    message = "На сайті було оновлено коментар до посту. Чекає на модерацію!"
 
     thread = threading.Thread(
         target=telegram_sender,
@@ -148,7 +148,7 @@ def send_to_telegram_moderate_updated_comment_message():
 def send_to_telegram_moderate_new_review_message():
     """Create thread for sending message to telegram with new comment"""
     telegram_settings = get_telegram_settings()
-    message = f"На сайті новий відгук до товару чекає на модерацію!"
+    message = "На сайті новий відгук до товару чекає на модерацію!"
 
     thread = threading.Thread(
         target=telegram_sender,
@@ -160,7 +160,7 @@ def send_to_telegram_moderate_new_review_message():
 def send_to_telegram_moderate_updated_review_message():
     """Create thread for sending message to telegram with new comment"""
     telegram_settings = get_telegram_settings()
-    message = f"На сайті було оновлено відгук до товару. Чекає на модерацію!"
+    message = "На сайті було оновлено відгук до товару. Чекає на модерацію!"
 
     thread = threading.Thread(
         target=telegram_sender,
@@ -173,5 +173,5 @@ def telegram_sender(query, chat_id, message):
     """Send a message with order details to the admin telegram chat"""
     try:
         requests.post(query, data={'chat_id': chat_id, 'text': message})
-    except:
+    except (Exception,):
         pass

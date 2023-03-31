@@ -7,8 +7,6 @@ from store.models import Product
 
 class BlogCategory(models.Model):
     """Create BlogCategory in the database"""
-    objects = models.Manager()
-
     category_name = models.CharField(max_length=100, unique=True, verbose_name=_('найменування категорії'))
     slug = models.SlugField(
         max_length=100, unique=True, verbose_name=_('написання в URL'),
@@ -16,6 +14,8 @@ class BlogCategory(models.Model):
     )
     description = models.TextField(blank=True, verbose_name=_('опис'))
     category_image = models.ImageField(upload_to='photos/blog', blank=True, verbose_name=_('фото категорії'))
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('категорію')
@@ -31,12 +31,12 @@ class BlogCategory(models.Model):
 
 class Tag(models.Model):
     """Create Tag model in the database"""
-    objects = models.Manager()
-
     name = models.CharField(max_length=100, verbose_name=_('назва тегу'))
     product = models.ForeignKey(
         Product, related_name='product', on_delete=models.CASCADE, verbose_name=_('продукт')
     )
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('тег')
@@ -49,8 +49,6 @@ class Tag(models.Model):
 
 class Post(models.Model):
     """Create Post model in the database"""
-    objects = models.Manager()
-
     title = models.CharField(max_length=255, verbose_name=_('тема поста'))
     description = models.TextField(blank=True, verbose_name=_('опис поста'))
     quote = models.TextField(blank=True, verbose_name=_('цитата до посту'))
@@ -73,6 +71,8 @@ class Post(models.Model):
     related_posts = models.ManyToManyField(
         'self', related_name='+', symmetrical=False, blank=True, verbose_name=_('схожі пости')
     )
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('пост')
@@ -99,8 +99,6 @@ class Post(models.Model):
 
 class PostComment(models.Model):
     """Create PostComment model in the database"""
-    objects = models.Manager()
-
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, verbose_name=_('пост'))
     name = models.CharField(max_length=80, verbose_name=_("ім'я"))
     email = models.EmailField(max_length=100, verbose_name=_('E-mail'))
@@ -108,6 +106,8 @@ class PostComment(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата коригування'))
     is_moderated = models.BooleanField(default=False, verbose_name=_('промодерований'))
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('коментар')

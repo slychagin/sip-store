@@ -1,7 +1,7 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Avg
 from django.urls import reverse
-from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from embed_video.fields import EmbedVideoField
 
@@ -10,8 +10,6 @@ from category.models import Category
 
 class Product(models.Model):
     """Create Product model in the database"""
-    objects = models.Manager()
-
     product_name = models.CharField(max_length=255, verbose_name=_('найменування товару'))
     slug = models.SlugField(
         max_length=255, unique=True, verbose_name=_('написання в URL'),
@@ -45,6 +43,8 @@ class Product(models.Model):
     related_products = models.ManyToManyField(
         'self', related_name='+', symmetrical=False, blank=True, verbose_name=_('супутні товари')
     )
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('товар')
@@ -81,11 +81,11 @@ def count_products(basket):
 
 class ProductGallery(models.Model):
     """Create ProductGallery model in the database"""
-    objects = models.Manager()
-
     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE, verbose_name=_('товар'))
     image = models.ImageField(blank=True, upload_to='photos/gallery', max_length=255, verbose_name=_('фото'))
     video = EmbedVideoField(blank=True, verbose_name=_('відео'), help_text=_('Завантаж URL відео з YouTube'))
+
+    objects = models.Manager()
 
     def __str__(self):
         return f'{self.product.product_name}'
@@ -97,9 +97,9 @@ class ProductGallery(models.Model):
 
 class ProductInfo(models.Model):
     """Create ProductInfo model in the database"""
-    objects = models.Manager()
-
     description = models.TextField(blank=True, verbose_name=_('інфо'))
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('інфо про товар')
@@ -122,8 +122,6 @@ def validate_rating(value):
 
 class ReviewRating(models.Model):
     """Create ReviewRating model in the database"""
-    objects = models.Manager()
-
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=_('товар'))
     rating = models.FloatField(validators=[validate_rating], verbose_name=_('рейтинг'))
     review = models.TextField(max_length=500, verbose_name=_('відгук'))
@@ -133,6 +131,8 @@ class ReviewRating(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, verbose_name=_('дата створення'))
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_('дата коригування'))
     is_moderated = models.BooleanField(default=False, verbose_name=_('промодерований'))
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('відгук')

@@ -1,23 +1,23 @@
-from django.http import JsonResponse
-from django.views.generic.base import TemplateView
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.http import JsonResponse
+from django.views.generic.base import TemplateView
 
 from banners.models import (
-    WeekOfferBanner,
+    FooterBanner,
     MainBanner,
-    TwoBanners,
     OfferSingleBanner,
-    FooterBanner
+    TwoBanners,
+    WeekOfferBanner,
 )
 from benefits.models import Benefits, Partners
 from orders.models import Subscribers
 from sales.models import (
     BestSellers,
-    NewProducts,
-    MostPopularLeft,
     MostPopularCenter,
-    MostPopularRight
+    MostPopularLeft,
+    MostPopularRight,
+    NewProducts,
 )
 from store.models import Product, ProductGallery
 
@@ -86,7 +86,7 @@ def get_single_product(request):
                 data[f'video{num + 1}'] = video
             data['target'] = '_blank'
         else:
-            data[f'video1'] = product.get_url()
+            data['video1'] = product.get_url()
             data['target'] = '_self'
 
         response = JsonResponse(data=data)

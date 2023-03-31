@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
-from django.contrib.messages import constants as messages
 
 load_dotenv(override=True)
 
@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'store',
     'sales',
     'telebot',
-    'wishlist'
+    'wishlist',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +80,7 @@ TEMPLATES = [
                 'banners.context_processors.bgr_banner',
                 'category.context_processors.menu_links',
                 'carts.context_processors.cart',
-                'wishlist.context_processors.get_wishlist'
+                'wishlist.context_processors.get_wishlist',
             ],
         },
     },
@@ -151,13 +151,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MESSAGE_TAGS = {
-    messages.INFO: 'alert-info',
-    messages.SUCCESS: 'alert-success',
-    messages.WARNING: 'alert-warning',
-    messages.ERROR: 'alert-danger'
-}
-
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
@@ -189,7 +182,10 @@ CKEDITOR_CONFIGS = {
         ],
         'toolbar_YourCustomToolbarConfig': [
             {'name': 'document', 'items': ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
-            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+            {'name': 'clipboard', 'items': [
+                'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'
+            ]
+             },
             {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
             {'name': 'forms',
              'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',

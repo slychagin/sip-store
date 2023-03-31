@@ -7,15 +7,15 @@ from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.context_processors import csrf
-from django.utils import timezone, formats
-from django.views.generic import ListView, DetailView
+from django.utils import formats, timezone
+from django.views.generic import DetailView, ListView
 from django.views.generic.edit import ModelFormMixin
 
 from blog.forms import PostCommentForm
-from blog.models import Post, BlogCategory, PostComment
+from blog.models import BlogCategory, Post, PostComment
 from telebot.telegram import (
+    send_to_telegram_moderate_new_comment_message,
     send_to_telegram_moderate_updated_comment_message,
-    send_to_telegram_moderate_new_comment_message
 )
 
 

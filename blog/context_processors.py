@@ -1,9 +1,4 @@
-from blog.models import (
-    BlogCategory,
-    Tag,
-    Post,
-    PostComment
-)
+from blog.models import BlogCategory, Post, PostComment, Tag
 
 
 def blog_sidebar(request):

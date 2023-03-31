@@ -3,11 +3,7 @@ from datetime import date
 from importlib import import_module
 
 from django.conf import settings
-from django.test import (
-    TestCase,
-    Client,
-    RequestFactory
-)
+from django.test import Client, RequestFactory, TestCase
 
 from carts.basket import Basket
 from category.models import Category
@@ -16,11 +12,11 @@ from store.models import Product
 from telebot.models import TelegramSettings
 from telebot.telegram import (
     get_telegram_settings,
-    send_to_telegram_order_message,
     send_to_telegram_moderate_new_comment_message,
-    send_to_telegram_moderate_updated_comment_message,
     send_to_telegram_moderate_new_review_message,
-    send_to_telegram_moderate_updated_review_message
+    send_to_telegram_moderate_updated_comment_message,
+    send_to_telegram_moderate_updated_review_message,
+    send_to_telegram_order_message,
 )
 
 

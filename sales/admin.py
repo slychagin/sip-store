@@ -1,12 +1,12 @@
 from django.contrib import admin
 
 from sales.models import (
-    BlockTitle,
     BestSellers,
-    NewProducts,
-    MostPopularLeft,
+    BlockTitle,
     MostPopularCenter,
-    MostPopularRight
+    MostPopularLeft,
+    MostPopularRight,
+    NewProducts,
 )
 
 

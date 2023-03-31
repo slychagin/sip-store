@@ -1,22 +1,14 @@
 import time
 
 from django import forms
-from django.test import TestCase, tag
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
+from django.test import TestCase, tag
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.webdriver import WebDriver
 
-from blog.forms import (
-    PostCommentForm,
-    PostCommentAdminForm
-)
-from blog.models import (
-    BlogCategory,
-    Post,
-    PostComment
-)
+from blog.forms import PostCommentAdminForm, PostCommentForm
+from blog.models import BlogCategory, Post, PostComment
 
 
 class PostCommentFormTest(TestCase):
@@ -113,7 +105,10 @@ class PostCommentAdminFormTest(TestCase):
             'content': 'New comment!'
         })
         self.assertFalse(form.is_valid())
-        self.assertRaises(forms.ValidationError)
+        self.assertRaisesMessage(
+            forms.ValidationError,
+            'Коментар з таким email до даного посту вже існує.'
+        )
 
     def test_clean_method_valid_form(self):
         """

@@ -2,14 +2,15 @@ from django.contrib import admin
 
 from orders.forms import (
     OrderMessageAdminForm,
-    ThanksPageAdminForm
+    ThanksPageAdminForm,
 )
 from orders.models import (
+    Customers,
     Order,
     OrderItem,
-    Customers,
+    OrderMessage,
     Subscribers,
-    OrderMessage, ThanksPage
+    ThanksPage,
 )
 
 

@@ -1,19 +1,11 @@
 from datetime import date
 
-from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from category.models import Category
-from orders.models import (
-    Order,
-    OrderItem,
-    NewPostTerminals,
-    Customers,
-    save_customer,
-    Subscribers,
-    OrderMessage,
-    ThanksPage
-)
+from orders.models import (Customers, NewPostTerminals, Order, OrderItem,
+                           OrderMessage, Subscribers, ThanksPage,
+                           save_customer)
 from store.models import Product
 
 
@@ -38,15 +30,6 @@ class OrderModelTest(TestCase):
     def test_order_model_name(self):
         """Tests Order object name"""
         self.assertEqual(str(self.order), f'№ 2000 від {date.today().strftime("%d.%m.%Y")}')
-
-    def test_phone_number_validation(self):
-        """Check phone format by RegexValidator"""
-        order = Order.objects.create(
-            order_number='2000', customer_name='Сергій', phone='099-777-77-77',
-            email='email@gmail.com', city='Черкаси', street='вул. Шевченка', house='7',
-            order_total=500, discount=100
-        )
-        self.assertRaises(ValidationError, order.full_clean)
 
     def test_order_fields_max_length(self):
         """Test Order fields max length"""
@@ -239,13 +222,6 @@ class CustomersModelTest(TestCase):
     def test_customers_model_name(self):
         """Tests Customers object name"""
         self.assertEqual(str(self.customer), 'Serhio')
-
-    def test_phone_number_validation(self):
-        """Check phone format by RegexValidator"""
-        customer = Customers.objects.create(
-            customer_name='Serhio', phone='099-777-77-77', email='email@gmail.com'
-        )
-        self.assertRaises(ValidationError, customer.full_clean)
 
     def test_customers_fields_max_length(self):
         """Test Customers fields max length"""

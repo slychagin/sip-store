@@ -1,8 +1,7 @@
 import time
 
-from django.test import TestCase, tag
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
+from django.test import TestCase, tag
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.webdriver import WebDriver

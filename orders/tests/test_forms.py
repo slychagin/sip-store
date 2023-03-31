@@ -1,9 +1,8 @@
 import time
 
 from django import forms
-from django.test import TestCase, tag
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
+from django.test import TestCase, tag
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.webdriver import WebDriver
@@ -83,7 +82,10 @@ class OrderFormTest(TestCase):
             'discount': 20
         })
         self.assertFalse(form.is_valid())
-        self.assertRaises(forms.ValidationError)
+        self.assertRaisesMessage(
+            forms.ValidationError,
+            'Введіть коректне ПІБ'
+        )
 
     def test_valid_form(self):
         """Tests that form is valid"""

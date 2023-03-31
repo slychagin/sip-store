@@ -4,12 +4,12 @@ from django.utils.translation import gettext_lazy as _
 
 from banners.forms import MainBannerAdminForm
 from banners.models import (
-    WeekOfferBanner,
-    MainBanner,
-    TwoBanners,
-    OfferSingleBanner,
+    BackgroundBanner,
     FooterBanner,
-    BackgroundBanner
+    MainBanner,
+    OfferSingleBanner,
+    TwoBanners,
+    WeekOfferBanner,
 )
 
 

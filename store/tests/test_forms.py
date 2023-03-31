@@ -2,10 +2,9 @@ import os
 import time
 
 from django import forms
-from django.test import TestCase, tag
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase, tag
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.webdriver import WebDriver
@@ -15,9 +14,9 @@ from orders.models import Order, OrderItem
 from sip.settings import BASE_DIR
 from store.forms import (
     ProductGalleryForm,
-    ReviewRatingForm,
+    ProductsSortForm,
     ReviewRatingAdminForm,
-    ProductsSortForm
+    ReviewRatingForm,
 )
 from store.models import Product, ReviewRating
 
@@ -45,7 +44,10 @@ class ProductGalleryFormTest(TestCase):
             'product': self.product,
         })
         self.assertFalse(form.is_valid())
-        self.assertRaises(forms.ValidationError)
+        self.assertRaisesMessage(
+            forms.ValidationError,
+            'Треба ввести або фото або відео!'
+        )
 
     def test_clean_image_video_entered_together(self):
         """
@@ -64,7 +66,10 @@ class ProductGalleryFormTest(TestCase):
             }
         )
         self.assertFalse(form.is_valid())
-        self.assertRaises(forms.ValidationError)
+        self.assertRaisesMessage(
+            forms.ValidationError,
+            'Введіть щось одне - або фото або відео!'
+        )
 
     def test_clean_image_video_entered_one_of_them(self):
         """
@@ -119,7 +124,10 @@ class ReviewRatingFormTest(TestCase):
             'email': 'email@gmail.com'
         })
         self.assertFalse(form.is_valid())
-        self.assertRaises(forms.ValidationError)
+        self.assertRaisesMessage(
+            forms.ValidationError,
+            'Будь ласка, встановіть рейтинг'
+        )
 
     def test_clean_rating_not_zero(self):
         """Tests when rating not zero"""
@@ -160,7 +168,10 @@ class ReviewRatingAdminFormTest(TestCase):
             'email': 'email@gmail.com'
         })
         self.assertFalse(form.is_valid())
-        self.assertRaises(forms.ValidationError)
+        self.assertRaisesMessage(
+            forms.ValidationError,
+            'Відгук з таким email по даному товару вже існує.'
+        )
 
     def test_clean_method_valid_form(self):
         """

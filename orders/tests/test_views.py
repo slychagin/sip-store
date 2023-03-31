@@ -3,30 +3,15 @@ from datetime import date
 from importlib import import_module
 
 from django.conf import settings
+from django.test import Client, RequestFactory, TestCase, override_settings
 from django.urls import reverse
-from django.test import override_settings
-from django.test import (
-    TestCase,
-    Client,
-    RequestFactory
-)
 
 from carts.models import Coupon
 from category.models import Category
 from orders.forms import OrderForm
-from orders.models import (
-    OrderItem,
-    Customers,
-    NewPostTerminals,
-    OrderMessage
-)
-from orders.views import (
-    OrderFormView,
-    post_city_search,
-    post_terminal_search
-)
+from orders.models import Customers, NewPostTerminals, OrderItem, OrderMessage
+from orders.views import OrderFormView, post_city_search, post_terminal_search
 from store.models import Product
-
 from telebot.models import TelegramSettings
 
 

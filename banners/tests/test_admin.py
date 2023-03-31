@@ -1,19 +1,19 @@
-from django.test import TestCase
 from django.contrib.admin.sites import AdminSite
+from django.test import TestCase
 
 from banners.admin import (
-    MainBannerAdmin,
-    TwoBannersAdmin,
-    OfferSingleBannerAdmin,
+    BackgroundBannerAdmin,
     FooterBannerAdmin,
-    BackgroundBannerAdmin
+    MainBannerAdmin,
+    OfferSingleBannerAdmin,
+    TwoBannersAdmin,
 )
 from banners.models import (
-    MainBanner,
-    TwoBanners,
-    OfferSingleBanner,
+    BackgroundBanner,
     FooterBanner,
-    BackgroundBanner
+    MainBanner,
+    OfferSingleBanner,
+    TwoBanners,
 )
 from category.models import Category
 from store.models import Product

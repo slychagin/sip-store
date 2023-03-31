@@ -1,20 +1,19 @@
 from datetime import datetime
 
-from django.http import JsonResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.views.generic import TemplateView, FormView
+from django.views.generic import FormView, TemplateView
 
 from carts.basket import Basket
 from orders.forms import OrderForm
 from orders.models import (
-    Order,
     NewPostTerminals,
+    Order,
     OrderItem,
+    ThanksPage,
     save_customer,
-    ThanksPage
 )
-
 from orders.send_email import send_email_to_customer
 from store.models import count_products
 from telebot.telegram import send_to_telegram_order_message

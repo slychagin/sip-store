@@ -1,30 +1,27 @@
 import json
 
-from django.db.models import Q
 from crispy_forms.utils import render_crispy_form
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.context_processors import csrf
-from django.views.generic import ListView, DetailView
+from django.views.generic import DetailView, ListView
 from django.views.generic.edit import ModelFormMixin
 
 from blog.views import convert_to_localtime
 from category.models import Category
 from orders.models import OrderItem
-from store.forms import (
-    ReviewRatingForm,
-    ProductsSortForm
-)
+from store.forms import ProductsSortForm, ReviewRatingForm
 from store.models import (
     Product,
     ProductGallery,
     ProductInfo,
-    ReviewRating
+    ReviewRating,
 )
 from telebot.telegram import (
     send_to_telegram_moderate_new_review_message,
-    send_to_telegram_moderate_updated_review_message
+    send_to_telegram_moderate_updated_review_message,
 )
 
 

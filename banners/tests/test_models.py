@@ -1,12 +1,12 @@
 from django.test import TestCase
 
 from banners.models import (
-    WeekOfferBanner,
-    MainBanner,
-    TwoBanners,
-    OfferSingleBanner,
+    BackgroundBanner,
     FooterBanner,
-    BackgroundBanner
+    MainBanner,
+    OfferSingleBanner,
+    TwoBanners,
+    WeekOfferBanner,
 )
 from category.models import Category
 from store.models import Product

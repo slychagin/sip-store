@@ -13,7 +13,7 @@ class CouponAdminFormTest(TestCase):
         """Tests that admin entered validity date and discount"""
         form = CouponAdminForm(data={'coupon_kod': 'AAA'})
         self.assertFalse(form.is_valid())
-        self.assertRaises(forms.ValidationError)
+        self.assertRaisesMessage(forms.ValidationError, "Це поле обов'язкове.")
 
     def test_clean_validity_date(self):
         """Tests that admin entered validity date > date.today()"""
@@ -24,7 +24,9 @@ class CouponAdminFormTest(TestCase):
             'validity': date_in_the_past
         })
         self.assertFalse(form.is_valid())
-        self.assertRaises(forms.ValidationError)
+        self.assertRaisesMessage(
+            forms.ValidationError, 'Введіть дату більш ніж сьогоднішня дата.'
+        )
 
     def test_clean_discount(self):
         """Tests that admin entered discount from 1% to 100%"""
@@ -36,7 +38,10 @@ class CouponAdminFormTest(TestCase):
                 'validity': datetime.date.today()
             })
             self.assertFalse(form.is_valid())
-            self.assertRaises(forms.ValidationError)
+            self.assertRaisesMessage(
+                forms.ValidationError,
+                'Введіть знижку від 1 до 100 відсотків'
+            )
 
     def test_valid_form(self):
         """Tests that form is valid"""

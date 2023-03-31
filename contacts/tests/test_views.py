@@ -2,11 +2,11 @@ from importlib import import_module
 from urllib.parse import urlencode
 
 from django.conf import settings
-from django.test import override_settings
 from django.test import (
-    TestCase,
     Client,
-    RequestFactory
+    RequestFactory,
+    TestCase,
+    override_settings,
 )
 from django.urls import reverse
 

@@ -1,15 +1,15 @@
 from django.test import TestCase
 
 from category.models import Category
-from store.models import Product
 from sales.models import (
-    BlockTitle,
     BestSellers,
-    NewProducts,
-    MostPopularLeft,
+    BlockTitle,
     MostPopularCenter,
-    MostPopularRight
+    MostPopularLeft,
+    MostPopularRight,
+    NewProducts,
 )
+from store.models import Product
 
 
 class BlockTitleModelTest(TestCase):

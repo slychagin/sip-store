@@ -1,23 +1,19 @@
 from importlib import import_module
 from urllib.parse import urlencode
 
-from django.urls import reverse
 from django.conf import settings
-from django.test import (
-    TestCase,
-    Client,
-    RequestFactory
-)
+from django.test import Client, RequestFactory, TestCase
+from django.urls import reverse
 
 from category.models import Category
 from orders.models import Order, OrderItem
 from store.forms import ProductsSortForm
 from store.models import Product, ReviewRating
 from store.views import (
-    StorePageView,
-    ProductsByCategoryListView,
     ProductDetailView,
-    SearchListView
+    ProductsByCategoryListView,
+    SearchListView,
+    StorePageView,
 )
 from telebot.models import TelegramSettings
 

@@ -1,10 +1,10 @@
 import os
+
 import requests
 from celery import shared_task
 from dotenv import load_dotenv
 
 from orders.models import NewPostTerminals
-
 
 load_dotenv(override=True)
 

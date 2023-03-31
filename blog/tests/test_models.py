@@ -2,12 +2,7 @@ from datetime import date
 
 from django.test import TestCase
 
-from blog.models import (
-    BlogCategory,
-    Tag,
-    Post,
-    PostComment
-)
+from blog.models import BlogCategory, Post, PostComment, Tag
 from category.models import Category
 from store.models import Product
 

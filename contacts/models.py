@@ -4,8 +4,6 @@ from django.utils.translation import gettext_lazy as _
 
 class SalePoint(models.Model):
     """Create SalePoint model in the database"""
-    objects = models.Manager()
-
     name = models.CharField(max_length=200, unique=True, verbose_name=_('найменування точки продажу'))
     description = models.TextField(blank=True, verbose_name=_('опис'))
     city = models.CharField(max_length=100, blank=True, verbose_name=_('місто'))
@@ -25,6 +23,8 @@ class SalePoint(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('дата замовлення'))
     updated = models.DateTimeField(auto_now=True, verbose_name=_('дата коригування'))
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name = _('точку продажу')

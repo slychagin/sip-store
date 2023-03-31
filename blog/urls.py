@@ -2,7 +2,6 @@ from django.urls import path
 
 from blog import views
 
-
 urlpatterns = [
     path('', views.BlogPageView.as_view(), name='blog_page'),
     path('category/<slug:slug>/', views.PostsByCategoryListView.as_view(), name='posts_by_category'),

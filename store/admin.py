@@ -4,15 +4,16 @@ from django.utils.html import format_html
 from embed_video.admin import AdminVideoMixin
 
 from store.forms import (
-    ProductGalleryForm,
     ProductAdminForm,
+    ProductGalleryForm,
     ProductInfoAdminForm,
-    ReviewRatingAdminForm
+    ReviewRatingAdminForm,
 )
 from store.models import (
     Product,
     ProductGallery,
-    ProductInfo, ReviewRating
+    ProductInfo,
+    ReviewRating,
 )
 
 
@@ -44,7 +45,7 @@ class ProductGalleryAdmin(AdminVideoMixin, admin.ModelAdmin):
         try:
             return format_html(f'<img src="{obj.image.url}" width="40"">')
         except ValueError:
-            return format_html(f'<img>')
+            return format_html('<img>')
 
     thumbnail.short_description = 'Фото товару'
     list_display = ('product', 'thumbnail', 'video')

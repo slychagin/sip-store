@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'contacts',
+    'admin_honeypot',
     'orders',
     'store',
     'sales',

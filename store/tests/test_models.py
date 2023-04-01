@@ -281,7 +281,7 @@ class ReviewRatingModelTest(TestCase):
         """
         Check rating that in should be from 0.5 to 5.0 with step 0.5
         """
-        ReviewRating.objects.create(
+        rating_1 = ReviewRating.objects.create(
             product=self.product, rating=0, review='A good product!',
             name='Serhio', email='gmail@gmail.com'
         )
@@ -289,7 +289,7 @@ class ReviewRatingModelTest(TestCase):
             ValidationError,
             'Рейтинг повинен входити до діапазону від 0,5 до 5,0 з кроком 0,5')
 
-        ReviewRating.objects.create(
+        rating_2 = ReviewRating.objects.create(
             product=self.product, rating=5.5, review='A good product!',
             name='Serhio', email='gmail@gmail.com'
         )
@@ -297,13 +297,17 @@ class ReviewRatingModelTest(TestCase):
             ValidationError,
             'Рейтинг повинен входити до діапазону від 0,5 до 5,0 з кроком 0,5')
 
-        ReviewRating.objects.create(
+        rating_3 = ReviewRating.objects.create(
             product=self.product, rating=3.3, review='A good product!',
             name='Serhio', email='gmail@gmail.com'
         )
         self.assertRaisesMessage(
             ValidationError,
             'Рейтинг повинен входити до діапазону від 0,5 до 5,0 з кроком 0,5')
+
+        self.assertRaises(ValidationError, rating_1.full_clean)
+        self.assertRaises(ValidationError, rating_2.full_clean)
+        self.assertRaises(ValidationError, rating_3.full_clean)
 
     def test_review_rating_fields_max_length(self):
         """Test ReviewRating fields max length"""

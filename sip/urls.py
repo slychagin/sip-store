@@ -6,7 +6,8 @@ from django.urls import include, path
 from sip import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('sip-secure/', admin.site.urls),
     path('', views.HomePageView.as_view(), name='home'),
     path('quick-show/', views.get_single_product, name='get_single_product'),
     path('subscribe/', views.subscribe, name='subscribe'),

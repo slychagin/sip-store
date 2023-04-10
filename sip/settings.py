@@ -93,11 +93,11 @@ WSGI_APPLICATION = 'sip.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sip_db',
-        'USER': 'postgres',
+        'NAME': os.environ.get('POSTGRESQL_NAME'),
+        'USER': os.environ.get('POSTGRESQL_USER'),
         'PASSWORD': os.environ.get('POSTGRESQL_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': os.environ.get('POSTGRESQL_HOST'),
+        'PORT': os.environ.get('POSTGRESQL_PORT'),
     }
 }
 

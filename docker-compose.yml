@@ -1,7 +1,7 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  sip:
+  app:
     build:
       context: .
     command: >
@@ -9,9 +9,9 @@ services:
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     ports:
-      - '8000:8000'
+      - "8000:8000"
     volumes:
-      - .:/sip
+      - .:/app
       - ./data/web:/vol/web
     environment:
       - SECRET_KEY=devsecretkey

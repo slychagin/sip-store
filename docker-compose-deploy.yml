@@ -14,8 +14,11 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - SECRET_KEY=${SECRET_KEY}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CELERY_BROKER=${CELERY_BROKER}
+      - CELERY_BACKEND=${CELERY_BACKEND}
     depends_on:
       - db
+      - redis
 
   db:
     image: postgres:15-alpine
@@ -37,6 +40,57 @@ services:
       - "80:8000"
     volumes:
       - static-data:/vol/static
+
+  redis:
+    image: redis:alpine
+    restart: always
+
+  celery_worker:
+    build:
+      context: .
+    restart: always
+    command: sh -c "celery -A sip worker -l INFO"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+      - app
+    environment:
+      - DB_HOST=db
+      - CELERY_BROKER=${CELERY_BROKER}
+      - CELERY_BACKEND=${CELERY_BACKEND}
+
+  celery_beat:
+    build:
+      context: .
+    restart: always
+    command: sh -c "celery -A sip beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+      - app
+      - celery_worker
+    environment:
+      - DB_HOST=db
+      - CELERY_BROKER=${CELERY_BROKER}
+      - CELERY_BACKEND=${CELERY_BACKEND}
+
+  flower:
+    build:
+      context: .
+    restart: always
+    command: sh -c "celery -A sip --broker="${CELERY_BROKER}" flower"
+    volumes:
+      - .:/app
+    ports:
+      - "5557:5555"
+    depends_on:
+      - db
+      - redis
+      - app
 
 volumes:
   postgres-data:

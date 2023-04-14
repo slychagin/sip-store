@@ -20,12 +20,68 @@ services:
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASSWORD=password
+      - CELERY_BROKER=${CELERY_BROKER}
+      - CELERY_BACKEND=${CELERY_BACKEND}
     depends_on:
       - db
+      - redis
 
   db:
     image: postgres:15-alpine
+    volumes:
+      - dev_postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=devdb
-      - POSTGRES_USER=devuser
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=sip_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Pegas777
+
+  redis:
+    restart: always
+    image: redis:alpine
+
+  celery_worker:
+    build:
+      context: .
+    command: sh -c "celery -A sip worker -l INFO"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+      - app
+    environment:
+      - DB_HOST=db
+      - CELERY_BROKER=${CELERY_BROKER}
+      - CELERY_BACKEND=${CELERY_BACKEND}
+
+  celery_beat:
+    build:
+      context: .
+    command: sh -c "celery -A sip beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+      - app
+      - celery_worker
+    environment:
+      - DB_HOST=db
+      - CELERY_BROKER=${CELERY_BROKER}
+      - CELERY_BACKEND=${CELERY_BACKEND}
+
+  flower:
+    build:
+      context: .
+    command: sh -c "celery -A sip --broker="${CELERY_BROKER}" flower"
+    volumes:
+      - .:/app
+    ports:
+      - "5557:5555"
+    depends_on:
+      - db
+      - redis
+      - app
+
+volumes:
+  dev_postgres_data:

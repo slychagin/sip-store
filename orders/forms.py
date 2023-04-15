@@ -1,15 +1,26 @@
 import string
 from datetime import date
 
-from bootstrap_datepicker_plus.widgets import (
-    DatePickerInput,
-    TimePickerInput,
-)
+from bootstrap_datepicker_plus._base import BasePickerInput
+from bootstrap_datepicker_plus.schemas import WidgetVariant
+from bootstrap_datepicker_plus.widgets import (DatePickerInput)
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from orders.models import Order, OrderMessage, ThanksPage
+
+
+class TimePickerInput(BasePickerInput):
+    """
+    Widget to display a Time-Picker Calendar on a TimeField.
+    Redefining the class TimePickerInput from bootstrap_datepicker_plus
+    package because we need time format 'HH:mm'
+    """
+    variant = WidgetVariant.time
+    _date_format = "%H:%M:%S"
+    backend_date_format = "HH:mm"
+
 
 COMMUNICATION_METHOD_CHOICES = (
         (PHONE := 'PHONE', _('Телефон')),

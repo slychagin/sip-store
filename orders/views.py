@@ -138,7 +138,7 @@ def post_city_search(request):
     """Search New Post cities input"""
     if 'term' in request.GET:
         search_string = request.GET.get('term')
-        query = NewPostTerminals.objects.values('city').distinct().filter(city__istartswith=search_string)[:10]
+        query = NewPostTerminals.objects.values('city').distinct().filter(city__istartswith=search_string.title())[:10]
         cities = [city['city'] for city in query]
         if cities:
             return JsonResponse(cities, safe=False)

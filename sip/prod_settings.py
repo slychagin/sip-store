@@ -11,13 +11,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
-ALLOWED_HOSTS.extend(
-    filter(
-        None,
-        os.environ.get('ALLOWED_HOSTS', '').split(','),
-    )
-)
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
 
 DATABASES = {
     'default': {
@@ -26,7 +20,7 @@ DATABASES = {
     }
 }
 
-STATICFILES_DIRS = [
-    'sip/static',
-]
+# STATICFILES_DIRS = [
+#     'sip/static',
+# ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

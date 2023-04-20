@@ -176,6 +176,7 @@ $(document).on('click', '.quick-add-button', function (e){
 $(document).on('click', '.quick-show-button', function (e){
   e.preventDefault();
   var prodId = $(this).data('index');
+  var owl = $('#custom-owl-carousel');
 
   $.ajax({
       type: 'POST',
@@ -186,6 +187,34 @@ $(document).on('click', '.quick-show-button', function (e){
           action: 'POST'
       },
       success: function (json) {
+        /* Destroy and init carousel */
+        owl.trigger('destroy.owl.carousel');
+        owl.owlCarousel({
+            loop: true,
+            nav: true,
+            items: 4,
+            navText: [
+            '<i class="fa fa-angle-left"></i>',
+            '<i class="fa fa-angle-right"></i>'
+            ],
+            responsiveClass:true,
+            responsive:{
+                    0:{
+                    items:1,
+                },
+                250:{
+                    items:2,
+                },
+                480:{
+                    items:3,
+                },
+                768:{
+                    items:4,
+                },
+            }
+        });
+
+        /* Set data */
         document.getElementById('quick-add-button').value = prodId;
         document.getElementById('quick_title').innerHTML = json.title;
         document.getElementById('title_url').href = json.product_url;
@@ -212,6 +241,13 @@ $(document).on('click', '.quick-show-button', function (e){
         document.getElementById('quick_old_price').innerHTML = json.old_price;
         };
 
+        /* Refresh carousel */
+        owl.trigger('refresh.owl.carousel');
+
+        $('#tab1').addClass('show active')
+        $('#tab2').removeClass('show active')
+        $('#tab3').removeClass('show active')
+        $('#tab4').removeClass('show active')
       },
       error: function(xhr, errmsg, err) {}
   });

@@ -504,3 +504,17 @@ function handleReviewAlerts(alertId, type, text) {
       alertBox.innerHTML = ''
   }, 9000)
 };
+
+/*--- Close categories toggle menu after clicking outside of it ---*/
+$(document).click(function (e) {
+    e.stopPropagation();
+    var container = $(".categories_menu");
+
+    if (container.has(e.target).length === 0 && window.location.pathname !== "/") {
+        $('.categories_menu_toggle').hide();
+    }
+
+    if (container.has(e.target).length === 0 && window.location.pathname == "/" && window.innerWidth < 767) {
+        $('.categories_menu_toggle').hide();
+    }
+})

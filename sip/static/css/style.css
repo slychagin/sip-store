@@ -3897,12 +3897,12 @@ textarea:-ms-input-placeholder {
 }
 @media only screen and (max-width: 767px) {
   .social_wrapper {
-    padding-left: 120px;
+    padding-left: 0px;
   }
 }
 @media only screen and (max-width: 575px) {
   .social_wrapper {
-    padding-left: 120px;
+    padding-left: 0px;
   }
 }
 .share_post {
@@ -12530,5 +12530,20 @@ color: red;
     padding: 0 10px;
     min-height: 30px;
     margin-bottom: 50px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .youtube_video {
+    width: 385px;
+    height: 200px;
+  }
+}
+
+
+@media only screen and (max-width: 360px) {
+  .youtube_video {
+    width: 330px;
+    height: 180px;
   }
 }

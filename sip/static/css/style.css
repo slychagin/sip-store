@@ -3897,16 +3897,32 @@ textarea:-ms-input-placeholder {
 }
 @media only screen and (max-width: 767px) {
   .social_wrapper {
-    padding-left: 120px;
+    padding-left: 0px;
   }
 }
 @media only screen and (max-width: 575px) {
   .social_wrapper {
-    padding-left: 120px;
+    padding-left: 0px;
   }
 }
 @media only screen and (max-width: 360px) {
   .social_wrapper {
+    padding-left: 0px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .centred_icons {
+    padding-left: 120px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .centred_icons {
+    padding-left: 120px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .centred_icons {
     padding-left: 90px;
   }
 }

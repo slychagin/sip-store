@@ -3897,14 +3897,20 @@ textarea:-ms-input-placeholder {
 }
 @media only screen and (max-width: 767px) {
   .social_wrapper {
-    padding-left: 0px;
+    padding-left: 120px;
   }
 }
 @media only screen and (max-width: 575px) {
   .social_wrapper {
-    padding-left: 0px;
+    padding-left: 120px;
   }
 }
+@media only screen and (max-width: 360px) {
+  .social_wrapper {
+    padding-left: 90px;
+  }
+}
+
 .share_post {
     display: flex;
 }

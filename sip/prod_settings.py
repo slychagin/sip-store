@@ -20,7 +20,7 @@ DATABASES = {
     }
 }
 
-# STATICFILES_DIRS = [
-#     'sip/static',
-# ]
+STATICFILES_DIRS = [
+    'sip/static',
+]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

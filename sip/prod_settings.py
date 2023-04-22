@@ -23,4 +23,5 @@ DATABASES = {
 STATICFILES_DIRS = [
     'sip/static',
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = '/var/www/saltway/food.saltway.in.ua/sip-store/static/'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'

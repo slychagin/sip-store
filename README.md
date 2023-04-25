@@ -27,7 +27,7 @@ At this stage, the site is filled fake data, which will soon be replaced by real
 #### What is the project written in?
 - the online store is written in Python (v3.10.5), Django framework (v4.1);
 - Postgres 15 database;
-- a ready-made template (HTML, CSS and JavaScript) was used as the front;
+- a ready-made template (HTML, CSS and JavaScript) was used as the front, site adapted for mobile phone;
 - many functions written in jQuery using Ajax.
 #### A little about views
 - most views are written using CBV;

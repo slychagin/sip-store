@@ -1,4 +1,4 @@
-<h1 align="center"> Соль и Жаровня </h1>
+# Соль и Жаровня
 
 ![made by](https://img.shields.io/badge/made_by-slychagin-blue)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -11,7 +11,7 @@
 [![templates](https://img.shields.io/badge/templates-safira-orange)](https://preview.themeforest.net/item/safira-organic-food-html-template/full_screen_preview/25782200?_ga=2.120049934.701405216.1682335958-16236204.1679321900)
 
 ![Home page](https://github.com/slychagin/sip-store/blob/master/readme_assets/home_page.jpg)
-<h2 align="center"> [Посетить онлайн-магазин](https://food.saltway.in.ua/) </h2>
+## :point_right: [Посетить онлайн-магазин](https://food.saltway.in.ua/)
 
 ## Описание
 После года обучения Python мне подвернулась возможность разработать реальный интернет-магазин по продаже

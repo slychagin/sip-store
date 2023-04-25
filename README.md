@@ -52,7 +52,7 @@ name locality, for which the database will give him a list of delivery offices i
 - tested everything: views, forms, models, Selenium tests.
 #### Project deploy
 - it was originally planned to host the site on a separate server, for which I dockerized the project.
-For project deployment on after some settings, you will need to execute several commands (this version of the
+For project deployment on server after some settings, you will need to execute several commands (this version of the
 project is in git branch master). In this case, the application starts by uWSGI;
 - but in order to save money, since the customer already had a connected e-VPS hosting without a separate server,
 the project had to slightly adapt to these conditions (git branch e-vps). Since Postgres and Docker is not installed

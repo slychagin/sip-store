@@ -1,4 +1,4 @@
-<h1 align="center"> SipStore </h1>
+# SipStore
 
 ![made by](https://img.shields.io/badge/made_by-slychagin-blue)
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
@@ -11,7 +11,7 @@
 [![templates](https://img.shields.io/badge/templates-safira-orange)](https://preview.themeforest.net/item/safira-organic-food-html-template/full_screen_preview/25782200?_ga=2.120049934.701405216.1682335958-16236204.1679321900)
 
 ![Home page](https://github.com/slychagin/sip-store/blob/master/readme_assets/home_page.jpg)
-<h2 align="center"> [Visit Online Store](https://food.saltway.in.ua/) </h2>
+## :point_right: [Visit Online Store](https://food.saltway.in.ua/)
 
 ### [README file in Russian](https://github.com/slychagin/sip-store/blob/master/README_RUS.md)
 

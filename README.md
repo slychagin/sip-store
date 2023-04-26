@@ -1,7 +1,7 @@
 # SipStore
 
 ![made by](https://img.shields.io/badge/made_by-slychagin-blue)
-[![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/slychagin/sip-store/blob/master/readme_assets/index.html)
+![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)]
 ![python](https://img.shields.io/badge/python-v3.10.5-green)
 ![django](https://img.shields.io/badge/django-v4.1-green)
 ![postgres](https://img.shields.io/badge/postgres-15-green)
